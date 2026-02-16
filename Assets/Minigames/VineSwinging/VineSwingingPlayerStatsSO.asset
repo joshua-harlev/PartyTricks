@@ -16,7 +16,7 @@ MonoBehaviour:
   RopeLength: 4.6
   Period: 2.85
   LaunchForce: 1.4
-  GrabRadius: 1.5
+  GrabRadius: 1.7
   VineSpacing: 16
   Gravity: 20
   PeriodVariation: 0.07
