@@ -121,7 +121,7 @@ namespace Minigames.Swinging {
             var randomNumberGenerator = new System.Random(seed);
             for (int i = 0; i < 4; i++) {
                 SwingConfig config = PlayerStateMachines[i].SwingConfig;
-                float specialCoinRateMultiplier = 1f + playerModifiers[i].SpecialCoinRateBoostCount;
+                float specialCoinRateMultiplier = 1f + playerModifiers[i].SpecialCoinRateBoostCount * 3f;
                 var trails = CoinTrailGenerator.GenerateAllTrails(vineCount, config, seed);
                 coinSpawners[i].SpawnCoinsForTrack(trails, allVinePositions[i], vineAnchorY, playerStats.CoinTypes, randomNumberGenerator, specialCoinRateMultiplier);
             }
