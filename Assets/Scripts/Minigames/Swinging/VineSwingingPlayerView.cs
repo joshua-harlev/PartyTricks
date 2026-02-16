@@ -1,3 +1,5 @@
+using System;
+using FMODUnity;
 using UnityEngine;
 using VineSwinging.Core;
 
@@ -5,6 +7,10 @@ namespace Minigames.Swinging {
     public class VineSwingingPlayerView : MonoBehaviour {
         [SerializeField] private SpriteRenderer spriteRenderer;
         private PlayerContext currentPlayerContext;
+        [SerializeField] private EventReference grabEvent;
+        [SerializeField] private EventReference launchEvent;
+        [SerializeField] private EventReference fallEvent;
+        [SerializeField] private EventReference collectCoinEvent;
         
         public void Pull(PlayerContext playerContext) {
             currentPlayerContext = playerContext;
@@ -12,7 +18,22 @@ namespace Minigames.Swinging {
             transform.localRotation = Quaternion.Euler(0f, 0f, currentPlayerContext.SwingAngle * Mathf.Rad2Deg);
             spriteRenderer.enabled = (currentPlayerContext.CurrentStateType != PlayerStateType.Falling);
             foreach (var pendingEvent in currentPlayerContext.PendingEvents) {
-                // TODO Handle event
+                switch (pendingEvent) {
+                    case PlayerEvent.GrabbedVine:
+                        RuntimeManager.PlayOneShot(grabEvent, transform.position);
+                        break;
+                    case PlayerEvent.Fell:
+                        RuntimeManager.PlayOneShot(fallEvent, transform.position);
+                        break;
+                    case PlayerEvent.Launched:
+                        RuntimeManager.PlayOneShot(launchEvent, transform.position);
+                        break;
+                    case PlayerEvent.CollectedCoin:
+                        RuntimeManager.PlayOneShot(collectCoinEvent, transform.position);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
             currentPlayerContext.ClearEvents();
         }

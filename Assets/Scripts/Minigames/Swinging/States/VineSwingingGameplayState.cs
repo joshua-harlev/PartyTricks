@@ -14,6 +14,7 @@ namespace Minigames.Swinging.States {
             minigameManager.IsInGameplay = true;
             minigameManager.GameTimer.OnTimerEnd += OnTimerEnd;
             minigameManager.GameTimer.StartTimer();
+            minigameManager.StartMusic();
         }
 
         public void OnUpdate() {
@@ -32,6 +33,13 @@ namespace Minigames.Swinging.States {
                 minigameManager.PlayerStateMachines[i].Update(deltaTime, releasePressed);
                 
                 minigameManager.PlayerViews[i].Pull(minigameManager.PlayerStateMachines[i].PlayerContext);
+                if (minigameManager.PlayerHasMagnet[i]) {
+                    var collisions = Physics2D.OverlapCircleAll(minigameManager.PlayerViews[i].transform.position, minigameManager.PlayerMagnetRadii[i]);
+                    foreach (var collision in collisions) {
+                        var coin = collision.GetComponent<SwingingCoinView>();
+                        coin?.StartPull(minigameManager.PlayerViews[i].transform, minigameManager.PlayerMagnetPullSpeed[i]);
+                    }
+                }
 
                 var playerContext = minigameManager.PlayerStateMachines[i].PlayerContext;
                 var swingConfig = minigameManager.PlayerStateMachines[i].SwingConfig;
@@ -42,8 +50,10 @@ namespace Minigames.Swinging.States {
 
         private bool AIAutoRelease(PlayerStateMachine stateMachine) {
             if (stateMachine.PlayerContext.CurrentStateType != PlayerStateType.Swinging) return false;
-            // TODO make this better
-            return stateMachine.PlayerContext.SwingPhase > 1.5f;
+            float phase = stateMachine.PlayerContext.SwingPhase;
+            float sinPhase = Mathf.Sin(phase);
+            float cosPhase = Mathf.Cos(phase);
+            return sinPhase > 0.3f && cosPhase > 0.3f;
         }
 
         private void OnTimerEnd() {

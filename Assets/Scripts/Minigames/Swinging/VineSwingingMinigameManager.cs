@@ -1,10 +1,14 @@
 using System;
 using System.Collections;
+using CoreData;
+using FMOD.Studio;
+using FMODUnity;
 using Minigames.Swinging.States;
 using Services;
 using UnityEngine;
 using VineSwinging.Core;
 using Random = UnityEngine.Random;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 namespace Minigames.Swinging {
     public class VineSwingingMinigameManager : MonoBehaviour, IMinigameManager {
@@ -32,6 +36,10 @@ namespace Minigames.Swinging {
         [SerializeField] private VineSwingingCameraFollow[] cameraFollows = new VineSwingingCameraFollow[4];
         [SerializeField] private CoinTrailSpawnerView[] coinSpawners = new CoinTrailSpawnerView[4];
 
+        [Header("Audio")] 
+        [SerializeField] private EventReference musicEvent;
+        private EventInstance musicInstance;
+
         public PlayerStateMachine[] PlayerStateMachines { get; private set; }
         public IPlayerService PlayerService { get; private set; }
         public MinigameTimer GameTimer => gameTimer;
@@ -46,6 +54,10 @@ namespace Minigames.Swinging {
 
         private bool isInGameplay;
 
+        public bool[] PlayerHasMagnet { get; private set; }
+        public float[] PlayerMagnetRadii { get; private set; }
+        public float[] PlayerMagnetPullSpeed { get; private set; }
+
         public bool IsInGameplay
         {
             get => isInGameplay;
@@ -55,6 +67,7 @@ namespace Minigames.Swinging {
         private void Awake() {
             PlayerService = ServiceLocatorAccessor.GetService<IPlayerService>();
             powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
+            musicInstance = RuntimeManager.CreateInstance(musicEvent);
         }
 
         private IEnumerator Start() {
@@ -82,10 +95,21 @@ namespace Minigames.Swinging {
             startCountdown.Initialize(countdownDurationInSeconds);
             gameTimer.Initialize(gameDurationInSeconds);
             
-            SwingConfig config = playerStats.CreateConfig();
             PlayerStateMachines = new PlayerStateMachine[4];
+            PlayerHasMagnet = new bool[4];
+            PlayerMagnetRadii = new float[4];
+            PlayerMagnetPullSpeed = new float[4];
             float[][] allVinePositions = new float[4][];
+            MovementModifiers[] playerModifiers = new MovementModifiers[4];
             for (int i = 0; i < 4; i++) {
+                PlayerSlot slot = PlayerService.PlayerSlots[i];
+                MovementModifiers movementModifiers = powerUpService.GetMovementModifiers(slot.Profile);
+                playerModifiers[i] = movementModifiers;
+                PlayerHasMagnet[i] = (movementModifiers.MagnetCount > 0);
+                PlayerMagnetRadii[i] = playerStats.MagnetRadius * movementModifiers.MagnetCount;
+                PlayerMagnetPullSpeed[i] = playerStats.MagnetPullSpeed * movementModifiers.MagnetCount;
+
+                SwingConfig config = playerStats.CreateConfig(movementModifiers);
                 var (vinePositions, phaseOffsets, periods) = trackViews[i].SpawnVines(vineCount, config.VineSpacing, vineAnchorY, config, playerStats.PeriodVariation);
                 allVinePositions[i] = vinePositions;
                 PlayerStateMachines[i] = new PlayerStateMachine(config, vinePositions, vineAnchorY, phaseOffsets, periods);
@@ -94,10 +118,12 @@ namespace Minigames.Swinging {
             }
 
             int seed = Random.Range(0, 10000);
-            var trails = CoinTrailGenerator.GenerateAllTrails(vineCount, config, seed);
             var randomNumberGenerator = new System.Random(seed);
             for (int i = 0; i < 4; i++) {
-                coinSpawners[i].SpawnCoinsForTrack(trails, allVinePositions[i], vineAnchorY, playerStats.CoinTypes, randomNumberGenerator);
+                SwingConfig config = PlayerStateMachines[i].SwingConfig;
+                float specialCoinRateMultiplier = 1f + playerModifiers[i].SpecialCoinRateBoostCount;
+                var trails = CoinTrailGenerator.GenerateAllTrails(vineCount, config, seed);
+                coinSpawners[i].SpawnCoinsForTrack(trails, allVinePositions[i], vineAnchorY, playerStats.CoinTypes, randomNumberGenerator, specialCoinRateMultiplier);
             }
         }
 
@@ -130,6 +156,15 @@ namespace Minigames.Swinging {
                     playerViews[i].Pull(PlayerStateMachines[i].PlayerContext);
                 }
             }
+        }
+
+        public void StartMusic() => musicInstance.start();
+        
+        // only useful if music is configurable (like the original music for Dire Dodging)
+        public void SetMusicIntensity(float intensity) => musicInstance.setParameterByName("Intensity", intensity);
+
+        private void OnDisable() {
+            musicInstance.stop(STOP_MODE.IMMEDIATE);
         }
 
         public void OnGameEnd(PlayerMinigameResult[] results) {

@@ -1,3 +1,4 @@
+using CoreData;
 using UnityEngine;
 using VineSwinging.Core;
 
@@ -14,7 +15,6 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     [SerializeField] [Range(0, 0.3f)] [Tooltip("How much variation should be present in vine swing positions?")]
     public float PeriodVariation = 0.1f;
     
-
     [Header("Fall/Respawn")] 
     [SerializeField] public float FallThresholdY = -8f;
     [SerializeField] public float RespawnDelayInSeconds = 1f;
@@ -24,8 +24,31 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     [SerializeField] public int VineScoreValue = 5;
     [SerializeField] public CoinTypeSO[] CoinTypes;
     [SerializeField] public float CoinArcHeight = 2f;
+    
+    [Header("Magnet")]
+    [SerializeField] public float MagnetRadius = 3f;
+    [SerializeField] public float MagnetPullSpeed = 8f;
+    
+    [Header("Grab Lookahead")]
+    [SerializeField] public int GrabLookaheadFramesPerBoost = 8;
+    
+    public SwingConfig CreateConfig(MovementModifiers movementModifiers) {
+        float modifiedPeriod = Period;
+        float modifiedRespawnDelay = RespawnDelayInSeconds;
+        // decrease period by 15% for each move modifier; swing faster
+        // decrease respawn delay by 15% for each move modifier; respawn faster;
+        for (int i = 0; i < movementModifiers.MoveBoostCount; i++) {
+            modifiedPeriod *= 0.85f;
+            modifiedRespawnDelay *= 0.85f;
+        }
 
-    public SwingConfig CreateConfig() {
-        return new SwingConfig(Amplitude, RopeLength, Period, LaunchForce, GrabRadius, FallThresholdY, RespawnDelayInSeconds, VineSpacing, Gravity, CoinsPerGap, VineScoreValue, CoinArcHeight);
+        int modifiedCoinsPerGap = CoinsPerGap + movementModifiers.CoinSpawnRateBoostCount;
+        
+        float periodRatio = modifiedPeriod / Period;
+        float modifiedLaunchForce = LaunchForce * periodRatio;
+        int grabLookaheadFrames = movementModifiers.MoveBoostCount * GrabLookaheadFramesPerBoost;
+
+        return new SwingConfig(Amplitude, RopeLength, modifiedPeriod, modifiedLaunchForce, GrabRadius, FallThresholdY,
+            modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue, CoinArcHeight, grabLookaheadFrames);
     }
 }

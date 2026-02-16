@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9a1c10dbe5f04cb59060533d76f182f, type: 3}
-  m_Name: VineSwingingPlayerStatsSO
+  m_Name: VineSwingingPlayerStatsSOV
   m_EditorClassIdentifier: Swinging::VineSwingingPlayerStatsSO
   Amplitude: 1.45
   RopeLength: 4.6

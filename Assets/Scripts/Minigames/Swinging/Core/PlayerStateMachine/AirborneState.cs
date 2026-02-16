@@ -18,7 +18,7 @@ namespace VineSwinging.Core {
             playerContext.PositionY += playerContext.VelocityY * deltaTime;
             int minVineIndex = playerContext.CurrentVineIndex + 1;
             var grabPosition = GrabEvaluator.CheckGrab(playerContext.PositionX, playerContext.PositionY, playerStateMachine.VineXPositions,
-                playerStateMachine.VineAnchorY, swingConfig, minVineIndex, playerStateMachine.VinePhaseOffsets, playerStateMachine.VinePeriods, playerStateMachine.ElapsedTime);
+                playerStateMachine.VineAnchorY, swingConfig, minVineIndex, playerStateMachine.VinePhaseOffsets, playerStateMachine.VinePeriods, playerStateMachine.ElapsedTime, playerContext.VelocityX, playerContext.VelocityY);
             bool grabbed = grabPosition != -1;
             if (grabbed) {
                 playerContext.CurrentVineIndex = grabPosition;

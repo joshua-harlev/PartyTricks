@@ -14,8 +14,10 @@ namespace VineSwinging.Core {
         public readonly int VineScoreValue;
         public readonly float CoinArcHeight;
 
+        public readonly int GrabLookaheadFrames;
+
         public SwingConfig(float amplitude, float ropeLength, float period, float launchForce, float grabRadius,
-            float fallThresholdY, float respawnDelay, float vineSpacing, float gravity, int coinsPerGap, int vineScoreValue, float coinArcHeight) {
+            float fallThresholdY, float respawnDelay, float vineSpacing, float gravity, int coinsPerGap, int vineScoreValue, float coinArcHeight, int grabLookaheadFrames) {
             Amplitude = amplitude;
             RopeLength = ropeLength;
             Period = period;
@@ -28,6 +30,7 @@ namespace VineSwinging.Core {
             CoinsPerGap = coinsPerGap;
             VineScoreValue = vineScoreValue;
             CoinArcHeight = coinArcHeight;
+            GrabLookaheadFrames = grabLookaheadFrames;
         }
     }
 }

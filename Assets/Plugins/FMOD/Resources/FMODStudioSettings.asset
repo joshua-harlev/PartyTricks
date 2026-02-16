@@ -490,6 +490,7 @@ MonoBehaviour:
   - Master
   Banks:
   - DireDodging
+  - Swinging
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0

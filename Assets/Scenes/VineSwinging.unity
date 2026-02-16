@@ -165,6 +165,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingPlayerView
   spriteRenderer: {fileID: 389333657}
+  grabEvent:
+    Guid:
+      Data1: 1747064157
+      Data2: 1325773133
+      Data3: -1753642049
+      Data4: -675496733
+    Path: event:/Swinging/Blank
+  launchEvent:
+    Guid:
+      Data1: 1747064157
+      Data2: 1325773133
+      Data3: -1753642049
+      Data4: -675496733
+    Path: event:/Swinging/Blank
+  fallEvent:
+    Guid:
+      Data1: 198578112
+      Data2: 1319044206
+      Data3: 1242449548
+      Data4: -1573139019
+    Path: event:/DireDodging/HitLight
+  collectCoinEvent:
+    Guid:
+      Data1: 1028373954
+      Data2: 1215800862
+      Data3: -1797647485
+      Data4: -944831712
+    Path: event:/Swinging/Coin
 --- !u!1 &66018831
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +375,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingPlayerView
   spriteRenderer: {fileID: 703407586}
+  grabEvent:
+    Guid:
+      Data1: 1747064157
+      Data2: 1325773133
+      Data3: -1753642049
+      Data4: -675496733
+    Path: event:/Swinging/Blank
+  launchEvent:
+    Guid:
+      Data1: 1747064157
+      Data2: 1325773133
+      Data3: -1753642049
+      Data4: -675496733
+    Path: event:/Swinging/Blank
+  fallEvent:
+    Guid:
+      Data1: 198578112
+      Data2: 1319044206
+      Data3: 1242449548
+      Data4: -1573139019
+    Path: event:/DireDodging/HitLight
+  collectCoinEvent:
+    Guid:
+      Data1: 1028373954
+      Data2: 1215800862
+      Data3: -1797647485
+      Data4: -944831712
+    Path: event:/Swinging/Coin
 --- !u!1 &158024381
 GameObject:
   m_ObjectHideFlags: 0
@@ -3967,6 +4023,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingPlayerView
   spriteRenderer: {fileID: 776735911}
+  grabEvent:
+    Guid:
+      Data1: 1747064157
+      Data2: 1325773133
+      Data3: -1753642049
+      Data4: -675496733
+    Path: event:/Swinging/Blank
+  launchEvent:
+    Guid:
+      Data1: 1747064157
+      Data2: 1325773133
+      Data3: -1753642049
+      Data4: -675496733
+    Path: event:/Swinging/Blank
+  fallEvent:
+    Guid:
+      Data1: 198578112
+      Data2: 1319044206
+      Data3: 1242449548
+      Data4: -1573139019
+    Path: event:/DireDodging/HitLight
+  collectCoinEvent:
+    Guid:
+      Data1: 1028373954
+      Data2: 1215800862
+      Data3: -1797647485
+      Data4: -944831712
+    Path: event:/Swinging/Coin
 --- !u!1 &1368874960
 GameObject:
   m_ObjectHideFlags: 0
@@ -5141,6 +5225,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingPlayerView
   spriteRenderer: {fileID: 1435971379}
+  grabEvent:
+    Guid:
+      Data1: 1747064157
+      Data2: 1325773133
+      Data3: -1753642049
+      Data4: -675496733
+    Path: event:/Swinging/Blank
+  launchEvent:
+    Guid:
+      Data1: 1747064157
+      Data2: 1325773133
+      Data3: -1753642049
+      Data4: -675496733
+    Path: event:/Swinging/Blank
+  fallEvent:
+    Guid:
+      Data1: 198578112
+      Data2: 1319044206
+      Data3: 1242449548
+      Data4: -1573139019
+    Path: event:/DireDodging/HitLight
+  collectCoinEvent:
+    Guid:
+      Data1: 1028373954
+      Data2: 1215800862
+      Data3: -1797647485
+      Data4: -944831712
+    Path: event:/Swinging/Coin
 --- !u!1 &1596411626
 GameObject:
   m_ObjectHideFlags: 0
@@ -6028,6 +6140,13 @@ MonoBehaviour:
   - {fileID: 1982890331}
   - {fileID: 1770116925}
   - {fileID: 778948417}
+  musicEvent:
+    Guid:
+      Data1: -1065483491
+      Data2: 1078058101
+      Data3: 1800602797
+      Data4: 1323347433
+    Path: event:/DireDodging/GameplayMusic
 --- !u!4 &2038017122
 Transform:
   m_ObjectHideFlags: 0
