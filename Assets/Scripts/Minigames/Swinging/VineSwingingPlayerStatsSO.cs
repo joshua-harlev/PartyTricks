@@ -36,7 +36,7 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     [Header("Release Forgiveness")]
     [SerializeField] public float MinimumReleaseVelocityX = 0.2f;
     
-    public SwingConfig CreateConfig(MovementModifiers movementModifiers) {
+    public SwingConfig CreateConfig(MovementModifiers movementModifiers, int coinsPerGapBoost) {
         float modifiedPeriod = Period;
         float modifiedRespawnDelay = RespawnDelayInSeconds;
         // decrease period by 15% for each move modifier; swing faster
@@ -46,7 +46,7 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
             modifiedRespawnDelay *= 0.85f;
         }
 
-        int modifiedCoinsPerGap = CoinsPerGap + movementModifiers.CoinSpawnRateBoostCount;
+        int modifiedCoinsPerGap = CoinsPerGap + coinsPerGapBoost;
         
         float periodRatio = modifiedPeriod / Period;
         float modifiedLaunchForce = LaunchForce * periodRatio;

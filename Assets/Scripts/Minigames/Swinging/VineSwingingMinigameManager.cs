@@ -90,7 +90,7 @@ namespace Minigames.Swinging {
                 gameDurationInSeconds *= 2;
             }
 
-            InitializePlayerDisplays();
+            InitializePlayerDisplays(); 
             placesDisplay.Hide();
             startCountdown.Initialize(countdownDurationInSeconds);
             gameTimer.Initialize(gameDurationInSeconds);
@@ -102,6 +102,14 @@ namespace Minigames.Swinging {
             float[][] allVinePositions = new float[4][];
             MovementModifiers[] playerModifiers = new MovementModifiers[4];
             int seed = Random.Range(0, 10000);
+
+            int sharedCoinBoost = 0;
+            for (int i = 0; i < 4; i++) {
+                MovementModifiers modifiers = powerUpService.GetMovementModifiers(PlayerService.PlayerSlots[i].Profile);
+                sharedCoinBoost += modifiers.CoinSpawnRateBoostCount;
+            }
+            
+            
             for (int i = 0; i < 4; i++) {
                 PlayerSlot slot = PlayerService.PlayerSlots[i];
                 MovementModifiers movementModifiers = powerUpService.GetMovementModifiers(slot.Profile);
@@ -110,7 +118,7 @@ namespace Minigames.Swinging {
                 PlayerMagnetRadii[i] = playerStats.MagnetRadius * movementModifiers.MagnetCount;
                 PlayerMagnetPullSpeed[i] = playerStats.MagnetPullSpeed * movementModifiers.MagnetCount;
                 
-                SwingConfig config = playerStats.CreateConfig(movementModifiers);
+                SwingConfig config = playerStats.CreateConfig(movementModifiers, sharedCoinBoost);
                 var (vinePositions, phaseOffsets, periods) = trackViews[i].SpawnVines(vineCount, config.VineSpacing, vineAnchorY, config, playerStats.PeriodVariation, new System.Random(seed));
                 allVinePositions[i] = vinePositions;
                 PlayerStateMachines[i] = new PlayerStateMachine(config, vinePositions, vineAnchorY, phaseOffsets, periods);
