@@ -101,6 +101,7 @@ namespace Minigames.Swinging {
             PlayerMagnetPullSpeed = new float[4];
             float[][] allVinePositions = new float[4][];
             MovementModifiers[] playerModifiers = new MovementModifiers[4];
+            int seed = Random.Range(0, 10000);
             for (int i = 0; i < 4; i++) {
                 PlayerSlot slot = PlayerService.PlayerSlots[i];
                 MovementModifiers movementModifiers = powerUpService.GetMovementModifiers(slot.Profile);
@@ -108,18 +109,17 @@ namespace Minigames.Swinging {
                 PlayerHasMagnet[i] = (movementModifiers.MagnetCount > 0);
                 PlayerMagnetRadii[i] = playerStats.MagnetRadius * movementModifiers.MagnetCount;
                 PlayerMagnetPullSpeed[i] = playerStats.MagnetPullSpeed * movementModifiers.MagnetCount;
-
+                
                 SwingConfig config = playerStats.CreateConfig(movementModifiers);
-                var (vinePositions, phaseOffsets, periods) = trackViews[i].SpawnVines(vineCount, config.VineSpacing, vineAnchorY, config, playerStats.PeriodVariation);
+                var (vinePositions, phaseOffsets, periods) = trackViews[i].SpawnVines(vineCount, config.VineSpacing, vineAnchorY, config, playerStats.PeriodVariation, new System.Random(seed));
                 allVinePositions[i] = vinePositions;
                 PlayerStateMachines[i] = new PlayerStateMachine(config, vinePositions, vineAnchorY, phaseOffsets, periods);
                 PlayerStateMachines[i].Start(0);
                 cameraFollows[i].Initialize(PlayerStateMachines[i].PlayerContext);
             }
-
-            int seed = Random.Range(0, 10000);
-            var randomNumberGenerator = new System.Random(seed);
+            
             for (int i = 0; i < 4; i++) {
+                var randomNumberGenerator = new System.Random(seed);
                 SwingConfig config = PlayerStateMachines[i].SwingConfig;
                 float specialCoinRateMultiplier = 1f + playerModifiers[i].SpecialCoinRateBoostCount * 3f;
                 var trails = CoinTrailGenerator.GenerateAllTrails(vineCount, config, seed);
