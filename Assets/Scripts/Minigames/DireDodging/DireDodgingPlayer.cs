@@ -182,7 +182,13 @@ public class DireDodgingPlayer : MonoBehaviour {
     
         if (isCharging) {
             float chargeTime = Time.time - chargeStartTime;
-            float requiredTime = isGhostMode ? ghostChargeTime : chargeTimeRequired;
+            float requiredTime;
+            if (isGhostMode) {
+                requiredTime = ghostChargeTime;
+            }
+            else {
+                requiredTime = chargeTimeRequired;
+            }
             float chargePercent = Mathf.Clamp01(chargeTime / requiredTime);
         
             chargeIndicator.transform.localScale = new Vector3(2f, chargePercent * 2, 1f);
@@ -529,9 +535,11 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void Die() {
         isAlive = false;
         isGhostMode = true;
+        
+        Rigidbody2D.linearVelocity = Vector2.zero;
+        Rigidbody2D.angularVelocity = 0f;
     
-        // Freeze time and zoom in on death
-        Time.timeScale = 0f;
+        Time.timeScale = 0f; // Currently doesn't really work, ask about later.
         ZoomCameraOnDeath();
 
         if (isCharging) {
@@ -550,7 +558,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         }
         if(colorChangeSequence != null) colorChangeSequence.Kill();
 
-        DisableColliderComponent();
+        // DisableColliderComponent(); Removed to not allow ghosts to go through walls
 
         var color = baseColor;
         color.a = 0.1f;
@@ -624,6 +632,9 @@ public class DireDodgingPlayer : MonoBehaviour {
         isAlive = true;
         isGhostMode = false;
         currentHealth = maxHealth;
+        
+        Rigidbody2D.linearVelocity = Vector2.zero;
+        Rigidbody2D.angularVelocity = 0f;
     
         Collider2D.enabled = true;
     
