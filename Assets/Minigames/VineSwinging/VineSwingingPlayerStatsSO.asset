@@ -20,8 +20,8 @@ MonoBehaviour:
   VineSpacing: 16
   Gravity: 20
   PeriodVariation: 0.07
-  FallThresholdY: -8
-  RespawnDelayInSeconds: 0.7
+  FallThresholdY: -6
+  RespawnDelayInSeconds: 0.5
   CoinsPerGap: 3
   VineScoreValue: 5
   CoinTypes:
@@ -31,3 +31,4 @@ MonoBehaviour:
   MagnetRadius: 3
   MagnetPullSpeed: 8
   GrabLookaheadFramesPerBoost: 10
+  MinimumReleaseVelocityX: 2.5

@@ -34,7 +34,6 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     [SerializeField] public int GrabLookaheadFramesPerBoost = 8;
 
     [Header("Release Forgiveness")]
-    [SerializeField] public float ReleaseBufferDuration = 0.12f;
     [SerializeField] public float MinimumReleaseVelocityX = 0.2f;
     
     public SwingConfig CreateConfig(MovementModifiers movementModifiers) {
@@ -54,6 +53,6 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
         int grabLookaheadFrames = movementModifiers.MoveBoostCount * GrabLookaheadFramesPerBoost;
 
         return new SwingConfig(Amplitude, RopeLength, modifiedPeriod, modifiedLaunchForce, GrabRadius, FallThresholdY,
-            modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue, CoinArcHeight, grabLookaheadFrames, ReleaseBufferDuration, MinimumReleaseVelocityX);
+            modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue, CoinArcHeight, grabLookaheadFrames, MinimumReleaseVelocityX);
     }
 }

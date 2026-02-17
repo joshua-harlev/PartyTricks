@@ -24,30 +24,16 @@ namespace VineSwinging.Core {
             float playerSwingAngle = swingConfig.Amplitude * (float)Math.Sin(playerContext.SwingPhase);
             playerContext.SwingAngle = playerSwingAngle;
             
-            float quality = (float)Math.Abs(Math.Cos(playerContext.SwingPhase));
-            bool shouldRelease = quality >= 0.5f;
-            if (releasePressed && !playerContext.ReleaseBuffered) {
-                if (shouldRelease) {
-                    Release(playerContext, swingConfig, vinePeriod);
-                } else {
-                    playerContext.ReleaseBuffered = true;
-                    playerContext.ReleaseBufferTimer = swingConfig.ReleaseBufferDuration;
-                }
-            } else if (playerContext.ReleaseBuffered) {
-                if (!shouldRelease) {
-                    playerContext.ReleaseBufferTimer -= deltaTime;
-                }
-                if (playerContext.ReleaseBufferTimer <= 0 || shouldRelease) {
-                    Release(playerContext, swingConfig, vinePeriod);
-                }
-            }
+            if(releasePressed) Release(playerContext, swingConfig, vinePeriod);
         }
 
         private void Release(PlayerContext playerContext, SwingConfig swingConfig, float vinePeriod) {
             var releaseVelocity = SwingSimulation.GetReleaseVelocity(playerContext.SwingPhase, swingConfig.Amplitude, vinePeriod, swingConfig.LaunchForce, swingConfig.RopeLength);
-            playerContext.VelocityX = Math.Max(releaseVelocity.vx, swingConfig.MinimumReleaseVelocityX);
+            bool isMovingBackwards = releaseVelocity.vx < 0;
+            if (!isMovingBackwards) {
+                playerContext.VelocityX = Math.Max(releaseVelocity.vx, swingConfig.MinimumReleaseVelocityX);
+            } else playerContext.VelocityX = releaseVelocity.vx;
             playerContext.VelocityY = releaseVelocity.vy;
-            playerContext.ReleaseBuffered = false;
             playerContext.PendingEvents.Add(PlayerEvent.Launched);
             playerStateMachine.TransitionTo(new AirborneState(playerStateMachine));
         }

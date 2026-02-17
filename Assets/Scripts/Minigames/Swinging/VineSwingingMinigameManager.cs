@@ -155,6 +155,7 @@ namespace Minigames.Swinging {
                     PlayerStateMachines[i].Update(Time.deltaTime, false);
                     playerViews[i].Pull(PlayerStateMachines[i].PlayerContext);
                 }
+
             }
         }
 

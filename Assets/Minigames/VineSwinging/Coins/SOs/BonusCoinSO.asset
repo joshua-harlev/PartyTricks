@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e18cf73cac78945ae9f3072f7d6ec54b, type: 3}
   m_Name: BonusCoinSO
   m_EditorClassIdentifier: Game::CoinTypeSO
-  PointValue: 3
+  PointValue: 5
   SpawnWeight: 0.05
   CoinPrefab: {fileID: 3567084593061070524, guid: 92a815c3375c2405e842bc372e5628f3, type: 3}
   IsSpecialCoin: 1
