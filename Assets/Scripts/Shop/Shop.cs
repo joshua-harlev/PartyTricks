@@ -9,7 +9,8 @@ public class Shop : MonoBehaviour {
     [SerializeField] private ShopItemUI[] ShopItemUIElements;
     [SerializeField] private PlayerCornerDisplay[] PlayerCornerDisplays;
     [SerializeField] public ShopItemsDisplay ShopItemDisplay;
-    [FormerlySerializedAs("ShopTimer")] [SerializeField] private CountdownTimer CountdownTimer;
+    [SerializeField] public float LockSpeedUpMultiplier = 3.0f;
+    [SerializeField] private CountdownTimer CountdownTimer;
     private ShopPlayerManager playerManager;
     private ShopNavigationService shopNavigationService;
     private ShopPurchaseService shopPurchaseService;
@@ -42,6 +43,7 @@ public class Shop : MonoBehaviour {
         shopPurchaseService = new ShopPurchaseService();
         shopNavigationService = new ShopNavigationService(GridRows, GridColumns);
         playerManager = new ShopPlayerManager(shopNavigationService, ShopItemUIElements, PlayerCornerDisplays);
+        playerManager.OnLockCountChanged += AdjustSpeedByLockCount;
         CountdownTimer.OnTimerEnd += OnShopTimerEnd;
     }
 
@@ -79,10 +81,22 @@ public class Shop : MonoBehaviour {
 
     private void OnDestroy() {
         CountdownTimer.OnTimerEnd -= OnShopTimerEnd;
+        playerManager.OnLockCountChanged -= AdjustSpeedByLockCount;
         playerManager?.Cleanup();
         if (pauseService != null) {
             pauseService.OnPause -= OnPause;
             pauseService.OnUnpause -= OnUnpause;
+        }
+    }
+
+    public void AdjustSpeedByLockCount(int lockedCount, int lockedAICount, int humanCount) {
+        int numberOfLockedHumans = lockedCount - lockedAICount;
+        bool allHumansAreLocked = (numberOfLockedHumans == humanCount);
+        if (allHumansAreLocked) {
+            CountdownTimer.SetSpeedMultiplier(LockSpeedUpMultiplier);
+        }
+        else {
+            CountdownTimer.ResetSpeed();
         }
     }
 }

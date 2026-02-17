@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Services;
 using UnityEngine;
 
@@ -8,6 +10,9 @@ public class ShopPlayerManager {
     private PlayerCornerDisplay[] playerCornerDisplays;
     private List<ShopSlotSelector> activeSelectors = new();
     private IPlayerService playerService;
+    
+    // locked count, locked AI count, total human count
+    public event Action<int, int, int> OnLockCountChanged;
 
     public ShopPlayerManager(ShopNavigationService navigationService, ShopItemUI[] shopItemUIElements, PlayerCornerDisplay[] playerCornerDisplays) {
         this.navigationService = navigationService;
@@ -57,6 +62,7 @@ public class ShopPlayerManager {
     private void HandleLockChanged(SelectionController controller, bool locked) {
         ShopSlotSelector selector = (ShopSlotSelector)controller;
         shopItemUIElements[selector.CurrentShopItemIndex].OnPointedTo(selector.PlayerIndex, true, locked);
+        OnLockCountChanged?.Invoke(GetLockedCount(), GetLockedAICount(), GetHumanCount());
     }
 
     private void HandleSelectionChanged(SelectionController selector, int newIndex) {
@@ -103,5 +109,27 @@ public class ShopPlayerManager {
             selector.OnLockChanged -= HandleLockChanged;
         }
         activeSelectors.Clear();
+    }
+
+    public int GetLockedCount() {
+        return activeSelectors.Count(shopSlotSelector => shopSlotSelector.IsLocked);
+    }
+
+    public int GetLockedAICount() {
+        int count = 0;
+        for (int i = 0; i < activeSelectors.Count; i++) {
+            if (!playerService.PlayerIsHuman(i)) {
+                if (activeSelectors[i].IsLocked) count++;
+            }
+        }
+        return count;
+    }
+
+    public int GetHumanCount() {
+        int count = 0;
+        for (int i = 0; i < activeSelectors.Count; i++) {
+            if (playerService.PlayerIsHuman(i)) count++;
+        }
+        return count;
     }
 }
