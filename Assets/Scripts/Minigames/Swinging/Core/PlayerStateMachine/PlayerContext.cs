@@ -14,6 +14,7 @@ namespace VineSwinging.Core {
         public int FurthestVineIndex;
         public float RespawnTimer;
         public int TotalCoinValue;
+        public float AIReleaseThreshold = 0.3f;
         public PlayerStateType CurrentStateType;
         public List<PlayerEvent> PendingEvents = new();
 
