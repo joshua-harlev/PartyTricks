@@ -47,6 +47,12 @@ public class DireDodgingPlayer : MonoBehaviour {
     private List<DireDodgingProjectile> activeProjectiles = new();
     
     private bool isGhostMode = false;
+    private float respawnDelay = 3f;
+    private bool isInvincible = false;
+    private float invincibilityDuration = 2f;
+    
+    private Tween cameraZoomTween;
+
 
     private Coroutine damageCoroutineInstance = null;
     private Coroutine intensityCoroutineInstance = null;
@@ -179,9 +185,8 @@ public class DireDodgingPlayer : MonoBehaviour {
             float requiredTime = isGhostMode ? ghostChargeTime : chargeTimeRequired;
             float chargePercent = Mathf.Clamp01(chargeTime / requiredTime);
         
-            chargeIndicator.transform.localScale = new Vector3(1f, chargePercent, 1f);
+            chargeIndicator.transform.localScale = new Vector3(2f, chargePercent * 2, 1f);
         
-            // Optional: Change color based on completion
             if (chargePercent >= 1f) {
                 chargeIndicator.color = Color.green;
             } else {
@@ -191,53 +196,7 @@ public class DireDodgingPlayer : MonoBehaviour {
             chargeIndicator.enabled = true;
         } else {
             chargeIndicator.enabled = false;
-            chargeIndicator.transform.localScale = new Vector3(1f, 0f, 1f);
         }
-    }
-    
-    
-    private void ShootRight() {
-        var projectile = projectilePools[1].Get();
-        Vector2 position = transform.position;
-        position.x += spriteHalfWidth;
-        projectile.transform.position = position;
-        projectile.transform.rotation = rightRotation;
-        projectile.transform.localScale = Vector3.one * projectileScale;
-    
-        projectile.Initialize(playerIndex, baseDamage, projectileSpeed, Vector2.right);
-    }
-    
-    private void ShootLeft() {
-        var projectile = projectilePools[0].Get();
-        Vector2 position = transform.position;
-        position.x -= spriteHalfWidth;
-        projectile.transform.position = position;
-        projectile.transform.rotation = leftRotation;
-        projectile.transform.localScale = Vector3.one * projectileScale;
-    
-        projectile.Initialize(playerIndex, baseDamage, projectileSpeed, Vector2.left);
-    }
-    
-    private void ShootUp() {
-        var projectile = projectilePools[1].Get();
-        Vector2 position = transform.position;
-        position.y += spriteHalfHeight;
-        projectile.transform.position = position;
-        projectile.transform.rotation = upRotation;
-        projectile.transform.localScale = Vector3.one * projectileScale;
-    
-        projectile.Initialize(playerIndex, baseDamage, projectileSpeed, Vector2.up);
-    }
-    
-    private void ShootDown() {
-        var projectile = projectilePools[0].Get();
-        Vector2 position = transform.position;
-        position.y -= spriteHalfHeight;
-        projectile.transform.position = position;
-        projectile.transform.rotation = downRotation;
-        projectile.transform.localScale = Vector3.one * projectileScale;
-    
-        projectile.Initialize(playerIndex, baseDamage, projectileSpeed, Vector2.down);
     }
     
     private void HandleCharging() {
@@ -262,7 +221,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     
         if (chargeParticles != null) {
             Vector2 shootDirection = GetShootDirection();
-            Vector2 particleOffset = shootDirection * 2f; // 2 units away from player
+            Vector2 particleOffset = shootDirection * 2f;
             chargeParticles.transform.localPosition = particleOffset;
         
             float angle = Mathf.Atan2(-shootDirection.y, -shootDirection.x) * Mathf.Rad2Deg;
@@ -337,6 +296,10 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void ApplyMovement(Vector2 input) {
         float speedMultiplier = isGhostMode ? ghostMoveSpeedMultiplier : 1f;
+
+        if (isCharging) {
+            speedMultiplier *= 0.7f;
+        }
     
         float originalSpeed = maxMoveSpeed;
         maxMoveSpeed *= speedMultiplier;
@@ -498,7 +461,10 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void TakeDamage(DireDodgingProjectile projectile) {
         if (isGhostMode) {
-            Debug.Log($"P{playerIndex+1} is a ghost - immune to projectiles!");
+            return;
+        }
+        
+        if (isInvincible) {
             return;
         }
     
@@ -537,7 +503,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         Color originalColor = SpriteRenderer.color;
         SpriteRenderer.color = new Color(0.5f, 0f, 0.5f, 1f);
     
-        yield return new WaitForSeconds(stunDuration); // Use configurable duration
+        yield return new WaitForSeconds(stunDuration);
     
         maxMoveSpeed = originalSpeed;
         SpriteRenderer.color = originalColor;
@@ -597,22 +563,23 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void ZoomCameraOnDeath() {
         if (mainCamera == null) return;
-    
+
         float freezeDuration = 1f;
         float zoomAmount = 0.7f;
-    
+
         float originalSize = mainCamera.orthographicSize;
         Vector3 originalPosition = mainCamera.transform.position;
-    
         Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, originalPosition.z);
-    
+
         mainCamera.DOOrthoSize(originalSize * zoomAmount, freezeDuration * 0.5f).SetUpdate(true);
         mainCamera.transform.DOMove(targetPosition, freezeDuration * 0.5f).SetUpdate(true);
-    
-        DOVirtual.DelayedCall(freezeDuration, () => {
+
+        cameraZoomTween = DOVirtual.DelayedCall(freezeDuration, () => {
             mainCamera.DOOrthoSize(originalSize, 0.3f).SetUpdate(true);
             mainCamera.transform.DOMove(originalPosition, 0.3f).SetUpdate(true);
             Time.timeScale = 1f;
+        
+            DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
         }, false).SetUpdate(true);
     }
     
@@ -637,8 +604,58 @@ public class DireDodgingPlayer : MonoBehaviour {
         if (HealthBar != null) {
             HealthBar.gameObject.SetActive(false);
         }
+        yield return new WaitForSeconds(respawnDelay);
+
+        Respawn();
+    }
     
-        Debug.Log($"P{playerIndex+1} is now a ghost! Can shoot charged stun shots.");
+    private void Respawn() {
+        if (cameraZoomTween != null && cameraZoomTween.IsActive()) {
+            cameraZoomTween.Kill();
+        
+            // Reset camera immediately
+            mainCamera.DOOrthoSize(10f, 0.3f).SetUpdate(true); // Use your default camera size
+            mainCamera.transform.DOMove(new Vector3(0, 0, mainCamera.transform.position.z), 0.3f).SetUpdate(true);
+            Time.timeScale = 1f;
+        
+            DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
+        }
+        
+        isAlive = true;
+        isGhostMode = false;
+        currentHealth = maxHealth;
+    
+        Collider2D.enabled = true;
+    
+        Color aliveColor = baseColor;
+        aliveColor.a = 1f;
+        SpriteRenderer.color = aliveColor;
+    
+        // Show health bar
+        if (HealthBar != null) {
+            HealthBar.gameObject.SetActive(true);
+            HealthBar.UpdateDisplay(currentHealth, maxHealth);
+        }
+    
+        StartShooting();
+    
+        StartCoroutine(RespawnInvincibilityCoroutine());
+    }
+    
+    private IEnumerator RespawnInvincibilityCoroutine() {
+        isInvincible = true;
+    
+        float flashInterval = 0.1f;
+        float elapsed = 0f;
+    
+        while (elapsed < invincibilityDuration) {
+            SpriteRenderer.enabled = !SpriteRenderer.enabled;
+            yield return new WaitForSeconds(flashInterval);
+            elapsed += flashInterval;
+        }
+    
+        SpriteRenderer.enabled = true;
+        isInvincible = false;
     }
 
     private void DisableColliderComponent() {
