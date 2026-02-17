@@ -111,11 +111,11 @@ public class ShopPlayerManager {
         activeSelectors.Clear();
     }
 
-    public int GetLockedCount() {
+    private int GetLockedCount() {
         return activeSelectors.Count(shopSlotSelector => shopSlotSelector.IsLocked);
     }
 
-    public int GetLockedAICount() {
+    private int GetLockedAICount() {
         int count = 0;
         for (int i = 0; i < activeSelectors.Count; i++) {
             if (!playerService.PlayerIsHuman(i)) {
@@ -125,7 +125,7 @@ public class ShopPlayerManager {
         return count;
     }
 
-    public int GetHumanCount() {
+    private int GetHumanCount() {
         int count = 0;
         for (int i = 0; i < activeSelectors.Count; i++) {
             if (playerService.PlayerIsHuman(i)) count++;

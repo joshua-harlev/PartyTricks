@@ -89,7 +89,7 @@ public class Shop : MonoBehaviour {
         }
     }
 
-    public void AdjustSpeedByLockCount(int lockedCount, int lockedAICount, int humanCount) {
+    private void AdjustSpeedByLockCount(int lockedCount, int lockedAICount, int humanCount) {
         int numberOfLockedHumans = lockedCount - lockedAICount;
         bool allHumansAreLocked = (numberOfLockedHumans == humanCount);
         if (allHumansAreLocked) {
