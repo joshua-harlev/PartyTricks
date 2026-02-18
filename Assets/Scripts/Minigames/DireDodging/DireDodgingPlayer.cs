@@ -315,62 +315,17 @@ public class DireDodgingPlayer : MonoBehaviour
         if (isCharging) {
             speedMultiplier *= 0.7f;
         }
-    
-        float originalSpeed = maxMoveSpeed;
-        maxMoveSpeed *= speedMultiplier;
-    
-        switch (input.y) {
-            case > 0:
-                MoveUp();
-                break;
-            case < 0:
-                MoveDown();
-                break;
-        }
+        
+        Vector2 movement = input.normalized * maxMoveSpeed * speedMultiplier * Time.fixedDeltaTime;
+        Vector2 newPosition = Rigidbody2D.position + movement;
 
-        switch (input.x) {
-            case > 0:
-                MoveRight();
-                break;
-            case < 0:
-                MoveLeft();
-                break;
-        }
-    
-        maxMoveSpeed = originalSpeed;
-    }
+        newPosition.x = ClampXPosition(newPosition.x);
+        newPosition.y = ClampYPosition(newPosition.y);
 
-    private void MoveUp() {
-        var vector3 = Rigidbody2D.position;
-        vector3.y += maxMoveSpeed * Time.fixedDeltaTime;
-        vector3.y = ClampYPosition(vector3.y);
-        Rigidbody2D.MovePosition(vector3);
+        Rigidbody2D.MovePosition(newPosition);
     }
-
-    private void MoveDown() {
-        var vector3 = Rigidbody2D.position;
-        vector3.y -= maxMoveSpeed * Time.fixedDeltaTime;
-        vector3.y = ClampYPosition(vector3.y);
-        Rigidbody2D.MovePosition(vector3);
-    }
-
-    private void MoveLeft() {
-        var vector3 = Rigidbody2D.position;
-        vector3.x -= maxMoveSpeed * Time.fixedDeltaTime;
-        vector3.x = ClampXPosition(vector3.x);
-        Rigidbody2D.MovePosition(vector3);
-    }
-
-    private void MoveRight() {
-        var vector3 = Rigidbody2D.position;
-        vector3.x += maxMoveSpeed * Time.fixedDeltaTime;
-        vector3.x = ClampXPosition(vector3.x);
-        Rigidbody2D.MovePosition(vector3);
-    }
-    
     
     private void ApplyBaseStats() {
-        // Movement & Combat
         this.maxMoveSpeed = PlayerStatsSO.MoveSpeed;
         this.projectileScale = PlayerStatsSO.ProjectileScale * 0.36f;
         this.projectileSpeed = PlayerStatsSO.ProjectileSpeed;
@@ -380,20 +335,16 @@ public class DireDodgingPlayer : MonoBehaviour
         this.damageAnimationTimeInSeconds = PlayerStatsSO.DamageAnimationTimeInSeconds;
         this.deathAnimationTimeInSeconds = PlayerStatsSO.DeathAnimationTimeInSeconds;
     
-        // Charge Attack
         this.chargeTimeRequired = PlayerStatsSO.ChargeTimeRequired;
         this.chargedProjectileScale = PlayerStatsSO.ChargedProjectileScale;
         this.chargedProjectileSpeed = PlayerStatsSO.ChargedProjectileSpeed;
     
-        // Ghost Mode
         this.ghostChargeTime = PlayerStatsSO.GhostChargeTime;
         this.ghostProjectileSpeed = PlayerStatsSO.GhostProjectileSpeed;
         this.ghostMoveSpeedMultiplier = PlayerStatsSO.GhostMoveSpeedMultiplier;
     
-        // Stun
         this.stunDuration = PlayerStatsSO.StunDuration;
     
-        // Sound Events
         this.hitEvent = PlayerStatsSO.GetHitEvent;
         this.deathEvent = PlayerStatsSO.DeathEvent;
         this.chargeLoopEvent = PlayerStatsSO.ChargeLoopEvent;
