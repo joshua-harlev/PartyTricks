@@ -23,10 +23,7 @@ public class PlayerUITwoButtonInputHandler : MonoBehaviour, IDirectionalTwoButto
     private void Update() {
         selectIsPressed = selectAction.WasPressedThisFrame();
         cancelIsPressed = cancelAction.WasPressedThisFrame();
-        chargeIsPressed =  chargeAction.WasPressedThisFrame();
-        if (chargeIsPressed) {
-            Debug.Log($"Charge is pressed.");
-        }
+        chargeIsPressed = chargeAction.WasPressedThisFrame();
     }
 
     public Vector2 GetNavigate() {

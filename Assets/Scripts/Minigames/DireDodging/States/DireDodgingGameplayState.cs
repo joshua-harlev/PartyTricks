@@ -52,12 +52,7 @@ public class DireDodgingGameplayState : IDireDodgingState {
     private void UpdateEliminations(int playerIndex) {
         playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex]);
     }
-
-    /*private void CheckForEndOfGame() {
-        if (gameShouldEnd) {
-            OnGameplayEnd();
-        }
-    }*/
+    
 
     private void OnGameplayEnd() {
         timer.OnTimerEnd -= OnGameplayEnd;
