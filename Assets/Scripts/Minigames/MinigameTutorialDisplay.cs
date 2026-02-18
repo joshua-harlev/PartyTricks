@@ -1,0 +1,60 @@
+using System;
+using System.Collections;
+using Services;
+using TMPro;
+using UnityEngine;
+
+public class MinigameTutorialDisplay : MonoBehaviour
+{
+    [SerializeField] private TMP_Text tutorialText;
+    [SerializeField] private TMP_Text buttonPromptText;
+    [SerializeField] private float displayDurationInSeconds = 7f;
+    [SerializeField] private float blockSkipDurationInSeconds = 1f;
+    private IPlayerService playerService;
+    public event Action OnDismissed;
+    private bool displayIsActive;
+    private bool canDismiss;
+
+    private void Awake() {
+        playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+        buttonPromptText.color = Color.black;
+    }
+
+    private void Update() {
+        if (!canDismiss) return;
+        foreach (var playerSlot in playerService.PlayerSlots) {
+            if (playerSlot.IsAI) continue;
+            if (playerSlot.InputHandler.SelectIsPressed() || playerSlot.InputHandler.CancelIsPressed()) {
+                Debug.Log($"Tutorial skip triggered by player {playerSlot.SlotIndex}");
+                Dismiss();
+            }
+        }
+    }
+
+    public void Show(string text) {
+        tutorialText.text = text;
+        displayIsActive = true;
+        canDismiss = false;
+        StartCoroutine(WaitToAllowInput());
+        StartCoroutine(AutoDismissTimer());
+    }
+
+    private IEnumerator WaitToAllowInput() {
+        yield return new WaitForSeconds(blockSkipDurationInSeconds);
+        yield return null; // avoids stale values
+        canDismiss = true;
+        buttonPromptText.color = Color.white;
+    }
+
+    private IEnumerator AutoDismissTimer() {
+        yield return new WaitForSeconds(displayDurationInSeconds);
+        Dismiss();
+    }
+
+    private void Dismiss() {
+        if(!displayIsActive) return;
+        displayIsActive = false;
+        OnDismissed?.Invoke();
+        Destroy(gameObject);
+    }
+}

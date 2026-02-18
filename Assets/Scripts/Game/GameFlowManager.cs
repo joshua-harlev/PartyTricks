@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Services;
@@ -9,6 +10,9 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     [SerializeField] private int initialGameLength = 5;
     [SerializeField] private GameObject gameBoardDisplayPrefab;
     [SerializeField] private GameBoardPresetSO gameBoardPreset;
+    [SerializeField] private GameObject tutorialPrefab;
+    private HashSet<string> shownTutorialScenes = new();
+    private string currentMinigameSceneName;
     private string[] sceneOverrides;
     
     private GameBoardGenerator boardGenerator;
@@ -39,6 +43,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
         }
         gameBoard = boardGenerator.GameBoard;
         currentRoundIndex = 0;
+        shownTutorialScenes.Clear();
         DebugLogger.Log(LogChannel.Systems, $"Game started. Board generated with {gameBoard.Count} rounds.");
         ShowGameBoardDisplay();
     }
@@ -96,6 +101,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
             return;
         }
 
+        currentMinigameSceneName = sceneName;
         SceneManager.LoadScene(sceneName);
         DebugLogger.Log(LogChannel.Systems, $"Loading minigame: {minigameType} (Scene: {sceneName}). Double Round: {nextRound.IsDouble}");
         SceneManager.sceneLoaded += OnMinigameSceneLoaded;
@@ -104,14 +110,30 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     private void OnMinigameSceneLoaded(Scene scene, LoadSceneMode mode) {
         SceneManager.sceneLoaded -= OnMinigameSceneLoaded;
         var minigameManager = FindMinigameManager();
-        if (minigameManager != null) {
-            minigameManager.OnMinigameFinished += ProcessMinigameResults;
-            var currentRoundDefinition = GetCurrentRoundDefinition();
-            minigameManager.Initialize(currentRoundDefinition.IsDouble);
+        if(minigameManager == null) {
+            Debug.LogError($"GameFlowManager: Couldn't find minigame manager for scene {scene.name}");
+            return;
+        }
+        
+        minigameManager.OnMinigameFinished += ProcessMinigameResults;
+        var currentRoundDefinition = GetCurrentRoundDefinition();
+
+        string tutorialText = config.GetTutorialText(currentMinigameSceneName);
+        if (!string.IsNullOrWhiteSpace(tutorialText) && !shownTutorialScenes.Contains(currentMinigameSceneName)) {
+            shownTutorialScenes.Add(currentMinigameSceneName);
+            ShowTutorial(tutorialText, () => minigameManager.Initialize(currentRoundDefinition.IsDouble));
         }
         else {
-            Debug.LogError($"GameFlowManager: Couldn't find minigame manager for scene {scene.name}");
+            minigameManager.Initialize(currentRoundDefinition.IsDouble);
         }
+        
+    }
+
+    private void ShowTutorial(string tutorialText, Action onDismissed) {
+        var tutorialObject = Instantiate(tutorialPrefab);
+        var display = tutorialObject.GetComponent<MinigameTutorialDisplay>();
+        display.OnDismissed += onDismissed;
+        display.Show(tutorialText);
     }
 
     private static IMinigameManager FindMinigameManager() {
