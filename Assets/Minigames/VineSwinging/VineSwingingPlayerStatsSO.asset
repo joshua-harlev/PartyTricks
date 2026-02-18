@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a1c10dbe5f04cb59060533d76f182f, type: 3}
   m_Name: VineSwingingPlayerStatsSO
   m_EditorClassIdentifier: Swinging::VineSwingingPlayerStatsSO
-  Amplitude: 1.45
-  RopeLength: 4.6
+  Amplitude: 1.3
+  RopeLength: 4.65
   Period: 2.85
-  LaunchForce: 1.4
+  LaunchForce: 1.55
   GrabRadius: 1.7
-  VineSpacing: 14
+  VineSpacing: 14.5
   Gravity: 20
   PeriodVariation: 0.07
   FallThresholdY: -6
@@ -31,4 +31,4 @@ MonoBehaviour:
   MagnetRadius: 3
   MagnetPullSpeed: 8
   GrabLookaheadFramesPerBoost: 10
-  MinimumReleaseVelocityX: 3
+  MinimumReleaseVelocityX: 8
