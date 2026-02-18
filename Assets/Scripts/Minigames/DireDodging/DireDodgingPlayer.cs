@@ -494,6 +494,8 @@ public class DireDodgingPlayer : MonoBehaviour
         
         Rigidbody2D.linearVelocity = Vector2.zero;
         Rigidbody2D.angularVelocity = 0f;
+        
+        Rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
     
         Time.timeScale = 0f; // Currently doesn't really work, ask about later.
         ZoomCameraOnDeath();
@@ -597,6 +599,8 @@ public class DireDodgingPlayer : MonoBehaviour
         
         Rigidbody2D.linearVelocity = Vector2.zero;
         Rigidbody2D.angularVelocity = 0f;
+        
+        Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     
         Collider2D.enabled = true;
     
