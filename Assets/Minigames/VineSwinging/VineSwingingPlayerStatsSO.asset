@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a1c10dbe5f04cb59060533d76f182f, type: 3}
+  m_Name: VineSwingingPlayerStatsSO
+  m_EditorClassIdentifier: Swinging::VineSwingingPlayerStatsSO
+  Amplitude: 1.45
+  RopeLength: 4.6
+  Period: 2.85
+  LaunchForce: 1.4
+  GrabRadius: 1.7
+  VineSpacing: 16
+  Gravity: 20
+  PeriodVariation: 0.07
+  FallThresholdY: -6
+  RespawnDelayInSeconds: 0.5
+  CoinsPerGap: 3
+  VineScoreValue: 5
+  CoinTypes:
+  - {fileID: 11400000, guid: 1e055c9adfc97415a8e26d3a53fc5705, type: 2}
+  - {fileID: 11400000, guid: ded30831a03cb48dcb1dacbcde121f2c, type: 2}
+  CoinArcHeight: 2
+  MagnetRadius: 3
+  MagnetPullSpeed: 8
+  GrabLookaheadFramesPerBoost: 10
+  MinimumReleaseVelocityX: 2.5

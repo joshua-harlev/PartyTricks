@@ -470,7 +470,7 @@ MonoBehaviour:
   ShowBankRefreshWindow: 1
   AutomaticEventLoading: 1
   BankLoadType: 0
-  AutomaticSampleLoading: 0
+  AutomaticSampleLoading: 1
   EncryptionKey: 
   ImportType: 0
   TargetAssetPath: FMODBanks
@@ -490,6 +490,8 @@ MonoBehaviour:
   - Master
   Banks:
   - DireDodging
+  - Shop
+  - Swinging
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
