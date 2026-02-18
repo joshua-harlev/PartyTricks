@@ -7,7 +7,12 @@ using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class DireDodgingPlayer : MonoBehaviour {
+public class DireDodgingPlayer : MonoBehaviour
+{
+    private static bool isDeathZoomActive = false;
+    private static float trueOriginalCameraSize;
+    private static Vector3 trueOriginalCameraPosition;
+    
     private float maxMoveSpeed;
     private float projectileScale;
     private float projectileSpeed;
@@ -83,6 +88,10 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool isAI, int numberOfIncreasedHPPowerups, int numberOfIncreasedAttackSpeedPowerups, bool isDoubleRound) {
         mainCamera = Camera.main;
+        if (!isDeathZoomActive) {
+            trueOriginalCameraSize = mainCamera.orthographicSize;
+            trueOriginalCameraPosition = mainCamera.transform.position;
+        }
         ApplyBaseStats();
         if (isDoubleRound) {
             this.maxHealth *= 2;
@@ -466,13 +475,9 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private void TakeDamage(DireDodgingProjectile projectile) {
-        if (isGhostMode) {
-            return;
-        }
-        
-        if (isInvincible) {
-            return;
-        }
+        if (!isAlive) return;
+        if (isGhostMode) return;
+        if (isInvincible) return;
     
         if (projectile.IsGhostProjectile) {
             StartCoroutine(StunCoroutine());
@@ -574,19 +579,23 @@ public class DireDodgingPlayer : MonoBehaviour {
 
         float freezeDuration = 1f;
         float zoomAmount = 0.7f;
+        Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, trueOriginalCameraPosition.z);
 
-        float originalSize = mainCamera.orthographicSize;
-        Vector3 originalPosition = mainCamera.transform.position;
-        Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, originalPosition.z);
+        // Kill any in-progress zoom tweens on the camera
+        mainCamera.DOKill();
+        mainCamera.transform.DOKill();
 
-        mainCamera.DOOrthoSize(originalSize * zoomAmount, freezeDuration * 0.5f).SetUpdate(true);
+        isDeathZoomActive = true;
+
+        mainCamera.DOOrthoSize(trueOriginalCameraSize * zoomAmount, freezeDuration * 0.5f).SetUpdate(true);
         mainCamera.transform.DOMove(targetPosition, freezeDuration * 0.5f).SetUpdate(true);
 
         cameraZoomTween = DOVirtual.DelayedCall(freezeDuration, () => {
-            mainCamera.DOOrthoSize(originalSize, 0.3f).SetUpdate(true);
-            mainCamera.transform.DOMove(originalPosition, 0.3f).SetUpdate(true);
+            mainCamera.DOOrthoSize(trueOriginalCameraSize, 0.3f).SetUpdate(true);
+            mainCamera.transform.DOMove(trueOriginalCameraPosition, 0.3f).SetUpdate(true).OnComplete(() => {
+                isDeathZoomActive = false;
+            });
             Time.timeScale = 1f;
-        
             DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
         }, false).SetUpdate(true);
     }
@@ -620,12 +629,14 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void Respawn() {
         if (cameraZoomTween != null && cameraZoomTween.IsActive()) {
             cameraZoomTween.Kill();
-        
-            // Reset camera immediately
-            mainCamera.DOOrthoSize(10f, 0.3f).SetUpdate(true); // Use your default camera size
-            mainCamera.transform.DOMove(new Vector3(0, 0, mainCamera.transform.position.z), 0.3f).SetUpdate(true);
+            mainCamera.DOKill();
+            mainCamera.transform.DOKill();
+
+            mainCamera.DOOrthoSize(trueOriginalCameraSize, 0.3f).SetUpdate(true);
+            mainCamera.transform.DOMove(trueOriginalCameraPosition, 0.3f).SetUpdate(true).OnComplete(() => {
+                isDeathZoomActive = false;
+            });
             Time.timeScale = 1f;
-        
             DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
         }
         
@@ -719,5 +730,6 @@ public class DireDodgingPlayer : MonoBehaviour {
             chargeLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             chargeLoopInstance.release();
         }
+        isDeathZoomActive = false;
     }
 }
