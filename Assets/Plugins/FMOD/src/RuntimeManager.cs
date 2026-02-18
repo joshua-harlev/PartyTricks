@@ -1199,7 +1199,7 @@ retry:
             }
             catch (EventNotFoundException)
             {
-                throw new EventNotFoundException(eventReference);
+                    throw new EventNotFoundException(eventReference);
             }
         }
 

@@ -7,7 +7,12 @@ using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class DireDodgingPlayer : MonoBehaviour {
+public class DireDodgingPlayer : MonoBehaviour
+{
+    private static bool isDeathZoomActive = false;
+    private static float trueOriginalCameraSize;
+    private static Vector3 trueOriginalCameraPosition;
+    
     private float maxMoveSpeed;
     private float projectileScale;
     private float projectileSpeed;
@@ -83,6 +88,10 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool isAI, int numberOfIncreasedHPPowerups, int numberOfIncreasedAttackSpeedPowerups, bool isDoubleRound) {
         mainCamera = Camera.main;
+        if (!isDeathZoomActive) {
+            trueOriginalCameraSize = mainCamera.orthographicSize;
+            trueOriginalCameraPosition = mainCamera.transform.position;
+        }
         ApplyBaseStats();
         if (isDoubleRound) {
             this.maxHealth *= 2;
@@ -306,62 +315,17 @@ public class DireDodgingPlayer : MonoBehaviour {
         if (isCharging) {
             speedMultiplier *= 0.7f;
         }
-    
-        float originalSpeed = maxMoveSpeed;
-        maxMoveSpeed *= speedMultiplier;
-    
-        switch (input.y) {
-            case > 0:
-                MoveUp();
-                break;
-            case < 0:
-                MoveDown();
-                break;
-        }
+        
+        Vector2 movement = input.normalized * maxMoveSpeed * speedMultiplier * Time.fixedDeltaTime;
+        Vector2 newPosition = Rigidbody2D.position + movement;
 
-        switch (input.x) {
-            case > 0:
-                MoveRight();
-                break;
-            case < 0:
-                MoveLeft();
-                break;
-        }
-    
-        maxMoveSpeed = originalSpeed;
-    }
+        newPosition.x = ClampXPosition(newPosition.x);
+        newPosition.y = ClampYPosition(newPosition.y);
 
-    private void MoveUp() {
-        var vector3 = Rigidbody2D.position;
-        vector3.y += maxMoveSpeed * Time.fixedDeltaTime;
-        vector3.y = ClampYPosition(vector3.y);
-        Rigidbody2D.MovePosition(vector3);
+        Rigidbody2D.MovePosition(newPosition);
     }
-
-    private void MoveDown() {
-        var vector3 = Rigidbody2D.position;
-        vector3.y -= maxMoveSpeed * Time.fixedDeltaTime;
-        vector3.y = ClampYPosition(vector3.y);
-        Rigidbody2D.MovePosition(vector3);
-    }
-
-    private void MoveLeft() {
-        var vector3 = Rigidbody2D.position;
-        vector3.x -= maxMoveSpeed * Time.fixedDeltaTime;
-        vector3.x = ClampXPosition(vector3.x);
-        Rigidbody2D.MovePosition(vector3);
-    }
-
-    private void MoveRight() {
-        var vector3 = Rigidbody2D.position;
-        vector3.x += maxMoveSpeed * Time.fixedDeltaTime;
-        vector3.x = ClampXPosition(vector3.x);
-        Rigidbody2D.MovePosition(vector3);
-    }
-    
     
     private void ApplyBaseStats() {
-        // Movement & Combat
         this.maxMoveSpeed = PlayerStatsSO.MoveSpeed;
         this.projectileScale = PlayerStatsSO.ProjectileScale * 0.36f;
         this.projectileSpeed = PlayerStatsSO.ProjectileSpeed;
@@ -371,20 +335,16 @@ public class DireDodgingPlayer : MonoBehaviour {
         this.damageAnimationTimeInSeconds = PlayerStatsSO.DamageAnimationTimeInSeconds;
         this.deathAnimationTimeInSeconds = PlayerStatsSO.DeathAnimationTimeInSeconds;
     
-        // Charge Attack
         this.chargeTimeRequired = PlayerStatsSO.ChargeTimeRequired;
         this.chargedProjectileScale = PlayerStatsSO.ChargedProjectileScale;
         this.chargedProjectileSpeed = PlayerStatsSO.ChargedProjectileSpeed;
     
-        // Ghost Mode
         this.ghostChargeTime = PlayerStatsSO.GhostChargeTime;
         this.ghostProjectileSpeed = PlayerStatsSO.GhostProjectileSpeed;
         this.ghostMoveSpeedMultiplier = PlayerStatsSO.GhostMoveSpeedMultiplier;
     
-        // Stun
         this.stunDuration = PlayerStatsSO.StunDuration;
     
-        // Sound Events
         this.hitEvent = PlayerStatsSO.GetHitEvent;
         this.deathEvent = PlayerStatsSO.DeathEvent;
         this.chargeLoopEvent = PlayerStatsSO.ChargeLoopEvent;
@@ -466,13 +426,9 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private void TakeDamage(DireDodgingProjectile projectile) {
-        if (isGhostMode) {
-            return;
-        }
-        
-        if (isInvincible) {
-            return;
-        }
+        if (!isAlive) return;
+        if (isGhostMode) return;
+        if (isInvincible) return;
     
         if (projectile.IsGhostProjectile) {
             StartCoroutine(StunCoroutine());
@@ -538,6 +494,8 @@ public class DireDodgingPlayer : MonoBehaviour {
         
         Rigidbody2D.linearVelocity = Vector2.zero;
         Rigidbody2D.angularVelocity = 0f;
+        
+        Rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
     
         Time.timeScale = 0f; // Currently doesn't really work, ask about later.
         ZoomCameraOnDeath();
@@ -574,19 +532,23 @@ public class DireDodgingPlayer : MonoBehaviour {
 
         float freezeDuration = 1f;
         float zoomAmount = 0.7f;
+        Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, trueOriginalCameraPosition.z);
 
-        float originalSize = mainCamera.orthographicSize;
-        Vector3 originalPosition = mainCamera.transform.position;
-        Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, originalPosition.z);
+        // Kill any in-progress zoom tweens on the camera
+        mainCamera.DOKill();
+        mainCamera.transform.DOKill();
 
-        mainCamera.DOOrthoSize(originalSize * zoomAmount, freezeDuration * 0.5f).SetUpdate(true);
+        isDeathZoomActive = true;
+
+        mainCamera.DOOrthoSize(trueOriginalCameraSize * zoomAmount, freezeDuration * 0.5f).SetUpdate(true);
         mainCamera.transform.DOMove(targetPosition, freezeDuration * 0.5f).SetUpdate(true);
 
         cameraZoomTween = DOVirtual.DelayedCall(freezeDuration, () => {
-            mainCamera.DOOrthoSize(originalSize, 0.3f).SetUpdate(true);
-            mainCamera.transform.DOMove(originalPosition, 0.3f).SetUpdate(true);
+            mainCamera.DOOrthoSize(trueOriginalCameraSize, 0.3f).SetUpdate(true);
+            mainCamera.transform.DOMove(trueOriginalCameraPosition, 0.3f).SetUpdate(true).OnComplete(() => {
+                isDeathZoomActive = false;
+            });
             Time.timeScale = 1f;
-        
             DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
         }, false).SetUpdate(true);
     }
@@ -620,12 +582,14 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void Respawn() {
         if (cameraZoomTween != null && cameraZoomTween.IsActive()) {
             cameraZoomTween.Kill();
-        
-            // Reset camera immediately
-            mainCamera.DOOrthoSize(10f, 0.3f).SetUpdate(true); // Use your default camera size
-            mainCamera.transform.DOMove(new Vector3(0, 0, mainCamera.transform.position.z), 0.3f).SetUpdate(true);
+            mainCamera.DOKill();
+            mainCamera.transform.DOKill();
+
+            mainCamera.DOOrthoSize(trueOriginalCameraSize, 0.3f).SetUpdate(true);
+            mainCamera.transform.DOMove(trueOriginalCameraPosition, 0.3f).SetUpdate(true).OnComplete(() => {
+                isDeathZoomActive = false;
+            });
             Time.timeScale = 1f;
-        
             DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
         }
         
@@ -635,6 +599,8 @@ public class DireDodgingPlayer : MonoBehaviour {
         
         Rigidbody2D.linearVelocity = Vector2.zero;
         Rigidbody2D.angularVelocity = 0f;
+        
+        Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     
         Collider2D.enabled = true;
     
@@ -719,5 +685,6 @@ public class DireDodgingPlayer : MonoBehaviour {
             chargeLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             chargeLoopInstance.release();
         }
+        isDeathZoomActive = false;
     }
 }
