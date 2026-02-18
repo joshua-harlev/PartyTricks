@@ -330,7 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::MinigameTutorialDisplay
   tutorialText: {fileID: 71711444935048800}
   buttonPromptText: {fileID: 110394422652881877}
-  displayDurationInSeconds: 10
+  displayDurationInSeconds: 15
   blockSkipDurationInSeconds: 3
 --- !u!1 &8927839947501497166
 GameObject:

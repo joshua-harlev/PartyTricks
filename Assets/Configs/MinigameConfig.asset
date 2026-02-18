@@ -30,12 +30,12 @@ MonoBehaviour:
     - DireDodging
   sceneTutorials:
   - SceneName: DireDodging
-    TutorialText: Fire in the direction you're moving in. Hold Enter/A/Confirm for
-      a charged shot when alive, or a stun shot when dead. Rack up as many eliminations
-      as possible!
+    TutorialText: "Fire in the direction you're moving in. Hold Enter/A/Confirm for
+      a charged shot when alive, or a stun shot when dead. \n\nRack up as many eliminations
+      as possible!"
   - SceneName: CoinTiltGame
-    TutorialText: 'Move around with WASD or the joystick and jump with space or A/Confirm.
-      Collect coins  (purple ones are worth triple) and try not to fall off! '
+    TutorialText: "Move around with WASD or the joystick and jump with space or A/Confirm.
+      \n\nCollect coins (purple ones are worth triple) and try not to fall off! "
   - SceneName: VineSwinging
-    TutorialText: Press space or A/Confirm to jump! Make it as far as you can and
-      collect as many coins as possible.
+    TutorialText: "Press space or A/Confirm to jump! \n\nMake it as far as you can
+      and collect as many coins as possible."
