@@ -8,9 +8,10 @@ public class DebugMenu : MonoBehaviour {
     private static DebugMenu instance;
     private bool shouldShowMenu = false;
     private InputAction toggleDebugMenuAction;
-    private Rect windowRect = new Rect(20, 20, 300, 800);
+    private Rect windowRect = new Rect(20, 20, 300, 1200);
     private bool isDoubleRound = false;
     private IPlayerService playerService;
+    private DireDodgingMinigameManager direDodgingManager;
 
     private void Awake() {
         if (instance != null && instance != this) {
@@ -31,6 +32,10 @@ public class DebugMenu : MonoBehaviour {
     private void Update() {
         if (toggleDebugMenuAction != null && toggleDebugMenuAction.WasPressedThisFrame()) {
             shouldShowMenu = !shouldShowMenu;
+        }
+        
+        if (direDodgingManager != null && SceneManager.GetActiveScene().name != "DireDodging") {
+            direDodgingManager = null;
         }
     }
 
@@ -68,6 +73,29 @@ public class DebugMenu : MonoBehaviour {
         
         if (GUILayout.Button("Load Vine Swinging", GUILayout.Height(40))) {
             LoadVineSwinging();
+        }
+
+        if (direDodgingManager != null) {
+            GUILayout.Label("Dire Dodging Controls", GUI.skin.box);
+            GUILayout.Space(10);
+        
+            if (GUILayout.Button("Kill Player 1", GUILayout.Height(30))) {
+                KillDireDodgingPlayer(0);
+            }
+        
+            if (GUILayout.Button("Kill Player 2", GUILayout.Height(30))) {
+                KillDireDodgingPlayer(1);
+            }
+        
+            if (GUILayout.Button("Kill Player 3", GUILayout.Height(30))) {
+                KillDireDodgingPlayer(2);
+            }
+        
+            if (GUILayout.Button("Kill Player 4", GUILayout.Height(30))) {
+                KillDireDodgingPlayer(3);
+            }
+        
+            GUILayout.Space(20);
         }
 
         GUILayout.Space(10);
@@ -120,6 +148,17 @@ public class DebugMenu : MonoBehaviour {
         GUILayout.EndVertical();
         
         GUI.DragWindow();
+    }
+    
+            
+    private void KillDireDodgingPlayer(int playerIndex) {
+        if (direDodgingManager == null) {
+            Debug.LogWarning("Debug Menu: Not in Dire Dodging scene.");
+            return;
+        }
+        
+        direDodgingManager.DebugKillPlayer(playerIndex);
+        DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Killed Player {playerIndex + 1}");
     }
 
     private void RandomizeAllPlayerFunds() {
@@ -211,9 +250,9 @@ public class DebugMenu : MonoBehaviour {
         SceneManager.sceneLoaded -= OnDireDodgingSceneLoaded;
         
         // Find and initialize the dire dodging manager
-        DireDodgingMinigameManager manager = FindAnyObjectByType<DireDodgingMinigameManager>();
-        if (manager != null) {
-            manager.Initialize(isDoubleRound);
+        direDodgingManager = FindAnyObjectByType<DireDodgingMinigameManager>();
+        if (direDodgingManager != null) {
+            direDodgingManager.Initialize(isDoubleRound);
             DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Dire Dodging manager initialized. Double: {isDoubleRound}");
         } else {
             Debug.LogError("Debug Menu: Could not find DireDodgingMinigameManager in scene!");

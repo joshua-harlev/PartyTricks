@@ -91,6 +91,7 @@ namespace Shop {
 
 
         private void OnDestroy() {
+            musicInstance.stop(STOP_MODE.IMMEDIATE);
             musicInstance.release();
             CountdownTimer.OnTimerEnd -= OnShopTimerEnd;
             playerManager.OnLockCountChanged -= AdjustSpeedByLockCount;

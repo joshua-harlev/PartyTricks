@@ -2,16 +2,14 @@ using DG.Tweening;
 using Services;
 using UnityEngine;
 
+// TODO: Refactor this, as players can respawn now, original intensity logic obsolete
 public class DireDodgingGameplayState : IDireDodgingState {
-    private int numberOfAlivePlayers;
     private int[] playerPlaces;
     private int[] playerKills;
-    private int[] deadPlayers;
     private MinigameTimer timer;
     private PlayerCornerDisplay[] playerCornerDisplays;
     private Camera gameCamera;
-    private bool gameShouldEnd => (numberOfAlivePlayers <= 1);
-    private bool halfwayPointReached = false;
+    // private bool gameShouldEnd => (numberOfAlivePlayers <= 1); Removed so game lasts the amount of seconds
     private IPauseService pauseService;
     public DireDodgingGameplayState(MinigameTimer timer, PlayerCornerDisplay[] playerCornerDisplays, Camera camera) {
         this.timer = timer;
@@ -23,7 +21,6 @@ public class DireDodgingGameplayState : IDireDodgingState {
     }
 
     private void OnHalfwayPointReached(int remainingTimeInSeconds) {
-        halfwayPointReached = true;
         timer.OnHalfwayPointReached -= OnHalfwayPointReached;
         DireDodgingMinigameManager.Instance.StartIncreasingIntensity(remainingTimeInSeconds);
         DireDodgingMinigameManager.Instance.SetMusicIntensity(2);
@@ -36,59 +33,39 @@ public class DireDodgingGameplayState : IDireDodgingState {
         DireDodgingMinigameManager.Instance.StartPlayerShooting();
         DireDodgingMinigameManager.Instance.SetMusicIntensity(1);
         timer.StartTimer();
-        numberOfAlivePlayers = 4;
         playerPlaces = new[] { 1, 1, 1, 1 };
         playerKills = new[] { 0, 0, 0, 0 };
-        deadPlayers = new[] { 0, 0, 0, 0 };
     }
 
     public void OnUpdate() { }
 
     public void HandlePlayerKill(int playerIndex) {
         playerKills[playerIndex]++;
-        if (!halfwayPointReached) {
-            if (numberOfAlivePlayers == 3) {
-                DireDodgingMinigameManager.Instance.SetMusicIntensity(1);
-            }
-            if (numberOfAlivePlayers == 2) {
-                DireDodgingMinigameManager.Instance.SetMusicIntensity(2);
-            }   
-        }
-        if (PlayerIsDead(playerIndex)) {
-            Debug.Log("Updating kills for dead player with index " + playerIndex);
-            playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex], playerPlaces[playerIndex]);
-        }
-        else {
-            playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex]);
-        }
-    }
-
-    private bool PlayerIsDead(int playerIndex) {
-        return deadPlayers[playerIndex] == 1;
+        playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex]);
     }
 
     public void HandlePlayerDeath(int playerIndex) {
-        playerPlaces[playerIndex] = numberOfAlivePlayers;
-        deadPlayers[playerIndex] = 1;
-        numberOfAlivePlayers--;
         UpdateEliminations(playerIndex);
         gameCamera.DOShakePosition(duration: 0.1f, strength: 0.4f, vibrato: 1, randomness: 90f, fadeOut: false).SetUpdate(true);
-        pauseService.DoTimedPause(0.3f, CheckForEndOfGame);
     }
 
     private void UpdateEliminations(int playerIndex) {
-        playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex], playerPlaces[playerIndex]);
+        playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex]);
     }
 
-    private void CheckForEndOfGame() {
+    /*private void CheckForEndOfGame() {
         if (gameShouldEnd) {
             OnGameplayEnd();
         }
-    }
+    }*/
 
     private void OnGameplayEnd() {
         timer.OnTimerEnd -= OnGameplayEnd;
         timer.StopIfRunning();
+    
+        // Calculate final places based on kills
+        playerPlaces = CalculatePlacesByKills(playerKills);
+    
         UpdateAllDisplays();
         DireDodgingMinigameManager.Instance.FreezeAllPlayers();
         DireDodgingMinigameManager.Instance.ReturnAllProjectiles();
@@ -96,6 +73,26 @@ public class DireDodgingGameplayState : IDireDodgingState {
         {
             DireDodgingMinigameManager.Instance.TransitionToResults(playerPlaces, playerKills); 
         });
+    }
+
+    private int[] CalculatePlacesByKills(int[] kills) {
+        int[] places = new int[4];
+    
+        // Create array of (playerIndex, kills) pairs
+        var rankData = new (int index, int kills)[4];
+        for (int i = 0; i < 4; i++) {
+            rankData[i] = (i, kills[i]);
+        }
+    
+        // Sort by kills descending
+        System.Array.Sort(rankData, (a, b) => b.kills.CompareTo(a.kills));
+    
+        // Assign places
+        for (int i = 0; i < 4; i++) {
+            places[rankData[i].index] = i + 1; // 1st, 2nd, 3rd, 4th
+        }
+    
+        return places;
     }
 
     private void UpdateAllDisplays() {

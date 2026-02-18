@@ -4,11 +4,13 @@ using UnityEngine.Pool;
 public class DireDodgingProjectile : MonoBehaviour {
     public int OwnerIndex { get; private set; }
     public float Damage { get; private set; }
+    public bool IsGhostProjectile { get; private set; }
 
     private float Speed { get; set; }
 
     // positive 1: right, negative 1: left
-    private int direction;
+    private Vector2 moveDirection;
+    private bool hasBeenReturned = false;
     
     [SerializeField] private Rigidbody2D Rigidbody2D;
     [SerializeField] private SpriteRenderer SpriteRenderer;
@@ -19,15 +21,18 @@ public class DireDodgingProjectile : MonoBehaviour {
         projectilePool = pool;
     }
 
-    public void Initialize(int ownerIndex, float damage, float speed, bool movingRight) {
+    public void Initialize(int ownerIndex, float damage, float speed, Vector2 direction, bool isGhost = false) {
         OwnerIndex = ownerIndex;
         Damage = damage;
         Speed = speed;
-        if (movingRight) {
-            direction = 1;
-        }
-        else {
-            direction = -1;
+        moveDirection = direction.normalized;
+        IsGhostProjectile = isGhost;
+        hasBeenReturned = false;
+    
+        if (isGhost && SpriteRenderer != null) {
+            Color ghostColor = SpriteRenderer.color;
+            ghostColor.a = 0.5f; // Semi-transparent
+            SpriteRenderer.color = ghostColor;
         }
     }
 
@@ -40,8 +45,15 @@ public class DireDodgingProjectile : MonoBehaviour {
             ReturnToPool();
         }
     }
-
+    
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.CompareTag("Wall")) {
+            ReturnToPool();
+        }
+    }
     public void ReturnToPool() {
+        if (hasBeenReturned) return;
+        hasBeenReturned = true;
         if (projectilePool != null) {
             projectilePool.Release(this);
         }
@@ -51,6 +63,6 @@ public class DireDodgingProjectile : MonoBehaviour {
     }
 
     private void Update() {
-        transform.position += new Vector3(Speed * direction * Time.deltaTime, 0, 0);
+        transform.position += (Vector3)(moveDirection * Speed * Time.deltaTime);
     }
 }

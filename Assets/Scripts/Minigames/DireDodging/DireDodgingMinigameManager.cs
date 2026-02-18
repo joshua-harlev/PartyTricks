@@ -189,4 +189,24 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         yield return new WaitForSeconds(ResultsDisplayDurationInSeconds);
         OnMinigameFinished?.Invoke(playerResults);
     }
+    
+    public void DebugKillPlayer(int playerIndex)
+    {
+        if (playerIndex < 0 || playerIndex >= Players.Length) return;
+    
+        DireDodgingPlayer player = Players[playerIndex];
+        if (player == null) {
+            Debug.LogWarning($"Player {playerIndex} is null");
+            return;
+        }
+    
+        var dummyProjectile = new GameObject("DummyProjectile").AddComponent<DireDodgingProjectile>();
+        dummyProjectile.Initialize(playerIndex, 9999f, 0f, Vector2.zero, false);
+    
+        var method = typeof(DireDodgingPlayer).GetMethod("TakeDamage", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        method?.Invoke(player, new object[] { dummyProjectile });
+    
+        Destroy(dummyProjectile.gameObject);
+    }
 }

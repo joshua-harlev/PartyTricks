@@ -7,6 +7,10 @@ TagManager:
   - FallZone
   - Coin
   - ProjectileDespawnBounds
+  - Wall
+  - Goal
+  - Paddle
+  - Puck
   layers:
   - Default
   - TransparentFX

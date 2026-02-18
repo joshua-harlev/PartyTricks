@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using FMODUnity;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -26,6 +28,13 @@ public class DireDodgingPlayer : MonoBehaviour {
     [SerializeField] private GameObject ProjectilePrefab;
     [SerializeField] private Transform PoolParent;
     [SerializeField] private DireDodgingHealthBar HealthBar;
+    [SerializeField] private SpriteRenderer chargeIndicator;
+    [SerializeField] private ParticleSystem chargeParticles;
+    
+    private bool isCharging = false;
+    private float chargeStartTime = 0f;
+    private Coroutine shootingCoroutineInstance = null;
+    private Vector2 lastMoveDirection = Vector2.right;
     
     private int playerIndex;
     private Sequence colorChangeSequence;
@@ -36,15 +45,38 @@ public class DireDodgingPlayer : MonoBehaviour {
     private bool isAlive = true;
     private ObjectPool<DireDodgingProjectile>[] projectilePools;
     private List<DireDodgingProjectile> activeProjectiles = new();
+    
+    private bool isGhostMode = false;
+    private float respawnDelay = 3f;
+    private bool isInvincible = false;
+    private float invincibilityDuration = 2f;
+    
+    private Tween cameraZoomTween;
+
 
     private Coroutine damageCoroutineInstance = null;
     private Coroutine intensityCoroutineInstance = null;
     private Camera mainCamera;
     private readonly Quaternion leftRotation = Quaternion.Euler(0, 0, 90);
     private readonly Quaternion rightRotation = Quaternion.Euler(0, 0, 270);
+    private readonly Quaternion upRotation = Quaternion.Euler(0, 0, 0);
+    private readonly Quaternion downRotation = Quaternion.Euler(0, 0, 180);
     private EventReference hitEvent;
     private EventReference deathEvent;
-
+    private EventReference chargeLoopEvent; 
+    private EventReference chargeReleaseEvent;
+    private EventReference chargeShootEvent;
+    private EventInstance chargeLoopInstance;
+    
+    private float chargeTimeRequired;
+    private float chargedProjectileScale;
+    private float chargedProjectileSpeed;
+    private float ghostChargeTime;
+    private float ghostProjectileSpeed;
+    private float ghostMoveSpeedMultiplier;
+    private float stunDuration;
+    
+    
     private void Awake() {
         baseColor = SpriteRenderer.color;
     }
@@ -61,7 +93,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         this.navigator = inputHandler;
         this.isAI = isAI;
         this.inputEnabled = false;
-        spriteHalfWidth = SpriteRenderer.bounds.size.x;
+        spriteHalfWidth = SpriteRenderer.bounds.size.x / 2f;
         spriteHalfHeight = SpriteRenderer.bounds.extents.y + 0.4f; // offset added for health bar
         
         InitializePools();
@@ -117,24 +149,167 @@ public class DireDodgingPlayer : MonoBehaviour {
     public void EnableInput() {
         inputEnabled = true;
     }
-
+    
     public void StartShooting() {
-        StartCoroutine(ShootingCoroutine());
+        if (shootingCoroutineInstance == null) {
+            shootingCoroutineInstance = StartCoroutine(ShootingCoroutine());
+        }
+    }
+
+    private void Update() {
+        HandleCharging(); 
+        UpdateChargeIndicator();
+        UpdateChargeParticleDirection();
     }
     
-    private void FixedUpdate()
-    {
-        if (!isAlive) return;
+    private void UpdateChargeParticleDirection() {
+        if (!isCharging || chargeParticles == null) return;
+    
+        Vector2 shootDirection = GetShootDirection();
+        Vector2 particleOffset = shootDirection * 2f; // Stays in front
+        chargeParticles.transform.localPosition = particleOffset;
+    
+        float angle = Mathf.Atan2(-shootDirection.y, -shootDirection.x) * Mathf.Rad2Deg;
+        chargeParticles.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+    }
+
+    private void FixedUpdate() {
         HandleInput();
+    }
+    
+    private void UpdateChargeIndicator() {
+        if (chargeIndicator == null) return;
+    
+        if (isCharging) {
+            float chargeTime = Time.time - chargeStartTime;
+            float requiredTime;
+            if (isGhostMode) {
+                requiredTime = ghostChargeTime;
+            }
+            else {
+                requiredTime = chargeTimeRequired;
+            }
+            float chargePercent = Mathf.Clamp01(chargeTime / requiredTime);
+        
+            chargeIndicator.transform.localScale = new Vector3(2f, chargePercent * 2, 1f);
+        
+            if (chargePercent >= 1f) {
+                chargeIndicator.color = Color.green;
+            } else {
+                chargeIndicator.color = Color.yellow;
+            }
+        
+            chargeIndicator.enabled = true;
+        } else {
+            chargeIndicator.enabled = false;
+        }
+    }
+    
+    private void HandleCharging() {
+        if (!inputEnabled) return;
+        if (navigator == null) return;
+
+        bool chargeHeld = navigator.ChargeIsHeld();
+
+        if (chargeHeld && !isCharging) {
+            StartCharging();
+        }
+
+        if (isCharging && !chargeHeld) {
+            ReleaseCharge();
+        }
+    }
+    
+    
+    private void StartCharging() {
+        isCharging = true;
+        chargeStartTime = Time.time;
+    
+        if (chargeParticles != null) {
+            Vector2 shootDirection = GetShootDirection();
+            Vector2 particleOffset = shootDirection * 2f;
+            chargeParticles.transform.localPosition = particleOffset;
+        
+            float angle = Mathf.Atan2(-shootDirection.y, -shootDirection.x) * Mathf.Rad2Deg;
+            chargeParticles.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+        
+            chargeParticles.Play();
+        }
+
+        chargeLoopInstance = RuntimeManager.CreateInstance(chargeLoopEvent);
+        chargeLoopInstance.start();
+    }
+    
+    private void ReleaseCharge() {
+        float chargeTime = Time.time - chargeStartTime;
+        float requiredTime = isGhostMode ? ghostChargeTime : chargeTimeRequired;
+        
+        if (chargeParticles != null) {
+            chargeParticles.Stop();
+        }
+    
+        if (chargeLoopInstance.isValid()) {
+            chargeLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            chargeLoopInstance.release();
+        }
+    
+        if (chargeTime >= requiredTime) {
+            ShootChargedProjectile();
+            RuntimeManager.PlayOneShot(chargeShootEvent);
+        } else {
+            RuntimeManager.PlayOneShot(chargeReleaseEvent);
+        }
+    
+        isCharging = false;
+    }
+    
+    private void ShootChargedProjectile() {
+        Vector2 shootDirection = GetShootDirection();
+    
+        float damage;
+        float speed;
+    
+        if (isGhostMode) {
+            damage = 0f;
+            speed = projectileSpeed * ghostProjectileSpeed;
+        } else {
+            damage = maxHealth * 10f;
+            speed = projectileSpeed * chargedProjectileSpeed;
+        }
+        var projectile = projectilePools[1].Get();
+    
+        Vector2 spawnOffset = shootDirection * (spriteHalfWidth * 1.5f);
+        projectile.transform.position = (Vector2)transform.position + spawnOffset;
+    
+        projectile.transform.rotation = GetRotationForDirection(shootDirection);
+        projectile.transform.localScale = Vector3.one * projectileScale * chargedProjectileScale;
+    
+        projectile.Initialize(playerIndex, damage, speed, shootDirection, isGhostMode);
     }
 
     private void HandleInput() {
         if (!inputEnabled) return;
+        if (navigator == null) return;
+    
         Vector2 input = navigator.GetNavigate();
+    
+        if (input.magnitude > 0.1f) {   
+            lastMoveDirection = input.normalized;
+        }
+
         ApplyMovement(input);
     }
 
     private void ApplyMovement(Vector2 input) {
+        float speedMultiplier = isGhostMode ? ghostMoveSpeedMultiplier : 1f;
+
+        if (isCharging) {
+            speedMultiplier *= 0.7f;
+        }
+    
+        float originalSpeed = maxMoveSpeed;
+        maxMoveSpeed *= speedMultiplier;
+    
         switch (input.y) {
             case > 0:
                 MoveUp();
@@ -143,6 +318,17 @@ public class DireDodgingPlayer : MonoBehaviour {
                 MoveDown();
                 break;
         }
+
+        switch (input.x) {
+            case > 0:
+                MoveRight();
+                break;
+            case < 0:
+                MoveLeft();
+                break;
+        }
+    
+        maxMoveSpeed = originalSpeed;
     }
 
     private void MoveUp() {
@@ -159,35 +345,97 @@ public class DireDodgingPlayer : MonoBehaviour {
         Rigidbody2D.MovePosition(vector3);
     }
 
+    private void MoveLeft() {
+        var vector3 = Rigidbody2D.position;
+        vector3.x -= maxMoveSpeed * Time.fixedDeltaTime;
+        vector3.x = ClampXPosition(vector3.x);
+        Rigidbody2D.MovePosition(vector3);
+    }
+
+    private void MoveRight() {
+        var vector3 = Rigidbody2D.position;
+        vector3.x += maxMoveSpeed * Time.fixedDeltaTime;
+        vector3.x = ClampXPosition(vector3.x);
+        Rigidbody2D.MovePosition(vector3);
+    }
+    
+    
     private void ApplyBaseStats() {
+        // Movement & Combat
         this.maxMoveSpeed = PlayerStatsSO.MoveSpeed;
-        this.projectileScale = PlayerStatsSO.ProjectileScale * 0.36f; // scale to prefab size
+        this.projectileScale = PlayerStatsSO.ProjectileScale * 0.36f;
         this.projectileSpeed = PlayerStatsSO.ProjectileSpeed;
         this.baseDamage = PlayerStatsSO.BaseDamage;
         this.maxHealth = PlayerStatsSO.BaseHealth;
         this.projectileShootRate = PlayerStatsSO.ProjectileShootRate;
         this.damageAnimationTimeInSeconds = PlayerStatsSO.DamageAnimationTimeInSeconds;
         this.deathAnimationTimeInSeconds = PlayerStatsSO.DeathAnimationTimeInSeconds;
+    
+        // Charge Attack
+        this.chargeTimeRequired = PlayerStatsSO.ChargeTimeRequired;
+        this.chargedProjectileScale = PlayerStatsSO.ChargedProjectileScale;
+        this.chargedProjectileSpeed = PlayerStatsSO.ChargedProjectileSpeed;
+    
+        // Ghost Mode
+        this.ghostChargeTime = PlayerStatsSO.GhostChargeTime;
+        this.ghostProjectileSpeed = PlayerStatsSO.GhostProjectileSpeed;
+        this.ghostMoveSpeedMultiplier = PlayerStatsSO.GhostMoveSpeedMultiplier;
+    
+        // Stun
+        this.stunDuration = PlayerStatsSO.StunDuration;
+    
+        // Sound Events
         this.hitEvent = PlayerStatsSO.GetHitEvent;
         this.deathEvent = PlayerStatsSO.DeathEvent;
+        this.chargeLoopEvent = PlayerStatsSO.ChargeLoopEvent;
+        this.chargeReleaseEvent = PlayerStatsSO.ChargeReleaseEvent;
+        this.chargeShootEvent = PlayerStatsSO.ChargeShootEvent;
+    
         currentHealth = maxHealth;
     }
 
     private IEnumerator ShootingCoroutine() {
         float nextShootTime = 0f;
         while (inputEnabled && isAlive) {
-            if (Time.time >= nextShootTime) {
+            if (!isCharging && Time.time >= nextShootTime)
+            {
                 Shoot();
                 nextShootTime = Time.time + projectileShootRate;
             }
-
             yield return null;
         }
+        shootingCoroutineInstance = null;
     }
 
     private void Shoot() {
-        ShootRight();
-        ShootLeft();
+        if (isGhostMode) return;
+    
+        Vector2 shootDirection = GetShootDirection();
+    
+        var projectile = projectilePools[0].Get();
+    
+        Vector2 spawnOffset = shootDirection * (spriteHalfWidth * 1.5f);
+        projectile.transform.position = (Vector2)transform.position + spawnOffset;
+    
+        projectile.transform.rotation = GetRotationForDirection(shootDirection);
+        projectile.transform.localScale = Vector3.one * projectileScale;
+        projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false);
+    }
+    
+    private Vector2 GetShootDirection() {
+        if (Mathf.Abs(lastMoveDirection.x) > Mathf.Abs(lastMoveDirection.y)) {
+            return lastMoveDirection.x > 0 ? Vector2.right : Vector2.left;
+        } else {
+            return lastMoveDirection.y > 0 ? Vector2.up : Vector2.down;
+        }
+    }
+
+    private Quaternion GetRotationForDirection(Vector2 direction) {
+        if (direction == Vector2.right) return rightRotation;
+        if (direction == Vector2.left) return leftRotation;
+        if (direction == Vector2.up) return upRotation;
+        if (direction == Vector2.down) return downRotation;
+        return rightRotation; // Default
     }
     
     private float ClampYPosition(float yPosition) {
@@ -196,26 +444,10 @@ public class DireDodgingPlayer : MonoBehaviour {
         return Mathf.Clamp(yPosition, screenBottom + spriteHalfHeight, screenTop - spriteHalfHeight);
     }
 
-    private void ShootRight() {
-        var projectile = projectilePools[1].Get();
-        Vector2 position = transform.position;
-        position.x += spriteHalfWidth;
-        projectile.transform.position = position;
-        projectile.transform.rotation = rightRotation;
-        projectile.transform.localScale = Vector3.one * projectileScale;
-        
-        projectile.Initialize(playerIndex, baseDamage, projectileSpeed, true);
-    }
-
-    private void ShootLeft() {
-        var projectile = projectilePools[0].Get();
-        Vector2 position = transform.position;
-        position.x -= spriteHalfWidth;
-        projectile.transform.position = position;
-        projectile.transform.rotation = leftRotation;
-        projectile.transform.localScale = Vector3.one * projectileScale;
-        
-        projectile.Initialize(playerIndex, baseDamage, projectileSpeed, false);
+    private float ClampXPosition(float xPosition) {
+        float screenLeft = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 0)).x;
+        float screenRight = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+        return Mathf.Clamp(xPosition, screenLeft + spriteHalfWidth, screenRight - spriteHalfWidth);
     }
 
     public void Freeze() {
@@ -234,20 +466,54 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private void TakeDamage(DireDodgingProjectile projectile) {
-        currentHealth -= projectile.Damage;
-        HealthBar.UpdateDisplay(currentHealth, maxHealth);
-        if (PlayerIsDead) {
-            DireDodgingMinigameManager.Instance.RegisterDeath(projectile.OwnerIndex, playerIndex);
-            Die();
+        if (isGhostMode) {
             return;
-        } else {
+        }
+        
+        if (isInvincible) {
+            return;
+        }
+    
+        if (projectile.IsGhostProjectile) {
+            StartCoroutine(StunCoroutine());
             RuntimeManager.PlayOneShot(hitEvent);
-            mainCamera.DOShakePosition(duration: 0.05f, strength: 0.2f, vibrato: 1, randomness: 90f, fadeOut: false).SetUpdate(true);
+        } else {
+            currentHealth -= projectile.Damage;
+            HealthBar.UpdateDisplay(currentHealth, maxHealth);
+    
+            if (PlayerIsDead) {
+                DireDodgingMinigameManager.Instance.RegisterDeath(projectile.OwnerIndex, playerIndex);
+                Die();
+                return;
+            } else {
+                RuntimeManager.PlayOneShot(hitEvent);
+                mainCamera.DOShakePosition(duration: 0.05f, strength: 0.2f, vibrato: 1, randomness: 90f, fadeOut: false).SetUpdate(true);
+            }
+    
+            if (damageCoroutineInstance != null) {
+                StopCoroutine(damageCoroutineInstance);
+            }
+            damageCoroutineInstance = StartCoroutine(DamageCoroutine());
         }
-        if (damageCoroutineInstance != null) {
-            StopCoroutine(damageCoroutineInstance);
-        }
-        damageCoroutineInstance = StartCoroutine(DamageCoroutine());
+    }
+    
+    private bool isStunned = false;
+
+    private IEnumerator StunCoroutine() {
+        if (isStunned) yield break;
+    
+        isStunned = true;
+        float originalSpeed = maxMoveSpeed;
+        maxMoveSpeed = 0f;
+        
+        Color originalColor = SpriteRenderer.color;
+        SpriteRenderer.color = new Color(0.5f, 0f, 0.5f, 1f);
+    
+        yield return new WaitForSeconds(stunDuration);
+    
+        maxMoveSpeed = originalSpeed;
+        SpriteRenderer.color = originalColor;
+        isStunned = false;
     }
 
     private IEnumerator DamageCoroutine() {
@@ -267,18 +533,140 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private void Die() {
-        inputEnabled = false;
         isAlive = false;
+        isGhostMode = true;
+        
+        Rigidbody2D.linearVelocity = Vector2.zero;
+        Rigidbody2D.angularVelocity = 0f;
+    
+        Time.timeScale = 0f; // Currently doesn't really work, ask about later.
+        ZoomCameraOnDeath();
+
+        if (isCharging) {
+            if (chargeParticles != null) {
+                chargeParticles.Stop();
+            }
+            if (chargeLoopInstance.isValid()) {
+                chargeLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                chargeLoopInstance.release();
+            }
+        }
+
         if (intensityCoroutineInstance != null) {
             StopCoroutine(intensityCoroutineInstance);
             intensityCoroutineInstance = null;
         }
         if(colorChangeSequence != null) colorChangeSequence.Kill();
-        DisableColliderComponent();
+
+        // DisableColliderComponent(); Removed to not allow ghosts to go through walls
+
         var color = baseColor;
         color.a = 0.1f;
         SpriteRenderer.DOColor(color, deathAnimationTimeInSeconds).SetUpdate(true);
+
         RuntimeManager.PlayOneShot(deathEvent);
+
+        StartCoroutine(DeathCoroutine());
+    }
+
+    private void ZoomCameraOnDeath() {
+        if (mainCamera == null) return;
+
+        float freezeDuration = 1f;
+        float zoomAmount = 0.7f;
+
+        float originalSize = mainCamera.orthographicSize;
+        Vector3 originalPosition = mainCamera.transform.position;
+        Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, originalPosition.z);
+
+        mainCamera.DOOrthoSize(originalSize * zoomAmount, freezeDuration * 0.5f).SetUpdate(true);
+        mainCamera.transform.DOMove(targetPosition, freezeDuration * 0.5f).SetUpdate(true);
+
+        cameraZoomTween = DOVirtual.DelayedCall(freezeDuration, () => {
+            mainCamera.DOOrthoSize(originalSize, 0.3f).SetUpdate(true);
+            mainCamera.transform.DOMove(originalPosition, 0.3f).SetUpdate(true);
+            Time.timeScale = 1f;
+        
+            DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
+        }, false).SetUpdate(true);
+    }
+    
+    private IEnumerator DeathCoroutine() {
+        yield return new WaitForSeconds(deathAnimationTimeInSeconds);
+    
+        Color ghostColor = baseColor;
+        ghostColor.a = 0.3f; // 30% opacity
+        SpriteRenderer.color = ghostColor;
+    
+        foreach (var projectile in activeProjectiles.ToArray()) {
+            projectile.ReturnToPool();
+        }
+    
+        if (shootingCoroutineInstance != null) {
+            StopCoroutine(shootingCoroutineInstance);
+            shootingCoroutineInstance = null;
+        }
+    
+        inputEnabled = true;
+    
+        if (HealthBar != null) {
+            HealthBar.gameObject.SetActive(false);
+        }
+        yield return new WaitForSeconds(respawnDelay);
+
+        Respawn();
+    }
+    
+    private void Respawn() {
+        if (cameraZoomTween != null && cameraZoomTween.IsActive()) {
+            cameraZoomTween.Kill();
+        
+            // Reset camera immediately
+            mainCamera.DOOrthoSize(10f, 0.3f).SetUpdate(true); // Use your default camera size
+            mainCamera.transform.DOMove(new Vector3(0, 0, mainCamera.transform.position.z), 0.3f).SetUpdate(true);
+            Time.timeScale = 1f;
+        
+            DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
+        }
+        
+        isAlive = true;
+        isGhostMode = false;
+        currentHealth = maxHealth;
+        
+        Rigidbody2D.linearVelocity = Vector2.zero;
+        Rigidbody2D.angularVelocity = 0f;
+    
+        Collider2D.enabled = true;
+    
+        Color aliveColor = baseColor;
+        aliveColor.a = 1f;
+        SpriteRenderer.color = aliveColor;
+    
+        // Show health bar
+        if (HealthBar != null) {
+            HealthBar.gameObject.SetActive(true);
+            HealthBar.UpdateDisplay(currentHealth, maxHealth);
+        }
+    
+        StartShooting();
+    
+        StartCoroutine(RespawnInvincibilityCoroutine());
+    }
+    
+    private IEnumerator RespawnInvincibilityCoroutine() {
+        isInvincible = true;
+    
+        float flashInterval = 0.1f;
+        float elapsed = 0f;
+    
+        while (elapsed < invincibilityDuration) {
+            SpriteRenderer.enabled = !SpriteRenderer.enabled;
+            yield return new WaitForSeconds(flashInterval);
+            elapsed += flashInterval;
+        }
+    
+        SpriteRenderer.enabled = true;
+        isInvincible = false;
     }
 
     private void DisableColliderComponent() {
@@ -313,7 +701,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         while (Time.time - startTime < duration) {
             float elapsed = Time.time - startTime;
             float t = elapsed / duration;
-            float easedT = t * t; // quadratic easing
+            float easedT = t * t;
             projectileSpeed = Mathf.Lerp(initialProjectileSpeed, targetProjectileSpeed, easedT);
             projectileShootRate = Mathf.Lerp(initialShootRate, targetShootRate, easedT);
             projectileScale = Mathf.Lerp(initialProjectileScale, targetProjectileScale, easedT);
@@ -324,5 +712,12 @@ public class DireDodgingPlayer : MonoBehaviour {
         projectileShootRate = targetShootRate;
         projectileScale = targetProjectileScale;
         intensityCoroutineInstance = null;
+    }
+    
+    private void OnDestroy() {
+        if (chargeLoopInstance.isValid()) {
+            chargeLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            chargeLoopInstance.release();
+        }
     }
 }
