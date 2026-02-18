@@ -1,3 +1,4 @@
+using Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,8 +17,9 @@ public class PlayerSlot : MonoBehaviour {
     public Color PlayerColor => playerColor;
     public PlayerProfile Profile => profile;
     public bool IsAI => isAI;
-    public bool IsOccupied => inputHandler != null;
-    public IDirectionalTwoButtonInputHandler InputHandler => inputHandler;
+    public bool IsOccupied => inputHandlerProxy.IsOccupied;
+    public IDirectionalTwoButtonInputHandler InputHandler => inputHandlerProxy;
+    private InputHandlerProxy inputHandlerProxy;
 
     public void Initialize(int index) {
         slotIndex = index;
@@ -32,6 +34,11 @@ public class PlayerSlot : MonoBehaviour {
         var aiGameObject = new GameObject($"AIInput_Player{slotIndex}");
         aiGameObject.transform.SetParent(transform);
         inputHandler = aiGameObject.AddComponent<AIShopInputHandler>();
+        if (inputHandlerProxy == null) {
+            inputHandlerProxy = new InputHandlerProxy(inputHandler);
+        } else {
+            inputHandlerProxy.SetTarget(inputHandler);
+        }
         isAI = true;
 
         InitializePlayerProfileIfNull();
@@ -57,6 +64,13 @@ public class PlayerSlot : MonoBehaviour {
         } 
         
         inputHandler = handler;
+        
+        if (inputHandlerProxy == null) {
+            inputHandlerProxy = new InputHandlerProxy(inputHandler);
+        } else {
+            inputHandlerProxy.SetTarget(inputHandler);
+        }
+        
         isAI = false;
 
         InitializePlayerProfileIfNull();
