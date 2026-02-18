@@ -6,7 +6,7 @@ public class ShopDebugMenu : MonoBehaviour
 {
     public ShopItemsDisplay Display;
     public GameObject DebugMenu;
-    public Shop Shop;
+    public Shop.Shop Shop;
     private InputAction toggleDebugMenuAction;
     private bool lastDebugMenuActiveState = false;
 
