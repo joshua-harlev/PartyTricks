@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Services;
@@ -9,6 +8,8 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     [SerializeField] private MinigameConfigSO config;
     [SerializeField] private int initialGameLength = 5;
     [SerializeField] private GameObject gameBoardDisplayPrefab;
+    [SerializeField] private GameBoardPresetSO gameBoardPreset;
+    private string[] sceneOverrides;
     
     private GameBoardGenerator boardGenerator;
     private GameBoardDisplay currentBoardDisplay;
@@ -23,7 +24,19 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     }
 
     public void StartGame() {
-        boardGenerator.GenerateRandomBoard();
+        if (gameBoardPreset == null || gameBoardPreset.RoundList.Count == 0) {
+            boardGenerator.GenerateRandomBoard();
+            sceneOverrides = null;
+        } else {
+            List<GameBoardPresetSO.RoundEntry> roundList = gameBoardPreset.RoundList;
+            var boardToGenerate = new List<(MinigameType minigameType, bool IsDouble)>();
+            sceneOverrides = new string[roundList.Count];
+            for (int i = 0; i < roundList.Count; i++) {
+                boardToGenerate.Add((roundList[i].MinigameType, roundList[i].IsDouble));
+                if (!string.IsNullOrWhiteSpace(roundList[i].SceneName)) sceneOverrides[i] = roundList[i].SceneName;
+            }
+            boardGenerator.GenerateSpecificBoard(boardToGenerate.ToArray());
+        }
         gameBoard = boardGenerator.GameBoard;
         currentRoundIndex = 0;
         DebugLogger.Log(LogChannel.Systems, $"Game started. Board generated with {gameBoard.Count} rounds.");
@@ -70,7 +83,14 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     private void TransitionToMinigame() {
         var nextRound = gameBoard[currentRoundIndex];
         MinigameType minigameType = nextRound.minigameType;
-        string sceneName = config.GetRandomSceneName(minigameType);
+        string sceneName = null;
+        if (sceneOverrides != null) {
+            if (sceneOverrides[currentRoundIndex] != null) {
+                sceneName = sceneOverrides[currentRoundIndex];
+            }
+        }
+        if(sceneName == null) sceneName = config.GetRandomSceneName(minigameType);
+        
         if (string.IsNullOrEmpty(sceneName)) {
             Debug.LogError($"Failed to load scene for type {minigameType}. Stopping.");
             return;
