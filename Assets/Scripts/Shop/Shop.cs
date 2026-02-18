@@ -81,6 +81,8 @@ namespace Shop {
             ShopFeedback.Reset();
             CountdownTimer.StartTimer(ShopDurationInSeconds);
             playerManager.EnableAllSelectors();
+            musicInstance.stop(STOP_MODE.IMMEDIATE);
+            musicInstance.start();
         }
 
         public void UnlockAISelectors() {
