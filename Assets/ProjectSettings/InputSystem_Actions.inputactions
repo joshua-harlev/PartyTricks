@@ -1104,17 +1104,6 @@
                     "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6e7aeee6-2412-4d8c-94fa-38a13485a3ba",
-                    "path": "<SwitchProControllerHID>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Charge",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }

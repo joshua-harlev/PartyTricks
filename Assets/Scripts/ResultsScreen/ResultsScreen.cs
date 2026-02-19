@@ -3,8 +3,11 @@ using System.Collections;
 using Services;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Switch;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class ResultsScreen : MonoBehaviour {
     [SerializeField] private GameObject SuspensePanel;
@@ -14,7 +17,9 @@ public class ResultsScreen : MonoBehaviour {
     [SerializeField] private ResultsScreenPlacesDisplay ResultsScreenPlacesDisplay;
     private int playerWinnerIndex;
     private int[] playerFunds;
+    private Button mainMenuButton;
     private IPlayerService playerService;
+    private bool canReturnToMainMenu = false;
 
     private void Awake() {
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
@@ -37,6 +42,19 @@ public class ResultsScreen : MonoBehaviour {
         WinnerLabel.text = "The winner is";
         GetWinner();
         StartCoroutine(WaitAndDisplayWinner());
+    }
+    
+    private void Update() {
+        if (!canReturnToMainMenu) return;
+        foreach (var gamepad in Gamepad.all) {
+            bool switchAButtonPressed = gamepad is SwitchProControllerHID && gamepad.buttonEast.wasPressedThisFrame;
+            bool otherControllerSelectButtonPressed =
+                gamepad is not SwitchProControllerHID && gamepad.buttonSouth.wasPressedThisFrame;
+            if (switchAButtonPressed || otherControllerSelectButtonPressed) {
+                ReturnToMainMenu();
+                break;
+            }
+        }
     }
 
     private void GetWinner() {
@@ -65,6 +83,7 @@ public class ResultsScreen : MonoBehaviour {
         ResultsScreenPlacesDisplay.UpdatePlaces(playerFunds);
         HideSuspensePanel();
         ResultsScreenPlacesDisplay.Show();
+        canReturnToMainMenu = true;
     }
 
     private void HideSuspensePanel() {

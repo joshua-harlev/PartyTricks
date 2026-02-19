@@ -1,6 +1,7 @@
-using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Switch;
 using UnityEngine.UIElements;
 
 public class IntroDisplay : MonoBehaviour {
@@ -16,11 +17,26 @@ public class IntroDisplay : MonoBehaviour {
         StartCoroutine(FocusFirstButtonAfterOneFrame());
     }
 
+    private void Update() {
+        foreach (var gamepad in Gamepad.all) {
+            bool switchAButtonPressed = gamepad is SwitchProControllerHID && gamepad.buttonEast.wasPressedThisFrame;
+            bool otherControllerSelectButtonPressed =
+                gamepad is not SwitchProControllerHID && gamepad.buttonSouth.wasPressedThisFrame;
+            if (switchAButtonPressed || otherControllerSelectButtonPressed) {
+                using (var navigationSubmitEvent = NavigationSubmitEvent.GetPooled()) {
+                    navigationSubmitEvent.target = continueButton;
+                    continueButton.SendEvent(navigationSubmitEvent);
+                }
+                break;
+            }
+        }
+    }
+
     private void OnDestroy() {
         continueButton.clicked -= OnContinueClick;
     }
 
-    public void OnContinueClick() {
+    private void OnContinueClick() {
         MainMenuDocument.SetActive(true);
         Destroy(gameObject);
     }
