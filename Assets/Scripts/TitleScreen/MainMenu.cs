@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,9 +26,12 @@ public class MainMenu : MonoBehaviour {
     private int focusedIndex;
     private float navigationCooldown;
     private const float NavigationCooldownDurationInSeconds = 0.2f;
+    private Label connectedPlayersLabel;
+    private IPlayerService playerService;
 
     private void Awake() {
         gameFlowService = ServiceLocatorAccessor.GetService<IGameFlowService>();
+        playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
     }
 
     private void Start()
@@ -40,15 +44,38 @@ public class MainMenu : MonoBehaviour {
         startGameButton.clicked += StartGame;
         optionsButton.clicked += ShowOptions;
         navigateAction = InputSystem.actions.FindAction("UI/Navigate");
+        connectedPlayersLabel = root.Q<Label>("ConnectedPlayersLabel");
 
-        buttons = new Button[]
+        buttons = new []
         {
             startGameButton,
             optionsButton,
             quitButton
         };
         
+        playerService.OnPlayerJoined += HandlePlayerJoined;
+
+        foreach (var playerSlot in playerService.PlayerSlots) {
+            if(playerSlot.IsOccupied && !playerSlot.IsAI) HandlePlayerJoined(playerSlot.SlotIndex);
+        }
+        
         StartCoroutine(FocusFirstButtonAfterOneFrame());
+    }
+
+    private void HandlePlayerJoined(int playerIndex, PlayerProfile profile = null) {
+        UpdateConnectedPlayersText();
+    }
+
+    private void UpdateConnectedPlayersText() {
+        var connectedPlayers = new List<string>();
+        for (int i = 0; i < playerService.PlayerSlots.Count; i++) {
+            if (playerService.PlayerSlots[i].IsOccupied && !playerService.PlayerSlots[i].IsAI) {
+                connectedPlayers.Add($"P{i+1}");
+            }
+        }
+        connectedPlayersLabel.text = connectedPlayers.Count > 0 ?
+            "Connected: " + string.Join(", ", connectedPlayers) 
+            : string.Empty;
     }
 
     private void QuitGame() {
@@ -163,6 +190,12 @@ public class MainMenu : MonoBehaviour {
 
     private void ShowOptions() {
         Debug.Log("NOT IMPLEMENTED YET");
-        throw new System.NotImplementedException();
+    }
+
+    private void OnDestroy() {
+        playerService.OnPlayerJoined -= HandlePlayerJoined;   
+        quitButton.clicked -= QuitGame;
+        startGameButton.clicked -= StartGame;
+        optionsButton.clicked -= ShowOptions;
     }
 }

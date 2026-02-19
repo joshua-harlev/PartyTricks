@@ -26,3 +26,17 @@ Button:focus {
     scale: 1.2 1.2 1.2;
     transition-duration: 0.3s;
 }
+
+#PlayerIndicators {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    flex-direction: row;
+}
+
+.player-indicator-label {
+    font-size: 24px;
+    color: black;
+    margin-bottom: 8px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
+}
