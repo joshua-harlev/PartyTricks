@@ -2805,6 +2805,7 @@ GameObject:
   - component: {fileID: 1290908787}
   - component: {fileID: 1290908786}
   - component: {fileID: 1290908785}
+  - component: {fileID: 1290908788}
   m_Layer: 0
   m_Name: P1Camera
   m_TagString: Untagged
@@ -2930,6 +2931,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1290908788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290908783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1351585865
 GameObject:
   m_ObjectHideFlags: 0
@@ -3719,6 +3734,7 @@ GameObject:
   - component: {fileID: 1630600587}
   - component: {fileID: 1630600586}
   - component: {fileID: 1630600585}
+  - component: {fileID: 1630600588}
   m_Layer: 0
   m_Name: P2Camera
   m_TagString: Untagged
@@ -3844,6 +3860,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1630600588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630600583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1633101901
 GameObject:
   m_ObjectHideFlags: 0
@@ -3856,6 +3886,7 @@ GameObject:
   - component: {fileID: 1633101905}
   - component: {fileID: 1633101904}
   - component: {fileID: 1633101903}
+  - component: {fileID: 1633101906}
   m_Layer: 0
   m_Name: P3Camera
   m_TagString: Untagged
@@ -3981,6 +4012,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1633101906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633101901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1683248325
 GameObject:
   m_ObjectHideFlags: 0
@@ -4147,6 +4192,7 @@ GameObject:
   - component: {fileID: 1753127689}
   - component: {fileID: 1753127688}
   - component: {fileID: 1753127687}
+  - component: {fileID: 1753127690}
   m_Layer: 0
   m_Name: P4Camera
   m_TagString: Untagged
@@ -4272,6 +4318,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1753127690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753127685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1771991387
 GameObject:
   m_ObjectHideFlags: 0
