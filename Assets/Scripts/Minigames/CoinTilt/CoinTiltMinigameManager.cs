@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoreData;
+using FMOD.Studio;
+using FMODUnity;
 using Services;
 using UnityEngine;
 using UnityEngine.Serialization;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 // TODO configure to userankfallback with economyservice
 
@@ -18,6 +21,8 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     [SerializeField] private int countdownDurationInSeconds = 5;
     [SerializeField] private float resultsDisplayDurationInSeconds = 5f;
     [SerializeField] private int[] fundsPerRank = new[] { 100, 80, 60, 50 };
+    [SerializeField] private EventReference MusicEvent;
+    [SerializeField] private EventReference CoinCollectSoundEvent;
 
     [Header("References")] 
     [SerializeField] private CoinTiltPlayer[] players = new CoinTiltPlayer[4];
@@ -27,11 +32,14 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     [FormerlySerializedAs("countdown")] [SerializeField] private MinigameStartCountdown StartCountdown;
     [SerializeField] private MinigameTimer gameTimer;
     [SerializeField] private PlacesDisplay placesDisplay;
+    
     private bool hasBeenInitialized;
+    private EventInstance musicInstance;
     private readonly int[] playerScores = new int[4];
     private IPlayerService playerService;
     private IPowerUpService powerUpService;
     private int numberOfCoinSpawnPowerups = 0;
+    
     private void Start() {
         StartCoroutine(WaitForInitialization());
     }
@@ -39,6 +47,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     private void Awake() {
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
+        musicInstance = RuntimeManager.CreateInstance(MusicEvent);
     }
 
     public void Initialize(bool isDoubleRound) {
@@ -191,6 +200,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     private void StartPlayingPhase() {
         StartCountdown.OnTimerEnd -= StartPlayingPhase;
         gameTimer.StartTimer();
+        musicInstance.start();
 
         EnablePlayerInput();
         DebugLogger.Log(LogChannel.Systems, "Movement enabled.");
@@ -216,6 +226,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
 
 
     private void HandleCoinCollected(int playerIndex, int coinValue) {
+        RuntimeManager.PlayOneShot(CoinCollectSoundEvent);
         playerScores[playerIndex] += coinValue;
         playerCornerDisplays[playerIndex].UpdateScore(playerScores[playerIndex]);
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} collected a coin. New score: {playerScores[playerIndex]}");
@@ -325,6 +336,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     }
     
     private void OnDestroy() {
+        musicInstance.stop(STOP_MODE.IMMEDIATE);
         foreach(var player in players) {
             player.OnCoinCollected -= HandleCoinCollected;
             player.OnFallOff -= HandlePlayerFall;
