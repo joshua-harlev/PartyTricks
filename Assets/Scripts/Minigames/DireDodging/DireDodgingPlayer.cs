@@ -1,12 +1,21 @@
 using System.Collections;
 using DG.Tweening;
 using FMODUnity;
-using FMOD.Studio;
 using Minigames.DireDodging;
 using UnityEngine;
 
-public class DireDodgingPlayer : MonoBehaviour
-{
+public class DireDodgingPlayer : MonoBehaviour {
+    public bool InputEnabled => inputEnabled;
+    public IDirectionalTwoButtonInputHandler Navigator => navigator;
+    public bool IsGhostMode => isGhostMode;
+    public int PlayerIndex => playerIndex;
+    public float MaxHealth => maxHealth;
+    public float ProjectileSpeed => projectileSpeed;
+    public float ProjectileScale => projectileScale;
+    public float SpriteHalfWidth => spriteHalfWidth;
+    public Vector2 LastMoveDirection => lastMoveDirection;
+
+
     private static bool isDeathZoomActive = false;
     private static float trueOriginalCameraSize;
     private static Vector3 trueOriginalCameraPosition;
@@ -30,12 +39,9 @@ public class DireDodgingPlayer : MonoBehaviour
     [SerializeField] private Collider2D Collider2D;
     [SerializeField] private Rigidbody2D Rigidbody2D;
     [SerializeField] private DireDodgingHealthBar HealthBar;
-    [SerializeField] private SpriteRenderer ChargeIndicator;
-    [SerializeField] private ParticleSystem ChargeParticles;
     [SerializeField] private DireDodgingProjectilePool ProjectilePool;
+    [SerializeField] private DireDodgingChargeAttack ChargeAttack;
     
-    private bool isCharging = false;
-    private float chargeStartTime = 0f;
     private Coroutine shootingCoroutineInstance = null;
     private Vector2 lastMoveDirection = Vector2.right;
     
@@ -64,16 +70,7 @@ public class DireDodgingPlayer : MonoBehaviour
     private readonly Quaternion downRotation = Quaternion.Euler(0, 0, 180);
     private EventReference hitEvent;
     private EventReference deathEvent;
-    private EventReference chargeLoopEvent; 
-    private EventReference chargeReleaseEvent;
-    private EventReference chargeShootEvent;
-    private EventInstance chargeLoopInstance;
     
-    private float chargeTimeRequired;
-    private float chargedProjectileScale;
-    private float chargedProjectileSpeed;
-    private float ghostChargeTime;
-    private float ghostProjectileSpeed;
     private float ghostMoveSpeedMultiplier;
     private float stunDuration;
     
@@ -103,6 +100,7 @@ public class DireDodgingPlayer : MonoBehaviour
         spriteHalfHeight = SpriteRenderer.bounds.extents.y + 0.4f; // offset added for health bar
         
         ProjectilePool.Initialize();
+        ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO);
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} initialized. IsAI: {isAI}");
     }
 
@@ -127,136 +125,11 @@ public class DireDodgingPlayer : MonoBehaviour
     }
 
     private void Update() {
-        HandleCharging(); 
-        UpdateChargeIndicator();
-        UpdateChargeParticleDirection();
-    }
-    
-    private void UpdateChargeParticleDirection() {
-        if (!isCharging || ChargeParticles == null) return;
-    
-        Vector2 shootDirection = GetShootDirection();
-        Vector2 particleOffset = shootDirection * 2f;
-        ChargeParticles.transform.localPosition = particleOffset;
-    
-        float angle = Mathf.Atan2(-shootDirection.y, -shootDirection.x) * Mathf.Rad2Deg;
-        ChargeParticles.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+        ChargeAttack.Tick();
     }
 
     private void FixedUpdate() {
         HandleInput();
-    }
-    
-    private void UpdateChargeIndicator() {
-        if (ChargeIndicator == null) return;
-    
-        if (isCharging) {
-            float chargeTime = Time.time - chargeStartTime;
-            float timeRequiredToCharge;
-            
-            if (isGhostMode) {
-                timeRequiredToCharge = ghostChargeTime;
-            } else {
-                timeRequiredToCharge = chargeTimeRequired;
-            }
-            
-            float chargePercent = Mathf.Clamp01(chargeTime / timeRequiredToCharge);
-        
-            ChargeIndicator.transform.localScale = new Vector3(2f, chargePercent * 2, 1f);
-        
-            if (chargePercent >= 1f) {
-                ChargeIndicator.color = Color.green;
-            } else {
-                ChargeIndicator.color = Color.yellow;
-            }
-        
-            ChargeIndicator.enabled = true;
-        } else {
-            ChargeIndicator.enabled = false;
-        }
-    }
-    
-    private void HandleCharging() {
-        if (!inputEnabled) return;
-        if (navigator == null) return;
-
-        bool chargeHeld = navigator.ChargeIsHeld();
-
-        if (chargeHeld && !isCharging) {
-            StartCharging();
-        }
-
-        if (isCharging && !chargeHeld) {
-            ReleaseCharge();
-        }
-    }
-    
-    
-    private void StartCharging() {
-        isCharging = true;
-        chargeStartTime = Time.time;
-    
-        if (ChargeParticles != null) {
-            Vector2 shootDirection = GetShootDirection();
-            Vector2 particleOffset = shootDirection * 2f;
-            ChargeParticles.transform.localPosition = particleOffset;
-        
-            float angle = Mathf.Atan2(-shootDirection.y, -shootDirection.x) * Mathf.Rad2Deg;
-            ChargeParticles.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-        
-            ChargeParticles.Play();
-        }
-
-        chargeLoopInstance = RuntimeManager.CreateInstance(chargeLoopEvent);
-        chargeLoopInstance.start();
-    }
-    
-    private void ReleaseCharge() {
-        float chargeTime = Time.time - chargeStartTime;
-        float requiredTime = isGhostMode ? ghostChargeTime : chargeTimeRequired;
-        
-        if (ChargeParticles != null) {
-            ChargeParticles.Stop();
-        }
-    
-        if (chargeLoopInstance.isValid()) {
-            chargeLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            chargeLoopInstance.release();
-        }
-    
-        if (chargeTime >= requiredTime) {
-            ShootChargedProjectile();
-            RuntimeManager.PlayOneShot(chargeShootEvent);
-        } else {
-            RuntimeManager.PlayOneShot(chargeReleaseEvent);
-        }
-    
-        isCharging = false;
-    }
-    
-    private void ShootChargedProjectile() {
-        Vector2 shootDirection = GetShootDirection();
-    
-        float damage;
-        float speed;
-    
-        if (isGhostMode) {
-            damage = 0f;
-            speed = projectileSpeed * ghostProjectileSpeed;
-        } else {
-            damage = maxHealth * 10f;
-            speed = projectileSpeed * chargedProjectileSpeed;
-        }
-
-        var projectile = ProjectilePool.GetCharged();
-    
-        Vector2 spawnOffset = shootDirection * (spriteHalfWidth * 1.5f);
-        projectile.transform.position = (Vector2)transform.position + spawnOffset;
-    
-        projectile.transform.rotation = GetRotationForDirection(shootDirection);
-        projectile.transform.localScale = Vector3.one * projectileScale * chargedProjectileScale;
-    
-        projectile.Initialize(playerIndex, damage, speed, shootDirection, isGhostMode);
     }
 
     private void HandleInput() {
@@ -275,7 +148,7 @@ public class DireDodgingPlayer : MonoBehaviour
     private void ApplyMovement(Vector2 input) {
         float speedMultiplier = isGhostMode ? ghostMoveSpeedMultiplier : 1f;
 
-        if (isCharging) {
+        if (ChargeAttack.IsCharging) {
             speedMultiplier *= 0.7f;
         }
         
@@ -297,30 +170,17 @@ public class DireDodgingPlayer : MonoBehaviour
         this.projectileShootRate = PlayerStatsSO.ProjectileShootRate;
         this.damageAnimationTimeInSeconds = PlayerStatsSO.DamageAnimationTimeInSeconds;
         this.deathAnimationTimeInSeconds = PlayerStatsSO.DeathAnimationTimeInSeconds;
-    
-        this.chargeTimeRequired = PlayerStatsSO.ChargeTimeRequired;
-        this.chargedProjectileScale = PlayerStatsSO.ChargedProjectileScale;
-        this.chargedProjectileSpeed = PlayerStatsSO.ChargedProjectileSpeed;
-    
-        this.ghostChargeTime = PlayerStatsSO.GhostChargeTime;
-        this.ghostProjectileSpeed = PlayerStatsSO.GhostProjectileSpeed;
         this.ghostMoveSpeedMultiplier = PlayerStatsSO.GhostMoveSpeedMultiplier;
-    
         this.stunDuration = PlayerStatsSO.StunDuration;
-    
         this.hitEvent = PlayerStatsSO.GetHitEvent;
         this.deathEvent = PlayerStatsSO.DeathEvent;
-        this.chargeLoopEvent = PlayerStatsSO.ChargeLoopEvent;
-        this.chargeReleaseEvent = PlayerStatsSO.ChargeReleaseEvent;
-        this.chargeShootEvent = PlayerStatsSO.ChargeShootEvent;
-    
         currentHealth = maxHealth;
     }
 
     private IEnumerator ShootingCoroutine() {
         float nextShootTime = 0f;
         while (inputEnabled && isAlive) {
-            if (!isCharging && Time.time >= nextShootTime)
+            if (!ChargeAttack.IsCharging && Time.time >= nextShootTime)
             {
                 Shoot();
                 nextShootTime = Time.time + projectileShootRate;
@@ -345,7 +205,7 @@ public class DireDodgingPlayer : MonoBehaviour
         projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false);
     }
     
-    private Vector2 GetShootDirection() {
+    public Vector2 GetShootDirection() {
         if (Mathf.Abs(lastMoveDirection.x) > Mathf.Abs(lastMoveDirection.y)) {
             return lastMoveDirection.x > 0 ? Vector2.right : Vector2.left;
         } else {
@@ -353,7 +213,7 @@ public class DireDodgingPlayer : MonoBehaviour
         }
     }
 
-    private Quaternion GetRotationForDirection(Vector2 direction) {
+    public Quaternion GetRotationForDirection(Vector2 direction) {
         if (direction == Vector2.right) return rightRotation;
         if (direction == Vector2.left) return leftRotation;
         if (direction == Vector2.up) return upRotation;
@@ -375,6 +235,7 @@ public class DireDodgingPlayer : MonoBehaviour
 
     public void Freeze() {
         inputEnabled = false;
+        ChargeAttack.ForceStop();
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -465,7 +326,7 @@ public class DireDodgingPlayer : MonoBehaviour
         Time.timeScale = 0f; 
         
         ZoomCameraOnDeath();
-        StopChargeEffects();
+        ChargeAttack.ForceStop();
         
         // TODO re-examine intensity system
         // StopIntensityCoroutine();
@@ -497,23 +358,10 @@ public class DireDodgingPlayer : MonoBehaviour
             intensityCoroutineInstance = null;
         }
     }
-
-    private void StopChargeEffects() {
-        if (isCharging) {
-            if (ChargeParticles != null) {
-                ChargeParticles.Stop();
-            }
-            if (chargeLoopInstance.isValid()) {
-                chargeLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                chargeLoopInstance.release();
-            }
-        }
-    }
-
+    
     private void ZoomCameraOnDeath() {
         if (mainCamera == null) {
             throw new MissingComponentException("Main Camera is missing.");
-            return;
         }
         KillCameraTweens();
         DoCameraZoomSequence();
@@ -677,10 +525,7 @@ public class DireDodgingPlayer : MonoBehaviour
     }
     
     private void OnDestroy() {
-        if (chargeLoopInstance.isValid()) {
-            chargeLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            chargeLoopInstance.release();
-        }
+        ChargeAttack.Cleanup();
         isDeathZoomActive = false;
     }
 }
