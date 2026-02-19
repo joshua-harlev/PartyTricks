@@ -6279,6 +6279,7 @@ GameObject:
   - component: {fileID: 409285508}
   - component: {fileID: 409285507}
   - component: {fileID: 409285510}
+  - component: {fileID: 409285511}
   m_Layer: 0
   m_Name: P4
   m_TagString: Untagged
@@ -6320,12 +6321,10 @@ MonoBehaviour:
   SpriteRenderer: {fileID: 409285509}
   Collider2D: {fileID: 409285508}
   Rigidbody2D: {fileID: 409285510}
-  PlayerColor: {r: 0.27450982, g: 0.7529412, b: 0.40784314, a: 1}
-  ProjectilePrefab: {fileID: 2569180199352633758, guid: df49fc508e2a540d4bcc7ea375c65880, type: 3}
-  PoolParent: {fileID: 545409044}
   HealthBar: {fileID: 1223275563}
-  chargeIndicator: {fileID: 1939863300}
-  chargeParticles: {fileID: 2012744064}
+  ChargeIndicator: {fileID: 1939863300}
+  ChargeParticles: {fileID: 2012744064}
+  ProjectilePool: {fileID: 409285511}
 --- !u!61 &409285508
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6457,6 +6456,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &409285511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409285505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2061a629ff524821a4c1565f111214c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingProjectilePool
+  PlayerColor: {r: 0.27450982, g: 0.7529412, b: 0.40784314, a: 1}
+  ProjectilePrefab: {fileID: 2569180199352633758, guid: df49fc508e2a540d4bcc7ea375c65880, type: 3}
+  PoolParent: {fileID: 409285506}
 --- !u!1 &438128964
 GameObject:
   m_ObjectHideFlags: 0
@@ -12014,6 +12028,7 @@ GameObject:
   - component: {fileID: 732278616}
   - component: {fileID: 732278615}
   - component: {fileID: 732278618}
+  - component: {fileID: 732278619}
   m_Layer: 0
   m_Name: P2
   m_TagString: Untagged
@@ -12055,12 +12070,10 @@ MonoBehaviour:
   SpriteRenderer: {fileID: 732278617}
   Collider2D: {fileID: 732278616}
   Rigidbody2D: {fileID: 732278618}
-  PlayerColor: {r: 0.25882354, g: 0.3882353, b: 0.8509804, a: 1}
-  ProjectilePrefab: {fileID: 2569180199352633758, guid: df49fc508e2a540d4bcc7ea375c65880, type: 3}
-  PoolParent: {fileID: 545409044}
   HealthBar: {fileID: 273378160}
-  chargeIndicator: {fileID: 986929806}
-  chargeParticles: {fileID: 223809357}
+  ChargeIndicator: {fileID: 986929806}
+  ChargeParticles: {fileID: 223809357}
+  ProjectilePool: {fileID: 732278619}
 --- !u!61 &732278616
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12192,6 +12205,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &732278619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732278613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2061a629ff524821a4c1565f111214c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingProjectilePool
+  PlayerColor: {r: 0.25882354, g: 0.3882353, b: 0.8509804, a: 1}
+  ProjectilePrefab: {fileID: 2569180199352633758, guid: df49fc508e2a540d4bcc7ea375c65880, type: 3}
+  PoolParent: {fileID: 732278614}
 --- !u!1 &766763755
 GameObject:
   m_ObjectHideFlags: 0
@@ -12719,6 +12747,7 @@ GameObject:
   - component: {fileID: 899568623}
   - component: {fileID: 899568622}
   - component: {fileID: 899568625}
+  - component: {fileID: 899568626}
   m_Layer: 0
   m_Name: P3
   m_TagString: Untagged
@@ -12760,12 +12789,10 @@ MonoBehaviour:
   SpriteRenderer: {fileID: 899568624}
   Collider2D: {fileID: 899568623}
   Rigidbody2D: {fileID: 899568625}
-  PlayerColor: {r: 0.54901963, g: 0.09803922, b: 0.83137256, a: 1}
-  ProjectilePrefab: {fileID: 2569180199352633758, guid: df49fc508e2a540d4bcc7ea375c65880, type: 3}
-  PoolParent: {fileID: 545409044}
   HealthBar: {fileID: 271193152}
-  chargeIndicator: {fileID: 83805258}
-  chargeParticles: {fileID: 922262713}
+  ChargeIndicator: {fileID: 83805258}
+  ChargeParticles: {fileID: 922262713}
+  ProjectilePool: {fileID: 899568626}
 --- !u!61 &899568623
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12897,6 +12924,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &899568626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899568620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2061a629ff524821a4c1565f111214c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingProjectilePool
+  PlayerColor: {r: 0.54901963, g: 0.09803922, b: 0.83137256, a: 1}
+  ProjectilePrefab: {fileID: 2569180199352633758, guid: df49fc508e2a540d4bcc7ea375c65880, type: 3}
+  PoolParent: {fileID: 899568621}
 --- !u!1 &902943807
 GameObject:
   m_ObjectHideFlags: 0
@@ -19800,6 +19842,7 @@ GameObject:
   - component: {fileID: 1451952759}
   - component: {fileID: 1451952762}
   - component: {fileID: 1451952763}
+  - component: {fileID: 1451952764}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -19945,12 +19988,10 @@ MonoBehaviour:
   SpriteRenderer: {fileID: 1451952760}
   Collider2D: {fileID: 1451952759}
   Rigidbody2D: {fileID: 1451952763}
-  PlayerColor: {r: 1, g: 0.16470589, b: 0.16470589, a: 1}
-  ProjectilePrefab: {fileID: 2569180199352633758, guid: df49fc508e2a540d4bcc7ea375c65880, type: 3}
-  PoolParent: {fileID: 545409044}
   HealthBar: {fileID: 1938615434}
-  chargeIndicator: {fileID: 1829448688}
-  chargeParticles: {fileID: 700736581}
+  ChargeIndicator: {fileID: 1829448688}
+  ChargeParticles: {fileID: 700736581}
+  ProjectilePool: {fileID: 1451952764}
 --- !u!50 &1451952763
 Rigidbody2D:
   serializedVersion: 5
@@ -19978,6 +20019,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1451952764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451952758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2061a629ff524821a4c1565f111214c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingProjectilePool
+  PlayerColor: {r: 1, g: 0.16470589, b: 0.16470589, a: 1}
+  ProjectilePrefab: {fileID: 2569180199352633758, guid: df49fc508e2a540d4bcc7ea375c65880, type: 3}
+  PoolParent: {fileID: 1451952761}
 --- !u!1 &1471858879
 GameObject:
   m_ObjectHideFlags: 0
