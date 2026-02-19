@@ -2,15 +2,14 @@ using DG.Tweening;
 using Services;
 using UnityEngine;
 
-// TODO: Refactor this, as players can respawn now, original intensity logic obsolete
 public class DireDodgingGameplayState : IDireDodgingState {
     private int[] playerPlaces;
     private int[] playerKills;
     private MinigameTimer timer;
     private PlayerCornerDisplay[] playerCornerDisplays;
     private Camera gameCamera;
-    // private bool gameShouldEnd => (numberOfAlivePlayers <= 1); Removed so game lasts the amount of seconds
     private IPauseService pauseService;
+    
     public DireDodgingGameplayState(MinigameTimer timer, PlayerCornerDisplay[] playerCornerDisplays, Camera camera) {
         this.timer = timer;
         gameCamera = camera;
@@ -44,7 +43,7 @@ public class DireDodgingGameplayState : IDireDodgingState {
         playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex]);
     }
 
-    public void HandlePlayerDeath(int playerIndex) {
+    public void OnPlayerDeath(int playerIndex) {
         UpdateEliminations(playerIndex);
         gameCamera.DOShakePosition(duration: 0.1f, strength: 0.4f, vibrato: 1, randomness: 90f, fadeOut: false).SetUpdate(true);
     }
@@ -55,39 +54,51 @@ public class DireDodgingGameplayState : IDireDodgingState {
     
 
     private void OnGameplayEnd() {
-        timer.OnTimerEnd -= OnGameplayEnd;
-        timer.StopIfRunning();
-    
-        // Calculate final places based on kills
+        DeactivateGameplayTimer();
         playerPlaces = CalculatePlacesByKills(playerKills);
-    
         UpdateAllDisplays();
         DireDodgingMinigameManager.Instance.FreezeAllPlayers();
         DireDodgingMinigameManager.Instance.ReturnAllProjectiles();
+        TransitionToResultsAfterDelay();
+    }
+
+    private void TransitionToResultsAfterDelay() {
         pauseService.DoTimedPause(1f, () =>
         {
             DireDodgingMinigameManager.Instance.TransitionToResults(playerPlaces, playerKills); 
         });
     }
 
+    private void DeactivateGameplayTimer() {
+        timer.OnTimerEnd -= OnGameplayEnd;
+        timer.StopIfRunning();
+    }
+
     private int[] CalculatePlacesByKills(int[] kills) {
         int[] places = new int[4];
-    
-        // Create array of (playerIndex, kills) pairs
-        var rankData = new (int index, int kills)[4];
+        var rankData = CreateRankDataArray(kills);
+        SortRankDataByKills(rankData);
+        AssignPlayerPlaces(places, rankData);
+        return places;
+    }
+
+    private static void AssignPlayerPlaces(int[] places, (int playerIndex, int playerKills)[] rankData) {
+        for (int i = 0; i < 4; i++) {
+            places[rankData[i].playerIndex] = i + 1;
+        }
+    }
+
+    private static void SortRankDataByKills((int playerIndex, int playerKills)[] rankData) {
+        System.Array.Sort(rankData, (a, b) => b.playerKills.CompareTo(a.playerKills));
+    }
+
+    private static (int playerIndex, int playerKills)[] CreateRankDataArray(int[] kills) {
+        var rankData = new (int playerIndex, int playerKills)[4];
         for (int i = 0; i < 4; i++) {
             rankData[i] = (i, kills[i]);
         }
-    
-        // Sort by kills descending
-        System.Array.Sort(rankData, (a, b) => b.kills.CompareTo(a.kills));
-    
-        // Assign places
-        for (int i = 0; i < 4; i++) {
-            places[rankData[i].index] = i + 1; // 1st, 2nd, 3rd, 4th
-        }
-    
-        return places;
+
+        return rankData;
     }
 
     private void UpdateAllDisplays() {
