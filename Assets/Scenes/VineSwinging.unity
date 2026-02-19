@@ -6068,7 +6068,7 @@ MonoBehaviour:
   countdownDurationInSeconds: 5
   resultsDisplayDurationInSeconds: 5
   fundsPerRank: 64000000500000003c00000032000000
-  vineCount: 20
+  vineCount: 40
   vineAnchorY: 4
   playerStats: {fileID: 11400000, guid: f40ce12690a6d4c91acb1c250c4504b4, type: 2}
   startCountdown: {fileID: 2110988712}
