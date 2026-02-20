@@ -282,8 +282,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5.49, y: 5.49, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 899568621}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -452,7 +452,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1.8, y: 1.8, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 732278614}
@@ -5322,9 +5322,9 @@ Transform:
   m_GameObject: {fileID: 271193150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.66, z: 0}
-  m_LocalScale: {x: 1, y: 0.04, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -1.57, z: 0}
+  m_LocalScale: {x: 2.5, y: 0.1, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 899568621}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5425,9 +5425,9 @@ Transform:
   m_GameObject: {fileID: 273378158}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.66, z: 0}
-  m_LocalScale: {x: 1, y: 0.04, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -1.57, z: 0}
+  m_LocalScale: {x: 2.5, y: 0.1, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 732278614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6281,6 +6281,7 @@ GameObject:
   - component: {fileID: 409285510}
   - component: {fileID: 409285511}
   - component: {fileID: 409285512}
+  - component: {fileID: 409285513}
   m_Layer: 0
   m_Name: P4
   m_TagString: Untagged
@@ -6298,7 +6299,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 7, y: -0.2, z: 0}
-  m_LocalScale: {x: 0.54, y: 0.54, z: 0.54}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1223275562}
@@ -6325,6 +6326,7 @@ MonoBehaviour:
   HealthBar: {fileID: 1223275563}
   ProjectilePool: {fileID: 409285511}
   ChargeAttack: {fileID: 409285512}
+  DeathHandler: {fileID: 409285513}
 --- !u!61 &409285508
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6363,13 +6365,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.1953125}
+    oldSize: {x: 2.56, y: 2.56}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.56, y: 2.56}
   m_EdgeRadius: 0
 --- !u!212 &409285509
 SpriteRenderer:
@@ -6418,7 +6420,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: de3abfcb23f984beeb7890f023e4fa4b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b2928ddd4f8a74560a5a5c67810c64e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6485,6 +6487,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingChargeAttack
   chargeIndicator: {fileID: 1939863300}
   chargeParticles: {fileID: 2012744064}
+--- !u!114 &409285513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409285505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de97225db1a14d28ae87c4e58dc6aa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingDeathHandler
 --- !u!1 &438128964
 GameObject:
   m_ObjectHideFlags: 0
@@ -6987,7 +7001,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00000035762787, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -6997,7 +7011,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.79548585, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &694692657
 SpriteRenderer:
@@ -7085,7 +7099,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.8, y: 1.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1451952761}
@@ -12044,6 +12058,7 @@ GameObject:
   - component: {fileID: 732278618}
   - component: {fileID: 732278619}
   - component: {fileID: 732278620}
+  - component: {fileID: 732278621}
   m_Layer: 0
   m_Name: P2
   m_TagString: Untagged
@@ -12061,7 +12076,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -2.15, y: -3.41, z: 0}
-  m_LocalScale: {x: 0.54, y: 0.54, z: 0.54}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 273378159}
@@ -12088,6 +12103,7 @@ MonoBehaviour:
   HealthBar: {fileID: 273378160}
   ProjectilePool: {fileID: 732278619}
   ChargeAttack: {fileID: 732278620}
+  DeathHandler: {fileID: 732278621}
 --- !u!61 &732278616
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12126,13 +12142,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.421875, y: 1}
+    oldSize: {x: 2.57, y: 2.57}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.56, y: 2.56}
   m_EdgeRadius: 0
 --- !u!212 &732278617
 SpriteRenderer:
@@ -12181,7 +12197,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1cfdfcb6f7017409798c1d8df3b7e6bd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d745c91ef42144d86a2f786af2d2861d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -12248,6 +12264,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingChargeAttack
   chargeIndicator: {fileID: 986929806}
   chargeParticles: {fileID: 223809357}
+--- !u!114 &732278621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732278613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de97225db1a14d28ae87c4e58dc6aa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingDeathHandler
 --- !u!1 &766763755
 GameObject:
   m_ObjectHideFlags: 0
@@ -12777,6 +12805,7 @@ GameObject:
   - component: {fileID: 899568625}
   - component: {fileID: 899568626}
   - component: {fileID: 899568627}
+  - component: {fileID: 899568628}
   m_Layer: 0
   m_Name: P3
   m_TagString: Untagged
@@ -12794,7 +12823,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.8, y: 3.3, z: 0}
-  m_LocalScale: {x: 0.54, y: 0.54, z: 0.54}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 271193151}
@@ -12821,6 +12850,7 @@ MonoBehaviour:
   HealthBar: {fileID: 271193152}
   ProjectilePool: {fileID: 899568626}
   ChargeAttack: {fileID: 899568627}
+  DeathHandler: {fileID: 899568628}
 --- !u!61 &899568623
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12859,13 +12889,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.5078125}
+    oldSize: {x: 2.57, y: 2.56}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.56, y: 2.56}
   m_EdgeRadius: 0
 --- !u!212 &899568624
 SpriteRenderer:
@@ -12914,7 +12944,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6ced02705b5104fee9001ed315b81105, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 937fbc3adbd854295bc5048f6b696e30, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -12981,6 +13011,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingChargeAttack
   chargeIndicator: {fileID: 83805258}
   chargeParticles: {fileID: 922262713}
+--- !u!114 &899568628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899568620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de97225db1a14d28ae87c4e58dc6aa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingDeathHandler
 --- !u!1 &902943807
 GameObject:
   m_ObjectHideFlags: 0
@@ -13044,7 +13086,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1.8, y: 1.8, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 899568621}
@@ -18245,8 +18287,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5.49, y: 5.49, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 732278614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18671,7 +18713,7 @@ BoxCollider2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 1
+  m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -18688,7 +18730,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00000040233135, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -18698,7 +18740,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7443564, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &1104040411
 SpriteRenderer:
@@ -18976,7 +19018,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.019662395, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -18986,7 +19028,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.8033782, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &1213737964
 GameObject:
@@ -19126,9 +19168,9 @@ Transform:
   m_GameObject: {fileID: 1223275561}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.66, z: 0}
-  m_LocalScale: {x: 1, y: 0.04, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -1.57, z: 0}
+  m_LocalScale: {x: 2.5, y: 0.1, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 409285506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19886,6 +19928,7 @@ GameObject:
   - component: {fileID: 1451952763}
   - component: {fileID: 1451952764}
   - component: {fileID: 1451952765}
+  - component: {fileID: 1451952766}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -19931,13 +19974,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.546875, y: 1.2265625}
+    oldSize: {x: 2.56, y: 2.56}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.56, y: 2.56}
   m_EdgeRadius: 0
 --- !u!212 &1451952760
 SpriteRenderer:
@@ -19986,7 +20029,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 422a88aef7d9c43e09d666814f2e9f64, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d97029aff020e457db2299e43dd59c85, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -20007,8 +20050,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -6.79, y: 3.75, z: 0}
-  m_LocalScale: {x: 0.54, y: 0.54, z: 0}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1938615433}
   - {fileID: 700736579}
@@ -20034,6 +20077,7 @@ MonoBehaviour:
   HealthBar: {fileID: 1938615434}
   ProjectilePool: {fileID: 1451952764}
   ChargeAttack: {fileID: 1451952765}
+  DeathHandler: {fileID: 1451952766}
 --- !u!50 &1451952763
 Rigidbody2D:
   serializedVersion: 5
@@ -20090,6 +20134,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingChargeAttack
   chargeIndicator: {fileID: 1829448688}
   chargeParticles: {fileID: 700736581}
+--- !u!114 &1451952766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451952758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de97225db1a14d28ae87c4e58dc6aa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.DireDodging.DireDodgingDeathHandler
 --- !u!1 &1471858879
 GameObject:
   m_ObjectHideFlags: 0
@@ -21267,8 +21323,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5.49, y: 5.49, z: 1.5249999}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1451952761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -21708,8 +21764,8 @@ Transform:
   m_GameObject: {fileID: 1938615432}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.66, z: 0}
-  m_LocalScale: {x: 1, y: 0.04, z: 1}
+  m_LocalPosition: {x: 0, y: -1.57, z: 0}
+  m_LocalScale: {x: 2.5, y: 0.1, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1451952761}
@@ -21811,8 +21867,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5.49, y: 5.49, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 409285506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22131,7 +22187,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1.8, y: 1.8, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 409285506}

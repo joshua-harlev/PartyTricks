@@ -9,17 +9,20 @@ public class DireDodgingPlayer : MonoBehaviour {
     public IDirectionalTwoButtonInputHandler Navigator => navigator;
     public bool IsGhostMode => isGhostMode;
     public int PlayerIndex => playerIndex;
+    public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
     public float ProjectileSpeed => projectileSpeed;
     public float ProjectileScale => projectileScale;
     public float SpriteHalfWidth => spriteHalfWidth;
+    public bool IsAlive => isAlive;
+    public SpriteRenderer PlayerSpriteRenderer => SpriteRenderer;
+    public Rigidbody2D PlayerRigidbody2D => Rigidbody2D;
+    public Collider2D PlayerCollider2D => Collider2D;
+    public DireDodgingHealthBar PlayerHealthBar => HealthBar;
+    public Color BaseColor => baseColor;
+    public Camera MainCamera => mainCamera;
     public Vector2 LastMoveDirection => lastMoveDirection;
 
-
-    private static bool isDeathZoomActive = false;
-    private static float trueOriginalCameraSize;
-    private static Vector3 trueOriginalCameraPosition;
-    
     private float maxMoveSpeed;
     private float projectileScale;
     private float projectileSpeed;
@@ -30,9 +33,6 @@ public class DireDodgingPlayer : MonoBehaviour {
     private float spriteHalfWidth;
     private float spriteHalfHeight;
     private float damageAnimationTimeInSeconds;
-    private float deathAnimationTimeInSeconds;
-    private const float cameraFreezeDuration = 1f;
-    private const float cameraZoomAmount = 0.7f;
 
     [SerializeField] private DireDodgingPlayerStatsSO PlayerStatsSO;
     [SerializeField] private SpriteRenderer SpriteRenderer;
@@ -41,10 +41,11 @@ public class DireDodgingPlayer : MonoBehaviour {
     [SerializeField] private DireDodgingHealthBar HealthBar;
     [SerializeField] private DireDodgingProjectilePool ProjectilePool;
     [SerializeField] private DireDodgingChargeAttack ChargeAttack;
-    
+    [SerializeField] private DireDodgingDeathHandler DeathHandler;
+
     private Coroutine shootingCoroutineInstance = null;
     private Vector2 lastMoveDirection = Vector2.right;
-    
+
     private int playerIndex;
     private Sequence colorChangeSequence;
     private Color baseColor;
@@ -52,13 +53,8 @@ public class DireDodgingPlayer : MonoBehaviour {
     private bool isAI;
     private bool inputEnabled;
     private bool isAlive = true;
-    
+
     private bool isGhostMode = false;
-    private float respawnDelay = 3f;
-    private bool isInvincible = false;
-    private float invincibilityDuration = 2f;
-    
-    private Tween cameraZoomTween;
 
 
     private Coroutine damageCoroutineInstance = null;
@@ -69,21 +65,17 @@ public class DireDodgingPlayer : MonoBehaviour {
     private readonly Quaternion upRotation = Quaternion.Euler(0, 0, 0);
     private readonly Quaternion downRotation = Quaternion.Euler(0, 0, 180);
     private EventReference hitEvent;
-    private EventReference deathEvent;
-    
+
     private float ghostMoveSpeedMultiplier;
     private float stunDuration;
-    
+
     private void Awake() {
         baseColor = SpriteRenderer.color;
     }
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool initializeAsAI, int numberOfIncreasedHealthPowerups, int numberOfIncreasedAttackSpeedPowerups, bool isDoubleRound) {
         mainCamera = Camera.main;
-        if (!isDeathZoomActive) {
-            trueOriginalCameraSize = mainCamera.orthographicSize;
-            trueOriginalCameraPosition = mainCamera.transform.position;
-        }
+        DireDodgingDeathHandler.CaptureOriginalCamera(mainCamera);
         ApplyBaseStats();
         if (isDoubleRound) {
             this.maxHealth *= 2;
@@ -95,12 +87,13 @@ public class DireDodgingPlayer : MonoBehaviour {
         this.isAI = initializeAsAI;
         this.inputEnabled = false;
         spriteHalfWidth = SpriteRenderer.bounds.size.x / 2f;
-        
+
         // TODO calculate this more effectively
         spriteHalfHeight = SpriteRenderer.bounds.extents.y + 0.4f; // offset added for health bar
-        
+
         ProjectilePool.Initialize();
         ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO);
+        DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO);
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} initialized. IsAI: {isAI}");
     }
 
@@ -117,7 +110,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     public void EnableInput() {
         inputEnabled = true;
     }
-    
+
     public void StartShooting() {
         if (shootingCoroutineInstance == null) {
             shootingCoroutineInstance = StartCoroutine(ShootingCoroutine());
@@ -135,10 +128,10 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void HandleInput() {
         if (!inputEnabled) return;
         if (navigator == null) return;
-    
+
         Vector2 input = navigator.GetNavigate();
-    
-        if (input.magnitude > 0.1f) {   
+
+        if (input.magnitude > 0.1f) {
             lastMoveDirection = input.normalized;
         }
 
@@ -151,7 +144,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         if (ChargeAttack.IsCharging) {
             speedMultiplier *= 0.7f;
         }
-        
+
         Vector2 movement = input.normalized * (maxMoveSpeed * speedMultiplier * Time.fixedDeltaTime);
         Vector2 newPosition = Rigidbody2D.position + movement;
 
@@ -160,20 +153,18 @@ public class DireDodgingPlayer : MonoBehaviour {
 
         Rigidbody2D.MovePosition(newPosition);
     }
-    
+
     private void ApplyBaseStats() {
         this.maxMoveSpeed = PlayerStatsSO.MoveSpeed;
-        this.projectileScale = PlayerStatsSO.ProjectileScale * 0.36f;
+        this.projectileScale = PlayerStatsSO.ProjectileScale * 1.3f;
         this.projectileSpeed = PlayerStatsSO.ProjectileSpeed;
         this.baseDamage = PlayerStatsSO.BaseDamage;
         this.maxHealth = PlayerStatsSO.BaseHealth;
         this.projectileShootRate = PlayerStatsSO.ProjectileShootRate;
         this.damageAnimationTimeInSeconds = PlayerStatsSO.DamageAnimationTimeInSeconds;
-        this.deathAnimationTimeInSeconds = PlayerStatsSO.DeathAnimationTimeInSeconds;
         this.ghostMoveSpeedMultiplier = PlayerStatsSO.GhostMoveSpeedMultiplier;
         this.stunDuration = PlayerStatsSO.StunDuration;
         this.hitEvent = PlayerStatsSO.GetHitEvent;
-        this.deathEvent = PlayerStatsSO.DeathEvent;
         currentHealth = maxHealth;
     }
 
@@ -192,25 +183,34 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void Shoot() {
         if (isGhostMode) return;
-    
+
         Vector2 shootDirection = GetShootDirection();
 
         var projectile = ProjectilePool.GetNormal();
-    
+
         Vector2 spawnOffset = shootDirection * (spriteHalfWidth * 1.5f);
         projectile.transform.position = (Vector2)transform.position + spawnOffset;
-    
+
         projectile.transform.rotation = GetRotationForDirection(shootDirection);
         projectile.transform.localScale = Vector3.one * projectileScale;
         projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false);
     }
-    
+
     public Vector2 GetShootDirection() {
         if (Mathf.Abs(lastMoveDirection.x) > Mathf.Abs(lastMoveDirection.y)) {
             return lastMoveDirection.x > 0 ? Vector2.right : Vector2.left;
         } else {
             return lastMoveDirection.y > 0 ? Vector2.up : Vector2.down;
         }
+    }
+
+    public void SetAliveState(bool alive, bool ghostMode) {
+        isAlive = alive;
+        isGhostMode = ghostMode;
+    }
+
+    public void ResetHealth() {
+        currentHealth = maxHealth;
     }
 
     public Quaternion GetRotationForDirection(Vector2 direction) {
@@ -220,7 +220,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         if (direction == Vector2.down) return downRotation;
         return rightRotation; // Default
     }
-    
+
     private float ClampYPosition(float yPosition) {
         float screenBottom = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 0)).y;
         float screenTop = mainCamera.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y;
@@ -250,8 +250,8 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private void HandleProjectileCollision(DireDodgingProjectile projectile) {
-        if (!isAlive || isGhostMode || isInvincible) return;
-    
+        if (!isAlive || isGhostMode || DeathHandler.IsInvincible) return;
+
         if (projectile.IsGhostProjectile) {
             StartCoroutine(StunCoroutine());
             RuntimeManager.PlayOneShot(hitEvent);
@@ -260,13 +260,13 @@ public class DireDodgingPlayer : MonoBehaviour {
 
             if (PlayerIsDead) {
                 DireDodgingMinigameManager.Instance.RegisterDeath(projectile.OwnerIndex, playerIndex);
-                Die();
+                DeathHandler.TriggerDeath();
                 return;
             } else {
                 RuntimeManager.PlayOneShot(hitEvent);
                 mainCamera.DOShakePosition(duration: 0.05f, strength: 0.2f, vibrato: 1, randomness: 90f, fadeOut: false).SetUpdate(true);
             }
-    
+
             if (damageCoroutineInstance != null) {
                 StopCoroutine(damageCoroutineInstance);
             }
@@ -284,16 +284,16 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private IEnumerator StunCoroutine() {
         if (isStunned) yield break;
-    
+
         isStunned = true;
         float originalSpeed = maxMoveSpeed;
         maxMoveSpeed = 0f;
-        
+
         Color originalColor = SpriteRenderer.color;
         SpriteRenderer.color = new Color(0.5f, 0f, 0.5f, 1f);
-    
+
         yield return new WaitForSeconds(stunDuration);
-    
+
         maxMoveSpeed = originalSpeed;
         SpriteRenderer.color = originalColor;
         isStunned = false;
@@ -314,44 +314,11 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void ResetColorChangeSequence() {
         colorChangeSequence = null;
     }
-
-    private void Die() {
-        isAlive = false;
-        isGhostMode = true;
-        
-        StopRigidbodyMotion();
-        Rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
     
-        // TODO fix timescale not working apparently
-        Time.timeScale = 0f; 
-        
-        ZoomCameraOnDeath();
-        ChargeAttack.ForceStop();
-        
-        // TODO re-examine intensity system
-        // StopIntensityCoroutine();
-        StopColorChangeSequence();
-        TransitionSpriteOpacityOnDeath();
-        
-        RuntimeManager.PlayOneShot(deathEvent);
-        StartCoroutine(DeathCoroutine());
-    }
-
-    private void TransitionSpriteOpacityOnDeath() {
-        var color = baseColor;
-        color.a = 0.1f;
-        SpriteRenderer.DOColor(color, deathAnimationTimeInSeconds).SetUpdate(true);
-    }
-
-    private void StopColorChangeSequence() {
+    public void StopColorChangeSequence() {
         if(colorChangeSequence != null) colorChangeSequence.Kill();
     }
-
-    private void StopRigidbodyMotion() {
-        Rigidbody2D.linearVelocity = Vector2.zero;
-        Rigidbody2D.angularVelocity = 0f;
-    }
-
+    
     private void StopIntensityCoroutine() {
         if (intensityCoroutineInstance != null) {
             StopCoroutine(intensityCoroutineInstance);
@@ -359,137 +326,13 @@ public class DireDodgingPlayer : MonoBehaviour {
         }
     }
     
-    private void ZoomCameraOnDeath() {
-        if (mainCamera == null) {
-            throw new MissingComponentException("Main Camera is missing.");
-        }
-        KillCameraTweens();
-        DoCameraZoomSequence();
-    }
-
-    private void DoCameraZoomSequence() {
-        isDeathZoomActive = true;
-        Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, trueOriginalCameraPosition.z);
-        mainCamera.DOOrthoSize(trueOriginalCameraSize * cameraZoomAmount, cameraFreezeDuration * 0.5f).SetUpdate(true);
-        mainCamera.transform.DOMove(targetPosition, cameraFreezeDuration * 0.5f).SetUpdate(true);
-
-        cameraZoomTween = DOVirtual.DelayedCall(cameraFreezeDuration, () => {
-            ReturnCameraToOriginalState();
-            Time.timeScale = 1f;
-            DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
-        }, false).SetUpdate(true);
-    }
-
-    private void ReturnCameraToOriginalState() {
-        mainCamera.DOOrthoSize(trueOriginalCameraSize, 0.3f).SetUpdate(true);
-        mainCamera.transform.DOMove(trueOriginalCameraPosition, 0.3f).SetUpdate(true).OnComplete(() => {
-            isDeathZoomActive = false;
-        });
-    }
-
-    private void KillCameraTweens() {
-        mainCamera.DOKill();
-        mainCamera.transform.DOKill();
-    }
-
-    private IEnumerator DeathCoroutine() {
-        yield return new WaitForSeconds(deathAnimationTimeInSeconds);
-        
-        inputEnabled = true;
-        
-        UpdateSpriteToTransparent();
-        ReturnProjectilesToPool();
-        StopShootingCoroutine();
-        HideHealthBar();
-        
-        yield return new WaitForSeconds(respawnDelay);
-
-        Respawn();
-    }
-
-    private void ReturnProjectilesToPool() {
-        ProjectilePool.ReturnAllToPool();
-    }
-
-    private void HideHealthBar() {
-        if (HealthBar != null) {
-            HealthBar.gameObject.SetActive(false);
-        }
-    }
-
-    private void StopShootingCoroutine() {
+    public void StopShootingCoroutine() {
         if (shootingCoroutineInstance != null) {
             StopCoroutine(shootingCoroutineInstance);
             shootingCoroutineInstance = null;
         }
     }
-
-    private void UpdateSpriteToTransparent() {
-        Color ghostColor = baseColor;
-        ghostColor.a = 0.3f;
-        SpriteRenderer.color = ghostColor;
-    }
-
-    private void Respawn() {
-        if (cameraZoomTween != null && cameraZoomTween.IsActive()) {
-            cameraZoomTween.Kill();
-            mainCamera.DOKill();
-            mainCamera.transform.DOKill();
-
-            mainCamera.DOOrthoSize(trueOriginalCameraSize, 0.3f).SetUpdate(true);
-            mainCamera.transform.DOMove(trueOriginalCameraPosition, 0.3f).SetUpdate(true).OnComplete(() => {
-                isDeathZoomActive = false;
-            });
-            Time.timeScale = 1f;
-            DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
-        }
-        
-        isAlive = true;
-        isGhostMode = false;
-        currentHealth = maxHealth;
-        
-        Rigidbody2D.linearVelocity = Vector2.zero;
-        Rigidbody2D.angularVelocity = 0f;
-        
-        Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     
-        Collider2D.enabled = true;
-    
-        Color aliveColor = baseColor;
-        aliveColor.a = 1f;
-        SpriteRenderer.color = aliveColor;
-    
-        // Show health bar
-        if (HealthBar != null) {
-            HealthBar.gameObject.SetActive(true);
-            HealthBar.UpdateDisplay(currentHealth, maxHealth);
-        }
-    
-        StartShooting();
-    
-        StartCoroutine(RespawnInvincibilityCoroutine());
-    }
-    
-    private IEnumerator RespawnInvincibilityCoroutine() {
-        isInvincible = true;
-    
-        float flashInterval = 0.1f;
-        float elapsed = 0f;
-    
-        while (elapsed < invincibilityDuration) {
-            SpriteRenderer.enabled = !SpriteRenderer.enabled;
-            yield return new WaitForSeconds(flashInterval);
-            elapsed += flashInterval;
-        }
-    
-        SpriteRenderer.enabled = true;
-        isInvincible = false;
-    }
-
-    private void DisableColliderComponent() {
-        Collider2D.enabled = false;
-    }
-
     private bool PlayerIsDead => currentHealth <= 0;
 
     public void StartIncreasingIntensity(int remainingTimeInSeconds) {
@@ -523,9 +366,9 @@ public class DireDodgingPlayer : MonoBehaviour {
         projectileScale = targetProjectileScale;
         intensityCoroutineInstance = null;
     }
-    
+
     private void OnDestroy() {
         ChargeAttack.Cleanup();
-        isDeathZoomActive = false;
+        DeathHandler.Cleanup();
     }
 }

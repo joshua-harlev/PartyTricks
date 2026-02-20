@@ -142,7 +142,7 @@ namespace Minigames.DireDodging {
             
                 float chargePercent = Mathf.Clamp01(chargeTime / timeRequiredToCharge);
         
-                chargeIndicator.transform.localScale = new Vector3(2f, chargePercent * 2, 1f);
+                chargeIndicator.transform.localScale = new Vector3(3.6f, chargePercent * 3.6f, 1f);
         
                 if (chargePercent >= 1f) {
                     chargeIndicator.color = Color.green;

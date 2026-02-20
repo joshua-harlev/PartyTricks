@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6e1f7930356446ea2526cc99b7e5ad, type: 3}
   m_Name: DireDodgingPlayerStatsSO
   m_EditorClassIdentifier: Game::DireDodgingPlayerStatsSO
-  MoveSpeed: 8
+  MoveSpeed: 7
   ProjectileScale: 1
-  ProjectileSpeed: 6
+  ProjectileSpeed: 16
   ProjectileShootRate: 0.5
   BaseDamage: 1
   BaseHealth: 3
@@ -22,7 +22,7 @@ MonoBehaviour:
   DeathAnimationTimeInSeconds: 0.25
   ChargeTimeRequired: 2
   ChargedProjectileScale: 2
-  ChargedProjectileSpeed: 2
+  ChargedProjectileSpeed: 1.4
   GhostChargeTime: 1
   GhostProjectileSpeed: 1.2
   GhostMoveSpeedMultiplier: 0.25
