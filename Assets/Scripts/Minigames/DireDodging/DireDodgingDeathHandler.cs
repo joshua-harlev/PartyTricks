@@ -107,6 +107,9 @@ namespace Minigames.DireDodging {
         
         private IEnumerator DeathCoroutine() {
             yield return new WaitForSeconds(deathAnimationTimeInSeconds);
+            if (DireDodgingMinigameManager.Instance.GameHasEnded) {
+                yield break;
+            }
             player.EnableInput();
 
             Color ghostColor = player.BaseColor;
