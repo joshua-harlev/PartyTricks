@@ -34,6 +34,8 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     [SerializeField] private Camera MainCamera;
     
     private bool hasBeenInitialized = false;
+    private bool gameHasEnded = false;
+    public bool GameHasEnded => gameHasEnded;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -92,6 +94,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     }
 
     public void EnableAllPlayerInput() {
+        if(gameHasEnded) return;
         foreach (var player in Players) {
             if (player != null) {
                 player.EnableInput();
@@ -151,6 +154,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     }
 
     public void FreezeAllPlayers() {
+        gameHasEnded = true;
         foreach (var player in Players) {
             player.Freeze();
         }
