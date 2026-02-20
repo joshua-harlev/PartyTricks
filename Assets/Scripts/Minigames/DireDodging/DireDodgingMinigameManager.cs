@@ -143,7 +143,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         DebugLogger.Log(LogChannel.Systems, $"P{killerID+1} eliminated P{killedID+1}!");
         if (currentState is DireDodgingGameplayState gameplayState) {
             gameplayState.HandlePlayerKill(killerID);
-            gameplayState.HandlePlayerDeath(killedID);
+            gameplayState.OnPlayerDeath(killedID);
         }
         else {
             Debug.Log("Wrong state! See DireDodgingMinigameManager, RegisterDeath");

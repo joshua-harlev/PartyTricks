@@ -9,6 +9,7 @@ public class DireDodgingResultsState : IDireDodgingState {
     private int fundsPerKill;
     private PlacesDisplay placesDisplay;
     private MinigameTimer minigameTimer;
+    
     public DireDodgingResultsState(int[] playerPlaces, int[] playerKills, int[] baseFundsPerRank, int fundsPerKill,
         PlacesDisplay placesDisplay, MinigameTimer minigameTimer) {
         this.playerPlaces = playerPlaces;
@@ -26,7 +27,6 @@ public class DireDodgingResultsState : IDireDodgingState {
         UpdatePlaceDisplays(results);
         placesDisplay.Show();
         
-        // wait to show this until results show because of freeze effect
         minigameTimer.OverrideText("Game!");
         DireDodgingMinigameManager.Instance.OnGameEnd(results);
     }
