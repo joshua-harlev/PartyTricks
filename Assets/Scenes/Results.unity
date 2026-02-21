@@ -470,7 +470,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Main Menu
+  m_text: 'Main Menu
+
+    <size=20>(or press A)</size>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4bc5389c304bf48e89dadb9f2f14ae48, type: 2}
   m_sharedMaterial: {fileID: 1559002136586648012, guid: 4bc5389c304bf48e89dadb9f2f14ae48, type: 2}
