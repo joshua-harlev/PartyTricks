@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Services;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Switch;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
@@ -20,14 +20,18 @@ public class ResultsScreen : MonoBehaviour {
     private Button mainMenuButton;
     private IPlayerService playerService;
     private bool canReturnToMainMenu = false;
+    private readonly List<InputAction> subscribedActions = new();
 
     private void Awake() {
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
     }
 
     public void ReturnToMainMenu() {
-        ResetProfiles();
-        SceneManager.LoadScene("MainMenu");
+        if(canReturnToMainMenu) {
+            ResetProfiles();
+            SceneManager.LoadScene("MainMenu");
+        }
+        canReturnToMainMenu = false;
     }
 
     private void ResetProfiles() {
@@ -42,19 +46,6 @@ public class ResultsScreen : MonoBehaviour {
         WinnerLabel.text = "The winner is";
         GetWinner();
         StartCoroutine(WaitAndDisplayWinner());
-    }
-    
-    private void Update() {
-        if (!canReturnToMainMenu) return;
-        foreach (var gamepad in Gamepad.all) {
-            bool switchAButtonPressed = gamepad is SwitchProControllerHID && gamepad.buttonEast.wasPressedThisFrame;
-            bool otherControllerSelectButtonPressed =
-                gamepad is not SwitchProControllerHID && gamepad.buttonSouth.wasPressedThisFrame;
-            if (switchAButtonPressed || otherControllerSelectButtonPressed) {
-                ReturnToMainMenu();
-                break;
-            }
-        }
     }
 
     private void GetWinner() {
@@ -84,6 +75,28 @@ public class ResultsScreen : MonoBehaviour {
         HideSuspensePanel();
         ResultsScreenPlacesDisplay.Show();
         canReturnToMainMenu = true;
+        SubscribeToPlayerSubmitActions();
+    }
+
+    private void SubscribeToPlayerSubmitActions() {
+        foreach (var playerSlot in playerService.PlayerSlots) {
+            PlayerInput playerInput = playerSlot.PlayerInput;
+            if (playerInput == null) continue;
+            InputAction action = playerInput.actions.FindAction("UI/Submit");
+            if (action == null) continue;
+            action.performed += OnSubmitPerformed;
+            subscribedActions.Add(action);
+        }
+    }
+
+    private void OnSubmitPerformed(InputAction.CallbackContext context) {
+        ReturnToMainMenu();
+    }
+
+    private void OnDestroy() {
+        foreach (var action in subscribedActions) {
+            action.performed -= OnSubmitPerformed;
+        }
     }
 
     private void HideSuspensePanel() {

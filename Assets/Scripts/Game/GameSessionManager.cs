@@ -4,6 +4,7 @@ using Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
 
 namespace Game {
     public class GameSessionManager : MonoBehaviour {
@@ -38,11 +39,13 @@ namespace Game {
         private void OnEnable() {
             unityInputManager.onPlayerJoined += HandlePlayerJoined;
             unityInputManager.onPlayerLeft += HandlePlayerLeft;
+            SceneManager.sceneLoaded += SetUIModuleOnSceneLoaded;
         }
         
         private void OnDisable() {
             unityInputManager.onPlayerJoined -= HandlePlayerJoined;
             unityInputManager.onPlayerLeft -= HandlePlayerLeft;
+            SceneManager.sceneLoaded -= SetUIModuleOnSceneLoaded;
         }
         
         public void HandlePlayerJoined(PlayerInput playerInput) {
@@ -53,7 +56,7 @@ namespace Game {
             }
 
             if (playerJoined && KeyboardOrMouseIsConnected(playerInput)) {
-                var uiModule = FindObjectsByType<InputSystemUIInputModule>(FindObjectsSortMode.None).FirstOrDefault();
+                var uiModule = GetInputSystemUIInputModule();
                 if (uiModule != null) {
                     playerInput.uiInputModule = uiModule;
                 }
@@ -67,15 +70,29 @@ namespace Game {
         public void HandlePlayerLeft(PlayerInput playerInput) {
             if (isQuitting) return;
             Debug.Log($"[GameSessionManager] Unity PlayerInput left: {playerInput.playerIndex}");
-
-            if (KeyboardOrMouseIsConnected(playerInput)) {
-                var uiModule = FindObjectsByType<InputSystemUIInputModule>(FindObjectsSortMode.None).FirstOrDefault();
-                if (uiModule != null && playerInput.uiInputModule == uiModule) {
-                    playerInput.uiInputModule = null;
-                }
+            
+            var uiModule = GetInputSystemUIInputModule();
+            if (uiModule != null && playerInput.uiInputModule == uiModule && KeyboardOrMouseIsConnected(playerInput)) {
+                playerInput.uiInputModule = null;
             }
             
             RemovePlayerFromSlot(playerInput);
+        }
+
+        public void SetUIModuleOnSceneLoaded(Scene scene, LoadSceneMode mode) {
+            var uiModule = GetInputSystemUIInputModule();
+            if (uiModule == null) return;
+
+            foreach (var playerSlot in playerService.PlayerSlots) {
+                if (playerSlot.IsOccupied && playerSlot.PlayerInput != null && KeyboardOrMouseIsConnected(playerSlot.PlayerInput)) {
+                    playerSlot.PlayerInput.uiInputModule = uiModule;
+                }
+            }
+        }
+
+        private static InputSystemUIInputModule GetInputSystemUIInputModule() {
+            var uiModule = FindObjectsByType<InputSystemUIInputModule>(FindObjectsSortMode.None).FirstOrDefault();
+            return uiModule;
         }
 
         private void RemovePlayerFromSlot(PlayerInput playerInput) {

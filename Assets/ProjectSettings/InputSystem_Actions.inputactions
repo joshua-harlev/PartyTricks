@@ -1063,6 +1063,17 @@
                 },
                 {
                     "name": "",
+                    "id": "31f91f5e-5fa4-496d-81a7-be5045a26312",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "ToggleDebugMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "5c8f672e-c05c-4535-8639-7504f9914e3b",
                     "path": "<Keyboard>/p",
                     "interactions": "",
