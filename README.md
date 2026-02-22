@@ -2,6 +2,8 @@
 
 Party Tricks is a four-player minigame rush with strategic elements currently in development using Unity 6.  
 
+**Just interested in trying it? Jump to [How to Play](#how-to-play).**
+
 ## Overview
 
 Party Tricks is being built with the goal of making a party game that anyone can win! Being the best at a particular minigame is good, but strategy is equally important to winning in this game. Your goal is to have the most funds at the end of the game, which you can also spend on powerups in the shop.
