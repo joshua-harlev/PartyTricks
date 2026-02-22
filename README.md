@@ -8,23 +8,50 @@ Party Tricks is being built with the goal of making a party game that anyone can
 
 The game supports both macOS & Windows, and may be played with up to four controllers (though one is not required).
 
-### Minigames
-
-#### Blackjack
-Bet as much as you'd like and try to win it all!
-
-#### Dire Dodging
-2D battle minigame; shoot your opponents with quick regular attacks or powerful charged attacks and rack up the most eliminations.
-
-#### Coin Tilt
-Traverse a floating platform and collect coins. Be careful, though, because it's easy to fall off!
-
-#### Vine Swinging
-Swing from vine to vine while collecting coins. Make it as far as you can while maximizing coin collection to win!
-
 ### Authors
 
 Jade Harlev (Producer, Programmer), Kamron Swingle (Programmer, UX, Level Design), Ren Peng (Theme and Narrative, Gamefeel, 3D Artist), Ryn Reid (2D Artist)
+
+### Minigames
+
+#### Blackjack
+Minigame Type: Gambling
+
+Bet as much as you'd like and try to win it all!
+
+![Blackjack Gameplay](https://github.com/user-attachments/assets/1216029d-e2a8-4a65-880f-42745cf5600e)
+
+#### Dire Dodging
+Minigame Type: Combat
+
+2D battle minigame; shoot your opponents with quick regular attacks or powerful charged attacks and rack up the most eliminations.
+
+![Dire Dodging Gameplay](https://github.com/user-attachments/assets/7d478398-57c8-4cd2-81ca-30cef39dded3)
+
+#### Coin Tilt
+Minigame Type: Movement
+
+Traverse a floating platform and collect coins. Be careful, though, because it's easy to fall off!
+
+![Coin Tilt Gameplay](https://github.com/user-attachments/assets/3ea0d420-e18c-4f88-8003-259a296d50e3)
+
+#### Vine Swinging
+Minigame Type: Movement
+
+Swing from vine to vine while collecting coins. Make it as far as you can while maximizing coin collection to win!
+
+![Vine Swinging Gameplay](https://github.com/user-attachments/assets/a2cfd983-3d7d-4f02-a0a9-cc67e8b0e758)
+
+### Shop
+The shop displays between minigames and includes power-ups for the player to purchase. 
+
+![Shop Gameplay](https://github.com/user-attachments/assets/ebc8525d-9a43-4fdc-a45a-f15f542360bc)
+
+### Power-Ups
+Power-ups are generally minigame-type dependent, and last for the duration of an entire game  (multiple rounds / until somebody wins).
+
+![Magnet Powerup Demonstration](https://github.com/user-attachments/assets/33df0785-57bf-4e65-8d53-64cb3a50fd8e)
+_Pictured: Player 1 (top left) attracts coins using the Magnet powerup._
 
 ### Gameplay Video
 (last updated Feb 17, 2026)
