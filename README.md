@@ -6,13 +6,22 @@ Party Tricks is a four-player minigame rush with strategic elements currently in
 
 ## Overview
 
-Party Tricks is being built with the goal of making a party game that anyone can win! Being the best at a particular minigame is good, but strategy is equally important to winning in this game. Your goal is to have the most funds at the end of the game, which you can also spend on powerups in the shop.
+Party Tricks is a party game that incorporates strategy so that anyone can win, not just those who have mastered the game's controls! Spend funds on power-ups from the shop for unique advantages in each minigame type; being the best at a particular minigame is good, but overall strategy is equally important to winning in this game. 
 
-The game supports both macOS & Windows, and may be played with up to four controllers (though one is not required).
+The game supports both macOS & Windows, and may be played with up to four controllers (though a controller is not required).
 
 ### Authors
 
-Jade Harlev (Producer, Programmer), Kamron Swingle (Programmer, UX, Level Design), Ren Peng (Theme and Narrative, Gamefeel, 3D Artist), Ryn Reid (2D Artist)
+- Jade Harlev (Producer, Programmer)
+- Kamron Swingle (Programmer, UX, Level Design)
+- Ren Peng (Theme and Narrative, Gamefeel, 3D Artist)
+- Ryn Reid (2D Artist)
+
+### Minigame Types
+
+The game is balanced around three minigame types: **Combat**, **Gambling**, and **Movement**. For this vertical slice, we're solely focusing on **Combat** and **Movement** minigames. 
+
+In **Combat** minigames, eliminate the other players by directly fighting them. In **Gambling** minigames, make strategic wagers and hope to win it big. And, finally, in **Movement** minigames, show off your skills in tough challenges without directly attacking your opponents.
 
 ### Minigames
 
@@ -50,10 +59,14 @@ The shop displays between minigames and includes power-ups for the player to pur
 ![Shop Gameplay](https://github.com/user-attachments/assets/ebc8525d-9a43-4fdc-a45a-f15f542360bc)
 
 ### Power-Ups
-Power-ups are generally minigame-type dependent, and last for the duration of an entire game  (multiple rounds / until somebody wins).
+Power-ups are generally minigame-type dependent, and last for the duration of an entire game (multiple rounds / until somebody wins).
+
+For example, the **Magnet** powerup will magnetize coins to you in **Movement** minigames, allowing you to rack up points more quickly and take fewer risks.
+
+Meanwhile, the **Increased HP** powerup will make you more resilient in **Combat** minigames, allowing you to take more hits without dying.
 
 ![Magnet Powerup Demonstration](https://github.com/user-attachments/assets/33df0785-57bf-4e65-8d53-64cb3a50fd8e)
-_Pictured: Player 1 (top left) attracts coins using the Magnet powerup._
+_Pictured: Player 1 (top left) attracts coins using the Magnet powerup in the Coin Tilt minigame._
 
 ### Gameplay Video
 (last updated Feb 17, 2026)
@@ -125,4 +138,4 @@ Planned: Title screen art, 3D character models for Coin Tilt, refinement for all
 Builds can be created using the Unity build menu (file -> build profiles -> build).
 
 ### Contributing
-- This project is currently not open to contributions, but we're open to feedback!
+- This project is currently not open to external contributions, but we're open to feedback!
