@@ -1,0 +1,73 @@
+name: Build
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-windows:
+    name: Windows Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          
+      - name: Cache Library
+        uses: actions/cache@v5
+        with:
+          path: Library
+          key: Library-windows-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-windows-
+            
+      - name: Build
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+            targetPlatform: StandaloneWindows64
+            unityVersion: 'auto'
+        
+      - name: UploadArtifact
+        uses: actions/upload-artifact@v6
+        with: 
+            name: Party-Tricks-Windows
+            path: build/StandaloneWindows64
+            retention-days: 90
+            
+  build-macos:
+    name: macOS Build
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Cache Library
+        uses: actions/cache@v5
+        with:
+          path: Library
+          key: Library-macos-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-macos-
+
+      - name: Build
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: StandaloneOSX
+          unityVersion: 'auto'
+
+      - name: UploadArtifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: Party-Tricks-macOS
+          path: build/StandaloneOSX
+          retention-days: 90
