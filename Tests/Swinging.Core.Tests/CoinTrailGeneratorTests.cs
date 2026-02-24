@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using VineSwinging.Core;
 using Xunit;
 
@@ -14,7 +11,6 @@ namespace Swinging.Core.Tests {
             var config = TestHelpers.DefaultConfig(coinsPerGap: coinsPerGap);
             var trails = CoinTrailGenerator.GenerateAllTrails(vineCount: 5, config, seed: 0);
             
-            // Does the parameterization actually do anything here?
             Assert.Equal(4, trails.Length);
             Assert.All(trails, trail => Assert.Equal(coinsPerGap, trail.Length));
         }
