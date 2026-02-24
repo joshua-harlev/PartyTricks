@@ -1,4 +1,5 @@
 # 🎉 Party Tricks
+[![Build](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml)
 
 Party Tricks is a four-player minigame rush with strategic elements currently in development using Unity 6.  
 
