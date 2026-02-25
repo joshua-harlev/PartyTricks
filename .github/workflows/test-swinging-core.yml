@@ -1,0 +1,35 @@
+name: Test Swinging.Core
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Assets/Scripts/Minigames/Swinging/Core/**'
+      - 'Tests/Swinging.Core.Tests/**'
+      - '.github/workflows/test-swinging-core.yml'
+  pull_request: 
+    paths:
+      - 'Assets/Scripts/Minigames/Swinging/Core/**'
+      - 'Tests/Swinging.Core.Tests/**'
+      - '.github/workflows/test-swinging-core.yml'
+
+jobs:
+  test:
+    name: Swinging.Core Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+          
+      - name: Restore
+        run: dotnet restore Tests/Swinging.Core.Tests/
+        
+      - name: Build
+        run: dotnet build Tests/Swinging.Core.Tests/ --no-restore
+        
+      - name: Test
+        run: dotnet test Tests/Swinging.Core.Tests/ --no-build --verbosity normal
