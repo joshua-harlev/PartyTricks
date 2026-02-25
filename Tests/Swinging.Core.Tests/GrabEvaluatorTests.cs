@@ -9,14 +9,16 @@ namespace Swinging.Core.Tests {
         private static readonly float[] SingleVinePhase = { 0f };
         private static readonly float[] SingleVinePeriod = { 2f };
 
+        private const float VineAnchorYPosition = 10f;
+        private static float VineTipYPosition(SwingConfig config) => VineAnchorYPosition - config.RopeLength;
+
         [Fact]
         public void VineIndexIsReturnedWhenPlayerIsOnVine() {
             var config = TestHelpers.DefaultConfig(grabRadius: 1.5f, ropeLength: 5f);
-            float vineAnchorYPosition = 10f;
-            float tipYPosition = vineAnchorYPosition - config.RopeLength;
+            float tipYPosition = VineTipYPosition(config);
 
             int result = GrabEvaluator.CheckGrab(
-                playerX: 0f, playerY: tipYPosition, SingleVineXPosition, vineAnchorYPosition, config, minVineIndex: 0,
+                playerX: 0f, playerY: tipYPosition, SingleVineXPosition, VineAnchorYPosition, config, minVineIndex: 0,
                 SingleVinePhase, SingleVinePeriod, elapsedTime: 0f, playerContextVelocityX: 0f,
                 playerContextVelocityY: 0f);
             
@@ -28,7 +30,7 @@ namespace Swinging.Core.Tests {
             var config = TestHelpers.DefaultConfig(grabRadius: 1.5f, ropeLength: 5f);
             
             int result = GrabEvaluator.CheckGrab(
-                playerX: 99999f, playerY: 99999f, SingleVineXPosition, vineAnchorY: 10f, config, minVineIndex: 0,
+                playerX: 99999f, playerY: 99999f, SingleVineXPosition, vineAnchorY: VineAnchorYPosition, config, minVineIndex: 0,
                 SingleVinePhase, SingleVinePeriod, elapsedTime: 0f, playerContextVelocityX: 0f,
                 playerContextVelocityY: 0f);
             
@@ -41,12 +43,11 @@ namespace Swinging.Core.Tests {
             float[] twoVineXPositions = { 0f, 20f };
             float[] twoVinePhases = { 0f, 0f };
             float[] twoVinePeriods = { 2f, 2f };
-            float vineAnchorYPosition = 10f;
-            float tipYPosition = vineAnchorYPosition - config.RopeLength;
+            float tipYPosition = VineTipYPosition(config);
 
             int result = GrabEvaluator.CheckGrab(
                 playerX: 0f, playerY: tipYPosition,
-                twoVineXPositions, vineAnchorYPosition, config, minVineIndex: 1,
+                twoVineXPositions, VineAnchorYPosition, config, minVineIndex: 1,
                 twoVinePhases, twoVinePeriods, elapsedTime: 0f,
                 playerContextVelocityX: 0f, playerContextVelocityY: 0f);
             
@@ -56,12 +57,11 @@ namespace Swinging.Core.Tests {
         [Fact]
         public void LookaheadWhenPlayerIsMovingTowardsVineButOutsideRadius() {
             var config = TestHelpers.DefaultConfig(grabRadius: 0.5f, ropeLength: 5f, grabLookaheadFrames: 3, gravity: 0f);
-            float vineAnchorYPosition = 10f;
-            float tipYPosition = vineAnchorYPosition - config.RopeLength;
+            float tipYPosition = VineTipYPosition(config);
             
             int result = GrabEvaluator.CheckGrab(
                 playerX: -1f, playerY: tipYPosition,
-                SingleVineXPosition, vineAnchorYPosition,
+                SingleVineXPosition, VineAnchorYPosition,
                 config, minVineIndex: 0,
                 SingleVinePhase, SingleVinePeriod,
                 elapsedTime: 0f,
@@ -73,12 +73,11 @@ namespace Swinging.Core.Tests {
         [Fact]
         public void NegativeOneIsReturnedWhenPlayerIsOutsideOfRadiusAndMovingAway() {
             var config = TestHelpers.DefaultConfig(grabRadius: 0.5f, ropeLength: 5f, grabLookaheadFrames: 3, gravity: 0f);
-            float vineAnchorYPosition = 10f;
-            float tipYPosition = vineAnchorYPosition - config.RopeLength;
+            float tipYPosition = VineTipYPosition(config);
             
             int result = GrabEvaluator.CheckGrab(
                 playerX: -1f, playerY: tipYPosition,
-                SingleVineXPosition, vineAnchorYPosition,
+                SingleVineXPosition, VineAnchorYPosition,
                 config, minVineIndex: 0,
                 SingleVinePhase, SingleVinePeriod,
                 elapsedTime: 0f,
@@ -90,12 +89,11 @@ namespace Swinging.Core.Tests {
         [Fact]
         public void NegativeOneIsReturnedWhenPlayerIsJustOutsideOfRadius() {
             var config = TestHelpers.DefaultConfig(grabRadius: 1.0f, ropeLength: 5f, grabLookaheadFrames: 0);
-            float vineAnchorY = 10f;
-            float tipYPosition = vineAnchorY - config.RopeLength;
+            float tipYPosition = VineTipYPosition(config);
             
             int result = GrabEvaluator.CheckGrab(
                 playerX: 1.1f, playerY: tipYPosition,
-                SingleVineXPosition, vineAnchorY,
+                SingleVineXPosition, VineAnchorYPosition,
                 config, minVineIndex: 0,
                 SingleVinePhase, SingleVinePeriod,
                 elapsedTime: 0f,
@@ -110,12 +108,11 @@ namespace Swinging.Core.Tests {
             float[] threeVineXPositions = { 0f, 10f, 20f };
             float[] threeVinePhases = { 0f, 0f, 0f };
             float[] threeVinePeriods = { 2f, 2f, 2f };
-            float vineAnchorYPosition = 10f;
-            float tipYPosition = vineAnchorYPosition - config.RopeLength;
+            float tipYPosition = VineTipYPosition(config);
             
             int result = GrabEvaluator.CheckGrab(
                 playerX: 10f, playerY: tipYPosition,
-                threeVineXPositions, vineAnchorYPosition,
+                threeVineXPositions, VineAnchorYPosition,
                 config, minVineIndex: 0,
                 threeVinePhases, threeVinePeriods,
                 elapsedTime: 0f,
