@@ -117,3 +117,10 @@ InitTestScene*.unity*
 fmod_editor.log
 
 .idea/
+
+# Exclude dotnet build output
+Tests/**/bin/
+Tests/**/obj/
+
+## Allow test project file
+!Tests/**/*.csproj
