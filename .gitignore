@@ -121,3 +121,6 @@ fmod_editor.log
 # Exclude dotnet build output
 Tests/**/bin/
 Tests/**/obj/
+
+## Allow test project file
+!Tests/**/*.csproj
