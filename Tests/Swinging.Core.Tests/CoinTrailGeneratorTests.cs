@@ -46,7 +46,7 @@ namespace Swinging.Core.Tests {
 
         [Fact]
         public void CoinXPositionsStayBetweenZeroAndOne() {
-            var config = TestHelpers.DefaultConfig(coinsPerGap: 5);
+            var config = TestHelpers.DefaultConfig(coinsPerGap: 5, vineSpacing: 20f);
             var trails = CoinTrailGenerator.GenerateAllTrails(vineCount: 4, config, seed: 0);
 
             foreach (var trail in trails) {
