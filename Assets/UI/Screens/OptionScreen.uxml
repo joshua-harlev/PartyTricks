@@ -2,11 +2,11 @@
     <Style src="project://database/Assets/UI/Screens/OptionScreen/OptionScreenStyles.uss?fileID=7433441132597879392&amp;guid=40dad02a0377a49a5b852b57832568d1&amp;type=3#OptionScreenStyles" />
     <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgb(173, 156, 223); justify-content: center; align-items: center; align-self: auto; align-content: center;">
         <ui:VisualElement name="Buttons" style="flex-grow: 1; width: 1914px; height: 1074px; flex-direction: column; align-items: center; justify-content: flex-start; position: absolute; align-self: center; align-content: center; top: 1px; left: 4px;">
-            <ui:Toggle label="Vsync" name="Vsync_Toggle" style="width: 1099px; justify-content: center; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 33px;" />
-            <ui:DropdownField label="Resolution" name="Resolution_Dropdown" style="top: 97px; width: 1139px;" />
-            <ui:DropdownField label="Anti-Aliasing" name="Anti-Aliasing_Dropdown" style="top: 148px; width: 1139px;" />
-            <ui:Slider label="Volume" value="42" high-value="100" name="Volume_Slider" style="top: 195px; width: 976px;" />
-            <ui:Slider label="Screen Shake" value="42" high-value="100" name="Screen_Shake_Slider" style="top: 220px; width: 974px;" />
+            <ui:Toggle label="Vsync" name="Vsync_Toggle" style="width: 967px; justify-content: center; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 52px;" />
+            <ui:DropdownField label="Resolution" name="Resolution_Dropdown" style="top: 97px; width: 1055px;" />
+            <ui:DropdownField label="Anti-Aliasing" name="Anti-Aliasing_Dropdown" style="top: 148px; width: 1059px;" />
+            <ui:Slider label="Volume" value="42" high-value="100" name="Volume_Slider" style="top: 195px; width: 972px;" />
+            <ui:Slider label="Screen Shake" value="42" high-value="100" name="Screen_Shake_Slider" style="top: 220px; width: 1086px;" />
             <ui:Button text="Okay" name="Okay_Button" style="top: 427px; width: 710px; background-image: url(&quot;project://database/Assets/UI/Images/Button.png?fileID=2800000&amp;guid=08179f71f05da4412aa27bdf5eb1b710&amp;type=3#Button&quot;); background-color: rgba(188, 188, 188, 0);" />
         </ui:VisualElement>
     </ui:VisualElement>
