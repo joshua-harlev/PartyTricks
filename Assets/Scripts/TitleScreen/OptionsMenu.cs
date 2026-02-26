@@ -59,11 +59,14 @@ public class OptionsMenu : MonoBehaviour
             }
         }
 
-        if (uniqueResolutions.Count <= 1) {
+        if (uniqueResolutions.Count <= 1) { // This should never be called, but just in case a fallback exists
             var fallback = new List<(int width, int height)> {
-                (1280, 720), (1280, 800), (1366, 768), (1600, 900),
-                (1680, 1050), (1920, 1080), (1920, 1200),
-                (2560, 1440), (2560, 1600), (3840, 2160)
+                (800, 600),
+                (1280, 720), (1280, 800), 
+                (1366, 768), (1600, 900), 
+                (1680, 1050), (1920, 1080),
+                (1920, 1200), (2560, 1440), 
+                (2560, 1600), (3840, 2160)
             };
             resolutionDropdown.choices = fallback.Select(r => $"{r.width} x {r.height}").ToList();
             resolutionDropdown.index = fallback.FindIndex(r =>
