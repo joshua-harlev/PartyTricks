@@ -90,9 +90,10 @@ public class OptionsMenu : MonoBehaviour
     private void SetUpVolume() {
         volumeSlider.lowValue = 0f;
         volumeSlider.highValue = 1f;
-        volumeSlider.value = AudioListener.volume;
-        volumeSlider.RegisterValueChangedCallback(evt => 
-            AudioListener.volume = evt.newValue);
+        volumeSlider.value = 1f;
+        volumeSlider.RegisterValueChangedCallback(evt => {
+            FMODUnity.RuntimeManager.GetBus("bus:/").setVolume(evt.newValue);
+        });
     }
 
     private void SetUpScreenShake() {
