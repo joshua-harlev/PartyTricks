@@ -4,7 +4,6 @@
 Toggle {
     font-size: 47px;
     -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
-    color: rgba(0, 0, 0, 0.97);
     background-color: rgb(255, 255, 255);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -57,7 +56,6 @@ DropdownField .unity-base-popup-field__text {
     font-size: 27px;
     -unity-text-align: middle-center;
     -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
-    color: rgba(0, 0, 0, 0.97);
 }
 
 Slider {
@@ -72,7 +70,6 @@ Slider {
 Slider .unity-base-field__label {
     font-size: 47px;
     -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
-    color: rgba(0, 0, 0, 0.97);
     min-width: 0;
     width: 450px;
     flex-shrink: 0;
@@ -101,7 +98,6 @@ Slider .unity-base-slider__dragger {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     background-color: rgb(255, 255, 255);
-    border-color: rgba(0, 0, 0, 0.97);
     border-left-width: 2px;
     border-right-width: 2px;
     border-top-width: 2px;

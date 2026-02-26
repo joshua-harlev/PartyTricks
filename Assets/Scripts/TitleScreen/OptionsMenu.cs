@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Rendering.Universal;
+using System.Linq;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -48,22 +49,46 @@ public class OptionsMenu : MonoBehaviour
     }
 
     private void SetUpResolution() {
-        Resolution[] resolutions = Screen.resolutions;
-        var choices = new List<string>();
-        int currentIndex = 0;
+        Resolution[] systemResolutions = Screen.resolutions;
 
-        for (int i = 0; i < resolutions.Length; i++) {
-            choices.Add($"{resolutions[i].width} x {resolutions[i].height} @ {resolutions[i].refreshRateRatio.numerator}hz");
-            if (resolutions[i].width == Screen.currentResolution.width &&
-                resolutions[i].height == Screen.currentResolution.height) {
-                currentIndex = i;
+        var seen = new HashSet<string>();
+        var uniqueResolutions = new List<Resolution>();
+        foreach (var res in systemResolutions) {
+            if (seen.Add($"{res.width}x{res.height}")) {
+                uniqueResolutions.Add(res);
             }
         }
 
+        if (uniqueResolutions.Count <= 1) {
+            var fallback = new List<(int width, int height)> {
+                (1280, 720), (1280, 800), (1366, 768), (1600, 900),
+                (1680, 1050), (1920, 1080), (1920, 1200),
+                (2560, 1440), (2560, 1600), (3840, 2160)
+            };
+            resolutionDropdown.choices = fallback.Select(r => $"{r.width} x {r.height}").ToList();
+            resolutionDropdown.index = fallback.FindIndex(r =>
+                r.width == Display.main.systemWidth &&
+                r.height == Display.main.systemHeight);
+            if (resolutionDropdown.index == -1) resolutionDropdown.index = fallback.Count - 1;
+            resolutionDropdown.RegisterValueChangedCallback(evt => {
+                var selected = fallback[resolutionDropdown.index];
+                Screen.SetResolution(selected.width, selected.height, Screen.fullScreen);
+            });
+            return;
+        }
+
+        var choices = uniqueResolutions.Select(r => $"{r.width} x {r.height}").ToList();
+
+        int currentIndex = uniqueResolutions.FindIndex(r =>
+            r.width == Display.main.systemWidth &&
+            r.height == Display.main.systemHeight);
+        if (currentIndex == -1) currentIndex = uniqueResolutions.Count - 1;
+
         resolutionDropdown.choices = choices;
         resolutionDropdown.index = currentIndex;
+
         resolutionDropdown.RegisterValueChangedCallback(evt => {
-            Resolution selected = resolutions[resolutionDropdown.index];
+            var selected = uniqueResolutions[resolutionDropdown.index];
             Screen.SetResolution(selected.width, selected.height, Screen.fullScreen);
         });
     }
