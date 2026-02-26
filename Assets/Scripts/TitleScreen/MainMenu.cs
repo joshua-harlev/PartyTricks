@@ -7,9 +7,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class MainMenu : MonoBehaviour {
-    [SerializeField]
-    private UIDocument mainMenu;
-
+    [SerializeField] private UIDocument mainMenu;
+    [SerializeField] private OptionsMenu optionsMenu;
+    
     private Button startGameButton;
     private Button optionsButton;
     private Button quitButton;
@@ -150,8 +150,10 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
+    
     private void ShowOptions() {
-        Debug.Log("NOT IMPLEMENTED YET");
+        Debug.Log("ShowOptions called, optionsMenu: " + optionsMenu);
+        optionsMenu.Show();
     }
 
     private void OnDestroy() {

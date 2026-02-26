@@ -7,7 +7,7 @@
             <ui:DropdownField label="Anti-Aliasing" name="Anti-Aliasing_Dropdown" style="top: 148px; width: 1139px;" />
             <ui:Slider label="Volume" value="42" high-value="100" name="Volume_Slider" style="top: 195px; width: 976px;" />
             <ui:Slider label="Screen Shake" value="42" high-value="100" name="Screen_Shake_Slider" style="top: 220px; width: 974px;" />
-            <ui:Button text="Okay" style="top: 427px; width: 710px; background-image: url(&quot;project://database/Assets/UI/Images/Button.png?fileID=2800000&amp;guid=08179f71f05da4412aa27bdf5eb1b710&amp;type=3#Button&quot;); background-color: rgba(188, 188, 188, 0);" />
+            <ui:Button text="Okay" name="Okay_Button" style="top: 427px; width: 710px; background-image: url(&quot;project://database/Assets/UI/Images/Button.png?fileID=2800000&amp;guid=08179f71f05da4412aa27bdf5eb1b710&amp;type=3#Button&quot;); background-color: rgba(188, 188, 188, 0);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
