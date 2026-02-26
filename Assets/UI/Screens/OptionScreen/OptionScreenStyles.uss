@@ -94,14 +94,13 @@ Slider .unity-base-slider__tracker {
 }
 
 Slider .unity-base-slider__dragger {
-    width: 36px;
-    height: 36px;
-    top: 2px;
-    left: 30px;
-    border-top-left-radius: 18px;
-    border-top-right-radius: 18px;
-    border-bottom-left-radius: 18px;
-    border-bottom-right-radius: 18px;
+    width: 45px;
+    height: 45px;
+    top: 1px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     background-color: rgb(255, 255, 255);
     border-color: rgba(0, 0, 0, 0.97);
     border-left-width: 2px;
