@@ -5,22 +5,11 @@ Toggle {
     font-size: 47px;
     -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
     color: rgba(0, 0, 0, 0.97);
-    transition-duration: 0.1s;
     background-color: rgb(255, 255, 255);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-}
-
-Toggle:hover {
-    scale: 1.2 1.2 1.2;
-    transition-duration: 0.3s;
-}
-
-Toggle:focus {
-    scale: 1.2 1.2 1.2;
-    transition-duration: 0.3s;
 }
 
 Toggle .unity-label {
@@ -39,7 +28,7 @@ Toggle #unity-checkmark {
 }
 
 DropdownField {
-    font-size: 47px;
+    font-size: 27px;
     -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
     align-self: center;
     margin-top: 10px;
@@ -47,6 +36,7 @@ DropdownField {
 }
 
 DropdownField .unity-label {
+    font-size: 47px;
     width: 400px;
     margin-right: 250px;
     flex-shrink: 0;
@@ -62,7 +52,6 @@ DropdownField .unity-base-popup-field__input {
     border-bottom-right-radius: 8px;
     background-color: rgb(255, 255, 255);
 }
-
 
 
 DropdownField .unity-base-popup-field__text {
@@ -135,4 +124,14 @@ Button {
     -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
     color: rgba(0, 0, 0, 0.97);
     transition-duration: 0.1s;
+}
+
+Button:hover {
+    scale: 1.2 1.2 1.2;
+    transition-duration: 0.3s;
+}
+
+Button:focus {
+    scale: 1.2 1.2 1.2;
+    transition-duration: 0.3s;
 }

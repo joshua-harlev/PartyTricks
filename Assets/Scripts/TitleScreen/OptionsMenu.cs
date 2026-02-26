@@ -40,8 +40,10 @@ public class OptionsMenu : MonoBehaviour
 
     private void SetUpVSync() {
         vSyncToggle.value = QualitySettings.vSyncCount > 0;
-        vSyncToggle.RegisterValueChangedCallback(evt => 
-            QualitySettings.vSyncCount = evt.newValue ? 1 : 0);
+        vSyncToggle.RegisterValueChangedCallback(evt => {
+            QualitySettings.vSyncCount = evt.newValue ? 1 : 0;
+            Debug.Log("VSync set to: " + QualitySettings.vSyncCount);
+        });
     }
 
     private void SetUpResolution() {
