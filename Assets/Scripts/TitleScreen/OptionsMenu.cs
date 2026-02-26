@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Rendering.Universal;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -68,23 +69,21 @@ public class OptionsMenu : MonoBehaviour
     }
 
     private void SetUpAntiAliasing() {
-        var choices = new List<string> { "None", "2x", "4x", "8x" };
+        var choices = new List<string> { "None", "FXAA", "SMAA" };
         antiAliasingDropdown.choices = choices;
 
-        int current = QualitySettings.antiAliasing;
-        antiAliasingDropdown.index = current switch {
-            2 => 1,
-            4 => 2,
-            8 => 3,
+        var cameraData = Camera.main.GetComponent<UniversalAdditionalCameraData>();
+        antiAliasingDropdown.index = cameraData.antialiasing switch {
+            AntialiasingMode.FastApproximateAntialiasing => 1,
+            AntialiasingMode.SubpixelMorphologicalAntiAliasing => 2,
             _ => 0
         };
 
         antiAliasingDropdown.RegisterValueChangedCallback(evt => {
-            QualitySettings.antiAliasing = antiAliasingDropdown.index switch {
-                1 => 2,
-                2 => 4,
-                3 => 8,
-                _ => 0
+            cameraData.antialiasing = antiAliasingDropdown.index switch {
+                1 => AntialiasingMode.FastApproximateAntialiasing,
+                2 => AntialiasingMode.SubpixelMorphologicalAntiAliasing,
+                _ => AntialiasingMode.None
             };
         });
     }
