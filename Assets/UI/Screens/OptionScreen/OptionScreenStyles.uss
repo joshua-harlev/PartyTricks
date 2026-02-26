@@ -1,0 +1,138 @@
+:root {
+}
+
+Toggle {
+    font-size: 47px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
+    color: rgba(0, 0, 0, 0.97);
+    transition-duration: 0.1s;
+    background-color: rgb(255, 255, 255);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+Toggle:hover {
+    scale: 1.2 1.2 1.2;
+    transition-duration: 0.3s;
+}
+
+Toggle:focus {
+    scale: 1.2 1.2 1.2;
+    transition-duration: 0.3s;
+}
+
+Toggle .unity-label {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 600px;
+}
+
+Toggle #unity-checkmark {
+    width: 70px;
+    height: 70px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+DropdownField {
+    font-size: 47px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
+    align-self: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+DropdownField .unity-label {
+    width: 400px;
+    margin-right: 250px;
+    flex-shrink: 0;
+}
+
+DropdownField .unity-base-popup-field__input {
+    flex-grow: 1;
+    max-width: 400px;
+    height: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: rgb(255, 255, 255);
+}
+
+
+
+DropdownField .unity-base-popup-field__text {
+    font-size: 27px;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
+    color: rgba(0, 0, 0, 0.97);
+}
+
+Slider {
+    align-self: center;
+    width: 897px;
+    height: 80px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+Slider .unity-base-field__label {
+    font-size: 47px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
+    color: rgba(0, 0, 0, 0.97);
+    min-width: 0;
+    width: 450px;
+    flex-shrink: 0;
+}
+
+Slider .unity-base-slider__input {
+    flex-grow: 1;
+    align-items: center;
+}
+
+Slider .unity-base-slider__tracker {
+    height: 25px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: rgb(200, 200, 200);
+}
+
+Slider .unity-base-slider__dragger {
+    width: 36px;
+    height: 36px;
+    top: 2px;
+    left: 30px;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    background-color: rgb(255, 255, 255);
+    border-color: rgba(0, 0, 0, 0.97);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+}
+
+Button {
+    -unity-text-align: middle-center;
+    font-size: 47px;
+    margin-top: 20px;
+    margin-right: 29px;
+    margin-bottom: 20px;
+    margin-left: 29px;
+    height: 124px;
+    width: 897px;
+    align-self: center;
+    -unity-font-style: normal;
+    -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
+    color: rgba(0, 0, 0, 0.97);
+    transition-duration: 0.1s;
+}
