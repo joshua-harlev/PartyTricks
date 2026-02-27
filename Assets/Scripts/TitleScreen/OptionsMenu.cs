@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class OptionsMenu : MonoBehaviour
 {
     [SerializeField] private UIDocument optionsDocument;
+    private static OptionsMenu instance;
 
     private VisualElement root;
     private Toggle vSyncToggle;
@@ -20,9 +21,14 @@ public class OptionsMenu : MonoBehaviour
     public static float ScreenShakeIntensity = 1f;
 
     private void Awake() {
+        if (instance != null && instance != this) {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
         root = optionsDocument.rootVisualElement;
         root.style.display = DisplayStyle.None;
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start() {
@@ -181,5 +187,6 @@ public class OptionsMenu : MonoBehaviour
 
     private void OnDestroy() {
         okayButton.clicked -= Hide;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
