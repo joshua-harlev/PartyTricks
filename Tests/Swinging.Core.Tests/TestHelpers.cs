@@ -16,11 +16,15 @@ namespace Swinging.Core.Tests {
             int vineScoreValue = 10,
             float coinArcHeight = 2f,
             int grabLookaheadFrames = 3,
-            float minimumReleaseVelocityX = 1f
+            float minimumReleaseVelocityX = 1f,
+            float baseAttractionRate = 1.5f,
+            float slowdownThreshold = 0.785f, // pi/4 
+            float slowdownRate = 0.8f,
+            float maxPhaseAdjustment = 1.571f // pi/2
         ) {
             return new SwingConfig(amplitude, ropeLength, period, launchForce, grabRadius, fallThresholdY, respawnDelay,
                 vineSpacing, gravity, coinsPerGap, vineScoreValue, coinArcHeight, grabLookaheadFrames,
-                minimumReleaseVelocityX);
+                minimumReleaseVelocityX, baseAttractionRate, slowdownThreshold, slowdownRate, maxPhaseAdjustment);
         }
     }
 }

@@ -36,11 +36,18 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     [Header("Release Forgiveness")]
     [SerializeField] public float MinimumReleaseVelocityX = 0.2f;
     
+    [Header("Vine Attraction")]
+    [SerializeField] public float BaseAttractionRate;
+    [SerializeField] public float SlowdownThreshold;
+    [SerializeField] public float SlowdownRate;
+    [SerializeField] public float MaxPhaseAdjustment;
+    
     public SwingConfig CreateConfig(MovementModifiers movementModifiers, int coinsPerGapBoost) {
         float modifiedPeriod = Period;
         float modifiedRespawnDelay = RespawnDelayInSeconds;
-        // decrease period by 20% for each move modifier; swing faster
-        // decrease respawn delay by 30% for each move modifier; respawn faster;
+        // decrease period for each move modifier; swing faster
+        // decrease respawn delay for each move modifier; respawn faster
+        // increase launch force for each move modifier; move further
         for (int i = 0; i < movementModifiers.MoveBoostCount; i++) {
             modifiedPeriod *= 0.82f;
             modifiedRespawnDelay *= 0.70f;
@@ -54,6 +61,8 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
         int grabLookaheadFrames = movementModifiers.MoveBoostCount * GrabLookaheadFramesPerBoost;
 
         return new SwingConfig(Amplitude, RopeLength, modifiedPeriod, modifiedLaunchForce, GrabRadius, FallThresholdY,
-            modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue, CoinArcHeight, grabLookaheadFrames, MinimumReleaseVelocityX);
+            modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue, CoinArcHeight,
+            grabLookaheadFrames, MinimumReleaseVelocityX, BaseAttractionRate, SlowdownThreshold, SlowdownRate,
+            MaxPhaseAdjustment);
     }
 }

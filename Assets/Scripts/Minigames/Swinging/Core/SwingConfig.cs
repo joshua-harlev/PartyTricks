@@ -16,9 +16,16 @@ namespace VineSwinging.Core {
 
         public readonly int GrabLookaheadFrames;
         public readonly float MinimumReleaseVelocityX;
+        
+        public readonly float BaseAttractionRate;
+        public readonly float SlowdownThreshold;
+        public readonly float SlowdownRate;
+        public readonly float MaxPhaseAdjustment;
 
         public SwingConfig(float amplitude, float ropeLength, float period, float launchForce, float grabRadius,
-            float fallThresholdY, float respawnDelay, float vineSpacing, float gravity, int coinsPerGap, int vineScoreValue, float coinArcHeight, int grabLookaheadFrames, float minimumReleaseVelocityX) {
+            float fallThresholdY, float respawnDelay, float vineSpacing, float gravity, int coinsPerGap,
+            int vineScoreValue, float coinArcHeight, int grabLookaheadFrames, float minimumReleaseVelocityX,
+            float baseAttractionRate, float slowdownThreshold, float slowdownRate, float maxPhaseAdjustment) {
             Amplitude = amplitude;
             RopeLength = ropeLength;
             Period = period;
@@ -33,6 +40,10 @@ namespace VineSwinging.Core {
             CoinArcHeight = coinArcHeight;
             GrabLookaheadFrames = grabLookaheadFrames;
             MinimumReleaseVelocityX = minimumReleaseVelocityX;
+            BaseAttractionRate = baseAttractionRate;
+            SlowdownThreshold = slowdownThreshold;
+            SlowdownRate = slowdownRate;
+            MaxPhaseAdjustment = maxPhaseAdjustment;
         }
     }
 }

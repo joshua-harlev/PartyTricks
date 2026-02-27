@@ -15,6 +15,8 @@ namespace VineSwinging.Core {
         public float RespawnTimer;
         public int TotalCoinValue;
         public float AIReleaseThreshold = 0.3f;
+        public float VineAttractionPhaseAdjustment;
+        public int AttractionTargetVineIndex = -1;
         public PlayerStateType CurrentStateType;
         public List<PlayerEvent> PendingEvents = new();
 
