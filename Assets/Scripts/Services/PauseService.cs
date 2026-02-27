@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class PauseService : MonoBehaviour, IPauseService
 {
     [SerializeField] private GameObject pauseMenuPrefab;
+    [SerializeField] private GameObject optionsMenuPrefab;
+    
     private GameObject activePauseMenu;
     
     private List<InputAction> playerPauseActions = new();
@@ -24,6 +26,7 @@ public class PauseService : MonoBehaviour, IPauseService
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         SetUpInputActions();
         SubscribeToEvents();
+        if (optionsMenuPrefab != null) Instantiate(optionsMenuPrefab);
     }
     
 
