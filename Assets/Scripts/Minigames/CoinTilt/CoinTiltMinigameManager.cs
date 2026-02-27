@@ -38,7 +38,6 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     private readonly int[] playerScores = new int[4];
     private IPlayerService playerService;
     private IPowerUpService powerUpService;
-    private int numberOfCoinSpawnPowerups = 0;
     
     private void Start() {
         StartCoroutine(WaitForInitialization());
@@ -177,7 +176,6 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
         MovementModifiers modifiers = powerUpService.GetMovementModifiers(profile);
         int numberOfMagnetPowerups = modifiers.MagnetCount;
         int numberOfMoveBoosts = modifiers.MoveBoostCount;
-        numberOfCoinSpawnPowerups += modifiers.CoinSpawnRateBoostCount;
         players[playerIndex].Initialize(playerIndex, slot.InputHandler, slot.IsAI, numberOfMagnetPowerups, numberOfMoveBoosts);
         players[playerIndex].OnCoinCollected += HandleCoinCollected;
         players[playerIndex].OnFallOff += HandlePlayerFall;
@@ -211,7 +209,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     private void StartCoinSpawning() {
         for (int i = 0; i < coinSpawners.Length; i++) {
             if (coinSpawners[i]) {
-                coinSpawners[i].StartSpawning(gameDurationInSeconds, numberOfCoinSpawnPowerups, playerService.GetPlayerProfile(i));
+                coinSpawners[i].StartSpawning(gameDurationInSeconds, playerService.GetPlayerProfile(i));
             }
         }
     }

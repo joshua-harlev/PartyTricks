@@ -56,14 +56,14 @@ public class CoinSpawner : MonoBehaviour {
         activeCoins.RemoveAll(coin => coin == null);
     }
 
-    public void StartSpawning(float durationInSeconds, int numberOfCoinSpawnPowerups,
+    public void StartSpawning(float durationInSeconds,
         PlayerProfile playerProfile) {
         MovementModifiers modifiers = powerUpService.GetMovementModifiers(playerProfile);
         increasedSpecialCoinRateModifier = 1 + modifiers.SpecialCoinRateBoostCount;
         if (!powerupsHaveBeenApplied) {
             float spawnRateMultiplier = 1;
-            for (int i = 0; i < numberOfCoinSpawnPowerups; i++) {
-                spawnRateMultiplier *= 1.25f;
+            for (int i = 0; i < modifiers.CoinSpawnRateBoostCount; i++) {
+                spawnRateMultiplier *= 1.50f;
             }
             initialSpawnRate *= spawnRateMultiplier;
             finalSpawnRate *= spawnRateMultiplier;

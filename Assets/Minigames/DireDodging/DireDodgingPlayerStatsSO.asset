@@ -62,3 +62,10 @@ MonoBehaviour:
       Data3: 349146006
       Data4: 1289414296
     Path: event:/DireDodging/ChargeShoot
+  ChargeCompleteEvent:
+    Guid:
+      Data1: -870579707
+      Data2: 1290771608
+      Data3: -2047714629
+      Data4: -1203956741
+    Path: event:/DireDodging/ChargeComplete
