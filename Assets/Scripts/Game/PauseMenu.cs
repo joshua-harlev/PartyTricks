@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour {
     private bool hasFocused;
     private IPlayerService playerService;
     [SerializeField] private UIDocument pauseMenu;
-
+    
     public void Initialize(PauseService service) {
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         VisualElement root = pauseMenu.rootVisualElement;
@@ -74,7 +74,7 @@ public class PauseMenu : MonoBehaviour {
     }
 
     private void OnOptionsClicked() {
-        Debug.Log("Options not yet implemented.");
+        //FindFirstObjectByType<OptionsMenu>()?.Show();
     }
 
     private void OnResumeClicked() {

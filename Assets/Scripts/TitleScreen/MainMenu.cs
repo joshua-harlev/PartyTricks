@@ -8,8 +8,6 @@ using UnityEngine.UIElements;
 
 public class MainMenu : MonoBehaviour {
     [SerializeField] private UIDocument mainMenu;
-    [SerializeField] private OptionsMenu optionsMenu;
-    
     
     private Button startGameButton;
     private Button optionsButton;
@@ -152,7 +150,7 @@ public class MainMenu : MonoBehaviour {
     }
     
     private void ShowOptions() {
-        OptionsMenu.Instance?.Show();
+        FindFirstObjectByType<OptionsMenu>()?.Show();
     }
 
     private void OnDestroy() {
