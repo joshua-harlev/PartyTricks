@@ -39,11 +39,12 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     public SwingConfig CreateConfig(MovementModifiers movementModifiers, int coinsPerGapBoost) {
         float modifiedPeriod = Period;
         float modifiedRespawnDelay = RespawnDelayInSeconds;
-        // decrease period by 15% for each move modifier; swing faster
-        // decrease respawn delay by 15% for each move modifier; respawn faster;
+        // decrease period by 20% for each move modifier; swing faster
+        // decrease respawn delay by 30% for each move modifier; respawn faster;
         for (int i = 0; i < movementModifiers.MoveBoostCount; i++) {
-            modifiedPeriod *= 0.85f;
-            modifiedRespawnDelay *= 0.85f;
+            modifiedPeriod *= 0.82f;
+            modifiedRespawnDelay *= 0.70f;
+            LaunchForce *= 1.03f;
         }
 
         int modifiedCoinsPerGap = CoinsPerGap + coinsPerGapBoost;

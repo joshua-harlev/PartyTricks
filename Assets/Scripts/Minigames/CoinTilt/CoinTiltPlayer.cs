@@ -77,8 +77,8 @@ public class CoinTiltPlayer : MonoBehaviour {
 
     private void ApplyMoveBoosts(int numberOfMoveBoosts) {
         for (int i = 0; i < numberOfMoveBoosts; i++) {
-            slipFactor += 1.2f;
-            airControlMultiplier = Mathf.Clamp01(airControlMultiplier + 0.2f);
+            slipFactor += 1.3f;
+            airControlMultiplier = Mathf.Clamp01(airControlMultiplier + 0.3f);
         }
     }
 
