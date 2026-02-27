@@ -15,9 +15,11 @@ public class PauseMenu : MonoBehaviour {
     private InputAction navigateAction;
     private bool hasFocused;
     private IPlayerService playerService;
+    private OptionsMenu optionsMenu;
     [SerializeField] private UIDocument pauseMenu;
     
     public void Initialize(PauseService service) {
+        optionsMenu = FindFirstObjectByType<OptionsMenu>();
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         VisualElement root = pauseMenu.rootVisualElement;
         pauseService = service;
@@ -74,7 +76,7 @@ public class PauseMenu : MonoBehaviour {
     }
 
     private void OnOptionsClicked() {
-        //FindFirstObjectByType<OptionsMenu>()?.Show();
+        if (optionsMenu != null) optionsMenu.Show();
     }
 
     private void OnResumeClicked() {

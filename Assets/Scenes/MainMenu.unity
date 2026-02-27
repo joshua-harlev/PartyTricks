@@ -554,7 +554,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
   mainMenu: {fileID: 998597954}
-  optionsMenu: {fileID: 0}
 --- !u!1 &1457923513
 GameObject:
   m_ObjectHideFlags: 0
