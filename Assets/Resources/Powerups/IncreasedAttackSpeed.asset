@@ -17,8 +17,7 @@ MonoBehaviour:
   DisplayName: Attack Faster
   Cost: 50
   Category: 2
-  Description: Simple stat boost.\nAttack faster!
+  Description: Faster charging & attack speed.\nA simple but effective boost.
   IsTemporary: 0
   NumberOfUsesIfApplicable: 0
-  PowerUpEffectId: increasedAttackSpeed
   IsImplemented: 1

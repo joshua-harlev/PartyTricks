@@ -92,7 +92,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         spriteHalfHeight = SpriteRenderer.bounds.extents.y + 0.4f; // offset added for health bar
 
         ProjectilePool.Initialize();
-        ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO);
+        ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO, numberOfIncreasedAttackSpeedPowerups);
         DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO);
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} initialized. IsAI: {isAI}");
     }

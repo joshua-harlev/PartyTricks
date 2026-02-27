@@ -33,4 +33,5 @@ public class DireDodgingPlayerStatsSO : ScriptableObject {
     public EventReference ChargeLoopEvent;
     public EventReference ChargeReleaseEvent;
     public EventReference ChargeShootEvent;
+    public EventReference ChargeCompleteEvent;
 }

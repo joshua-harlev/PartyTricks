@@ -20,26 +20,32 @@ namespace Minigames.DireDodging {
         private float chargedProjectileSpeed;
         private float ghostChargeTime;
         private float ghostProjectileSpeed;
+        private float chargeTimeRequiredOriginal;
+        private float ghostChargeTimeOriginal;
 
         private EventReference chargeLoopEvent;
         private EventReference chargeReleaseEvent;
         private EventReference chargeShootEvent;
+        private EventReference chargeCompleteEvent;
 
         public bool IsCharging => isCharging;
 
         public void Initialize(DireDodgingPlayer player, DireDodgingProjectilePool pool,
-            DireDodgingPlayerStatsSO stats) {
+            DireDodgingPlayerStatsSO stats, int numberOfIncreasedAttackSpeedPowerups) {
             this.player = player;
             this.projectilePool = pool;
-
-            chargeTimeRequired = stats.ChargeTimeRequired;
+            float speedCoefficient = (1 + (numberOfIncreasedAttackSpeedPowerups * 0.75f));
+            chargeTimeRequired = stats.ChargeTimeRequired / speedCoefficient;
             chargedProjectileScale = stats.ChargedProjectileScale;
-            chargedProjectileSpeed = stats.ChargedProjectileSpeed;
+            chargedProjectileSpeed = stats.ChargedProjectileSpeed * speedCoefficient;
             ghostChargeTime = stats.GhostChargeTime;
             ghostProjectileSpeed = stats.GhostProjectileSpeed;
             chargeLoopEvent = stats.ChargeLoopEvent;
             chargeReleaseEvent = stats.ChargeReleaseEvent;
             chargeShootEvent = stats.ChargeShootEvent;
+            chargeCompleteEvent = stats.ChargeCompleteEvent;
+            chargeTimeRequiredOriginal = stats.ChargeTimeRequired;
+            ghostChargeTimeOriginal = stats.GhostChargeTime;
         }
 
         public void Tick() {
@@ -100,7 +106,17 @@ namespace Minigames.DireDodging {
                 chargeParticles.Play();
             }
 
+            if (chargeLoopInstance.isValid()) {
+                chargeLoopInstance.stop(STOP_MODE.IMMEDIATE);
+                chargeLoopInstance.release();
+            }
+
             chargeLoopInstance = RuntimeManager.CreateInstance(chargeLoopEvent);
+            Debug.Log($"Created charge instance, valid: {chargeLoopInstance.isValid()}");
+            float baseTime = player.IsGhostMode ? ghostChargeTime : chargeTimeRequired;
+            float originalTime = player.IsGhostMode ? ghostChargeTimeOriginal : chargeTimeRequiredOriginal;
+            float speedRatio = originalTime / baseTime;
+            chargeLoopInstance.setPitch(speedRatio);
             chargeLoopInstance.start();
         }
         
@@ -113,7 +129,7 @@ namespace Minigames.DireDodging {
             }
     
             if (chargeLoopInstance.isValid()) {
-                chargeLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                chargeLoopInstance.stop(STOP_MODE.IMMEDIATE);
                 chargeLoopInstance.release();
             }
     
@@ -121,7 +137,7 @@ namespace Minigames.DireDodging {
                 ShootChargedProjectile();
                 RuntimeManager.PlayOneShot(chargeShootEvent);
             } else {
-                RuntimeManager.PlayOneShot(chargeReleaseEvent);
+                // RuntimeManager.PlayOneShot(chargeReleaseEvent);
             }
     
             isCharging = false;
@@ -141,11 +157,22 @@ namespace Minigames.DireDodging {
                 }
             
                 float chargePercent = Mathf.Clamp01(chargeTime / timeRequiredToCharge);
+
+                if (chargeLoopInstance.isValid()) {
+                    chargeLoopInstance.setParameterByName("ChargeProgress", chargePercent);
+                }
         
                 chargeIndicator.transform.localScale = new Vector3(3.6f, chargePercent * 3.6f, 1f);
         
                 if (chargePercent >= 1f) {
                     chargeIndicator.color = Color.green;
+
+                    if (chargeLoopInstance.isValid()) {
+                        chargeLoopInstance.stop(STOP_MODE.IMMEDIATE);
+                        chargeLoopInstance.release();
+                        RuntimeManager.PlayOneShot(chargeCompleteEvent);
+                    }
+                    
                 } else {
                     chargeIndicator.color = Color.yellow;
                 }
