@@ -9,6 +9,7 @@ public class OptionsMenu : MonoBehaviour
 {
     [SerializeField] private UIDocument optionsDocument;
     private static OptionsMenu instance;
+    public static OptionsMenu Instance => instance;
 
     private VisualElement root;
     private Toggle vSyncToggle;
@@ -26,6 +27,7 @@ public class OptionsMenu : MonoBehaviour
             return;
         }
         instance = this;
+        transform.SetParent(null);
         DontDestroyOnLoad(gameObject);
         root = optionsDocument.rootVisualElement;
         root.style.display = DisplayStyle.None;

@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour {
     [SerializeField] private UIDocument mainMenu;
     [SerializeField] private OptionsMenu optionsMenu;
     
+    
     private Button startGameButton;
     private Button optionsButton;
     private Button quitButton;
@@ -149,11 +150,9 @@ public class MainMenu : MonoBehaviour {
             Debug.LogError("MainMenu: GameFlowManager not found.");
         }
     }
-
     
     private void ShowOptions() {
-        Debug.Log("ShowOptions called, optionsMenu: " + optionsMenu);
-        optionsMenu.Show();
+        OptionsMenu.Instance?.Show();
     }
 
     private void OnDestroy() {
