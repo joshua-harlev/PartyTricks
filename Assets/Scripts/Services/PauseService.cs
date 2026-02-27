@@ -26,7 +26,10 @@ public class PauseService : MonoBehaviour, IPauseService
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         SetUpInputActions();
         SubscribeToEvents();
-        if (optionsMenuPrefab != null) Instantiate(optionsMenuPrefab);
+        if (optionsMenuPrefab != null) {
+            var optionsMenu = Instantiate(optionsMenuPrefab);
+            DontDestroyOnLoad(optionsMenu);
+        }
     }
     
 
