@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Rendering.Universal;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class OptionsMenu : MonoBehaviour
     private void Awake() {
         root = optionsDocument.rootVisualElement;
         root.style.display = DisplayStyle.None;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start() {
@@ -100,26 +102,47 @@ public class OptionsMenu : MonoBehaviour
         var choices = new List<string> { "None", "FXAA", "SMAA" };
         antiAliasingDropdown.choices = choices;
 
-        var cameraData = Camera.main.GetComponent<UniversalAdditionalCameraData>();
+        RefreshAntiAliasingFromCurrentCamera();
+
+        antiAliasingDropdown.RegisterValueChangedCallback(evt => {
+            ApplyAntiAliasing(antiAliasingDropdown.index);
+        });
+    }
+    
+    private void ApplyAntiAliasing(int index) {
+        var mode = index switch {
+            1 => AntialiasingMode.FastApproximateAntialiasing,
+            2 => AntialiasingMode.SubpixelMorphologicalAntiAliasing,
+            _ => AntialiasingMode.None
+        };
+
+        foreach (var cam in FindObjectsByType<Camera>(FindObjectsSortMode.None)) {
+            var cameraData = cam.GetComponent<UniversalAdditionalCameraData>();
+            if (cameraData != null) {
+                cameraData.antialiasing = mode;
+            }
+        }
+    }
+    
+    private void RefreshAntiAliasingFromCurrentCamera() {
+        var cam = FindFirstObjectByType<Camera>();
+        if (cam == null) return;
+    
+        var cameraData = cam.GetComponent<UniversalAdditionalCameraData>();
+        if (cameraData == null) return;
+
         antiAliasingDropdown.index = cameraData.antialiasing switch {
             AntialiasingMode.FastApproximateAntialiasing => 1,
             AntialiasingMode.SubpixelMorphologicalAntiAliasing => 2,
             _ => 0
         };
-
-        antiAliasingDropdown.RegisterValueChangedCallback(evt => {
-            cameraData.antialiasing = antiAliasingDropdown.index switch {
-                1 => AntialiasingMode.FastApproximateAntialiasing,
-                2 => AntialiasingMode.SubpixelMorphologicalAntiAliasing,
-                _ => AntialiasingMode.None
-            };
-        });
     }
 
     private void SetUpVolume() {
         volumeSlider.lowValue = 0f;
         volumeSlider.highValue = 1f;
-        volumeSlider.value = 1f;
+        FMODUnity.RuntimeManager.GetBus("bus:/").getVolume(out float currentVolume);
+        volumeSlider.value = currentVolume;
         volumeSlider.RegisterValueChangedCallback(evt => {
             FMODUnity.RuntimeManager.GetBus("bus:/").setVolume(evt.newValue);
         });
@@ -132,8 +155,23 @@ public class OptionsMenu : MonoBehaviour
         screenShakeSlider.RegisterValueChangedCallback(evt => 
             ScreenShakeIntensity = evt.newValue);
     }
-
+    
+    private void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    
+    private void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        if (antiAliasingDropdown == null) return;
+        ApplyAntiAliasing(antiAliasingDropdown.index);
+    }
+    
     public void Show() {
+        RefreshAntiAliasingFromCurrentCamera();
         root.style.display = DisplayStyle.Flex;
     }
 
