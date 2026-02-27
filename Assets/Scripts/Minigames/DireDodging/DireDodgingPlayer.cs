@@ -100,7 +100,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     public void DestroyVisibleProjectiles() => ProjectilePool.DestroyAllVisible();
 
     private void ApplyStatBuffs(int numberOfIncreasedHpPowerups, int numberOfIncreasedAttackSpeedPowerups) {
-        this.maxHealth += numberOfIncreasedHpPowerups;
+        this.maxHealth += (numberOfIncreasedHpPowerups * this.maxHealth/2f);
         this.currentHealth = this.maxHealth;
         for (int i = 0; i < numberOfIncreasedAttackSpeedPowerups; i++) {
             this.projectileShootRate *= 0.75f;
@@ -169,7 +169,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private IEnumerator ShootingCoroutine() {
-        float nextShootTime = 0f;
+        nextShootTime = 0f;
         while (inputEnabled && isAlive) {
             if (!ChargeAttack.IsCharging && Time.time >= nextShootTime)
             {
@@ -281,6 +281,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private bool isStunned = false;
+    private float nextShootTime;
 
     private IEnumerator StunCoroutine() {
         if (isStunned) yield break;
@@ -370,5 +371,9 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void OnDestroy() {
         ChargeAttack.Cleanup();
         DeathHandler.Cleanup();
+    }
+
+    public void ResetShootCooldown() {
+        nextShootTime = Time.time + projectileShootRate;
     }
 }

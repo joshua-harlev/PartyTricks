@@ -22,6 +22,7 @@ namespace Minigames.DireDodging {
         private float ghostProjectileSpeed;
         private float chargeTimeRequiredOriginal;
         private float ghostChargeTimeOriginal;
+        private float originalBaseHP;
 
         private EventReference chargeLoopEvent;
         private EventReference chargeReleaseEvent;
@@ -46,6 +47,7 @@ namespace Minigames.DireDodging {
             chargeCompleteEvent = stats.ChargeCompleteEvent;
             chargeTimeRequiredOriginal = stats.ChargeTimeRequired;
             ghostChargeTimeOriginal = stats.GhostChargeTime;
+            originalBaseHP = stats.BaseHealth;
         }
 
         public void Tick() {
@@ -141,6 +143,7 @@ namespace Minigames.DireDodging {
             }
     
             isCharging = false;
+            player.ResetShootCooldown();
         }
         
         private void UpdateChargeIndicator() {
@@ -204,7 +207,7 @@ namespace Minigames.DireDodging {
                 damage = 0f;
                 speed = player.ProjectileSpeed * ghostProjectileSpeed;
             } else {
-                damage = player.MaxHealth; //changed to the player who's shooting's max health -> benefits to more HP 
+                damage = originalBaseHP; // if you use player.MaxHealth instead, attacks also scale on HP buffs which makes them MUCH stronger
                 speed = player.ProjectileSpeed * chargedProjectileSpeed;
             }
 
