@@ -46,6 +46,10 @@
           ApplyAntiAliasing();
       }
 
+      public static void ApplyVolume() {
+          FMODUnity.RuntimeManager.GetBus("bus:/").setVolume(Volume);
+      }
+
       public static void ApplyAntiAliasing()
       {
           var mode = AntiAliasingMode switch

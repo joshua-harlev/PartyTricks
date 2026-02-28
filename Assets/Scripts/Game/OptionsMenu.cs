@@ -46,7 +46,11 @@
           });
           antiAliasingDropdown.RegisterValueChangedCallback(evt =>
               GameSettings.AntiAliasingMode = antiAliasingDropdown.index);
-          volumeSlider.RegisterValueChangedCallback(evt => GameSettings.Volume = evt.newValue);
+          volumeSlider.RegisterValueChangedCallback(evt =>
+          {
+              GameSettings.Volume = evt.newValue;
+              GameSettings.ApplyVolume();
+          });
           screenShakeSlider.RegisterValueChangedCallback(evt => GameSettings.ScreenShakeIntensity = evt.newValue);
           okayButton.clicked += OnOkay;
       }
