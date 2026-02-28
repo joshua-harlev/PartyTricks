@@ -47,6 +47,7 @@ namespace Minigames.Swinging {
         public PlayerCornerDisplay[] PlayerCornerDisplays => playerCornerDisplays;
         public VineSwingingPlayerView[] PlayerViews => playerViews;
         public int[] FundsPerRank => fundsPerRank;
+        public VineTrackView[] TrackViews => trackViews;
 
         private IVineSwingingGameState currentState;
         private IPowerUpService powerUpService;
@@ -156,7 +157,13 @@ namespace Minigames.Swinging {
                     PlayerStateMachines[i].Update(Time.deltaTime, false);
                     playerViews[i].Pull(PlayerStateMachines[i].PlayerContext);
                 }
+            }
 
+            if (PlayerStateMachines != null) {
+                float elapsedTime = PlayerStateMachines[0].ElapsedTime;
+                for (int i = 0; i < trackViews.Length; i++) {
+                    trackViews[i].UpdateElapsedTime(elapsedTime);
+                }
             }
         }
 

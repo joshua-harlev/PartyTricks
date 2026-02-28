@@ -12,6 +12,9 @@ namespace VineSwinging.Core {
             float vinePeriod = playerStateMachine.VinePeriods[playerContext.CurrentVineIndex];
             playerContext.SwingPhase = playerStateMachine.VinePhaseOffsets[playerContext.CurrentVineIndex]
                 + (float)(2*Math.PI / vinePeriod) * playerStateMachine.ElapsedTime;
+            playerContext.SwingPhase += playerContext.VineAttractionPhaseAdjustment;
+            playerContext.VineAttractionPhaseAdjustment = 0f;
+            playerContext.AttractionTargetVineIndex = -1;
         }
 
         public void Update(PlayerContext playerContext, SwingConfig swingConfig, float deltaTime, bool releasePressed) {

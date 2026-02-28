@@ -32,3 +32,7 @@ MonoBehaviour:
   MagnetPullSpeed: 8
   GrabLookaheadFramesPerBoost: 10
   MinimumReleaseVelocityX: 8
+  AttractionReferenceDistance: 2.5
+  MinSpeedMultiplier: 0
+  MaxSpeedMultiplier: 2.5
+  MaxPhaseAdjustment: 1

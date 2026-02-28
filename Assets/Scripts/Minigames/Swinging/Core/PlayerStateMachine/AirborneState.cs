@@ -16,9 +16,27 @@ namespace VineSwinging.Core {
             playerContext.VelocityY -= swingConfig.Gravity * deltaTime;
             playerContext.PositionX += playerContext.VelocityX * deltaTime;
             playerContext.PositionY += playerContext.VelocityY * deltaTime;
+            int targetVine = playerContext.CurrentVineIndex + 1;
+            if (targetVine < playerStateMachine.VineXPositions.Length && playerContext.VelocityX > 0) {
+                playerContext.AttractionTargetVineIndex = targetVine;
+                playerContext.VineAttractionPhaseAdjustment = VineAttraction.UpdatePhaseAdjustment(
+                    playerContext.VineAttractionPhaseAdjustment,
+                    playerStateMachine.VinePhaseOffsets[targetVine],
+                    playerStateMachine.VinePeriods[targetVine],
+                    playerStateMachine.ElapsedTime,
+                    swingConfig, deltaTime,
+                    playerContext.PositionX, playerContext.PositionY,
+                    playerStateMachine.VineXPositions[targetVine],
+                    playerStateMachine.VineAnchorY);
+            }
+            else {
+                playerContext.AttractionTargetVineIndex = -1;
+            }
             int minVineIndex = playerContext.CurrentVineIndex + 1;
             var grabPosition = GrabEvaluator.CheckGrab(playerContext.PositionX, playerContext.PositionY, playerStateMachine.VineXPositions,
-                playerStateMachine.VineAnchorY, swingConfig, minVineIndex, playerStateMachine.VinePhaseOffsets, playerStateMachine.VinePeriods, playerStateMachine.ElapsedTime, playerContext.VelocityX, playerContext.VelocityY);
+                playerStateMachine.VineAnchorY, swingConfig, minVineIndex, playerStateMachine.VinePhaseOffsets,
+                playerStateMachine.VinePeriods, playerStateMachine.ElapsedTime, playerContext.VelocityX,
+                playerContext.VelocityY, playerContext.AttractionTargetVineIndex, playerContext.VineAttractionPhaseAdjustment);
             bool grabbed = grabPosition != -1;
             if (grabbed) {
                 playerContext.CurrentVineIndex = grabPosition;

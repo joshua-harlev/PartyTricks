@@ -10,6 +10,8 @@ namespace VineSwinging.Core {
             playerContext.RespawnTimer = swingConfig.RespawnDelay;
             playerContext.PendingEvents.Add(PlayerEvent.Fell);
             playerContext.SwingAngle = 0f;
+            playerContext.VineAttractionPhaseAdjustment = 0f;
+            playerContext.AttractionTargetVineIndex = -1;
         }
 
         public void Update(PlayerContext playerContext, SwingConfig swingConfig, float deltaTime, bool releasePressed) {

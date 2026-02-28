@@ -37,32 +37,35 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     [SerializeField] public float MinimumReleaseVelocityX = 0.2f;
     
     [Header("Vine Attraction")]
-    [SerializeField] public float BaseAttractionRate;
-    [SerializeField] public float SlowdownThreshold;
-    [SerializeField] public float SlowdownRate;
-    [SerializeField] public float MaxPhaseAdjustment;
+    [SerializeField] public float AttractionReferenceDistance = 2.5f;
+    [SerializeField] public float MaxSpeedMultiplier = 1.05f;
+    [SerializeField] public float MaxPhaseAdjustment = 1.571f;
+    [SerializeField] public float AttractionBoostPerMoveBoost = 0.5f;
     
     public SwingConfig CreateConfig(MovementModifiers movementModifiers, int coinsPerGapBoost) {
         float modifiedPeriod = Period;
         float modifiedRespawnDelay = RespawnDelayInSeconds;
+        float modifiedLaunchForce = LaunchForce;
         // decrease period for each move modifier; swing faster
         // decrease respawn delay for each move modifier; respawn faster
         // increase launch force for each move modifier; move further
         for (int i = 0; i < movementModifiers.MoveBoostCount; i++) {
             modifiedPeriod *= 0.82f;
             modifiedRespawnDelay *= 0.70f;
-            LaunchForce *= 1.03f;
+            modifiedLaunchForce *= 1.03f;
         }
 
         int modifiedCoinsPerGap = CoinsPerGap + coinsPerGapBoost;
         
         float periodRatio = modifiedPeriod / Period;
-        float modifiedLaunchForce = LaunchForce * periodRatio;
+        modifiedLaunchForce *= periodRatio;
         int grabLookaheadFrames = movementModifiers.MoveBoostCount * GrabLookaheadFramesPerBoost;
+
+        float scaledMaxSpeedMultiplier = MaxSpeedMultiplier + movementModifiers.MoveBoostCount * AttractionBoostPerMoveBoost;
 
         return new SwingConfig(Amplitude, RopeLength, modifiedPeriod, modifiedLaunchForce, GrabRadius, FallThresholdY,
             modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue, CoinArcHeight,
-            grabLookaheadFrames, MinimumReleaseVelocityX, BaseAttractionRate, SlowdownThreshold, SlowdownRate,
-            MaxPhaseAdjustment);
+            grabLookaheadFrames, MinimumReleaseVelocityX, AttractionReferenceDistance,
+            scaledMaxSpeedMultiplier, MaxPhaseAdjustment);
     }
 }

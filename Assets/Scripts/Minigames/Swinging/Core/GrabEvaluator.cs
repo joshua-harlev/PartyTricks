@@ -5,7 +5,8 @@ namespace VineSwinging.Core {
         // used for lookahead
         private const float FrameDuration = 1f / 60f;
         public static int CheckGrab(float playerX, float playerY, float[] vineXPositions, float vineAnchorY,
-            SwingConfig config, int minVineIndex, float[] vinePhaseOffsets, float[] vinePeriods, float elapsedTime,  float playerContextVelocityX, float playerContextVelocityY) {
+            SwingConfig config, int minVineIndex, float[] vinePhaseOffsets, float[] vinePeriods, float elapsedTime,
+            float playerContextVelocityX, float playerContextVelocityY, int attractionTargetVineIndex = -1, float attractionPhaseAdjustment = 0f) {
             float lookAheadTime, futureX, futureY;
             for (int k = 0; k <= config.GrabLookaheadFrames; k++) {
                 lookAheadTime = k * FrameDuration;
@@ -14,6 +15,10 @@ namespace VineSwinging.Core {
                 
                 for (int i = minVineIndex; i < vineXPositions.Length; i++) {
                     float vinePhase = vinePhaseOffsets[i] + (float)(2*Math.PI / vinePeriods[i]) * (elapsedTime+lookAheadTime);
+
+                    if (i == attractionTargetVineIndex) {
+                        vinePhase += attractionPhaseAdjustment;
+                    }
 
                     int sampleCount = 3; // samples along the rope/vine to check 
                     for (int s = 0; s < sampleCount; s++) {
