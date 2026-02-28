@@ -180,6 +180,8 @@ public class PauseService : MonoBehaviour, IPauseService
     private void EnableGameInput() {
         var playerMap = InputSystem.actions.FindActionMap("Player");
         playerMap?.Enable();
+        var uiMap = InputSystem.actions.FindActionMap("UI");
+        uiMap?.Enable();
     }
 
     private void OnDestroy() {

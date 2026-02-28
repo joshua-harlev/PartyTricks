@@ -1,7 +1,6 @@
 using System.Collections;
 using Services;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -46,7 +45,7 @@ public class PauseMenu : MonoBehaviour {
         if (cancelAction != null && cancelAction.WasPressedThisFrame()) {
             OnResumeClicked();
         }
-        if (!hasFocused && navigateAction.ReadValue<Vector2>() != Vector2.zero) {
+        if (!hasFocused && navigateAction != null && navigateAction.ReadValue<Vector2>() != Vector2.zero) {
             FocusFirstButton();
         }
     }
@@ -54,7 +53,6 @@ public class PauseMenu : MonoBehaviour {
     private IEnumerator FocusFirstButtonAfterOneFrame() {
         yield return null;
         FocusFirstButton();
-        EventSystem.current.SetSelectedGameObject(this.gameObject);
     }
 
     private void FocusFirstButton() {
@@ -70,9 +68,8 @@ public class PauseMenu : MonoBehaviour {
         foreach (var slot in playerService.PlayerSlots) {
             slot.Profile.Reset();
         }
-        SceneManager.LoadScene("MainMenu");
-        Time.timeScale = 1f;
         pauseService.Resume();
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void OnOptionsClicked() {
