@@ -13,11 +13,11 @@ namespace Minigames.Swinging {
                 totalWeight += spawnWeight;
             }
 
-            for (int gap = 0; gap < allTrails.Length; gap++) {
-                float startXPosition = vinePositions[gap];
-                float gapWidth = vinePositions[gap + 1] - startXPosition;
+            for (int gapIndex = 1; gapIndex < allTrails.Length; gapIndex++) {
+                float startXPosition = vinePositions[gapIndex];
+                float gapWidth = vinePositions[gapIndex + 1] - startXPosition;
 
-                foreach (var coinPosition in allTrails[gap]) {
+                foreach (var coinPosition in allTrails[gapIndex]) {
                     float worldXPosition = startXPosition + coinPosition.RelativeXPosition * gapWidth;
                     float worldYPosition = vineAnchorY + coinPosition.RelativeYPosition;
 

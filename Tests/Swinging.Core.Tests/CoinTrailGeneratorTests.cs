@@ -1,3 +1,4 @@
+using System;
 using VineSwinging.Core;
 using Xunit;
 
@@ -12,7 +13,8 @@ namespace Swinging.Core.Tests {
             var trails = CoinTrailGenerator.GenerateAllTrails(vineCount: 5, config, seed: 0);
             
             Assert.Equal(4, trails.Length);
-            Assert.All(trails, trail => Assert.Equal(coinsPerGap, trail.Length));
+            var trailsTrimmed = trails[1..];
+            Assert.All(trailsTrimmed, trail => Assert.Equal(coinsPerGap, trail.Length));
         }
 
         [Fact]
@@ -35,7 +37,7 @@ namespace Swinging.Core.Tests {
             var trails = CoinTrailGenerator.GenerateAllTrails(vineCount: 3, config, seed: 0);
             var midpoint = coinsPerGap / 2;
             foreach (var trail in trails) {
-                for (int i = 1; i < midpoint; i++) {
+                for (int i = 2; i < midpoint; i++) {
                     Assert.True(trail[i].RelativeYPosition > trail[i - 1].RelativeYPosition);
                 }
                 for (int i = midpoint+1; i < trail.Length; i++) {

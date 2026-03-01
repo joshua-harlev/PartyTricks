@@ -16,5 +16,15 @@ namespace VineSwinging.Core {
             float vy = (float)(ropeLength * Math.Sin(theta) * angularVelocity);
             return (vx*launchForce, vy*launchForce);
         }
+        
+        public static (float vx, float vy) GetShapedReleaseVelocity(float phase, float amplitude, float period, float launchForce, float ropeLength, float curveExponent) {
+            double theta = amplitude * Math.Sin(phase);
+            double rawCosValue = Math.Cos(phase);
+            double shapedCosValue = Math.Sign(rawCosValue) * Math.Pow(Math.Abs(rawCosValue), curveExponent);
+            double angularVelocity = amplitude * shapedCosValue * (2*Math.PI/period);
+            float vx = (float)(ropeLength * Math.Cos(theta) * angularVelocity);
+            float vy = (float)(ropeLength * Math.Sin(theta) * angularVelocity);
+            return (vx*launchForce, vy*launchForce);
+        }
     }
 }
