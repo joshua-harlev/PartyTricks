@@ -40,12 +40,14 @@ namespace Game {
             unityInputManager.onPlayerJoined += HandlePlayerJoined;
             unityInputManager.onPlayerLeft += HandlePlayerLeft;
             SceneManager.sceneLoaded += SetUIModuleOnSceneLoaded;
+            SceneManager.sceneLoaded += SceneObserver.OnSceneLoaded;
         }
         
         private void OnDisable() {
             unityInputManager.onPlayerJoined -= HandlePlayerJoined;
             unityInputManager.onPlayerLeft -= HandlePlayerLeft;
             SceneManager.sceneLoaded -= SetUIModuleOnSceneLoaded;
+            SceneManager.sceneLoaded -= SceneObserver.OnSceneLoaded;
         }
         
         public void HandlePlayerJoined(PlayerInput playerInput) {
