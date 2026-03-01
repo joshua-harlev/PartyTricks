@@ -12,8 +12,8 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     [SerializeField] public float GrabRadius = 2.5f;
     [SerializeField] public float VineSpacing = 10f;
     [SerializeField] public float Gravity = 15f;
-    [SerializeField] [Range(0, 0.3f)] [Tooltip("How much variation should be present in vine swing positions?")]
-    public float PeriodVariation = 0.1f;
+    [SerializeField] [Range(0, 0.3f)] [Tooltip("DISABLED: How much variation should be present in vine swing positions?")]
+    public float PeriodVariation = 0f;
     
     [Header("Fall/Respawn")] 
     [SerializeField] public float FallThresholdY = -8f;

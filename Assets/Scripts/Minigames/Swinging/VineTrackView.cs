@@ -13,7 +13,7 @@ namespace Minigames.Swinging {
             for (int i = 0; i < count; i++) {
                 xPositions[i] = i * spacing;
                 phaseOffsets[i] = (float)(randomNumberGenerator.NextDouble() * 2f * Mathf.PI);
-                periods[i] = config.Period * (1f-periodVariation + (float)(randomNumberGenerator.NextDouble() * 2f * periodVariation));
+                periods[i] = config.Period;
                 
                 var anchor = Instantiate(vineAnchorPrefab, transform);
                 anchor.transform.localPosition = new Vector3(xPositions[i], anchorY);
