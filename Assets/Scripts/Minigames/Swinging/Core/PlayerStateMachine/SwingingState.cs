@@ -3,6 +3,7 @@ using System;
 namespace VineSwinging.Core {
     public class SwingingState : IPlayerState {
         private readonly PlayerStateMachine playerStateMachine;
+        private const float FrameDuration = 1f / 60f;
 
         public SwingingState(PlayerStateMachine playerStateMachine) {
             this.playerStateMachine = playerStateMachine;
@@ -28,14 +29,44 @@ namespace VineSwinging.Core {
         }
 
         private void Release(PlayerContext playerContext, SwingConfig swingConfig, float vinePeriod) {
-            var releaseVelocity = SwingSimulation.GetReleaseVelocity(playerContext.SwingPhase, swingConfig.Amplitude, vinePeriod, swingConfig.LaunchForce, swingConfig.RopeLength);
-            bool isMovingBackwards = releaseVelocity.vx < 0;
-            if (!isMovingBackwards) {
-                playerContext.VelocityX = Math.Max(releaseVelocity.vx, swingConfig.MinimumReleaseVelocityX);
-            } else playerContext.VelocityX = releaseVelocity.vx;
-            playerContext.VelocityY = releaseVelocity.vy;
+            float phaseRate = (float)(2 * Math.PI / vinePeriod);
+            float bestVx = float.NegativeInfinity;
+            float bestVy = 0f;
+            float bestDistance = 0f;
+
+            for (int i = 0; i <= swingConfig.ReleaseLookaheadFrames; i++) {
+                float futurePhase = playerContext.SwingPhase + phaseRate * i * FrameDuration;
+                var (vx, vy) = SwingSimulation.GetShapedReleaseVelocity(
+                    futurePhase, swingConfig.Amplitude, vinePeriod,
+                    swingConfig.LaunchForce, swingConfig.RopeLength,
+                    swingConfig.ReleaseCurveExponent);
+
+                var (_, offsetY) =
+                    SwingSimulation.GetSwingPosition(futurePhase, swingConfig.Amplitude, swingConfig.RopeLength);
+
+                float distance = EstimateHorizontalDistance(vx, vy, offsetY, swingConfig.Gravity);
+                if (distance > bestDistance) {
+                    bestDistance = distance;
+                    bestVx = vx;
+                    bestVy = vy;
+                }
+            }
+
+            if (bestVx >= 0) {
+                playerContext.VelocityX = Math.Max(bestVx, swingConfig.MinimumReleaseVelocityX);
+            } else {
+                playerContext.VelocityX = bestVx;
+            }
+            
+            playerContext.VelocityY = bestVy;
             playerContext.PendingEvents.Add(PlayerEvent.Launched);
             playerStateMachine.TransitionTo(new AirborneState(playerStateMachine));
+        }
+
+        public static float EstimateHorizontalDistance(float xVelocity, float yVelocity, float releaseOffsetY, float gravity) {
+            float changeInY = -releaseOffsetY; // approx how far above the ground the player is
+            float airTime = (yVelocity + (float)Math.Sqrt(yVelocity * yVelocity + 2f * gravity * changeInY)) / gravity;
+            return xVelocity * airTime;
         }
 
         public void Exit(PlayerContext playerContext) { }

@@ -1,0 +1,31 @@
+using UnityEngine;
+
+public class DisappearingPlayerLabel : MonoBehaviour {
+    [Tooltip("Should the label automatically disappear?")]
+    [SerializeField] private bool LabelShouldDisappear = false;
+    [Tooltip("How long until the label automatically disappears, if the above is true?")]
+    [SerializeField] private float TimeUntilAutomaticDestructionInSeconds = 10f;
+    [Tooltip("Only enable if player rotates, for performance reasons")]
+    [SerializeField] private bool LockRotation = false;
+
+    private float heightOffset;
+    private Quaternion baseRotation;
+
+    private void Awake() {
+        baseRotation = transform.rotation;
+        heightOffset = transform.localPosition.y;
+    }
+
+    public void Start() {
+        if(LabelShouldDisappear) {
+            Destroy(gameObject, TimeUntilAutomaticDestructionInSeconds);
+        }
+    }
+
+    private void Update() {
+        if (LockRotation) {
+            transform.rotation = baseRotation;
+            transform.position = transform.parent.position + Vector3.up * heightOffset;
+        }
+    }
+}

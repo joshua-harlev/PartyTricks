@@ -8,18 +8,23 @@ namespace Minigames.Swinging {
         private float amplitude;
         private float ropeLength;
         private float period;
-        private float currentPhase;
+        private float phaseOffset;
+        private float elapsedTime;
 
         public void Initialize(float amplitude, float ropeLength, float period, float phaseOffset) {
             this.amplitude = amplitude;
             this.ropeLength = ropeLength;
             this.period = period;
-            this.currentPhase = phaseOffset;
+            this.phaseOffset = phaseOffset;
             lineRenderer.positionCount = 2;
         }
 
+        public void SetElapsedTime(float time) {
+            elapsedTime = time;
+        }
+
         private void Update() {
-            currentPhase += (2f * Mathf.PI / period) * Time.deltaTime;
+            float currentPhase = phaseOffset + (2f * Mathf.PI / period) * elapsedTime;
 
             var (offsetX, offsetY) = SwingSimulation.GetSwingPosition(currentPhase, amplitude, ropeLength);
             Vector3 anchorPosition = transform.position;

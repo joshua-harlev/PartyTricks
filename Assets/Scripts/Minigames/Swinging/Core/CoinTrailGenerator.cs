@@ -11,10 +11,11 @@ namespace VineSwinging.Core {
             float safeMargin = 1.5f; // estimated value; player extents + coin radius
             float flightStartX = (swingReach + safeMargin) / config.VineSpacing;
             float flightEndX = 1f - flightStartX;
-            float baseYPosition = -config.RopeLength * 0.5f;
+            float baseYPosition = -config.RopeLength * config.CoinBaseHeightRatio;
             CoinPosition[][] trails = new CoinPosition[vineCount-1][];
+            trails[0] = new CoinPosition[0];
             
-            for (int i = 0; i < vineCount - 1; i++) {
+            for (int i = 1; i < vineCount - 1; i++) {
                 trails[i] = new CoinPosition[config.CoinsPerGap];
                 for (int coinIndex = 0; coinIndex < config.CoinsPerGap; coinIndex++) {
                     float fractionAlongArc = (coinIndex + 1f) / (config.CoinsPerGap + 1f);
