@@ -29,7 +29,36 @@ namespace VineSwinging.Core {
         }
 
         private void Release(PlayerContext playerContext, SwingConfig swingConfig, float vinePeriod) {
-                playerContext.VelocityX = Math.Max(releaseVelocity.vx, swingConfig.MinimumReleaseVelocityX);
+            float phaseRate = (float)(2 * Math.PI / vinePeriod);
+            float bestVx = float.NegativeInfinity;
+            float bestVy = 0f;
+            float bestDistance = 0f;
+
+            for (int i = 0; i <= swingConfig.ReleaseLookaheadFrames; i++) {
+                float futurePhase = playerContext.SwingPhase + phaseRate * i * FrameDuration;
+                var (vx, vy) = SwingSimulation.GetShapedReleaseVelocity(
+                    futurePhase, swingConfig.Amplitude, vinePeriod,
+                    swingConfig.LaunchForce, swingConfig.RopeLength,
+                    swingConfig.ReleaseCurveExponent);
+
+                var (_, offsetY) =
+                    SwingSimulation.GetSwingPosition(futurePhase, swingConfig.Amplitude, swingConfig.RopeLength);
+
+                float distance = EstimateHorizontalDistance(vx, vy, offsetY, swingConfig.Gravity);
+                if (distance > bestDistance) {
+                    bestDistance = distance;
+                    bestVx = vx;
+                    bestVy = vy;
+                }
+            }
+
+            if (bestVx >= 0) {
+                playerContext.VelocityX = Math.Max(bestVx, swingConfig.MinimumReleaseVelocityX);
+            } else {
+                playerContext.VelocityX = bestVx;
+            }
+            
+            playerContext.VelocityY = bestVy;
             playerContext.PendingEvents.Add(PlayerEvent.Launched);
             playerStateMachine.TransitionTo(new AirborneState(playerStateMachine));
         }
