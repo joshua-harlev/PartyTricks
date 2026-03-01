@@ -11,14 +11,21 @@ public class MinigameTutorialDisplay : MonoBehaviour
     [SerializeField] private float displayDurationInSeconds = 7f;
     [SerializeField] private float blockSkipDurationInSeconds = 1f;
     private IPlayerService playerService;
+    private IPauseService pauseService;
     public event Action OnDismissed;
     private bool displayIsActive;
     private bool canDismiss;
 
     private void Awake() {
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+        pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
         buttonPromptText.color = Color.black;
+        pauseService.OnPause += OnPauseCallback;
+        pauseService.OnUnpause += OnUnpauseCallback;
     }
+    
+    private void OnPauseCallback() => GetComponent<Canvas>().enabled = false;
+    private void OnUnpauseCallback() => GetComponent<Canvas>().enabled = true;
 
     private void Update() {
         if (!canDismiss) return;
@@ -56,5 +63,12 @@ public class MinigameTutorialDisplay : MonoBehaviour
         displayIsActive = false;
         OnDismissed?.Invoke();
         Destroy(gameObject);
+    }
+
+    private void OnDestroy() {
+        if (pauseService != null) {
+            pauseService.OnPause -= OnPauseCallback;
+            pauseService.OnUnpause -= OnUnpauseCallback;
+        }
     }
 }

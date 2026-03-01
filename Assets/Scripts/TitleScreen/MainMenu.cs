@@ -7,9 +7,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class MainMenu : MonoBehaviour {
-    [SerializeField]
-    private UIDocument mainMenu;
-
+    [SerializeField] private UIDocument mainMenu;
+    
     private Button startGameButton;
     private Button optionsButton;
     private Button quitButton;
@@ -149,9 +148,9 @@ public class MainMenu : MonoBehaviour {
             Debug.LogError("MainMenu: GameFlowManager not found.");
         }
     }
-
+    
     private void ShowOptions() {
-        Debug.Log("NOT IMPLEMENTED YET");
+        FindFirstObjectByType<OptionsMenu>()?.Show();
     }
 
     private void OnDestroy() {

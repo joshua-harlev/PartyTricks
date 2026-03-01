@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::PauseService
   pauseMenuPrefab: {fileID: 1944891812813600542, guid: 75d5ce7fe1afa400dba136aedfff5815, type: 3}
+  optionsMenuPrefab: {fileID: 330134511218207079, guid: f01af123f118f437a949986a6e62fafe, type: 3}
