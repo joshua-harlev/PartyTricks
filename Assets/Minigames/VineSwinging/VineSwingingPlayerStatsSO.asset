@@ -30,8 +30,8 @@ MonoBehaviour:
   CoinBaseHeightRatio: 0.6
   MagnetRadius: 3
   MagnetPullSpeed: 8
-  GrabRadiusPercentBoostPerMoveBoost: 0.05
-  GrabLookaheadFramesPerBoost: 10
+  GrabRadiusPercentBoostPerMoveBoost: 0.02
+  GrabLookaheadFramesPerBoost: 2
   ReleaseLookaheadFramesPerBoost: 12
   MinimumReleaseVelocityX: 8
   PhaseChainOffset: -0.3

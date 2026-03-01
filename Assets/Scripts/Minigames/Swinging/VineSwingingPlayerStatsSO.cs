@@ -57,6 +57,7 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
             modifiedPeriod *= 0.82f;
             modifiedRespawnDelay *= 0.70f;
             modifiedGrabRadius *= 1f + GrabRadiusPercentBoostPerMoveBoost;
+            modifiedLaunchForce *= 0.93f;
         }
 
         int modifiedCoinsPerGap = CoinsPerGap + coinsPerGapBoost;
