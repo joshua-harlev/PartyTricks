@@ -25,9 +25,10 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     [SerializeField] public CoinTypeSO[] CoinTypes;
     [SerializeField] public float CoinArcHeight = 2f;
     
-    [Header("Magnet")]
+    [Header("Powerups")]
     [SerializeField] public float MagnetRadius = 3f;
     [SerializeField] public float MagnetPullSpeed = 8f;
+    [SerializeField] public float GrabRadiusPercentBoostPerMoveBoost = 0.05f;
     
     [Header("Grab Lookahead")]
     [Tooltip("Applies on move boost powerup")] 
@@ -39,21 +40,23 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     public SwingConfig CreateConfig(MovementModifiers movementModifiers, int coinsPerGapBoost) {
         float modifiedPeriod = Period;
         float modifiedRespawnDelay = RespawnDelayInSeconds;
+        float modifiedLaunchForce = LaunchForce;
+        float modifiedGrabRadius = GrabRadius;
         // decrease period by 20% for each move modifier; swing faster
-        // decrease respawn delay by 30% for each move modifier; respawn faster;
+        // decrease respawn delay by 30% for each move modifier; respawn faster
+        // increase launch force by 3% for each move modifier; launch further
+        // increase grab radius by specified % for each move modifier; grab more easily
         for (int i = 0; i < movementModifiers.MoveBoostCount; i++) {
             modifiedPeriod *= 0.82f;
             modifiedRespawnDelay *= 0.70f;
-            LaunchForce *= 1.03f;
+            modifiedLaunchForce *= 1.01f;
+            modifiedGrabRadius *= 1f + GrabRadiusPercentBoostPerMoveBoost;
         }
 
         int modifiedCoinsPerGap = CoinsPerGap + coinsPerGapBoost;
-        
-        float periodRatio = modifiedPeriod / Period;
-        float modifiedLaunchForce = LaunchForce * periodRatio;
         int grabLookaheadFrames = movementModifiers.MoveBoostCount * GrabLookaheadFramesPerBoost;
 
-        return new SwingConfig(Amplitude, RopeLength, modifiedPeriod, modifiedLaunchForce, GrabRadius, FallThresholdY,
+        return new SwingConfig(Amplitude, RopeLength, modifiedPeriod, modifiedLaunchForce, modifiedGrabRadius, FallThresholdY,
             modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue, CoinArcHeight, grabLookaheadFrames, MinimumReleaseVelocityX);
     }
 }
