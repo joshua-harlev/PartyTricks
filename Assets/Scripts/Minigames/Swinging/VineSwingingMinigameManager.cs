@@ -156,8 +156,15 @@ namespace Minigames.Swinging {
                     PlayerStateMachines[i].Update(Time.deltaTime, false);
                     playerViews[i].Pull(PlayerStateMachines[i].PlayerContext);
                 }
-
             }
+
+            if (PlayerStateMachines != null) {
+                float elapsedTime = PlayerStateMachines[0].ElapsedTime;
+                foreach (var trackView in trackViews) {
+                    trackView.UpdateElapsedTime(elapsedTime);
+                }
+            }
+
         }
 
         public void StartMusic() => musicInstance.start();
