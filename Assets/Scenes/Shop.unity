@@ -2742,6 +2742,7 @@ MonoBehaviour:
       Data3: -620052822
       Data4: -2091760411
     Path: event:/Shop/Shop Music
+  ShopStockConfig: {fileID: 11400000, guid: 9d4dc6aa7cb7a48be9b462b7c80e371b, type: 2}
   GridRows: 2
   GridColumns: 2
   ShopDurationInSeconds: 30

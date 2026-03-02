@@ -14,6 +14,7 @@ namespace Shop {
         [SerializeField] private CountdownTimer CountdownTimer;
         [SerializeField] private ShopFeedback ShopFeedback; 
         [SerializeField] private EventReference MusicEvent;
+        [SerializeField] private ShopStockConfig ShopStockConfig;
         private ShopPlayerManager playerManager;
         private ShopNavigationService shopNavigationService;
         private ShopPurchaseService shopPurchaseService;
@@ -44,7 +45,14 @@ namespace Shop {
 
         private void InitializeComponents() {
             ShopItemDisplay.SetShopItemUIElements(ShopItemUIElements);
-            ShopItemDisplay.SetUpItems();
+
+            int roundIndex = gameFlowService.GetCompletedMinigameList().Count;
+            ShopStock stock = null;
+            if (ShopStockConfig != null && roundIndex < ShopStockConfig.StocksOrderedByRound.Length) {
+                stock = ShopStockConfig.StocksOrderedByRound[roundIndex];
+            }
+            
+            ShopItemDisplay.SetUpItems(stock);
             shopPurchaseService = new ShopPurchaseService();
             shopNavigationService = new ShopNavigationService(GridRows, GridColumns);
             playerManager = new ShopPlayerManager(shopNavigationService, ShopItemUIElements, PlayerCornerDisplays);
