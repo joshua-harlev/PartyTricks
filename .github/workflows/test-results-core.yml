@@ -1,0 +1,35 @@
+name: Test Results.Core
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Assets/Scripts/ResultsScreen/Core/**'
+      - 'Tests/Results.Core.Tests/**'
+      - '.github/workflows/test-results-core.yml'
+  pull_request: 
+    paths:
+      - 'Assets/Scripts/ResultsScreen/Core/**'
+      - 'Tests/Results.Core.Tests/**'
+      - '.github/workflows/test-results-core.yml'
+
+jobs:
+  test:
+    name: Results.Core Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+          
+      - name: Restore
+        run: dotnet restore Tests/Results.Core.Tests/
+        
+      - name: Build
+        run: dotnet build Tests/Results.Core.Tests/ --no-restore
+        
+      - name: Test
+        run: dotnet test Tests/Results.Core.Tests/ --no-build --verbosity normal
