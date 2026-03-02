@@ -88,6 +88,7 @@ namespace Minigames.Swinging {
         private void SetUpVariables() {
             if (IsDoubleRound) {
                 gameDurationInSeconds *= 2;
+                vineCount *= 2;
             }
 
             InitializePlayerDisplays(); 
