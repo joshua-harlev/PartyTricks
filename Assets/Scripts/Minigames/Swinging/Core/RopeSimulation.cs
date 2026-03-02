@@ -58,14 +58,14 @@ namespace VineSwinging.Core {
                     float error = distance - segmentLength;
                     Vec2 direction = delta.Normalized;
 
-                    bool pinI = (i == 0);
-                    bool pinNext = (hasDriveTarget && i + 1 == PointCount - 1);
+                    bool isAnchor = (i == 0);
+                    bool isDrivenTip = (hasDriveTarget && i + 1 == PointCount - 1);
 
-                    if (pinI && pinNext) {
+                    if (isAnchor && isDrivenTip) {
                         // both ends are pinned
-                    } else if (pinI) {
+                    } else if (isAnchor) {
                         positions[i+1] -= direction * error;
-                    } else if (pinNext) {
+                    } else if (isDrivenTip) {
                         positions[i] += direction * error;
                     } else {
                         Vec2 correction = direction * error * 0.5f;
@@ -106,6 +106,7 @@ namespace VineSwinging.Core {
             Vec2 control = midpoint + perpendicular * curveOffset;
             
             for (int i = 1; i < PointCount - 1; i++) {
+                // bezier interpolation (variable names are typical)
                 float t = (float)i / (PointCount - 1);
                 float u = 1f - t;
                 Vec2 ideal = anchor * (u * u) + control * (2f * u * t) + tip * (t * t);
