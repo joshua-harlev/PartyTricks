@@ -94,9 +94,9 @@ public class ShopPlayerManager {
     }
 
     public void UnlockAISelectors() {
-        foreach (ShopSlotSelector selector in activeSelectors) {
-            if (selector.Navigator is AIShopInputHandler) {
-                selector.Unlock();
+        for (int i = 0; i < activeSelectors.Count; i++) {
+            if (!playerService.PlayerIsHuman(i)) {
+                activeSelectors[i].Unlock();
             }
         }
     }
