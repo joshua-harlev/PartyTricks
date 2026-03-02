@@ -12,6 +12,8 @@ namespace VineSwinging.Core {
         }
         
         public float Length => MathF.Sqrt(X * X + Y * Y);
+        
+        public float Dot(Vec2 other) => X * other.X + Y * other.Y;
 
         public Vec2 Normalized
         {
