@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d54534f5b46abbdb38c5956073187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineTrackView
-  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 898a0d6a2574044d6b006767ad3bf550, type: 3}
+  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 6ea1bc05839114e19a9ff6311696503a, type: 3}
 --- !u!1 &321964067
 GameObject:
   m_ObjectHideFlags: 0
@@ -2459,7 +2459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d54534f5b46abbdb38c5956073187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineTrackView
-  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 898a0d6a2574044d6b006767ad3bf550, type: 3}
+  vineAnchorPrefab: {fileID: 9161010577958729011, guid: ea9699d9dd2db4ea394ccea121925e15, type: 3}
 --- !u!1 &693494041
 GameObject:
   m_ObjectHideFlags: 0
@@ -2504,7 +2504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d54534f5b46abbdb38c5956073187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineTrackView
-  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 898a0d6a2574044d6b006767ad3bf550, type: 3}
+  vineAnchorPrefab: {fileID: 9161010577958729011, guid: cb4d4525125d64a1a978ebcb8dd9dd1a, type: 3}
 --- !u!1 &703407583
 GameObject:
   m_ObjectHideFlags: 0

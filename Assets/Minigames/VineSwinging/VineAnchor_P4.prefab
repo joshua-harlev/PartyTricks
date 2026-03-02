@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5266058754209827195}
   - component: {fileID: -2858220128877300344}
   m_Layer: 0
-  m_Name: VineAnchor
+  m_Name: VineAnchor_P4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.2264151, g: 0.09468375, b: 0.09077964, a: 1}
+  m_Color: {r: 0.09649048, g: 0.22745098, b: 0.090196095, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
