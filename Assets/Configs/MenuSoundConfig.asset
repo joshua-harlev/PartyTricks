@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96664143058f4a648ef802aec075662, type: 3}
+  m_Name: MenuSoundConfig
+  m_EditorClassIdentifier: Game::MenuSoundConfigSO
+  HighlightSound:
+    Guid:
+      Data1: 1091184428
+      Data2: 1151263356
+      Data3: -710299770
+      Data4: 1714921151
+    Path: event:/UI/Highlight
+  SelectSound:
+    Guid:
+      Data1: -563337581
+      Data2: 1257654547
+      Data3: -469877069
+      Data4: -1407350213
+    Path: event:/UI/Select
+  CancelSound:
+    Guid:
+      Data1: 573985280
+      Data2: 1109597741
+      Data3: -1586429806
+      Data4: -1474161857
+    Path: event:/UI/Cancel
+  ToggleOnSound:
+    Guid:
+      Data1: -1688572500
+      Data2: 1294164928
+      Data3: 1772370863
+      Data4: -1365936689
+    Path: event:/UI/ToggleOn
+  ToggleOffSound:
+    Guid:
+      Data1: 1802802538
+      Data2: 1245497666
+      Data3: 1096158116
+      Data4: -1965057592
+    Path: event:/UI/ToggleOff
+  SliderDragSound:
+    Guid:
+      Data1: -93411546
+      Data2: 1241318513
+      Data3: 916787376
+      Data4: 2029828680
+    Path: event:/UI/DragSlider
