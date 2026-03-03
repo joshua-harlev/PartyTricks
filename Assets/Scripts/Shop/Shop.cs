@@ -1,6 +1,8 @@
 using System.Collections;
+using DG.Tweening;
 using FMOD.Studio;
 using FMODUnity;
+using ResultsScreen;
 using Services;
 using UnityEngine;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
@@ -15,12 +17,16 @@ namespace Shop {
         [SerializeField] private ShopFeedback ShopFeedback; 
         [SerializeField] private EventReference MusicEvent;
         [SerializeField] private ShopStockConfig ShopStockConfig;
+        [SerializeField] private PlacesScreenPanel PlacesScreenPanel;
+        [SerializeField] private CanvasGroup ShopCanvasGroup;
+        [SerializeField] private float FadeInTimeInSeconds = 0.5f;
         private ShopPlayerManager playerManager;
         private ShopNavigationService shopNavigationService;
         private ShopPurchaseService shopPurchaseService;
         private IGameFlowService gameFlowService;
         private IPauseService pauseService;
         private EventInstance musicInstance;
+        private Sequence currentSequence;
         public int GridRows = 2;
         public int GridColumns = 2;
         public int ShopDurationInSeconds = 10;
@@ -40,7 +46,32 @@ namespace Shop {
 
         private void Start() {
             InitializeComponents();
-            StartShop();
+            bool shouldShowPlacesScreen = gameFlowService.ShouldShowPlacesScreen();
+            if (shouldShowPlacesScreen && PlacesScreenPanel != null) {
+                int[] previousFunds = gameFlowService.GetPreviousRoundFunds();
+                HideShop();
+                PlacesScreenPanel.OnDismissed += StartShop;
+                PlacesScreenPanel.ShowPlaces(previousFunds);
+            } else {
+                StartShop();
+            }
+        }
+
+        private void HideShop() {
+            ShopCanvasGroup.alpha = 0;
+            ShopCanvasGroup.interactable = false;
+            ShopCanvasGroup.blocksRaycasts = false;
+        }
+
+        private void ShowShop() {
+            currentSequence = DOTween.Sequence();
+            currentSequence.Append(ShopCanvasGroup.DOFade(1f, FadeInTimeInSeconds).SetEase(Ease.Linear));
+            currentSequence.OnComplete(() =>
+            {
+                ShopCanvasGroup.alpha = 1;
+                ShopCanvasGroup.interactable = true;
+                ShopCanvasGroup.blocksRaycasts = true;
+            });
         }
 
         private void InitializeComponents() {
@@ -61,6 +92,7 @@ namespace Shop {
         }
 
         private void StartShop() {
+            ShowShop();
             musicInstance.start();
             playerManager.InitializePlayers();
             CountdownTimer.StartTimer(ShopDurationInSeconds);
@@ -108,6 +140,11 @@ namespace Shop {
                 pauseService.OnPause -= OnPause;
                 pauseService.OnUnpause -= OnUnpause;
             }
+
+            if (PlacesScreenPanel != null) {
+                PlacesScreenPanel.OnDismissed -= StartShop;
+            }
+            currentSequence?.Kill();
         }
 
         private void AdjustSpeedByLockCount(int lockedCount, int lockedAICount, int humanCount) {
