@@ -2808,7 +2808,7 @@ GameObject:
   - component: {fileID: 1290908788}
   m_Layer: 0
   m_Name: P1Camera
-  m_TagString: Untagged
+  m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3737,7 +3737,7 @@ GameObject:
   - component: {fileID: 1630600588}
   m_Layer: 0
   m_Name: P2Camera
-  m_TagString: Untagged
+  m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3889,7 +3889,7 @@ GameObject:
   - component: {fileID: 1633101906}
   m_Layer: 0
   m_Name: P3Camera
-  m_TagString: Untagged
+  m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4195,7 +4195,7 @@ GameObject:
   - component: {fileID: 1753127690}
   m_Layer: 0
   m_Name: P4Camera
-  m_TagString: Untagged
+  m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
