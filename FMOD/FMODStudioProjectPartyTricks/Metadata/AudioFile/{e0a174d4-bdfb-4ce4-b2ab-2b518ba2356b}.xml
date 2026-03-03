@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{e0a174d4-bdfb-4ce4-b2ab-2b518ba2356b}">
+		<property name="assetPath">
+			<value>Slot Machine Reel Stop Simulation B.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.25317460317460316</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e1a96c5c-2501-42c0-bf6c-d8f0268f64ca}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -17,3 +17,4 @@ MonoBehaviour:
   PauseServicePrefab: {fileID: 7411862288115819600, guid: 2197cc9af50924a8396c4fbb40df20d2, type: 3}
   GameFlowManagerPrefab: {fileID: 6739754320632189103, guid: 4af094f947e6041e48acdc715cdc71b3, type: 3}
   EconomyServicePrefab: {fileID: 5735206764703903884, guid: 013cc391181a04dcf832d415104c1a9e, type: 3}
+  MenuSoundConfig: {fileID: 11400000, guid: 0d46b1b9688164d7d955625d12172f29, type: 2}

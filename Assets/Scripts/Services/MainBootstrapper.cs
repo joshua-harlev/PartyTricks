@@ -20,6 +20,7 @@ namespace Services {
             CreatePowerUpService();
             CreateGameFlowManager();
             CreateGameSessionManager();
+            CreateMenuSoundService();
         }
 
         private void LoadConfig() {
@@ -126,6 +127,18 @@ namespace Services {
                 gameSessionManagerObject.AddComponent<GameSessionManager>();
                 Debug.LogWarning($"Missing GameSessionManager prefab!");
             }
+        }
+        
+        private void CreateMenuSoundService() {
+            if (config == null || config.MenuSoundConfig == null) {
+                DebugLogger.Log(LogChannel.Audio, "MenuSoundService: No MenuSoundConfig assigned; skipping.", LogLevel.Warning);
+                return;
+            }
+            GameObject menuSoundServiceObject = new GameObject("MenuSoundService");
+            menuSoundServiceObject.transform.SetParent(transform);
+            var service = menuSoundServiceObject.AddComponent<MenuSoundService>();
+            service.Initialize(config.MenuSoundConfig);
+            ServiceLocatorAccessor.RegisterGlobal<IMenuSoundService>(service);
         }
     }
 }
