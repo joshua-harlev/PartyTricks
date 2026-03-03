@@ -49,6 +49,25 @@ namespace ResultsScreen {
             }
         }
 
+        public void ShowStatic(int[] funds) {
+            gameObject.SetActive(true);
+            canvasGroup.alpha = 1f;
+            
+            PlacesEntry[] entries = PlacesCalculator.CalculatePlaces(funds);
+            float[] barHeights = BarLayoutCalculator.ComputeBarHeights(entries, maxBarHeight, minBarHeight);
+
+            if (barToPlayerMap == null) {
+                barToPlayerMap = new int[barViews.Length];
+                InitializeBarsFromEntries(entries);
+            }
+
+            for (int i = 0; i < entries.Length; i++) {
+                barViews[i].SetBarHeight(barHeights[i]);
+            }
+            
+            sidebarView.UpdateLabels(entries);
+        }
+
         public void ShowPlaces(int[] previousFunds) {
             gameObject.SetActive(true);
             canvasGroup.alpha = 1f;
