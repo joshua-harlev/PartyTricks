@@ -9,5 +9,8 @@ namespace Services {
         (MinigameType minigameType, bool IsDouble) GetCurrentRoundDefinition();
         List<(MinigameType minigameType, bool isDouble)> GetUpcomingMinigameList();
         List<(MinigameType minigameType, bool isDouble)> GetCompletedMinigameList();
+
+        bool ShouldShowPlacesScreen();
+        int[] GetPreviousRoundFunds();
     }
 }

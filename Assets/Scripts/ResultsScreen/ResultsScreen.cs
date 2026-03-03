@@ -9,113 +9,117 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 
-public class ResultsScreen : MonoBehaviour {
-    [SerializeField] private GameObject SuspensePanel;
-    [SerializeField] private TMP_Text WinnerLabel;
-    [SerializeField] private TMP_Text WinnerNumberLabel;
-    [SerializeField] private Image BackgroundImage;
-    [SerializeField] private ResultsScreenPlacesDisplay ResultsScreenPlacesDisplay;
-    private int playerWinnerIndex;
-    private int[] playerFunds;
-    private Button mainMenuButton;
-    private IPlayerService playerService;
-    private bool canReturnToMainMenu = false;
-    private readonly List<InputAction> subscribedActions = new();
+namespace ResultsScreen {
+    public class ResultsScreen : MonoBehaviour {
+        [SerializeField] private GameObject SuspensePanel;
+        [SerializeField] private TMP_Text WinnerLabel;
+        [SerializeField] private TMP_Text WinnerNumberLabel;
+        [SerializeField] private Image BackgroundImage;
+        [SerializeField] private ResultsScreenPlacesDisplay ResultsScreenPlacesDisplay;
+        private int playerWinnerIndex;
+        private int[] playerFunds;
+        private Button mainMenuButton;
+        private IPlayerService playerService;
+        private bool canReturnToMainMenu = false;
+        private readonly List<InputAction> subscribedActions = new();
 
-    private void Awake() {
-        playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
-    }
-
-    public void ReturnToMainMenu() {
-        if(canReturnToMainMenu) {
-            ResetProfiles();
-            SceneManager.LoadScene("MainMenu");
+        private void Awake() {
+            playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         }
-        canReturnToMainMenu = false;
-    }
 
-    private void ResetProfiles() {
-        PlayerSlot[] playerSlots = playerService.PlayerSlots as PlayerSlot[];
-        foreach (var playerSlot in playerSlots) {
-            playerSlot.Profile.Reset();
+        public void ReturnToMainMenu() {
+            if (canReturnToMainMenu) {
+                ResetProfiles();
+                SceneManager.LoadScene("MainMenu");
+            }
+
+            canReturnToMainMenu = false;
         }
-    }
 
-    private void Start() {
-        playerFunds = new int[4] {0,0,0,0};
-        WinnerLabel.text = "The winner is";
-        GetWinner();
-        StartCoroutine(WaitAndDisplayWinner());
-    }
-
-    private void GetWinner() {
-        int max = Int32.MinValue;
-        for (int i = 0; i < 4; i++) {
-            playerFunds[i] = playerService.GetPlayerProfile(i).Wallet.GetCurrentFunds();
-            if (playerFunds[i] > max) {
-                max = playerFunds[i];
-                playerWinnerIndex = i;
-            } else if (playerFunds[i] == max) {
-                Debug.Log("Warning: two players had the same value. Consider investigating.");
+        private void ResetProfiles() {
+            PlayerSlot[] playerSlots = playerService.PlayerSlots as PlayerSlot[];
+            foreach (var playerSlot in playerSlots) {
+                playerSlot.Profile.Reset();
             }
         }
-    }
 
-    private IEnumerator WaitAndDisplayWinner() {
-        yield return new WaitForSeconds(0.5f);
-        WinnerLabel.text = "The winner is.";
-        yield return new WaitForSeconds(1.3f);
-        WinnerLabel.text = "The winner is..";
-        yield return new WaitForSeconds(1.5f);
-        WinnerLabel.text = "The winner is...";
-        yield return new WaitForSeconds(2.5f);
-        DisplayWinner();
-        yield return new WaitForSeconds(3.5f);
-        ResultsScreenPlacesDisplay.UpdatePlaces(playerFunds);
-        HideSuspensePanel();
-        ResultsScreenPlacesDisplay.Show();
-        canReturnToMainMenu = true;
-        SubscribeToPlayerSubmitActions();
-    }
-
-    private void SubscribeToPlayerSubmitActions() {
-        foreach (var playerSlot in playerService.PlayerSlots) {
-            PlayerInput playerInput = playerSlot.PlayerInput;
-            if (playerInput == null) continue;
-            InputAction action = playerInput.actions.FindAction("UI/Submit");
-            if (action == null) continue;
-            action.performed += OnSubmitPerformed;
-            subscribedActions.Add(action);
+        private void Start() {
+            playerFunds = new int[4] { 0, 0, 0, 0 };
+            WinnerLabel.text = "The winner is";
+            GetWinner();
+            StartCoroutine(WaitAndDisplayWinner());
         }
-    }
 
-    private void OnSubmitPerformed(InputAction.CallbackContext context) {
-        ReturnToMainMenu();
-    }
-
-    private void OnDestroy() {
-        foreach (var action in subscribedActions) {
-            action.performed -= OnSubmitPerformed;
+        private void GetWinner() {
+            int max = Int32.MinValue;
+            for (int i = 0; i < 4; i++) {
+                playerFunds[i] = playerService.GetPlayerProfile(i).Wallet.GetCurrentFunds();
+                if (playerFunds[i] > max) {
+                    max = playerFunds[i];
+                    playerWinnerIndex = i;
+                }
+                else if (playerFunds[i] == max) {
+                    Debug.Log("Warning: two players had the same value. Consider investigating.");
+                }
+            }
         }
-    }
 
-    private void HideSuspensePanel() {
-        SuspensePanel.SetActive(false);
-    }
+        private IEnumerator WaitAndDisplayWinner() {
+            yield return new WaitForSeconds(0.5f);
+            WinnerLabel.text = "The winner is.";
+            yield return new WaitForSeconds(1.3f);
+            WinnerLabel.text = "The winner is..";
+            yield return new WaitForSeconds(1.5f);
+            WinnerLabel.text = "The winner is...";
+            yield return new WaitForSeconds(2.5f);
+            DisplayWinner();
+            yield return new WaitForSeconds(3.5f);
+            ResultsScreenPlacesDisplay.UpdatePlaces(playerFunds);
+            HideSuspensePanel();
+            ResultsScreenPlacesDisplay.Show();
+            canReturnToMainMenu = true;
+            SubscribeToPlayerSubmitActions();
+        }
 
-    private void DisplayWinner() {
-        WinnerNumberLabel.text = "Player " + (playerWinnerIndex+1) + "!";
-        Color backgroundColor = playerWinnerIndex switch
-        {
-            0 => new Color(153 / 256f, 0, 0, 1),
-            1 => new Color(66 / 256f, 99 / 256f, 217 / 256f, 1),
-            2 => new Color(140 / 256f, 25 / 256f, 212 / 256f, 1),
-            3 => new Color(10 / 256f, 121 / 256f, 41 / 256f, 1),
-            _ => default
-        };
+        private void SubscribeToPlayerSubmitActions() {
+            foreach (var playerSlot in playerService.PlayerSlots) {
+                PlayerInput playerInput = playerSlot.PlayerInput;
+                if (playerInput == null) continue;
+                InputAction action = playerInput.actions.FindAction("UI/Submit");
+                if (action == null) continue;
+                action.performed += OnSubmitPerformed;
+                subscribedActions.Add(action);
+            }
+        }
 
-        BackgroundImage.color = backgroundColor;
-        WinnerNumberLabel.color = Color.white;
-        WinnerLabel.color = Color.white;
+        private void OnSubmitPerformed(InputAction.CallbackContext context) {
+            ReturnToMainMenu();
+        }
+
+        private void OnDestroy() {
+            foreach (var action in subscribedActions) {
+                action.performed -= OnSubmitPerformed;
+            }
+        }
+
+        private void HideSuspensePanel() {
+            SuspensePanel.SetActive(false);
+        }
+
+        private void DisplayWinner() {
+            WinnerNumberLabel.text = "Player " + (playerWinnerIndex + 1) + "!";
+            Color backgroundColor = playerWinnerIndex switch
+            {
+                0 => new Color(153 / 256f, 0, 0, 1),
+                1 => new Color(66 / 256f, 99 / 256f, 217 / 256f, 1),
+                2 => new Color(140 / 256f, 25 / 256f, 212 / 256f, 1),
+                3 => new Color(10 / 256f, 121 / 256f, 41 / 256f, 1),
+                _ => default
+            };
+
+            BackgroundImage.color = backgroundColor;
+            WinnerNumberLabel.color = Color.white;
+            WinnerLabel.color = Color.white;
+        }
     }
 }

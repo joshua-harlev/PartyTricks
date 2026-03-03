@@ -22,8 +22,13 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     private List<(MinigameType minigameType, bool IsDouble)> gameBoard;
     private bool GameIsOver => currentRoundIndex >= gameBoard.Count;
     
+    private IPlayerService playerService;
+    private int[] previousRoundFunds;
+    private bool shouldShowPlacesScreen;
+    
     private void Awake() {
         economyService = ServiceLocatorAccessor.GetService<IEconomyService>();
+        playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         boardGenerator = new GameBoardGenerator(initialGameLength);
     }
 
@@ -147,14 +152,30 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
         if (minigameManager != null) {
             minigameManager.OnMinigameFinished -= ProcessMinigameResults;
         }
-        
+
+        SnapshotFunds();
         economyService.ApplyRewards(results);
 
         DebugLogger.Log(LogChannel.Systems, "Minigame finished, results processed. Transitioning back to shop.");
         currentRoundIndex++;
         if (GameIsOver) {
             EndGame();
-        } else TransitionToShop();
+        } else {
+            shouldShowPlacesScreen = true;
+            TransitionToShop();
+        }
+    }
+
+    private void SnapshotFunds() {
+        previousRoundFunds = new int[4];
+        for (int i = 0; i < 4; i++) {
+            PlayerProfile profile = playerService.GetPlayerProfile(i);
+            if (profile != null) {
+                previousRoundFunds[i] = profile.Wallet.GetCurrentFunds();
+            } else {
+                previousRoundFunds[i] = 0;
+            }
+        }
     }
 
     private void EndGame() {
@@ -176,6 +197,16 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
             completedMinigames.Add(gameBoard[i]);
         }
         return completedMinigames;
+    }
+
+    public bool ShouldShowPlacesScreen() {
+        bool returnValue = shouldShowPlacesScreen;
+        shouldShowPlacesScreen = false;
+        return returnValue;
+    }
+
+    public int[] GetPreviousRoundFunds() {
+        return previousRoundFunds;
     }
 
     public List<(MinigameType minigameType, bool isDouble)> GetUpcomingMinigameList() {

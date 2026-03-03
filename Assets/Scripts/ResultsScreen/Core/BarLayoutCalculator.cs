@@ -10,7 +10,7 @@ namespace ResultsScreen.Core {
                 }
                 return barHeights;
             }
-            for(int i = 0; i<entries.Length; i++) {
+            for(int i = 0; i < entries.Length; i++) {
                 if (entries[i].Funds == leaderFunds) {
                     barHeights[i] = maxBarHeight;
                 } else {
