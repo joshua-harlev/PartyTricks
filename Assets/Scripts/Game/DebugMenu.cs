@@ -1,19 +1,25 @@
+using System;
 using System.Linq;
+using Game;
 using Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class DebugMenu : MonoBehaviour {
     private static DebugMenu instance;
+    private readonly MinigameDebugPanel minigamePanel = new();
+    private Vector2 scrollPosition;
     private bool shouldShowMenu = false;
     private InputAction toggleDebugMenuAction;
-    private Rect windowRect = new Rect(20, 20, 300, 1200);
+    private Rect windowRect;
     private bool isDoubleRound = false;
     private IPlayerService playerService;
     private DireDodgingMinigameManager direDodgingManager;
-
+    
     private void Awake() {
+        windowRect = new Rect(20, 20, 300, 600);
         if (instance != null && instance != this) {
             Destroy(gameObject);
             return;
@@ -27,6 +33,12 @@ public class DebugMenu : MonoBehaviour {
             Debug.LogWarning("DebugMenu: ToggleDebugMenu action not found. Debug menu will not be toggleable.");
         }
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        minigamePanel.OnSceneLoaded();
     }
 
     private void Update() {
@@ -45,6 +57,7 @@ public class DebugMenu : MonoBehaviour {
     }
 
     private void DrawDebugWindow(int windowID) {
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
         GUILayout.BeginVertical();
 
         GUILayout.Label("Scene Testing", GUI.skin.box);
@@ -145,8 +158,10 @@ public class DebugMenu : MonoBehaviour {
             ResetAllPlayerFunds();
         }
 
-        GUILayout.EndVertical();
+        minigamePanel.Draw();
         
+        GUILayout.EndVertical();
+        GUILayout.EndScrollView();
         GUI.DragWindow();
     }
     
@@ -303,5 +318,9 @@ public class DebugMenu : MonoBehaviour {
         }
         
         DebugLogger.Log(LogChannel.Systems, "Debug Menu: Reset all player funds.");
+    }
+
+    private void OnDestroy() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

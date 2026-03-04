@@ -6,12 +6,14 @@ using UnityEngine;
 public class MinigameTimer : MonoBehaviour {
     [SerializeField] private GameObject TimerPanel;
     [SerializeField] private TMP_Text TimerText;
+    [SerializeField] private CanvasGroup TimerCanvasGroup;
     public event Action OnTimerEnd;
     public event Action<int> OnHalfwayPointReached;
     private string endOfGameText;
     private int RemainingTimeInSeconds { get; set; }
     private int originalTimerDuration;
     private bool halfwayPointEventTriggered;
+    private bool isPaused;
     private Coroutine timerCoroutine = null;
 
     public void Initialize(int gameLengthInSeconds, string endOfGameText = "Game!") {
@@ -26,11 +28,13 @@ public class MinigameTimer : MonoBehaviour {
     }
 
     private void ShowPanel() {
-        TimerPanel.SetActive(true);
+        TimerCanvasGroup.alpha = 1;
+        TimerCanvasGroup.blocksRaycasts = true;
     }
 
     private void HidePanel() {
-        TimerPanel.SetActive(false);
+        TimerCanvasGroup.alpha = 0;
+        TimerCanvasGroup.blocksRaycasts = false;
     }
 
     public void StartTimer() {
@@ -40,6 +44,7 @@ public class MinigameTimer : MonoBehaviour {
 
     private IEnumerator Timer() {
         while (RemainingTimeInSeconds > 0) {
+            while(isPaused) yield return null;
             OnTick(RemainingTimeInSeconds);
             if (!halfwayPointEventTriggered && RemainingTimeInSeconds <= (originalTimerDuration / 2f)) {
                 OnHalfwayPointReached?.Invoke(RemainingTimeInSeconds);
@@ -73,5 +78,18 @@ public class MinigameTimer : MonoBehaviour {
             }
             timerCoroutine = null;
         }
+    }
+
+    public void Resume() {
+        isPaused = false;
+    }
+
+    public void Pause() {
+        isPaused = true;
+    }
+    
+    public void SetVisible(bool visible) {
+        if (visible) ShowPanel();
+        else HidePanel();
     }
 }
