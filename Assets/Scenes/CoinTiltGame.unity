@@ -2728,6 +2728,8 @@ GameObject:
   - component: {fileID: 1235123284}
   - component: {fileID: 1235123286}
   - component: {fileID: 1235123285}
+  - component: {fileID: 1235123287}
+  - component: {fileID: 1235123288}
   m_Layer: 5
   m_Name: TimerPanel
   m_TagString: Untagged
@@ -2793,6 +2795,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1235123283}
   m_CullTransparentMesh: 1
+--- !u!114 &1235123287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235123283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70dd8f239249a4250a7cb5de958cc795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::CoinTiltGameTimer
+  TimerPanel: {fileID: 1235123283}
+  TimerText: {fileID: 949397460}
+  TimerCanvasGroup: {fileID: 1235123288}
+--- !u!225 &1235123288
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235123283}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1290908783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2957,7 +2986,6 @@ GameObject:
   - component: {fileID: 1351585868}
   - component: {fileID: 1351585867}
   - component: {fileID: 1351585866}
-  - component: {fileID: 1351585870}
   - component: {fileID: 1351585871}
   m_Layer: 5
   m_Name: Canvas
@@ -3052,20 +3080,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1351585870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351585865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70dd8f239249a4250a7cb5de958cc795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::CoinTiltGameTimer
-  TimerPanel: {fileID: 1235123283}
-  TimerText: {fileID: 949397460}
 --- !u!114 &1351585871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4451,7 +4465,7 @@ MonoBehaviour:
   - {fileID: 1617611594}
   - {fileID: 902133463}
   StartCountdown: {fileID: 126632952}
-  gameTimer: {fileID: 1351585870}
+  gameTimer: {fileID: 1235123287}
   placesDisplay: {fileID: 1351585871}
 --- !u!1 &1909462326
 GameObject:
