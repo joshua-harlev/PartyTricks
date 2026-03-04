@@ -9,6 +9,9 @@ public class MinigameTimer : MonoBehaviour {
     [SerializeField] private CanvasGroup TimerCanvasGroup;
     public event Action OnTimerEnd;
     public event Action<int> OnHalfwayPointReached;
+    
+    // Elapsed time, Total Time
+    public event Action<int, int> OnTimerTick;
     private string endOfGameText;
     private int RemainingTimeInSeconds { get; set; }
     private int originalTimerDuration;
@@ -64,6 +67,7 @@ public class MinigameTimer : MonoBehaviour {
     }
 
     private void OnTick(int remainingTimeInSeconds) {
+        OnTimerTick?.Invoke(originalTimerDuration-remainingTimeInSeconds, remainingTimeInSeconds);
         TimeSpan timeSpan = TimeSpan.FromSeconds(remainingTimeInSeconds);
         string timeInMinutes = timeSpan.Minutes.ToString("00");
         string timeInSeconds = timeSpan.Seconds.ToString("00");

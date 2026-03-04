@@ -52,6 +52,7 @@ namespace Minigames.Swinging {
         private IPowerUpService powerUpService;
         private bool hasBeenInitialized;
 
+        private float targetIntensityCompletionTime;
         private bool isInGameplay;
 
         public bool[] PlayerHasMagnet { get; private set; }
@@ -82,14 +83,22 @@ namespace Minigames.Swinging {
         public void Initialize(bool isDoubleRound) {
             IsDoubleRound = isDoubleRound;
             hasBeenInitialized = true;
+            GameTimer.OnTimerTick += OnTimerTick;
             DebugLogger.Log(LogChannel.Systems, $"VineSwinging initiated. Double round: {isDoubleRound}");
         }
 
+        private void OnTimerTick(int elapsedTimeInSeconds, int remainingTimeInSeconds) {
+            float musicIntensity = Mathf.Lerp(0f, 2f, elapsedTimeInSeconds / targetIntensityCompletionTime);
+            SetMusicIntensity(musicIntensity);
+        }
+        
         private void SetUpVariables() {
             if (IsDoubleRound) {
                 gameDurationInSeconds *= 2;
                 vineCount *= 2;
             }
+
+            targetIntensityCompletionTime = gameDurationInSeconds * 0.6f;
 
             InitializePlayerDisplays(); 
             placesDisplay.Hide();
@@ -170,7 +179,6 @@ namespace Minigames.Swinging {
 
         public void StartMusic() => musicInstance.start();
         
-        // only useful if music is configurable (like the original music for Dire Dodging)
         public void SetMusicIntensity(float intensity) => musicInstance.setParameterByName("Intensity", intensity);
 
         private void OnDisable() {
@@ -184,6 +192,10 @@ namespace Minigames.Swinging {
         private IEnumerator WaitAndEndMinigame(PlayerMinigameResult[] results) {
             yield return new WaitForSeconds(resultsDisplayDurationInSeconds);
             OnMinigameFinished?.Invoke(results);
+        }
+
+        private void OnDestroy() {
+            GameTimer.OnTimerTick -= OnTimerTick;
         }
     }
 }

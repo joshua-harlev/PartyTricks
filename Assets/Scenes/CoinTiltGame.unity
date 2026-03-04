@@ -396,6 +396,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::CoinTiltMinigameCountdown
   CountdownText: {fileID: 126632950}
+  TickEvent:
+    Guid:
+      Data1: -333099357
+      Data2: 1138363134
+      Data3: -1652323439
+      Data4: -411741695
+    Path: event:/Countdown/CountdownTick
 --- !u!1 &165266136
 GameObject:
   m_ObjectHideFlags: 0
@@ -4432,11 +4439,11 @@ MonoBehaviour:
   fundsPerRank: 64000000500000003c00000032000000
   MusicEvent:
     Guid:
-      Data1: -1065483491
-      Data2: 1078058101
-      Data3: 1800602797
-      Data4: 1323347433
-    Path: event:/DireDodging/GameplayMusic
+      Data1: -1243255822
+      Data2: 1228836778
+      Data3: -1945791579
+      Data4: -1139426081
+    Path: event:/CoinTilt/CoinTiltMusic
   CoinCollectSoundEvent:
     Guid:
       Data1: 1028373954

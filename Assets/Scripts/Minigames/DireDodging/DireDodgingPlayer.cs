@@ -53,7 +53,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     private bool isAI;
     private bool inputEnabled;
     private bool isAlive = true;
-
+    private bool shootEventExists;
     private bool isGhostMode = false;
 
 
@@ -91,6 +91,8 @@ public class DireDodgingPlayer : MonoBehaviour {
         // TODO calculate this more effectively
         spriteHalfHeight = SpriteRenderer.bounds.extents.y + 0.4f; // offset added for health bar
 
+        shootEventExists = !PlayerStatsSO.BasicShootEvent.IsNull;
+        
         ProjectilePool.Initialize();
         ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO, numberOfIncreasedAttackSpeedPowerups);
         DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO);
@@ -194,6 +196,9 @@ public class DireDodgingPlayer : MonoBehaviour {
         projectile.transform.rotation = GetRotationForDirection(shootDirection);
         projectile.transform.localScale = Vector3.one * projectileScale;
         projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false);
+        if (shootEventExists) {
+            RuntimeManager.PlayOneShot(PlayerStatsSO.BasicShootEvent);
+        }
     }
 
     public Vector2 GetShootDirection() {
