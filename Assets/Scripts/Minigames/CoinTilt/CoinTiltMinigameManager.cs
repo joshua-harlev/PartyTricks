@@ -33,6 +33,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     [SerializeField] private MinigameTimer gameTimer;
     [SerializeField] private PlacesDisplay placesDisplay;
     
+    private float targetIntensityCompletionTime;
     private bool hasBeenInitialized;
     private EventInstance musicInstance;
     private readonly int[] playerScores = new int[4];
@@ -59,6 +60,13 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
         DebugLogger.Log(LogChannel.Systems, $"CoinTiltMinigame initialized. Double round: {isDoubleRound}");
     }
 
+    private void OnTimerTick(int elapsedTimeInSeconds, int remainingTimeInSeconds) {
+        float musicIntensity = Mathf.Lerp(0f, 2f, elapsedTimeInSeconds / targetIntensityCompletionTime);
+        SetMusicIntensity(musicIntensity);
+    }
+
+    private void SetMusicIntensity(float intensity) => musicInstance.setParameterByName("Intensity", intensity);
+
     private void InitializeVariables() {
         InitializePlayerScores();
         InitializeCountdown();
@@ -73,6 +81,8 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
         else {
             gameTimer.Initialize(gameDurationInSeconds);
             gameTimer.OnTimerEnd += EndGame;
+            targetIntensityCompletionTime = gameDurationInSeconds * 0.6f;
+            gameTimer.OnTimerTick += OnTimerTick;
         }
     }
 
@@ -235,6 +245,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     }
 
     private void EndGame() {
+        SetMusicIntensity(0f);
         gameTimer.OnTimerEnd -= EndGame;
         DisablePlayerControlsAndMovement();
         FinalizeCoinSpawnerOperations();
@@ -335,6 +346,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     
     private void OnDestroy() {
         musicInstance.stop(STOP_MODE.IMMEDIATE);
+        gameTimer.OnTimerTick -= OnTimerTick;
         foreach(var player in players) {
             player.OnCoinCollected -= HandleCoinCollected;
             player.OnFallOff -= HandlePlayerFall;
