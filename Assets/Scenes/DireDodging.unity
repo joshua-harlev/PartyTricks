@@ -5567,7 +5567,7 @@ Transform:
   m_GameObject: {fileID: 333707096}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.19, y: 5.28, z: 0}
+  m_LocalPosition: {x: -0.19, y: 8.25, z: 0}
   m_LocalScale: {x: 0.46375, y: 18.190126, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6962,7 +6962,7 @@ Transform:
   m_GameObject: {fileID: 694692654}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -1.91, y: -2.01, z: 0}
+  m_LocalPosition: {x: -1.91, y: -1.52, z: 0}
   m_LocalScale: {x: 0.46375, y: 3.5625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12381,6 +12381,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8903b1d7156405d897eacb4c9e69ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
+  LabelShouldDisappear: 0
+  TimeUntilAutomaticDestructionInSeconds: 10
+  LockRotation: 0
 --- !u!1 &766763755
 GameObject:
   m_ObjectHideFlags: 0
@@ -12709,7 +12712,7 @@ Transform:
   m_GameObject: {fileID: 848241388}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.19, y: -5.25, z: 0}
+  m_LocalPosition: {x: -0.19, y: -8.29, z: 0}
   m_LocalScale: {x: 0.46375, y: 18.190126, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18796,7 +18799,7 @@ Transform:
   m_GameObject: {fileID: 1104040408}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.8, y: 0.8, z: 0}
+  m_LocalPosition: {x: 5.24, y: 0.8, z: 0}
   m_LocalScale: {x: 0.46375, y: 3.5625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19026,7 +19029,7 @@ Transform:
   m_GameObject: {fileID: 1211915857}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.85, y: 2.49, z: 0}
+  m_LocalPosition: {x: -5.52, y: 2.49, z: 0}
   m_LocalScale: {x: 0.46375, y: 3.5625, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19377,7 +19380,7 @@ Transform:
   m_GameObject: {fileID: 1258758076}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.31, y: 0.04, z: 0}
+  m_LocalPosition: {x: 15.32, y: 0.04, z: 0}
   m_LocalScale: {x: 0.46375, y: 9.976148, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19828,7 +19831,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -20872,6 +20875,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8903b1d7156405d897eacb4c9e69ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
+  LabelShouldDisappear: 0
+  TimeUntilAutomaticDestructionInSeconds: 10
+  LockRotation: 0
 --- !u!1 &1639456613
 GameObject:
   m_ObjectHideFlags: 0
@@ -21187,6 +21193,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8903b1d7156405d897eacb4c9e69ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
+  LabelShouldDisappear: 0
+  TimeUntilAutomaticDestructionInSeconds: 10
+  LockRotation: 0
 --- !u!1 &1711397427
 GameObject:
   m_ObjectHideFlags: 0
@@ -21420,7 +21429,7 @@ Transform:
   m_GameObject: {fileID: 1738604712}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.26, y: 0.04, z: 0}
+  m_LocalPosition: {x: -15.66, y: 0.04, z: 0}
   m_LocalScale: {x: 0.46375, y: 9.976148, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21568,7 +21577,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1787752971
@@ -27551,6 +27560,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8903b1d7156405d897eacb4c9e69ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
+  LabelShouldDisappear: 0
+  TimeUntilAutomaticDestructionInSeconds: 10
+  LockRotation: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
