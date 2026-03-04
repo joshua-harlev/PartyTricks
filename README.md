@@ -1,5 +1,5 @@
 # 🎉 Party Tricks
-[![Build](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml) [![Test Swinging.Core](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-swinging-core.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-swinging-core.yml)
+[![Build](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml) [![Test Swinging.Core](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-swinging-core.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-swinging-core.yml) [![Test Results.Core](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-results-core.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-results-core.yml)
 
 Party Tricks is a four-player minigame rush with strategic elements currently in development using Unity 6.  
 
