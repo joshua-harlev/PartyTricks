@@ -30,8 +30,13 @@ namespace VineSwinging.Core {
 
         private void Release(PlayerContext playerContext, SwingConfig swingConfig, float vinePeriod) {
             float phaseRate = (float)(2 * Math.PI / vinePeriod);
-            float bestVx = float.NegativeInfinity;
-            float bestVy = 0f;
+            
+            var (fallbackVx, fallbackVy) = SwingSimulation.GetShapedReleaseVelocity(
+                playerContext.SwingPhase, swingConfig.Amplitude, vinePeriod, swingConfig.LaunchForce,
+                swingConfig.RopeLength, swingConfig.ReleaseCurveExponent);
+            
+            float bestVx = fallbackVx;
+            float bestVy = fallbackVy;
             float bestDistance = 0f;
 
             for (int i = 0; i <= swingConfig.ReleaseLookaheadFrames; i++) {
@@ -65,7 +70,9 @@ namespace VineSwinging.Core {
 
         public static float EstimateHorizontalDistance(float xVelocity, float yVelocity, float releaseOffsetY, float gravity) {
             float changeInY = -releaseOffsetY; // approx how far above the ground the player is
-            float airTime = (yVelocity + (float)Math.Sqrt(yVelocity * yVelocity + 2f * gravity * changeInY)) / gravity;
+            float discriminant = yVelocity * yVelocity + 2f * gravity * changeInY;
+            if (discriminant < 0f) return 0f;
+            float airTime = (yVelocity + (float)Math.Sqrt(discriminant)) / gravity;
             return xVelocity * airTime;
         }
 
