@@ -6540,7 +6540,7 @@ MonoBehaviour:
       Data2: 1078058101
       Data3: 1800602797
       Data4: 1323347433
-    Path: event:/DireDodging/GameplayMusic
+    Path: event:/DireDodging/DireDodgingMusic
   Players:
   - {fileID: 1451952762}
   - {fileID: 732278615}
@@ -18156,6 +18156,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::CoinTiltMinigameCountdown
   CountdownText: {fileID: 948442529}
+  TickEvent:
+    Guid:
+      Data1: -333099357
+      Data2: 1138363134
+      Data3: -1652323439
+      Data4: -411741695
+    Path: event:/Countdown/CountdownTick
 --- !u!114 &948442529
 MonoBehaviour:
   m_ObjectHideFlags: 0

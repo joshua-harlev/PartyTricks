@@ -489,9 +489,11 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
+  - CoinTilt
   - DireDodging
   - Shop
   - Swinging
+  - VineSwinging
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0

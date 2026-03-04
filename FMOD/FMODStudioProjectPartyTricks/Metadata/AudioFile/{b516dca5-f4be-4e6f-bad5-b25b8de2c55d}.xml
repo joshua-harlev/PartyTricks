@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{b516dca5-f4be-4e6f-bad5-b25b8de2c55d}">
+		<property name="assetPath">
+			<value>523464__sonoticai__ticking-clock_1.06.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.16083333333333333</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e1a96c5c-2501-42c0-bf6c-d8f0268f64ca}</destination>
+		</relationship>
+	</object>
+</objects>
