@@ -52,7 +52,8 @@ Minigame Type: Movement
 
 Swing from vine to vine while collecting coins. Make it as far as you can while maximizing coin collection to win!
 
-![Vine Swinging Gameplay](https://github.com/user-attachments/assets/a2cfd983-3d7d-4f02-a0a9-cc67e8b0e758)
+![Vine Swinging Gameplay](https://github.com/user-attachments/assets/4c8312ec-5277-4743-837d-14b1515650ff)
+
 
 ### Shop
 The shop displays between minigames and includes power-ups for the player to purchase. 
