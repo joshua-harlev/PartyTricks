@@ -194,6 +194,9 @@ public class DireDodgingPlayer : MonoBehaviour {
         projectile.transform.rotation = GetRotationForDirection(shootDirection);
         projectile.transform.localScale = Vector3.one * projectileScale;
         projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false);
+        if (!PlayerStatsSO.BasicShootEvent.IsNull) {
+            RuntimeManager.PlayOneShot(PlayerStatsSO.BasicShootEvent);
+        }
     }
 
     public Vector2 GetShootDirection() {

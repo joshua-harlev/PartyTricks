@@ -69,3 +69,10 @@ MonoBehaviour:
       Data3: -2047714629
       Data4: -1203956741
     Path: event:/DireDodging/ChargeComplete
+  BasicShootEvent:
+    Guid:
+      Data1: -207524109
+      Data2: 1111025964
+      Data3: -1133852529
+      Data4: 1964496194
+    Path: event:/DireDodging/BasicShoot
