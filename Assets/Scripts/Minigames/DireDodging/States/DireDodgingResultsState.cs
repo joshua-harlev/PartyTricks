@@ -6,16 +6,15 @@ public class DireDodgingResultsState : IDireDodgingState {
     private int[] playerPlaces;
     private int[] playerKills;
     private int[] baseFundsPerRank;
-    private int fundsPerKill;
+
     private PlacesDisplay placesDisplay;
     private MinigameTimer minigameTimer;
     
-    public DireDodgingResultsState(int[] playerPlaces, int[] playerKills, int[] baseFundsPerRank, int fundsPerKill,
+    public DireDodgingResultsState(int[] playerPlaces, int[] playerKills, int[] baseFundsPerRank,
         PlacesDisplay placesDisplay, MinigameTimer minigameTimer) {
         this.playerPlaces = playerPlaces;
         this.playerKills = playerKills;
         this.baseFundsPerRank = baseFundsPerRank;
-        this.fundsPerKill = fundsPerKill;
         this.placesDisplay = placesDisplay;
         this.minigameTimer = minigameTimer;
     }
@@ -46,20 +45,15 @@ public class DireDodgingResultsState : IDireDodgingState {
         var placeAsText = GetPlaceAsText(result.PlayerPlace);
         placeDisplayString += placeAsText + "\n<size=50>";
         placeDisplayString += baseFundsPerRank[result.PlayerPlace - 1];
+        placeDisplayString += " Funds";
         var kills = playerKills[playerIndex];
         if (kills >= 1) {
-            placeDisplayString += " + " + (kills * fundsPerKill);
-        }
-
-        placeDisplayString += " Funds";
-        placeDisplayString += "</size>\n<size=30>(" + placeAsText + " Place";
-        if (kills >= 1) {
-            placeDisplayString += ", " + kills + " Elimination";
+            placeDisplayString += "</size>\n<size=30>" + kills + " Elimination";
             if (kills > 1) {
                 placeDisplayString += "s";
             }
+            placeDisplayString += "</size>";
         }
-        placeDisplayString += ")</size>";
         return placeDisplayString;
     }
 
@@ -79,8 +73,6 @@ public class DireDodgingResultsState : IDireDodgingState {
         for (int playerIndex = 0; playerIndex < playerResults.Length; playerIndex++) {
             int playerRank = playerPlaces[playerIndex]-1;
             int baseFundsEarned = baseFundsPerRank[playerRank];
-            int eliminationMoney = playerKills[playerIndex] * fundsPerKill;
-            baseFundsEarned += eliminationMoney;
             if (DireDodgingMinigameManager.Instance.IsDoubleRound) baseFundsEarned *= 2;
             playerResults[playerIndex] = new PlayerMinigameResult(playerIndex, playerRank, baseFundsEarned, 0,playerKills[playerIndex]);
         }

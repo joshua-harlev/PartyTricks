@@ -115,7 +115,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
 
     public void TransitionToResults(int[] playerPlaces, int[] playerKills) {
         Debug.Log("Game ended. Places: " + string.Join(", ", playerPlaces) + ", kills: " + string.Join(", ", playerKills));
-        DireDodgingResultsState resultsState = new DireDodgingResultsState(playerPlaces, playerKills, BaseFundsPerRank, FundsPerKill, PlacesDisplay, MinigameTimer);
+        DireDodgingResultsState resultsState = new DireDodgingResultsState(playerPlaces, playerKills, BaseFundsPerRank, PlacesDisplay, MinigameTimer);
         ChangeState(resultsState);
     }
 
