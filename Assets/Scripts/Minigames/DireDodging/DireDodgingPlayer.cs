@@ -45,7 +45,8 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private Coroutine shootingCoroutineInstance = null;
     private Vector2 lastMoveDirection = Vector2.right;
-
+    private DireDodgingIntensityStats intensityStats;
+    
     private int playerIndex;
     private Sequence colorChangeSequence;
     private Color baseColor;
@@ -158,7 +159,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void ApplyBaseStats() {
         this.maxMoveSpeed = PlayerStatsSO.MoveSpeed;
-        this.projectileScale = PlayerStatsSO.ProjectileScale * 1.3f;
+        this.projectileScale = PlayerStatsSO.ProjectileScale;
         this.projectileSpeed = PlayerStatsSO.ProjectileSpeed;
         this.baseDamage = PlayerStatsSO.BaseDamage;
         this.maxHealth = PlayerStatsSO.BaseHealth;
@@ -167,6 +168,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         this.ghostMoveSpeedMultiplier = PlayerStatsSO.GhostMoveSpeedMultiplier;
         this.stunDuration = PlayerStatsSO.StunDuration;
         this.hitEvent = PlayerStatsSO.GetHitEvent;
+        this.intensityStats = PlayerStatsSO.GetIntensityStats();
         currentHealth = maxHealth;
     }
 
@@ -353,9 +355,9 @@ public class DireDodgingPlayer : MonoBehaviour {
         float initialShootRate = projectileShootRate;
         float initialProjectileScale = projectileScale;
 
-        float targetProjectileSpeed = initialProjectileSpeed * 2.5f;
-        float targetShootRate = initialShootRate * 0.3f;
-        float targetProjectileScale = projectileScale * 2f;
+        float targetProjectileSpeed = initialProjectileSpeed * intensityStats.ProjectileSpeedIncrease;
+        float targetShootRate = initialShootRate * intensityStats.ShootRateDivisor;
+        float targetProjectileScale = projectileScale * intensityStats.ProjectileScaleIncrease;
 
         while (Time.time - startTime < duration) {
             float elapsed = Time.time - startTime;
@@ -364,6 +366,7 @@ public class DireDodgingPlayer : MonoBehaviour {
             projectileSpeed = Mathf.Lerp(initialProjectileSpeed, targetProjectileSpeed, easedT);
             projectileShootRate = Mathf.Lerp(initialShootRate, targetShootRate, easedT);
             projectileScale = Mathf.Lerp(initialProjectileScale, targetProjectileScale, easedT);
+            ChargeAttack.UpdateChargeTimeRequired(t * intensityStats.ChargeTimeDecrease);
             yield return null;
         }
 
