@@ -23,6 +23,8 @@ namespace Minigames.DireDodging {
         private float chargeTimeRequiredOriginal;
         private float ghostChargeTimeOriginal;
         private float originalBaseHP;
+        private float speedCoefficient;
+        private int numberOfIncreasedAttackSpeedPowerups;
 
         private EventReference chargeLoopEvent;
         private EventReference chargeReleaseEvent;
@@ -35,8 +37,9 @@ namespace Minigames.DireDodging {
             DireDodgingPlayerStatsSO stats, int numberOfIncreasedAttackSpeedPowerups) {
             this.player = player;
             this.projectilePool = pool;
-            float speedCoefficient = (1 + (numberOfIncreasedAttackSpeedPowerups * 0.75f));
-            chargeTimeRequired = stats.ChargeTimeRequired / speedCoefficient;
+            this.numberOfIncreasedAttackSpeedPowerups = numberOfIncreasedAttackSpeedPowerups;
+            chargeTimeRequiredOriginal = stats.ChargeTimeRequired;
+            UpdateChargeTimeRequired();
             chargedProjectileScale = stats.ChargedProjectileScale;
             chargedProjectileSpeed = stats.ChargedProjectileSpeed * speedCoefficient;
             ghostChargeTime = stats.GhostChargeTime;
@@ -45,9 +48,13 @@ namespace Minigames.DireDodging {
             chargeReleaseEvent = stats.ChargeReleaseEvent;
             chargeShootEvent = stats.ChargeShootEvent;
             chargeCompleteEvent = stats.ChargeCompleteEvent;
-            chargeTimeRequiredOriginal = stats.ChargeTimeRequired;
             ghostChargeTimeOriginal = stats.GhostChargeTime;
             originalBaseHP = stats.BaseHealth;
+        }
+
+        public void UpdateChargeTimeRequired(float coefficient = 0f) {
+            speedCoefficient = (1 + (numberOfIncreasedAttackSpeedPowerups * 0.75f) + coefficient);
+            chargeTimeRequired = chargeTimeRequiredOriginal / speedCoefficient;
         }
 
         public void Tick() {
