@@ -49,4 +49,8 @@ public class ShopItemUI : MonoBehaviour {
     public void OnCannotAfford(int selectorPlayerIndex) {
         pointers.OnCannotAfford(selectorPlayerIndex);
     }
+
+    public void OnCannotAffordPermanent(int playerIndex) {
+        pointers.OnCannotAffordPermanent(playerIndex);
+    }
 }

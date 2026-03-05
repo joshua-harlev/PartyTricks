@@ -39,4 +39,8 @@ public class ShopPointer : MonoBehaviour {
                 else imageComponent.sprite = pointerIcon;
             });
     }
+    
+    public void SetCannotAffordPermanent() {
+        imageComponent.sprite = NoIcon;
+    }
 }

@@ -102,7 +102,12 @@ namespace Shop {
         private void OnShopTimerEnd() {
             musicInstance.stop(STOP_MODE.IMMEDIATE);
             ShopFeedback?.OnTimerEnd();
-            shopPurchaseService.ResolvePurchases(playerManager.GetSelectors(), ShopItemUIElements);
+            var failedSelectors = shopPurchaseService.ResolvePurchases(playerManager.GetSelectors(), ShopItemUIElements);
+
+            foreach (var failedSelector in failedSelectors) {
+                ShopItemUIElements[failedSelector.CurrentShopItemIndex].OnCannotAffordPermanent(failedSelector.PlayerIndex);
+            }
+            
             if (gameFlowService != null) {
                 StartCoroutine(WaitAndThenMoveToNextMinigame());
             }

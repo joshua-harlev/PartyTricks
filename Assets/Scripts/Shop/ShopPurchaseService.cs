@@ -4,13 +4,18 @@ using Services;
 using UnityEngine;
 
 public class ShopPurchaseService {
-    public void ResolvePurchases(List<ShopSlotSelector> shopSlotSelectors, ShopItemUI[] shopItems) {
+    public List<ShopSlotSelector> ResolvePurchases(List<ShopSlotSelector> shopSlotSelectors, ShopItemUI[] shopItems) {
+        List<ShopSlotSelector> failedSelectors = new();
         foreach (var playerSelector in shopSlotSelectors) {
-            ProcessPurchase(shopItems, playerSelector);
+            bool success = ProcessPurchase(shopItems, playerSelector);
+            if (!success) {
+                failedSelectors.Add(playerSelector);
+            }
         }
+        return failedSelectors;
     }
 
-    private static void ProcessPurchase(ShopItemUI[] shopItems, ShopSlotSelector playerSelector) {
+    private static bool ProcessPurchase(ShopItemUI[] shopItems, ShopSlotSelector playerSelector) {
         int index = playerSelector.CurrentShopItemIndex;
         IPlayerService playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         playerSelector.Lock();
@@ -30,5 +35,6 @@ public class ShopPurchaseService {
         else {
             Debug.Log("Shop.cs: Player " + playerSelector.PlayerIndex + " could not afford " + shopItems[index].ToString());
         }
+        return purchaseSuccess;
     }
 }
