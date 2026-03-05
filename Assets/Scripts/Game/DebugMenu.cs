@@ -145,6 +145,10 @@ public class DebugMenu : MonoBehaviour {
         if (GUILayout.Button("Add 100 to All Players", GUILayout.Height(30))) {
             AddFundsToAllPlayers(100);
         }
+
+        if (GUILayout.Button("Remove 100 from All Players", GUILayout.Height(30))) {
+            RemoveFundsFromAllPlayers(100);
+        }
         
         GUILayout.Space(10);
         
@@ -299,6 +303,21 @@ public class DebugMenu : MonoBehaviour {
         foreach (var slot in playerService.PlayerSlots) {
             if (slot?.Profile != null) {
                 slot.Profile.Wallet.AddFunds(amount);
+            }
+        }
+        
+        DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Added {amount} funds to all players.");
+    }
+    
+    private void RemoveFundsFromAllPlayers(int amount) {
+        if (playerService == null) {
+            Debug.LogWarning("Debug Menu: PlayerService not found.");
+            return;
+        }
+
+        foreach (var slot in playerService.PlayerSlots) {
+            if (slot?.Profile != null) {
+                slot.Profile.Wallet.RemoveFunds(amount);
             }
         }
         

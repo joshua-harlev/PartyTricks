@@ -8,8 +8,10 @@ public abstract class SelectionController : MonoBehaviour
     public bool IsLocked { get; protected set; }
     public bool CanAct { get; set; } = true;
     public PlayerProfile Profile { get; protected set; }
+    public event Action<SelectionController> OnLockRejected;
     
     protected Vector2 lastNavigateDirection;
+    protected virtual bool CanLock() => true;
     
     public event Action<SelectionController, bool> OnLockChanged;
     private void Update() {
@@ -37,7 +39,12 @@ public abstract class SelectionController : MonoBehaviour
 
     private void HandleSelection() {
         if (Navigator.SelectIsPressed()) {
-            Lock();
+            if (CanLock()) {
+                Lock();
+            }
+            else {
+                OnLockRejected?.Invoke(this);
+            }
         }
 
         if (Navigator.CancelIsPressed()) {
