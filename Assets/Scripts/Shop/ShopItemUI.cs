@@ -45,4 +45,8 @@ public class ShopItemUI : MonoBehaviour {
     public ShopItem GetItem() {
         return item;
     }
+
+    public void OnCannotAfford(int selectorPlayerIndex) {
+        pointers.OnCannotAfford(selectorPlayerIndex);
+    }
 }

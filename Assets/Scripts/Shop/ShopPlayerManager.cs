@@ -13,6 +13,7 @@ public class ShopPlayerManager {
     
     // locked count, locked AI count, total human count
     public event Action<int, int, int> OnLockCountChanged;
+    public event Action OnLockRejected;
 
     public ShopPlayerManager(ShopNavigationService navigationService, ShopItemUI[] shopItemUIElements, PlayerCornerDisplay[] playerCornerDisplays) {
         this.navigationService = navigationService;
@@ -47,7 +48,7 @@ public class ShopPlayerManager {
     private ShopSlotSelector CreateSelector(int index, PlayerSlot slot) {
         var selectorObject = new GameObject($"Player_{index}_ShopSlotSelector");
         var selector = selectorObject.AddComponent<ShopSlotSelector>();
-        selector.Initialize(index, slot.InputHandler, navigationService, slot.Profile);
+        selector.Initialize(index, slot.InputHandler, navigationService, slot.Profile, shopItemUIElements);
         return selector;
     }
 
@@ -55,8 +56,15 @@ public class ShopPlayerManager {
         foreach (var selector in activeSelectors) {
             selector.OnSelectionChanged += HandleSelectionChanged;
             selector.OnLockChanged += HandleLockChanged;
+            selector.OnLockRejected += HandleLockRejected;
             HandleSelectionChanged(selector, selector.CurrentShopItemIndex);
         }
+    }
+    
+    private void HandleLockRejected(SelectionController controller) {
+        ShopSlotSelector selector = (ShopSlotSelector)controller;
+        shopItemUIElements[selector.CurrentShopItemIndex].OnCannotAfford(selector.PlayerIndex);
+        OnLockRejected?.Invoke();
     }
 
     private void HandleLockChanged(SelectionController controller, bool locked) {
@@ -90,6 +98,7 @@ public class ShopPlayerManager {
         foreach (var selector in activeSelectors) {
             selector.OnSelectionChanged -= HandleSelectionChanged;
             selector.OnLockChanged -= HandleLockChanged;
+            selector.OnLockRejected -= HandleLockRejected;
         }
     }
 

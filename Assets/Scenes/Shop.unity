@@ -4312,6 +4312,13 @@ MonoBehaviour:
       Data3: 251177131
       Data4: 942934450
     Path: event:/Shop/Time Up
+  cannotAffordSound:
+    Guid:
+      Data1: 1802802538
+      Data2: 1245497666
+      Data3: 1096158116
+      Data4: -1965057592
+    Path: event:/UI/ToggleOff
 --- !u!1 &916098665
 GameObject:
   m_ObjectHideFlags: 0

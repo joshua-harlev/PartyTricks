@@ -8,6 +8,7 @@ namespace Shop {
         [SerializeField] private EventReference unlockSound;
         [SerializeField] private EventReference allReadySound;
         [SerializeField] private EventReference timeUpSound;
+        [SerializeField] private EventReference cannotAffordSound;
 
         private bool allHumansWereLocked = false;
         private int previousLockedCount = 0;
@@ -48,6 +49,10 @@ namespace Shop {
             timerEnded = true;
             PlaySound(timeUpSound);
             timerDisplay.HideAllReady();
+        }
+
+        public void PlayCannotAffordSound() {
+            PlaySound(cannotAffordSound);
         }
     }
 }
