@@ -1,5 +1,5 @@
 # 🎉 Party Tricks
-[![Build](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml) [![Test Swinging.Core](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-swinging-core.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-swinging-core.yml)
+[![Build](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/build.yml) [![Test Swinging.Core](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-swinging-core.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-swinging-core.yml) [![Test Results.Core](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-results-core.yml/badge.svg)](https://github.com/jadeharlev/PartyTricks/actions/workflows/test-results-core.yml)
 
 Party Tricks is a four-player minigame rush with strategic elements currently in development using Unity 6.  
 
@@ -52,7 +52,8 @@ Minigame Type: Movement
 
 Swing from vine to vine while collecting coins. Make it as far as you can while maximizing coin collection to win!
 
-![Vine Swinging Gameplay](https://github.com/user-attachments/assets/a2cfd983-3d7d-4f02-a0a9-cc67e8b0e758)
+![Vine Swinging Gameplay](https://github.com/user-attachments/assets/4c8312ec-5277-4743-837d-14b1515650ff)
+
 
 ### Shop
 The shop displays between minigames and includes power-ups for the player to purchase. 

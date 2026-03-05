@@ -89,6 +89,7 @@ namespace Shop {
             playerManager = new ShopPlayerManager(shopNavigationService, ShopItemUIElements, PlayerCornerDisplays);
             playerManager.OnLockCountChanged += AdjustSpeedByLockCount;
             CountdownTimer.OnTimerEnd += OnShopTimerEnd;
+            playerManager.OnLockRejected += ShopFeedback.PlayCannotAffordSound;
         }
 
         private void StartShop() {
@@ -101,7 +102,12 @@ namespace Shop {
         private void OnShopTimerEnd() {
             musicInstance.stop(STOP_MODE.IMMEDIATE);
             ShopFeedback?.OnTimerEnd();
-            shopPurchaseService.ResolvePurchases(playerManager.GetSelectors(), ShopItemUIElements);
+            var failedSelectors = shopPurchaseService.ResolvePurchases(playerManager.GetSelectors(), ShopItemUIElements);
+
+            foreach (var failedSelector in failedSelectors) {
+                ShopItemUIElements[failedSelector.CurrentShopItemIndex].OnCannotAffordPermanent(failedSelector.PlayerIndex);
+            }
+            
             if (gameFlowService != null) {
                 StartCoroutine(WaitAndThenMoveToNextMinigame());
             }
@@ -145,6 +151,7 @@ namespace Shop {
                 PlacesScreenPanel.OnDismissed -= StartShop;
             }
             currentSequence?.Kill();
+            playerManager!.OnLockRejected -= ShopFeedback.PlayCannotAffordSound;
         }
 
         private void AdjustSpeedByLockCount(int lockedCount, int lockedAICount, int humanCount) {

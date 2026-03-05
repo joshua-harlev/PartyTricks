@@ -485,6 +485,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
   mainMenu: {fileID: 998597954}
+  musicEvent:
+    Guid:
+      Data1: 1591389496
+      Data2: 1170548813
+      Data3: -1717021561
+      Data4: -138044703
+    Path: event:/TitleScreen/TitleScreenMusic
 --- !u!1 &1457923513
 GameObject:
   m_ObjectHideFlags: 0

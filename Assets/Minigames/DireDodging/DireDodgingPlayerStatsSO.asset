@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DireDodgingPlayerStatsSO
   m_EditorClassIdentifier: Game::DireDodgingPlayerStatsSO
   MoveSpeed: 7
-  ProjectileScale: 1
+  ProjectileScale: 1.3
   ProjectileSpeed: 16
   ProjectileShootRate: 0.5
   BaseDamage: 1
@@ -27,6 +27,10 @@ MonoBehaviour:
   GhostProjectileSpeed: 1.2
   GhostMoveSpeedMultiplier: 0.25
   StunDuration: 2
+  ProjectileSpeedIncrease: 2.2
+  ProjectileScaleIncrease: 1.7
+  ShootRateDivisor: 0.4
+  ChargeTimeDecrease: 1.5
   GetHitEvent:
     Guid:
       Data1: 198578112
@@ -69,3 +73,10 @@ MonoBehaviour:
       Data3: -2047714629
       Data4: -1203956741
     Path: event:/DireDodging/ChargeComplete
+  BasicShootEvent:
+    Guid:
+      Data1: -207524109
+      Data2: 1111025964
+      Data3: -1133852529
+      Data4: 1964496194
+    Path: event:/DireDodging/BasicShoot

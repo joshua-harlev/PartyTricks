@@ -57,5 +57,11 @@ namespace Swinging.Core.Tests {
             Assert.Equal(0f, xVelocity, Tolerance);
             Assert.Equal(0f, yVelocity, Tolerance);
         }
+
+        [Fact]
+        public void EstimateHorizontalDistance_NegativeDiscriminantReturnsZero() {
+            float result = SwingingState.EstimateHorizontalDistance(5f, -1f, 5f, 20f);
+            Assert.Equal(0f, result);
+        }
     }
 }

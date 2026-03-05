@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{a0483406-010c-4020-ae84-76b11b320465}">
+		<property name="assetPath">
+			<value>Chiptune Vol2 Casual Main.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>92.571437500000002</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e1a96c5c-2501-42c0-bf6c-d8f0268f64ca}</destination>
+		</relationship>
+	</object>
+</objects>

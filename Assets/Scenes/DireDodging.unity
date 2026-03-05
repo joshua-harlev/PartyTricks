@@ -6328,14 +6328,14 @@ MonoBehaviour:
       Data2: 1078058101
       Data3: 1800602797
       Data4: 1323347433
-    Path: event:/DireDodging/GameplayMusic
+    Path: event:/DireDodging/DireDodgingMusic
   Players:
   - {fileID: 1451952762}
   - {fileID: 732278615}
   - {fileID: 899568622}
   - {fileID: 409285507}
   StartCountdown: {fileID: 948442528}
-  MinigameTimer: {fileID: 1930658406}
+  MinigameTimer: {fileID: 972416145}
   PlayerCornerDisplays:
   - {fileID: 550405654}
   - {fileID: 1119809387}
@@ -17564,6 +17564,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::CoinTiltMinigameCountdown
   CountdownText: {fileID: 948442529}
+  TickEvent:
+    Guid:
+      Data1: -333099357
+      Data2: 1138363134
+      Data3: -1652323439
+      Data4: -411741695
+    Path: event:/Countdown/CountdownTick
 --- !u!114 &948442529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17674,6 +17681,8 @@ GameObject:
   - component: {fileID: 972416142}
   - component: {fileID: 972416144}
   - component: {fileID: 972416143}
+  - component: {fileID: 972416145}
+  - component: {fileID: 972416146}
   m_Layer: 5
   m_Name: TimerPanel
   m_TagString: Untagged
@@ -17739,6 +17748,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972416141}
   m_CullTransparentMesh: 1
+--- !u!114 &972416145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972416141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70dd8f239249a4250a7cb5de958cc795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::CoinTiltGameTimer
+  TimerPanel: {fileID: 972416141}
+  TimerText: {fileID: 1497916967}
+  TimerCanvasGroup: {fileID: 972416146}
+--- !u!225 &972416146
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972416141}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &986929804
 GameObject:
   m_ObjectHideFlags: 0
@@ -20666,7 +20702,6 @@ GameObject:
   - component: {fileID: 1930658409}
   - component: {fileID: 1930658408}
   - component: {fileID: 1930658407}
-  - component: {fileID: 1930658406}
   - component: {fileID: 1930658405}
   m_Layer: 5
   m_Name: Canvas
@@ -20693,20 +20728,6 @@ MonoBehaviour:
   - {fileID: 63555351}
   - {fileID: 1850145481}
   placesPanel: {fileID: 1787752969}
---- !u!114 &1930658406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1930658404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70dd8f239249a4250a7cb5de958cc795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game::CoinTiltGameTimer
-  TimerPanel: {fileID: 972416141}
-  TimerText: {fileID: 1497916967}
 --- !u!114 &1930658407
 MonoBehaviour:
   m_ObjectHideFlags: 0

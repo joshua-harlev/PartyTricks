@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="Bank" id="{a762194e-2852-47bf-a8c4-546a9f7894ab}">
+		<property name="name">
+			<value>VineSwinging</value>
+		</property>
+		<relationship name="folder">
+			<destination>{c35165ca-be02-4f3a-a94e-3be069478f07}</destination>
+		</relationship>
+	</object>
+</objects>

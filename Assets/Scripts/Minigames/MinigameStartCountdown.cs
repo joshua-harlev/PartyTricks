@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,6 +10,7 @@ public class MinigameStartCountdown : MonoBehaviour
     [FormerlySerializedAs("countdownText")] [SerializeField] private TMP_Text CountdownText;
     public event Action OnTimerEnd;
     private int timeRemaining;
+    [SerializeField] private EventReference TickEvent;
 
     public void Initialize(int numberOfSeconds) {
         DebugLogger.Log(LogChannel.Systems, "Initialized countdown timer", LogLevel.Verbose);
@@ -34,5 +36,8 @@ public class MinigameStartCountdown : MonoBehaviour
 
     private void OnTick(int timeRemaining) {
         CountdownText.text = timeRemaining.ToString();
+        if (!TickEvent.IsNull) {
+            RuntimeManager.PlayOneShot(TickEvent);
+        }
     }
 }

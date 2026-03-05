@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FMOD.Studio;
+using FMODUnity;
 using Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class MainMenu : MonoBehaviour {
     [SerializeField] private UIDocument mainMenu;
-    
+    [SerializeField] private EventReference musicEvent;
+
+    private EventInstance musicInstance;
     private Button startGameButton;
     private Button optionsButton;
     private Button quitButton;
@@ -21,14 +26,20 @@ public class MainMenu : MonoBehaviour {
     private IPlayerService playerService;
     private readonly List<InputAction> subscribedSubmitActions = new();
     private readonly List<InputAction> gamepadNavigateActions = new();
+    private Coroutine intensityCoroutine;
 
     private void Awake() {
         gameFlowService = ServiceLocatorAccessor.GetService<IGameFlowService>();
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+        musicInstance = RuntimeManager.CreateInstance(musicEvent);
     }
 
     private void Start()
     {
+        if (!musicEvent.IsNull) {
+            musicInstance.start();
+            intensityCoroutine = StartCoroutine(IncreaseIntensityOverTime());
+        }
         VisualElement root = mainMenu.rootVisualElement;
         startGameButton = root.Query<Button>("StartGameButton");
         optionsButton = root.Query<Button>("OptionsButton");
@@ -52,6 +63,19 @@ public class MainMenu : MonoBehaviour {
         
         StartCoroutine(FocusFirstButtonAfterOneFrame());
         SubscribeToGamepadActions();
+    }
+
+    private IEnumerator IncreaseIntensityOverTime() {
+        int amountOfTimeToTakeInSeconds = 10;
+        int elapsedTimeInSeconds = 0;
+        float targetIntensity = 1f;
+        while (elapsedTimeInSeconds < amountOfTimeToTakeInSeconds) {
+            elapsedTimeInSeconds++;
+            float intensity = Mathf.Lerp(0f, targetIntensity, (float)elapsedTimeInSeconds / amountOfTimeToTakeInSeconds);
+            musicInstance.setParameterByName("Intensity", intensity);
+            yield return new WaitForSeconds(1);
+        }
+        intensityCoroutine = null;
     }
 
     private void SubscribeToGamepadActions() {
@@ -143,6 +167,8 @@ public class MainMenu : MonoBehaviour {
     private void StartGame() {
         if (gameFlowService != null) {
             gameFlowService.StartGame();
+            if(intensityCoroutine != null) StopCoroutine(intensityCoroutine);
+            musicInstance.setParameterByName("Intensity", 2f);
         }
         else {
             Debug.LogError("MainMenu: GameFlowManager not found.");
@@ -163,5 +189,8 @@ public class MainMenu : MonoBehaviour {
         }
         subscribedSubmitActions.Clear();
         gamepadNavigateActions.Clear();
+        if (musicInstance.isValid()) {
+            musicInstance.stop(STOP_MODE.IMMEDIATE);
+        }
     }
 }

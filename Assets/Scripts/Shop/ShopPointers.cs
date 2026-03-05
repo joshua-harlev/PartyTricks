@@ -17,4 +17,12 @@ public class ShopPointers : MonoBehaviour {
             pointer.SetLocked();
         } else pointer.SetUnlocked();
     }
+
+    public void OnCannotAfford(int playerIndex) {
+        pointers[playerIndex].PlayCannotAffordFeedback();
+    }
+
+    public void OnCannotAffordPermanent(int playerIndex) {
+        pointers[playerIndex].SetCannotAffordPermanent();
+    }
 }

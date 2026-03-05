@@ -91,3 +91,7 @@ MonoBehaviour:
   lockedIcon: {fileID: -4582459104795601878, guid: 4a50c2786b1d2480fb23a12b837a9cba, type: 3}
   pointerIcon: {fileID: 2572706576403278643, guid: 5cf8309da682844218ca47db3707cea5, type: 3}
   imageComponent: {fileID: 6717476187593852009}
+  NoIcon: {fileID: 21300000, guid: 2a9940ef8dd7240e892875ead8de1cc5, type: 3}
+  shakeDurationInSeconds: 0.3
+  shakeStrength: 10
+  shakeVibrato: 6
