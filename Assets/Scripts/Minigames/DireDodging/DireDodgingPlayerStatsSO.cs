@@ -18,6 +18,7 @@ public class DireDodgingPlayerStatsSO : ScriptableObject {
     public float ChargeTimeRequired = 2f;
     public float ChargedProjectileScale = 2f;
     public float ChargedProjectileSpeed = 2f;
+    public float ChargedProjectileSpeedReductionPerPowerup = 0.75f;
     
     [Header("Ghost Mode Settings")]
     public float GhostChargeTime = 1f;

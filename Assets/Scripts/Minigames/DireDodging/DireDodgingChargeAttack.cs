@@ -25,6 +25,7 @@ namespace Minigames.DireDodging {
         private float originalBaseHP;
         private float speedCoefficient;
         private int numberOfIncreasedAttackSpeedPowerups;
+        private float chargedProjectileSpeedReductionPerPowerup;
 
         private EventReference chargeLoopEvent;
         private EventReference chargeReleaseEvent;
@@ -38,6 +39,7 @@ namespace Minigames.DireDodging {
             this.player = player;
             this.projectilePool = pool;
             this.numberOfIncreasedAttackSpeedPowerups = numberOfIncreasedAttackSpeedPowerups;
+            this.chargedProjectileSpeedReductionPerPowerup = stats.ChargedProjectileSpeedReductionPerPowerup;
             chargeTimeRequiredOriginal = stats.ChargeTimeRequired;
             UpdateChargeTimeRequired();
             chargedProjectileScale = stats.ChargedProjectileScale;
@@ -53,7 +55,7 @@ namespace Minigames.DireDodging {
         }
 
         public void UpdateChargeTimeRequired(float coefficient = 0f) {
-            speedCoefficient = (1 + (numberOfIncreasedAttackSpeedPowerups * 0.75f) + coefficient);
+            speedCoefficient = (1 + (numberOfIncreasedAttackSpeedPowerups * chargedProjectileSpeedReductionPerPowerup) + coefficient);
             chargeTimeRequired = chargeTimeRequiredOriginal / speedCoefficient;
         }
 
