@@ -83,8 +83,13 @@ public class DireDodgingGameplayState : IDireDodgingState {
     }
 
     private static void AssignPlayerPlaces(int[] places, (int playerIndex, int playerKills)[] rankData) {
-        for (int i = 0; i < 4; i++) {
-            places[rankData[i].playerIndex] = i + 1;
+        places[rankData[0].playerIndex] = 1;
+        for (int i = 1; i < 4; i++) {
+            if (rankData[i].playerKills == rankData[i - 1].playerKills) {
+                places[rankData[i].playerIndex] = places[rankData[i - 1].playerIndex];
+            } else {
+                places[rankData[i].playerIndex] = i + 1;
+            }
         }
     }
 
