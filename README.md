@@ -38,7 +38,7 @@ Minigame Type: Combat
 
 2D battle minigame; shoot your opponents with quick regular attacks or powerful charged attacks and rack up the most eliminations.
 
-![Dire Dodging Gameplay](https://github.com/user-attachments/assets/7d478398-57c8-4cd2-81ca-30cef39dded3)
+![Dire Dodging Gameplay](https://github.com/user-attachments/assets/693b054e-2c23-45bb-ba14-40df5d9989b0)
 
 #### Coin Tilt
 Minigame Type: Movement
@@ -73,9 +73,11 @@ _Pictured: Player 1 (top left) attracts coins using the Magnet powerup in the Co
 ### Gameplay Video
 (last updated Feb 17, 2026)
 
+Most Recent Footage: [Sprint 2 Trailer](https://youtu.be/fwe8L3UIld4)
+
 Voiced Trailer: [Sprint 1 Trailer](https://www.youtube.com/watch?v=D4D7D5y370I)
 
-_Not fully representative of work as of the end of Sprint 1. Will be updated by the end of Sprint 2._
+_Not fully representative of work as of the end of Sprint 2. Will be updated around the end of Sprint 3._
 
 ## How to Play
 
@@ -95,30 +97,34 @@ _If there's no recent build, follow the [Development Guide](#development-guide) 
 | Debug Menu (P1 only)                                     | Ctrl + Esc                    | - / Select             |
 
 ## Roadmap
-_Last updated Feb 21, 2026_
+_Last updated Mar 5, 2026_
 
 ### Completed Sprints
-#### Sprint 1 (By February 19)
+#### Sprint 1 (Ended February 19)
 
 Planned and Complete: Dire Dodging Minigame Rework, Vine Swinging minigame
 
 Deferred: title screen art, 3D character models for Coin Tilt
 
-> Also completed: sound effects and music for all minigames, shop tweaks (QOL, audio), manual board configuration (dev tool), simple tutorial system, controller improvements, visual change to Coin Tilt
+Also completed: sound effects and music for all minigames, shop tweaks (QOL, audio), manual board configuration (dev tool), simple tutorial system, controller improvements, visual change to Coin Tilt
 
+#### Sprint 2 (Ended March 5)
+
+Planned and complete: Title screen art (not yet integrated), refinement for all minigames (visual overhauls for Dire Dodging and Vine Swinging, gameplay refinement for Vine Swinging)
+
+Deferred: Dire Dodging character art, 3D character models for Coin Tilt (started)
+
+Nixed: air hockey minigame
+
+Completed (but not explicitly planned): miscellaneous menu improvements, bug fixes, shop feedback, debug view options, various sound effects, music in more places, shop rigging in Unity, powerup buffs, options menu
+ 
 ### Current Sprint
 
-#### Sprint 2 (Ends March 5)
+**Sprint 3 (Ends March 19)** 
 
-Planned: Title screen art, 3D character models for Coin Tilt, refinement for all minigames, air hockey minigame\*, Dire Dodging art
-
-> Completed (but not originally planned): miscellaneous menu improvements
- 
-\*air hockey may be cut, depending on scope and playtesting
+Planned: Minigames further refined, Vine Swinging art (initial), Dire Dodging character art, Title Screen integration, Coin Tilt Model integration and refinement, more sound effects, visual overhauls for powerups, board display visual overhaul, Shockwave combat powerup, additional visually interesting powerup
 
 ### Upcoming Sprints
-
-**Sprint 3 (Ends March 19):** Minigames further refined, shop rework (art included), Vine Swinging art (initial), victory screen rework planning, sound effects for all minigames
 
 **Sprint 4 (Ends April 2)** Victory screen rework complete, IEEE trailer outline and V1, final art for Vine Swinging
 
