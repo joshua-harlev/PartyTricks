@@ -71,7 +71,7 @@ Meanwhile, the **Increased HP** powerup will make you more resilient in **Combat
 _Pictured: Player 1 (top left) attracts coins using the Magnet powerup in the Coin Tilt minigame._
 
 ### Gameplay Video
-(last updated Feb 17, 2026)
+(last updated Mar 05, 2026)
 
 Most Recent Footage: [Sprint 2 Trailer](https://youtu.be/fwe8L3UIld4)
 
