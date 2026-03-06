@@ -63,16 +63,17 @@
               if (seen.Add($"{res.width}x{res.height}"))
                   resolutionList.Add((res.width, res.height));
           }
-
-          if (resolutionList.Count <= 1)
+          
+          var fallbackResolutionList = new List<(int width, int height)>
           {
-              resolutionList = new List<(int width, int height)>
-              {
-                  (800, 600), (1280, 720), (1280, 800),
-                  (1366, 768), (1600, 900), (1680, 1050),
-                  (1920, 1080), (1920, 1200), (2560, 1440),
-                  (2560, 1600), (3840, 2160)
-              };
+              (800, 600), (1280, 720), (1280, 800),
+              (1366, 768), (1600, 900), (1680, 1050),
+              (1920, 1080), (1920, 1200), (2560, 1440),
+              (2560, 1600), (3840, 2160)
+          };
+
+          foreach (var resolution in fallbackResolutionList) {
+              if (seen.Add($"{resolution.width}x{resolution.height}")) resolutionList.Add((resolution.width, resolution.height));
           }
 
           resolutionDropdown.choices = resolutionList.Select(r => $"{r.width} x {r.height}").ToList();
