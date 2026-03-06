@@ -21,7 +21,6 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     [SerializeField] private int CountdownDurationInSeconds = 5;
     [SerializeField] private int ResultsDisplayDurationInSeconds = 5;
     [SerializeField] private int[] BaseFundsPerRank = new[] { 100, 80, 60, 50 };
-    [SerializeField] private int FundsPerKill = 30;
     [SerializeField] private EventReference MusicEvent;
 
     [Header("References")] 
