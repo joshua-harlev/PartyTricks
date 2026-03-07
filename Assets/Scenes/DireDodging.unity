@@ -6321,7 +6321,6 @@ MonoBehaviour:
   CountdownDurationInSeconds: 5
   ResultsDisplayDurationInSeconds: 5
   BaseFundsPerRank: 64000000500000003c00000032000000
-  FundsPerKill: 30
   MusicEvent:
     Guid:
       Data1: -1065483491
@@ -17531,7 +17530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &948442527
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19521,8 +19520,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0:30
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c8d9ae64a525d4660ba30e70d4cdd4c5, type: 2}
-  m_sharedMaterial: {fileID: -7721432213885882105, guid: c8d9ae64a525d4660ba30e70d4cdd4c5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6df738807b5894373b0aa6357be1814e, type: 2}
+  m_sharedMaterial: {fileID: -7721432213885882105, guid: 6df738807b5894373b0aa6357be1814e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -20402,7 +20401,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1787752970
 RectTransform:
   m_ObjectHideFlags: 0
