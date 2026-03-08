@@ -1,4 +1,5 @@
 using System.Collections;
+using CoreData;
 using DG.Tweening;
 using FMODUnity;
 using Minigames.DireDodging;
@@ -74,7 +75,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         baseColor = SpriteRenderer.color;
     }
 
-    public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool initializeAsAI, int numberOfIncreasedHealthPowerups, int numberOfIncreasedAttackSpeedPowerups, bool isDoubleRound) {
+    public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool initializeAsAI, CombatModifiers modifiers, bool isDoubleRound) {
         mainCamera = Camera.main;
         DireDodgingDeathHandler.CaptureOriginalCamera(mainCamera);
         ApplyBaseStats();
@@ -82,7 +83,7 @@ public class DireDodgingPlayer : MonoBehaviour {
             this.maxHealth *= 2;
             this.currentHealth *= 2;
         }
-        ApplyStatBuffs(numberOfIncreasedHealthPowerups, numberOfIncreasedAttackSpeedPowerups);
+        ApplyStatBuffs(modifiers.IncreasedHPCount, modifiers.IncreasedAttackSpeedCount);
         this.playerIndex = index;
         this.navigator = inputHandler;
         this.isAI = initializeAsAI;
@@ -95,7 +96,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         shootEventExists = !PlayerStatsSO.BasicShootEvent.IsNull;
         
         ProjectilePool.Initialize();
-        ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO, numberOfIncreasedAttackSpeedPowerups);
+        ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO, modifiers);
         DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO);
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} initialized. IsAI: {isAI}");
     }
