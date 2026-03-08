@@ -58,6 +58,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     private bool isAlive = true;
     private bool shootEventExists;
     private bool isGhostMode = false;
+    private bool isPlayingStunnedAnimation = false;
 
 
     private Coroutine damageCoroutineInstance = null;
@@ -71,6 +72,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private float ghostMoveSpeedMultiplier;
     private float defaultStunDuration;
+    private float stunNudgeMultiplier;
 
     private void Awake() {
         baseColor = SpriteRenderer.color;
@@ -131,7 +133,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private void HandleInput() {
-        if (!inputEnabled) return;
+        if (!inputEnabled && !isStunned) return;
         if (navigator == null) return;
 
         Vector2 input = navigator.GetNavigate();
@@ -140,6 +142,17 @@ public class DireDodgingPlayer : MonoBehaviour {
             lastMoveDirection = input.normalized;
         }
 
+        if (isStunned) {
+            if (!isPlayingStunnedAnimation) {
+                isPlayingStunnedAnimation = true;
+                transform.DOPunchPosition(input.normalized * stunNudgeMultiplier, 0.1f).OnComplete(() =>
+                {
+                    stunNudgeMultiplier *= 1.05f;
+                    isPlayingStunnedAnimation = false;
+                });
+            }
+            return;
+        }
         ApplyMovement(input);
     }
 
@@ -300,6 +313,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         if (isStunned) yield break;
 
         if (Mathf.Approximately(stunDuration, -1f)) stunDuration = defaultStunDuration;
+        stunNudgeMultiplier = 0.02f;
         isStunned = true;
         stunParticles.Play();
         StopShooting();
