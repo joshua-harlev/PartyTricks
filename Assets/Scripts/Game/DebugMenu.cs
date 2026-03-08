@@ -108,6 +108,17 @@ public class DebugMenu : MonoBehaviour {
             if (GUILayout.Button("Kill Player 4", GUILayout.Height(30))) {
                 KillDireDodgingPlayer(3);
             }
+            
+            GUILayout.Space(10);
+            
+            GUILayout.Label("Stun Player", GUI.skin.box);
+            GUILayout.BeginHorizontal();
+            for (int i = 0; i < 4; i++) {
+                if (GUILayout.Button($"Stun P{i+1}", GUILayout.Height(40))) {
+                    DireDodgingMinigameManager.Instance.DebugStunPlayer(i);
+                }
+            }
+            GUILayout.EndHorizontal();
         
             GUILayout.Space(20);
         }
