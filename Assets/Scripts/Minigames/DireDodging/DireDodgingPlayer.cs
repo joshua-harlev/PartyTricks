@@ -43,6 +43,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     [SerializeField] private DireDodgingProjectilePool ProjectilePool;
     [SerializeField] private DireDodgingChargeAttack ChargeAttack;
     [SerializeField] private DireDodgingDeathHandler DeathHandler;
+    [SerializeField] private ParticleSystem stunParticles;
 
     private Coroutine shootingCoroutineInstance = null;
     private Vector2 lastMoveDirection = Vector2.right;
@@ -300,6 +301,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
         if (Mathf.Approximately(stunDuration, -1f)) stunDuration = defaultStunDuration;
         isStunned = true;
+        stunParticles.Play();
         StopShooting();
         ChargeAttack.ForceStop();
         float originalSpeed = maxMoveSpeed;
@@ -314,6 +316,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         maxMoveSpeed = originalSpeed;
         SpriteRenderer.color = originalColor;
         isStunned = false;
+        stunParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     private IEnumerator DamageCoroutine() {
