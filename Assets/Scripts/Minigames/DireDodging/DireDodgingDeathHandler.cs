@@ -117,7 +117,7 @@ namespace Minigames.DireDodging {
             player.PlayerSpriteRenderer.color = ghostColor;
             
             projectilePool.ReturnAllToPool();
-            player.StopShootingCoroutine();
+            player.StopShooting();
 
             if (player.PlayerHealthBar != null) {
                 player.PlayerHealthBar.gameObject.SetActive(false);

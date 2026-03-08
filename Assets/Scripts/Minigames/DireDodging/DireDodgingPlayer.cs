@@ -69,7 +69,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     private EventReference hitEvent;
 
     private float ghostMoveSpeedMultiplier;
-    private float stunDuration;
+    private float defaultStunDuration;
 
     private void Awake() {
         baseColor = SpriteRenderer.color;
@@ -167,7 +167,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         this.projectileShootRate = PlayerStatsSO.ProjectileShootRate;
         this.damageAnimationTimeInSeconds = PlayerStatsSO.DamageAnimationTimeInSeconds;
         this.ghostMoveSpeedMultiplier = PlayerStatsSO.GhostMoveSpeedMultiplier;
-        this.stunDuration = PlayerStatsSO.StunDuration;
+        this.defaultStunDuration = PlayerStatsSO.StunDuration;
         this.hitEvent = PlayerStatsSO.GetHitEvent;
         this.intensityStats = PlayerStatsSO.GetIntensityStats();
         currentHealth = maxHealth;
@@ -261,7 +261,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         if (!isAlive || isGhostMode || DeathHandler.IsInvincible) return;
 
         if (projectile.IsGhostProjectile) {
-            StartCoroutine(StunCoroutine());
+            Stun(defaultStunDuration);
             RuntimeManager.PlayOneShot(hitEvent);
         } else {
             TakeDamage(projectile);
@@ -291,17 +291,25 @@ public class DireDodgingPlayer : MonoBehaviour {
     private bool isStunned = false;
     private float nextShootTime;
 
-    private IEnumerator StunCoroutine() {
+    public void Stun(float stunDuration = -1f) {
+        StartCoroutine(StunCoroutine(stunDuration));
+    }
+
+    private IEnumerator StunCoroutine(float stunDuration = -1f) {
         if (isStunned) yield break;
 
+        if (Mathf.Approximately(stunDuration, -1f)) stunDuration = defaultStunDuration;
         isStunned = true;
+        StopShooting();
+        ChargeAttack.ForceStop();
         float originalSpeed = maxMoveSpeed;
         maxMoveSpeed = 0f;
 
         Color originalColor = SpriteRenderer.color;
-        SpriteRenderer.color = new Color(0.5f, 0f, 0.5f, 1f);
+        SpriteRenderer.color = new Color(1f, 1f, 1f, 0.5f);
 
         yield return new WaitForSeconds(stunDuration);
+        StartShooting();
 
         maxMoveSpeed = originalSpeed;
         SpriteRenderer.color = originalColor;
@@ -310,7 +318,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private IEnumerator DamageCoroutine() {
         Debug.Log($"P{playerIndex+1} took damage!");
-        var fadeInTween = SpriteRenderer.DOColor(Color.white, damageAnimationTimeInSeconds / 2f);
+        var fadeInTween = SpriteRenderer.DOColor(Color.red * baseColor, damageAnimationTimeInSeconds / 2f);
         var fadeOutTween = SpriteRenderer.DOColor(baseColor, damageAnimationTimeInSeconds / 2f);
         colorChangeSequence = DOTween.Sequence();
         colorChangeSequence.Append(fadeInTween);
@@ -335,7 +343,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         }
     }
     
-    public void StopShootingCoroutine() {
+    public void StopShooting() {
         if (shootingCoroutineInstance != null) {
             StopCoroutine(shootingCoroutineInstance);
             shootingCoroutineInstance = null;
