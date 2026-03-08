@@ -8,11 +8,11 @@ namespace Minigames.Swinging.States {
 
         public VineSwingingGameplayState(VineSwingingMinigameManager minigameManager) {
             this.minigameManager = minigameManager;
+            aiController = new VineSwingingAIController(minigameManager.AIConfig);
         }
         
         public void Enter() {
             DebugLogger.Log(LogChannel.Systems, $"VineSwinging: Entered Gameplay State.");
-            aiController = new VineSwingingAIController();
             minigameManager.IsInGameplay = true;
             minigameManager.GameTimer.OnTimerEnd += OnTimerEnd;
             minigameManager.GameTimer.StartTimer();
