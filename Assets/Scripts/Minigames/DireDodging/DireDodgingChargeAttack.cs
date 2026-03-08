@@ -1,3 +1,4 @@
+using CoreData;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
@@ -35,10 +36,10 @@ namespace Minigames.DireDodging {
         public bool IsCharging => isCharging;
 
         public void Initialize(DireDodgingPlayer player, DireDodgingProjectilePool pool,
-            DireDodgingPlayerStatsSO stats, int numberOfIncreasedAttackSpeedPowerups) {
+            DireDodgingPlayerStatsSO stats, CombatModifiers modifiers) {
             this.player = player;
             this.projectilePool = pool;
-            this.numberOfIncreasedAttackSpeedPowerups = numberOfIncreasedAttackSpeedPowerups;
+            this.numberOfIncreasedAttackSpeedPowerups = modifiers.IncreasedAttackSpeedCount;
             this.chargedProjectileSpeedReductionPerPowerup = stats.ChargedProjectileSpeedReductionPerPowerup;
             chargeTimeRequiredOriginal = stats.ChargeTimeRequired;
             UpdateChargeTimeRequired();

@@ -65,9 +65,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
             if (Players[i] == null) continue;
             PlayerSlot slot = playerService.PlayerSlots[i];
             CombatModifiers modifiers = powerUpService.GetCombatModifiers(slot.Profile);
-            int increasedHPPowerupCount = modifiers.IncreasedHPCount;
-            int increasedAttackSpeedPowerupCount = modifiers.IncreasedAttackSpeedCount;
-            Players[i].Initialize(i, slot.InputHandler, slot.IsAI, increasedHPPowerupCount, increasedAttackSpeedPowerupCount, IsDoubleRound);
+            Players[i].Initialize(i, slot.InputHandler, slot.IsAI, modifiers, IsDoubleRound);
         }
     }
 
