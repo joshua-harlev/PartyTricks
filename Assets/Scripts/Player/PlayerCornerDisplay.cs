@@ -19,15 +19,19 @@ public class PlayerCornerDisplay : MonoBehaviour {
 
         displayMode = mode;
         
-        if (mode == DisplayMode.Funds) {
-            wallet.OnFundsChanged += UpdateFunds;
-        }
-        else if(mode == DisplayMode.Score) {
-            UpdateScore(0);
-        } else if (mode == DisplayMode.Eliminations) {
-            UpdateEliminations(0);
+        switch (mode) {
+            case DisplayMode.Funds:
+                wallet.OnFundsChanged += UpdateFunds;
+                break;
+            case DisplayMode.Score:
+                UpdateScore(0);
+                break;
+            case DisplayMode.Eliminations:
+                UpdateEliminations(0);
+                break;
         }
         inventory.OnItemAdded += AddItem;
+        inventory.OnInventoryClear += ClearItemsDisplay;
         isInitialized = true;
 
         RefreshDisplay();
@@ -81,8 +85,7 @@ public class PlayerCornerDisplay : MonoBehaviour {
 
     private void AddItem(ItemDefinition item) {
         if (item.Id == "emptyItem") return;
-        GameObject newItem = Instantiate(MiniPowerupPrefab);
-        newItem.transform.SetParent(PowerupLayoutGroup.transform);
+        GameObject newItem = Instantiate(MiniPowerupPrefab, PowerupLayoutGroup.transform, true);
         newItem.transform.localScale = Vector3.one;
         Image imageComponent = newItem.GetComponent<Image>();
         imageComponent.sprite = item.Image;
@@ -90,7 +93,10 @@ public class PlayerCornerDisplay : MonoBehaviour {
 
     private void CleanupSubscriptions() {
         if (wallet != null && displayMode == DisplayMode.Funds) wallet.OnFundsChanged -= UpdateFunds;
-        if (inventory != null) inventory.OnItemAdded -= AddItem;
+        if (inventory != null) {
+            inventory.OnItemAdded -= AddItem;
+            inventory.OnInventoryClear -= ClearItemsDisplay;
+        }
     }
 
     private void OnDestroy() {

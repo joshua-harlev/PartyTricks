@@ -17,9 +17,10 @@ public class DebugMenu : MonoBehaviour {
     private bool isDoubleRound = false;
     private IPlayerService playerService;
     private DireDodgingMinigameManager direDodgingManager;
+    public static Action<IPlayerService> PowerupPanelDraw;
     
     private void Awake() {
-        windowRect = new Rect(20, 20, 300, 600);
+        windowRect = new Rect(20, 20, 400, 600);
         if (instance != null && instance != this) {
             Destroy(gameObject);
             return;
@@ -163,6 +164,7 @@ public class DebugMenu : MonoBehaviour {
         }
 
         minigamePanel.Draw();
+        PowerupPanelDraw?.Invoke(playerService);
         
         GUILayout.EndVertical();
         GUILayout.EndScrollView();
