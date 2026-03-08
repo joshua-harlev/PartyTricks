@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using CoreData;
 using DG.Tweening;
 using FMODUnity;
@@ -34,6 +35,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     private float spriteHalfWidth;
     private float spriteHalfHeight;
     private float damageAnimationTimeInSeconds;
+    private int multishotCount;
 
     [SerializeField] private DireDodgingPlayerStatsSO PlayerStatsSO;
     [SerializeField] private SpriteRenderer SpriteRenderer;
@@ -87,6 +89,7 @@ public class DireDodgingPlayer : MonoBehaviour {
             this.currentHealth *= 2;
         }
         ApplyStatBuffs(modifiers.IncreasedHPCount, modifiers.IncreasedAttackSpeedCount);
+        this.multishotCount = modifiers.MultishotCount;
         this.playerIndex = index;
         this.navigator = inputHandler;
         this.isAI = initializeAsAI;
@@ -203,19 +206,36 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void Shoot() {
         if (isGhostMode) return;
 
-        Vector2 shootDirection = GetShootDirection();
+        Vector2 baseDirection = GetShootDirection();
+        List<(Vector2 directions, float angle)> directions = GetShootDirections(baseDirection);
+        Quaternion baseRotation = GetRotationForDirection(baseDirection);
+        
+        foreach (var (shootDirection, angleOffset) in directions) {
 
-        var projectile = ProjectilePool.GetNormal();
+            var projectile = ProjectilePool.GetNormal();
 
-        Vector2 spawnOffset = shootDirection * (spriteHalfWidth * 1.5f);
-        projectile.transform.position = (Vector2)transform.position + spawnOffset;
+            Vector2 spawnOffset = shootDirection * (spriteHalfWidth * 1.5f);
+            projectile.transform.position = (Vector2)transform.position + spawnOffset;
 
-        projectile.transform.rotation = GetRotationForDirection(shootDirection);
-        projectile.transform.localScale = Vector3.one * projectileScale;
-        projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false);
+            projectile.transform.rotation = baseRotation * Quaternion.Euler(0, 0, angleOffset);
+            projectile.transform.localScale = Vector3.one * projectileScale;
+            projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false);
+        }
         if (shootEventExists) {
             RuntimeManager.PlayOneShot(PlayerStatsSO.BasicShootEvent);
         }
+    }
+
+    private List<(Vector2 direction, float angle)> GetShootDirections(Vector2 baseDirection) {
+        List<(Vector2 directions, float angle)> directions = new();
+        directions.Add((baseDirection, 0f));
+        for (int i = 0; i < multishotCount; i++) {
+            float angle = 10f * (i + 1);
+            directions.Add((Quaternion.Euler(0f, 0f, angle) * baseDirection, angle));
+            directions.Add((Quaternion.Euler(0f, 0f, -angle) * baseDirection, -angle));
+        }
+
+        return directions;
     }
 
     public Vector2 GetShootDirection() {
