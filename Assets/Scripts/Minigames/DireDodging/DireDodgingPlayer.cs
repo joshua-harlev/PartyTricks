@@ -280,8 +280,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         ChargeAttack.ForceStop();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        GameObject other = collision.gameObject;
+    private void OnTriggerEnter2D(Collider2D other) {
         if (PlayerIsDead) return;
         DireDodgingProjectile projectile = other.GetComponent<DireDodgingProjectile>();
         if (projectile != null) {
