@@ -69,7 +69,9 @@ namespace Game {
             GUILayout.BeginHorizontal();
             for (int i = 0; i < filteredItems.Length; i++) {
                 var item = filteredItems[i];
-                if (GUILayout.Button(item.DisplayName, GUILayout.Height(24))) {
+                string itemName = item.DisplayName;
+                if (selectedItemIndex == i) itemName = $"[{itemName}]";
+                if (GUILayout.Button(itemName, GUILayout.Height(24))) {
                     selectedItemIndex = i;
                 }
             }
@@ -80,7 +82,9 @@ namespace Game {
             GUILayout.BeginHorizontal();
             for (int i = 0; i < categories.Length; i++) {
                 var category = categories[i];
-                if (GUILayout.Button(category.ToString(), GUILayout.Height(24))) {
+                string categoryName = category.ToString();
+                if (selectedCategoryIndex == i) categoryName = $"[{categoryName}]";
+                if (GUILayout.Button(categoryName, GUILayout.Height(24))) {
                     selectedCategoryIndex = i;
                     selectedItemIndex = 0;
                 }
