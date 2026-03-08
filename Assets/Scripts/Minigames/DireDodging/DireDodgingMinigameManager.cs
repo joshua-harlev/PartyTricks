@@ -3,6 +3,7 @@ using System.Collections;
 using CoreData;
 using FMOD.Studio;
 using FMODUnity;
+using Input;
 using Services;
 using UnityEngine;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
@@ -64,6 +65,11 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         for (int i = 0; i < Players.Length; i++) {
             if (Players[i] == null) continue;
             PlayerSlot slot = playerService.PlayerSlots[i];
+            if (slot.IsAI) {
+                slot.SwapAIHandler<AIDireDodgingInputHandler>();
+                var aiHandler = slot.GetAIHandler<AIDireDodgingInputHandler>();
+                aiHandler?.SetPlayerContext(Players[i].transform, Camera.main);
+            }
             CombatModifiers modifiers = powerUpService.GetCombatModifiers(slot.Profile);
             Players[i].Initialize(i, slot.InputHandler, slot.IsAI, modifiers, IsDoubleRound);
         }
