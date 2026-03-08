@@ -209,4 +209,8 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     
         Destroy(dummyProjectile.gameObject);
     }
+
+    public void DebugStunPlayer(int playerIndex) {
+        Players[playerIndex].Stun();
+    }
 }
