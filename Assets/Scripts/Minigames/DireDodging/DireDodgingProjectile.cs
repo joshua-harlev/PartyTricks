@@ -41,16 +41,11 @@ public class DireDodgingProjectile : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("ProjectileDespawnBounds")) {
+        if (other.CompareTag("ProjectileDespawnBounds") || other.CompareTag("Wall")) {
             ReturnToPool();
         }
     }
     
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Wall")) {
-            ReturnToPool();
-        }
-    }
     public void ReturnToPool() {
         if (hasBeenReturned) return;
         hasBeenReturned = true;

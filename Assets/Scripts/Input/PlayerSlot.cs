@@ -1,6 +1,7 @@
 using Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerSlot : MonoBehaviour {
     [Header("Slot Configuration")]
@@ -93,6 +94,28 @@ public class PlayerSlot : MonoBehaviour {
     public void Reset() {
         SetUpAsAI();
         profile?.Reset();
+    }
+
+    public void SwapAIHandler<T>() where T : AIInputHandlerBase {
+        if (!isAI) return;
+        ClearCurrentInput();
+        var aiGameObject = new GameObject($"AIInput_Player{slotIndex}");
+        aiGameObject.transform.SetParent(transform);
+        inputHandler = aiGameObject.AddComponent<T>();
+        inputHandlerProxy.SetTarget(inputHandler);
+        
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    public T GetAIHandler<T>() where T : AIInputHandlerBase {
+        return inputHandler as T;
+    }
+
+    private void OnSceneUnloaded(Scene scene) {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        if (isAI) {
+            SetUpAsAI();
+        }
     }
 
     private void OnDestroy() {
