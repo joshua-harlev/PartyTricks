@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using PlasticGui.Diff;
-using Unity.Properties;
 using UnityEngine;
 
 namespace Input {
