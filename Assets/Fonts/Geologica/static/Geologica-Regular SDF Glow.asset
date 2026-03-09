@@ -11,8 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - UNDERLAY_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -37,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2364684901740586476, guid: c8d9ae64a525d4660ba30e70d4cdd4c5, type: 2}
+        m_Texture: {fileID: 2364684901740586476}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OutlineTex:
@@ -60,10 +59,10 @@ Material:
     - _FaceDilate: 0
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
-    - _GlowInner: 0.05
-    - _GlowOffset: 0
-    - _GlowOuter: 0.05
-    - _GlowPower: 0.75
+    - _GlowInner: 0
+    - _GlowOffset: 1
+    - _GlowOuter: 0
+    - _GlowPower: 0
     - _GradientScale: 10
     - _LightAngle: 3.1416
     - _MaskSoftnessX: 0
@@ -71,7 +70,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.111
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9
@@ -89,10 +88,10 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 1024
     - _TextureWidth: 1024
-    - _UnderlayDilate: 0
+    - _UnderlayDilate: -0.69
     - _UnderlayOffsetX: 0
     - _UnderlayOffsetY: 0
-    - _UnderlaySoftness: 0.247
+    - _UnderlaySoftness: 0
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75
@@ -101,13 +100,13 @@ Material:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
     - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColor: {r: 0, g: 1, b: 0, a: 0.5}
+    - _GlowColor: {r: 1, g: 0, b: 0.7975483, a: 0.5}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0.7490196, g: 0.34509805, b: 0.72156864, a: 0.5}
+    - _UnderlayColor: {r: 3.4415908, g: 1.5856543, b: 3.315459, a: 0.5019608}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &11400000
@@ -127,24 +126,24 @@ MonoBehaviour:
     m_FaceIndex: 0
     m_FamilyName: Geologica
     m_StyleName: Regular
-    m_PointSize: 90
+    m_PointSize: 169
     m_Scale: 1
     m_UnitsPerEM: 2000
-    m_LineHeight: 112.50001
-    m_AscentLine: 87.75
-    m_CapLine: 63
-    m_MeanLine: 45
+    m_LineHeight: 211.25
+    m_AscentLine: 164.77501
+    m_CapLine: 119
+    m_MeanLine: 84
     m_Baseline: 0
-    m_DescentLine: -24.75
-    m_SuperscriptOffset: 87.75
+    m_DescentLine: -46.475002
+    m_SuperscriptOffset: 164.77501
     m_SuperscriptSize: 0.5
-    m_SubscriptOffset: -24.75
+    m_SubscriptOffset: -46.475002
     m_SubscriptSize: 0.5
-    m_UnderlineOffset: -5.625
-    m_UnderlineThickness: 2.25
-    m_StrikethroughOffset: 18
-    m_StrikethroughThickness: 2.25
-    m_TabWidth: 22
+    m_UnderlineOffset: -10.5625
+    m_UnderlineThickness: 4.2250004
+    m_StrikethroughOffset: 33.6
+    m_StrikethroughThickness: 4.2250004
+    m_TabWidth: 41
   m_Material: {fileID: -7721432213885882105}
   m_SourceFontFileGUID: 33242a0c5a2814f2fb2c74c1667ad9a3
   m_CreationSettings:
@@ -152,15 +151,15 @@ MonoBehaviour:
     sourceFontFileGUID: 33242a0c5a2814f2fb2c74c1667ad9a3
     faceIndex: 0
     pointSizeSamplingMode: 0
-    pointSize: 90
+    pointSize: 169
     padding: 9
     paddingMode: 2
     packingMode: 0
     atlasWidth: 1024
     atlasHeight: 1024
     characterSetSelectionMode: 7
-    characterSequence: 
-    referencedFontAssetGUID: 
+    characterSequence: 1234567890:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+    referencedFontAssetGUID: c8d9ae64a525d4660ba30e70d4cdd4c5
     referencedTextAssetGUID: 
     fontStyle: 0
     fontStyleModifier: 0
@@ -257,7 +256,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Geologica-Regular Atlas
+  m_Name: Geologica-Regular SDF Atlas
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000

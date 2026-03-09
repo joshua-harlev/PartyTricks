@@ -126,24 +126,24 @@ MonoBehaviour:
     m_FaceIndex: 0
     m_FamilyName: Geologica
     m_StyleName: Regular
-    m_PointSize: 90
+    m_PointSize: 169
     m_Scale: 1
     m_UnitsPerEM: 2000
-    m_LineHeight: 112.50001
-    m_AscentLine: 87.75
-    m_CapLine: 63
-    m_MeanLine: 45
+    m_LineHeight: 211.25
+    m_AscentLine: 164.77501
+    m_CapLine: 119
+    m_MeanLine: 84
     m_Baseline: 0
-    m_DescentLine: -24.75
-    m_SuperscriptOffset: 87.75
+    m_DescentLine: -46.475002
+    m_SuperscriptOffset: 164.77501
     m_SuperscriptSize: 0.5
-    m_SubscriptOffset: -24.75
+    m_SubscriptOffset: -46.475002
     m_SubscriptSize: 0.5
-    m_UnderlineOffset: -5.625
-    m_UnderlineThickness: 2.25
-    m_StrikethroughOffset: 18
-    m_StrikethroughThickness: 2.25
-    m_TabWidth: 22
+    m_UnderlineOffset: -10.5625
+    m_UnderlineThickness: 4.2250004
+    m_StrikethroughOffset: 33.6
+    m_StrikethroughThickness: 4.2250004
+    m_TabWidth: 41
   m_Material: {fileID: -7721432213885882105}
   m_SourceFontFileGUID: 33242a0c5a2814f2fb2c74c1667ad9a3
   m_CreationSettings:
@@ -151,15 +151,15 @@ MonoBehaviour:
     sourceFontFileGUID: 33242a0c5a2814f2fb2c74c1667ad9a3
     faceIndex: 0
     pointSizeSamplingMode: 0
-    pointSize: 90
+    pointSize: 169
     padding: 9
     paddingMode: 2
     packingMode: 0
     atlasWidth: 1024
     atlasHeight: 1024
     characterSetSelectionMode: 7
-    characterSequence: 
-    referencedFontAssetGUID: 
+    characterSequence: 1234567890:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+    referencedFontAssetGUID: c8d9ae64a525d4660ba30e70d4cdd4c5
     referencedTextAssetGUID: 
     fontStyle: 0
     fontStyleModifier: 0
@@ -256,7 +256,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Geologica-Regular Atlas
+  m_Name: Geologica-Regular SDF Atlas
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
