@@ -10,6 +10,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     public bool InputEnabled => inputEnabled;
     public IDirectionalTwoButtonInputHandler Navigator => navigator;
     public bool IsGhostMode => isGhostMode;
+    public bool IsStunned => isStunned;
     public int PlayerIndex => playerIndex;
     public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
@@ -45,6 +46,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     [SerializeField] private DireDodgingProjectilePool ProjectilePool;
     [SerializeField] private DireDodgingChargeAttack ChargeAttack;
     [SerializeField] private DireDodgingDeathHandler DeathHandler;
+    [SerializeField] private DireDodgingShockwave Shockwave;
     [SerializeField] private ParticleSystem stunParticles;
 
     private Coroutine shootingCoroutineInstance = null;
@@ -104,6 +106,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         ProjectilePool.Initialize();
         ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO, modifiers);
         DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO);
+        if(modifiers.ShockwaveCount > 0) Shockwave.Initialize(this, modifiers.ShockwaveCount);
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} initialized. IsAI: {isAI}");
     }
 
@@ -129,6 +132,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void Update() {
         ChargeAttack.Tick();
+        Shockwave.Tick();
     }
 
     private void FixedUpdate() {
@@ -278,6 +282,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     public void Freeze() {
         inputEnabled = false;
         ChargeAttack.ForceStop();
+        Shockwave.ForceStop();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -424,6 +429,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void OnDestroy() {
         ChargeAttack.Cleanup();
         DeathHandler.Cleanup();
+        Shockwave.Cleanup();
     }
 
     public void ResetShootCooldown() {
