@@ -35,6 +35,7 @@ namespace Minigames.DireDodging {
 
         public void TriggerDeath() {
             player.SetAliveState(false, true);
+            player.ClearStun();
 
             Rigidbody2D rigidbody = player.PlayerRigidbody2D;
             rigidbody.linearVelocity = Vector2.zero;

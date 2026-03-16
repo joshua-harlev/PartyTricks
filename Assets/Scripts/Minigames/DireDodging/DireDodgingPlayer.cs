@@ -68,7 +68,11 @@ public class DireDodgingPlayer : MonoBehaviour {
 
 
     private Coroutine damageCoroutineInstance = null;
+    private Coroutine stunCoroutineInstance = null;
     private Coroutine intensityCoroutineInstance = null;
+    private Tween stunColorTween;
+    private Tween stunShakeTween;
+    private float originalSpeedBeforeStun;
     private Camera mainCamera;
     private readonly Quaternion leftRotation = Quaternion.Euler(0, 0, 90);
     private readonly Quaternion rightRotation = Quaternion.Euler(0, 0, 270);
@@ -283,6 +287,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     public void Freeze() {
         inputEnabled = false;
+        ClearStun();
         ChargeAttack.ForceStop();
         Shockwave.ForceStop();
     }
@@ -332,31 +337,77 @@ public class DireDodgingPlayer : MonoBehaviour {
     private float nextShootTime;
 
     public void Stun(float stunDuration = -1f) {
+        if (isStunned) return;
         StartCoroutine(StunCoroutine(stunDuration));
     }
 
     private IEnumerator StunCoroutine(float stunDuration = -1f) {
-        if (isStunned) yield break;
-
         if (Mathf.Approximately(stunDuration, -1f)) stunDuration = defaultStunDuration;
+        
         stunNudgeMultiplier = 0.02f;
         isStunned = true;
         stunParticles.Play();
         StopShooting();
         ChargeAttack.ForceStop();
-        float originalSpeed = maxMoveSpeed;
+        
+        StopColorChangeSequence();
+        if (damageCoroutineInstance != null) {
+            StopCoroutine(damageCoroutineInstance);
+            damageCoroutineInstance = null;
+        }
+        
+        originalSpeedBeforeStun = maxMoveSpeed;
         maxMoveSpeed = 0f;
 
-        Color originalColor = SpriteRenderer.color;
-        SpriteRenderer.color = new Color(1f, 1f, 1f, 0.5f);
+        Color stunColor = new Color(1f, 0.7f, 0.2f, 1f) * baseColor;
+        stunColor.a = 1f;
+        stunColorTween = SpriteRenderer.DOColor(stunColor, 0.15f);
+
+        stunShakeTween = transform.DOShakePosition(
+            duration: stunDuration,
+            strength: 0.05f,
+            vibrato: 15,
+            randomness: 90,
+            fadeOut: false
+        );
 
         yield return new WaitForSeconds(stunDuration);
-        StartShooting();
 
-        maxMoveSpeed = originalSpeed;
-        SpriteRenderer.color = originalColor;
+        EndStun();
+    }
+
+    private void EndStun() {
+        if (!isStunned) return;
         isStunned = false;
+        
+        if(stunColorTween != null && stunColorTween.IsActive()) stunColorTween.Kill();
+        if(stunShakeTween != null && stunShakeTween.IsActive()) stunShakeTween.Kill();
+        stunColorTween = null;
+        stunShakeTween = null;
+
+        transform.DOKill();
+
+        maxMoveSpeed = originalSpeedBeforeStun;
+        SpriteRenderer.color = baseColor;
+        
         stunParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        if (isAlive) {
+            StartShooting();
+        }
+
+        stunCoroutineInstance = null;
+    }
+
+    public void ClearStun() {
+        if (!isStunned) return;
+
+        if (stunCoroutineInstance != null) {
+            StopCoroutine(stunCoroutineInstance);
+            stunCoroutineInstance = null;
+        }
+        
+        EndStun();
     }
 
     private IEnumerator DamageCoroutine() {
