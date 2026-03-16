@@ -86,7 +86,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool initializeAsAI, CombatModifiers modifiers, bool isDoubleRound) {
         mainCamera = Camera.main;
-        DireDodgingDeathHandler.CaptureOriginalCamera(mainCamera);
+        DireDodgingCameraZoomService.Initialize(mainCamera);
         ApplyBaseStats();
         if (isDoubleRound) {
             this.maxHealth *= 2;

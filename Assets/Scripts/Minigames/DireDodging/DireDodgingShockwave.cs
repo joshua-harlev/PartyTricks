@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using DG.Tweening;
 using FMOD.Studio;
 using FMODUnity;
@@ -19,8 +18,15 @@ namespace Minigames.DireDodging {
         private DireDodgingShockwaveData data;
         private bool isInitialized;
         private EventInstance chargeSoundInstance;
-        private List<DireDodgingPlayer> hitPlayers;
+        private static int activeShockwaveCount = 0;
+        private bool isZooming;
         private Color playerEffectColor;
+        private const bool ZoomEnabled = true;
+        private const float zoomPercentage = 1 - 0.10f;
+
+        private const float zoomWarningStartPercent = 0.3f;
+        private const float zoomReverseDelay = 0.15f;
+        private const float zoomReverseDurationInSeconds = 0.08f;
 
         public void Initialize(DireDodgingPlayer playerInstance, int stackCount) {
             player = playerInstance;
@@ -49,6 +55,7 @@ namespace Minigames.DireDodging {
 
         public void Tick() {
             if (!isInitialized) return;
+            
             if (data.State == ShockwaveState.Disabled) return;
             if (!player.IsAlive || !player.InputEnabled || player.IsGhostMode) return;
             if (player.IsStunned) return;
@@ -59,12 +66,26 @@ namespace Minigames.DireDodging {
                     if (data.Timer <= 0f) {
                         data.State = ShockwaveState.Warning;
                         data.Timer = data.WarningDurationInSeconds;
+                        activeShockwaveCount++;
                         StartWarningVisuals();
+                        if(activeShockwaveCount > 1) DireDodgingCameraZoomService.ReverseShockwaveZoom(zoomReverseDurationInSeconds);
                     }
                     break;
                 
                 case ShockwaveState.Warning:
                     UpdateWarningVisuals(1f - data.Timer / data.WarningDurationInSeconds);
+                    if (ZoomEnabled && activeShockwaveCount == 1 && !DireDodgingDeathHandler.IsDeathZoomActive) {
+                        float warningProgress = 1f - data.Timer / data.WarningDurationInSeconds;
+                        if (!isZooming && warningProgress >= zoomWarningStartPercent) {
+                            isZooming = true;
+                            float remainingDuration = data.Timer + data.HoldDurationInSeconds;
+                            DireDodgingCameraZoomService.StartShockwaveZoom(transform.position, zoomPercentage, 0.15f, remainingDuration);
+                        }
+
+                        if (isZooming) {
+                            DireDodgingCameraZoomService.UpdateShockwaveZoomPosition(transform.position);
+                        }
+                    }
                     if (data.Timer <= 0f) {
                         chargeParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                         data.State = ShockwaveState.Holding;
@@ -73,6 +94,9 @@ namespace Minigames.DireDodging {
                     break;
                 
                 case ShockwaveState.Holding:
+                    if (ZoomEnabled && isZooming && activeShockwaveCount == 1 && !DireDodgingDeathHandler.IsDeathZoomActive) {
+                        DireDodgingCameraZoomService.UpdateShockwaveZoomPosition(transform.position);
+                    }
                     if (data.Timer <= 0f) {
                         Fire();
                         data.State = ShockwaveState.Charging;
@@ -104,6 +128,14 @@ namespace Minigames.DireDodging {
 
 
         private void Fire() {
+            activeShockwaveCount--;
+            if (isZooming) {
+                isZooming = false;
+                DOVirtual.DelayedCall(zoomReverseDelay, () =>
+                {
+                    DireDodgingCameraZoomService.ReverseShockwaveZoom(zoomReverseDurationInSeconds);
+                });
+            }
             chargeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             StopChargeSound();
 
@@ -186,6 +218,13 @@ namespace Minigames.DireDodging {
 
         public void ForceStop() {
             if (!isInitialized) return;
+            if (data.State == ShockwaveState.Warning || data.State == ShockwaveState.Holding) {
+                activeShockwaveCount--;
+                if (isZooming) {
+                    isZooming = false;
+                    DireDodgingCameraZoomService.ReverseShockwaveZoom(zoomReverseDurationInSeconds);
+                }
+            }
             chargeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             if(burstParticles != null) burstParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             ringSprite.enabled = false;
@@ -197,6 +236,7 @@ namespace Minigames.DireDodging {
             StopChargeSound();
             DOTween.Kill(ringSprite.transform);
             DOTween.Kill(ringSprite);
+            activeShockwaveCount = 0;
         }
     }
 }
