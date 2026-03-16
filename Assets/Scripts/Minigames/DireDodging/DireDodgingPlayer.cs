@@ -49,6 +49,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     [SerializeField] private DireDodgingDeathHandler DeathHandler;
     [SerializeField] private DireDodgingShockwave Shockwave;
     [SerializeField] private ParticleSystem stunParticles;
+    [SerializeField] private ParticleSystem deathParticles;
     [SerializeField] private Color playerEffectColor = Color.white;
 
     private Coroutine shootingCoroutineInstance = null;
@@ -112,7 +113,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         
         ProjectilePool.Initialize();
         ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO, modifiers);
-        DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO);
+        DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO, deathParticles);
         if(modifiers.ShockwaveCount > 0) Shockwave.Initialize(this, modifiers.ShockwaveCount);
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} initialized. IsAI: {isAI}");
     }

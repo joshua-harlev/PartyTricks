@@ -18,12 +18,13 @@ namespace Minigames.DireDodging {
         private float deathAnimationTimeInSeconds;
         private bool isInvincible;
         private EventReference deathEvent;
+        private ParticleSystem deathParticles;
         
         public static bool IsDeathZoomActive => DireDodgingCameraZoomService.DeathZoomActive;
         public bool IsInvincible => isInvincible;
         
         public void Initialize(DireDodgingPlayer player, DireDodgingChargeAttack chargeAttack,
-            DireDodgingProjectilePool pool, DireDodgingPlayerStatsSO stats) {
+            DireDodgingProjectilePool pool, DireDodgingPlayerStatsSO stats, ParticleSystem deathParticles) {
             this.player = player;
             this.chargeAttack = chargeAttack;
             this.projectilePool = pool;
@@ -31,6 +32,9 @@ namespace Minigames.DireDodging {
             this.respawnDelay = 3f;
             this.invincibilityDuration = 2f;
             this.deathEvent = stats.DeathEvent;
+            this.deathParticles = deathParticles;
+            var main = deathParticles.main;
+            main.startColor = player.PlayerEffectColor;
         }
 
         public void TriggerDeath() {
@@ -43,6 +47,7 @@ namespace Minigames.DireDodging {
             rigidbody.bodyType = RigidbodyType2D.Kinematic;
             
             Time.timeScale = 0f;
+            deathParticles.Play();
 
             ZoomCameraOnDeath();
             chargeAttack.ForceStop();
@@ -119,7 +124,7 @@ namespace Minigames.DireDodging {
         }
 
         private void Respawn() {
-            Camera mainCamera = player.MainCamera;
+            deathParticles.Stop();
             if (cameraZoomTween != null && cameraZoomTween.IsActive()) {
                 cameraZoomTween.Kill();
                 DireDodgingCameraZoomService.CancelDeathZoom();
