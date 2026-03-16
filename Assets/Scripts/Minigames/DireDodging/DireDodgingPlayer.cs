@@ -25,6 +25,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     public Color BaseColor => baseColor;
     public Camera MainCamera => mainCamera;
     public Vector2 LastMoveDirection => lastMoveDirection;
+    public Color PlayerEffectColor => playerEffectColor;
 
     private float maxMoveSpeed;
     private float projectileScale;
@@ -48,6 +49,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     [SerializeField] private DireDodgingDeathHandler DeathHandler;
     [SerializeField] private DireDodgingShockwave Shockwave;
     [SerializeField] private ParticleSystem stunParticles;
+    [SerializeField] private Color playerEffectColor = Color.white;
 
     private Coroutine shootingCoroutineInstance = null;
     private Vector2 lastMoveDirection = Vector2.right;

@@ -13,19 +13,40 @@ namespace Minigames.DireDodging {
 
         [SerializeField] private DireDodgingShockwaveConfigSO config;
         [SerializeField] private ParticleSystem chargeParticles;
+        [SerializeField] private ParticleSystem burstParticles;
         [SerializeField] private SpriteRenderer ringSprite;
 
         private DireDodgingPlayer player;
+        private Color playerColor;
         private DireDodgingShockwaveData data;
         private bool isInitialized;
         private EventInstance chargeSoundInstance;
         private List<DireDodgingPlayer> hitPlayers;
+        private Color playerEffectColor;
 
         public void Initialize(DireDodgingPlayer playerInstance, int stackCount) {
             player = playerInstance;
             data = DireDodgingShockwaveData.Create(config, stackCount);
             ringSprite.enabled = false;
             isInitialized = true;
+            playerEffectColor = playerInstance.PlayerEffectColor;
+            UpdateChargeParticleColor();
+            UpdateBurstParticleColor();
+            UpdateRingColor();
+        }
+
+        private void UpdateChargeParticleColor() {
+            var mainModule = chargeParticles.main;
+            mainModule.startColor = playerEffectColor;
+        }
+        
+        private void UpdateBurstParticleColor() {
+            var mainModule = burstParticles.main;
+            mainModule.startColor = playerEffectColor;
+        }
+
+        private void UpdateRingColor() {
+            ringSprite.color = playerEffectColor;
         }
 
         public void Tick() {
@@ -97,6 +118,7 @@ namespace Minigames.DireDodging {
             
             
             ShowRingEffect(screenRadius);
+            if(burstParticles != null) burstParticles.Play();
             PerformHitDetection();
         }
 
@@ -167,6 +189,7 @@ namespace Minigames.DireDodging {
         public void ForceStop() {
             if (!isInitialized) return;
             chargeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            if(burstParticles != null) burstParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             ringSprite.enabled = false;
             StopChargeSound();
             data.State = ShockwaveState.Disabled;

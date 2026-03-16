@@ -6289,6 +6289,7 @@ MonoBehaviour:
   DeathHandler: {fileID: 409285513}
   Shockwave: {fileID: 1516470043}
   stunParticles: {fileID: 1106091513}
+  playerEffectColor: {r: 0.55198824, g: 1, b: 0.4292453, a: 1}
 --- !u!61 &409285508
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11982,7 +11983,7 @@ Transform:
   m_GameObject: {fileID: 732278613}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: -6, z: 0}
+  m_LocalPosition: {x: 10, y: 6, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -12016,6 +12017,7 @@ MonoBehaviour:
   DeathHandler: {fileID: 732278621}
   Shockwave: {fileID: 2095518539}
   stunParticles: {fileID: 301416110}
+  playerEffectColor: {r: 0.3443396, g: 0.6248866, b: 1, a: 1}
 --- !u!61 &732278616
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12597,7 +12599,7 @@ Transform:
   m_GameObject: {fileID: 899568620}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 6, z: 0}
+  m_LocalPosition: {x: -10, y: -6, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -12631,6 +12633,7 @@ MonoBehaviour:
   DeathHandler: {fileID: 899568628}
   Shockwave: {fileID: 1086801951}
   stunParticles: {fileID: 488483952}
+  playerEffectColor: {r: 0.94575477, g: 0.4575472, b: 1, a: 1}
 --- !u!61 &899568623
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19590,6 +19593,7 @@ MonoBehaviour:
   DeathHandler: {fileID: 1451952766}
   Shockwave: {fileID: 429746449}
   stunParticles: {fileID: 1992734155}
+  playerEffectColor: {r: 1, g: 0.33490568, b: 0.33490568, a: 1}
 --- !u!50 &1451952763
 Rigidbody2D:
   serializedVersion: 5
