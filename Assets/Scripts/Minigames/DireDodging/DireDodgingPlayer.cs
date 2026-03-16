@@ -65,6 +65,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     private bool shootEventExists;
     private bool isGhostMode = false;
     private bool isPlayingStunnedAnimation = false;
+    private bool showTrail = false;
 
 
     private Coroutine damageCoroutineInstance = null;
@@ -123,7 +124,10 @@ public class DireDodgingPlayer : MonoBehaviour {
         this.currentHealth = this.maxHealth;
         for (int i = 0; i < numberOfIncreasedAttackSpeedPowerups; i++) {
             this.projectileShootRate *= 0.75f;
+            this.projectileSpeed *= 1.25f;
         }
+
+        if (numberOfIncreasedAttackSpeedPowerups > 0) showTrail = true;
     }
 
     public void EnableInput() {
@@ -225,11 +229,11 @@ public class DireDodgingPlayer : MonoBehaviour {
             var projectile = ProjectilePool.GetNormal();
 
             Vector2 spawnOffset = shootDirection * (spriteHalfWidth * 1.5f);
+            projectile.transform.SetParent(null);
             projectile.transform.position = (Vector2)transform.position + spawnOffset;
-
             projectile.transform.rotation = baseRotation * Quaternion.Euler(0, 0, angleOffset);
-            projectile.transform.localScale = Vector3.one * projectileScale;
-            projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false);
+            projectile.transform.localScale = Vector3.one * (projectileScale * 0.3f);
+            projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false, showTrail);
         }
         if (shootEventExists) {
             RuntimeManager.PlayOneShot(PlayerStatsSO.BasicShootEvent);
