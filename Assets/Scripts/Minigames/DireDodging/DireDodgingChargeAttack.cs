@@ -16,6 +16,7 @@ namespace Minigames.DireDodging {
         private DireDodgingProjectilePool projectilePool;
 
         private bool isCharging;
+        private bool showTrail;
         private float chargeStartTime;
         private EventInstance chargeLoopInstance;
 
@@ -75,6 +76,7 @@ namespace Minigames.DireDodging {
         public void UpdateChargeTimeRequired(float coefficient = 0f) {
             speedCoefficient = (1 + (numberOfIncreasedAttackSpeedPowerups * chargedProjectileSpeedReductionPerPowerup) + coefficient);
             chargeTimeRequired = chargeTimeRequiredOriginal / speedCoefficient;
+            if (numberOfIncreasedAttackSpeedPowerups > 0) showTrail = true;
         }
 
         public void Tick() {
@@ -259,11 +261,11 @@ namespace Minigames.DireDodging {
     
             Vector2 spawnOffset = shootDirection * (player.SpriteHalfWidth * 1.5f);
             projectile.transform.position = (Vector2)player.transform.position + spawnOffset;
-    
+            projectile.transform.SetParent(null);
             projectile.transform.rotation = player.GetRotationForDirection(shootDirection);
-            projectile.transform.localScale = Vector3.one * player.ProjectileScale * chargedProjectileScale;
+            projectile.transform.localScale = Vector3.one * (player.ProjectileScale * chargedProjectileScale * 0.3f);
     
-            projectile.Initialize(player.PlayerIndex, damage, speed, shootDirection, player.IsGhostMode);
+            projectile.Initialize(player.PlayerIndex, damage, speed, shootDirection, player.IsGhostMode, showTrail: true);
         }
     }
 }

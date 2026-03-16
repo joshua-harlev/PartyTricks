@@ -22,7 +22,7 @@ MonoBehaviour:
   DeathAnimationTimeInSeconds: 0.25
   ChargeTimeRequired: 2
   ChargedProjectileScale: 2
-  ChargedProjectileSpeed: 1.4
+  ChargedProjectileSpeed: 1
   ChargedProjectileSpeedReductionPerPowerup: 0.75
   GhostChargeTime: 1
   GhostProjectileSpeed: 1.2
