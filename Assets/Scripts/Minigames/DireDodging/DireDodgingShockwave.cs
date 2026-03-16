@@ -88,6 +88,7 @@ namespace Minigames.DireDodging {
                     }
                     if (data.Timer <= 0f) {
                         chargeParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        StopChargeSound();
                         data.State = ShockwaveState.Holding;
                         data.Timer = data.HoldDurationInSeconds;
                     }
@@ -137,7 +138,6 @@ namespace Minigames.DireDodging {
                 });
             }
             chargeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            StopChargeSound();
 
             if (!config.FireSound.IsNull) {
                 RuntimeManager.PlayOneShot(config.FireSound);

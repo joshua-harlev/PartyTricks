@@ -22,15 +22,15 @@ MonoBehaviour:
   RingExpansionDurationInSeconds: 1.5
   ChargeSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 979417156
+      Data2: 1298918654
+      Data3: -858374766
+      Data4: 1488880600
+    Path: event:/DireDodging/ShockwaveCharge
   FireSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1138811094
+      Data2: 1150187142
+      Data3: -370981472
+      Data4: 1774301798
+    Path: event:/DireDodging/ShockwaveShoot
