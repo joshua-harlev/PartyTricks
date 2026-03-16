@@ -1,13 +1,16 @@
 using CoreData;
+using DG.Tweening;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
+using Time = UnityEngine.Time;
 
 namespace Minigames.DireDodging {
     public class DireDodgingChargeAttack : MonoBehaviour {
         [SerializeField] private SpriteRenderer chargeIndicator;
         [SerializeField] private ParticleSystem chargeParticles;
+        [SerializeField] private Transform chargeAimIndicator;
 
         private DireDodgingPlayer player;
         private DireDodgingProjectilePool projectilePool;
@@ -33,6 +36,14 @@ namespace Minigames.DireDodging {
         private EventReference chargeShootEvent;
         private EventReference chargeCompleteEvent;
 
+        private Material chargeRingMaterial;
+        private static readonly int FillAmountProperty = Shader.PropertyToID("_FillAmount");
+        private static readonly int ColorProperty = Shader.PropertyToID("_Color");
+        private static readonly int FillStartAngleProperty = Shader.PropertyToID("_FillStartAngle");
+        private bool chargeCompleteEventFired;
+        private Tween fullChargePulseTween;
+        private Vector3 chargeRingBaseScale;
+
         public bool IsCharging => isCharging;
 
         public void Initialize(DireDodgingPlayer player, DireDodgingProjectilePool pool,
@@ -53,6 +64,12 @@ namespace Minigames.DireDodging {
             chargeCompleteEvent = stats.ChargeCompleteEvent;
             ghostChargeTimeOriginal = stats.GhostChargeTime;
             originalBaseHP = stats.BaseHealth;
+
+            if (chargeIndicator != null) {
+                chargeRingMaterial = chargeIndicator.material;
+                chargeRingMaterial.SetFloat(FillStartAngleProperty, Mathf.PI/2f);
+                chargeRingBaseScale = chargeIndicator.transform.localScale;
+            }
         }
 
         public void UpdateChargeTimeRequired(float coefficient = 0f) {
@@ -63,13 +80,12 @@ namespace Minigames.DireDodging {
         public void Tick() {
             HandleCharging();
             UpdateChargeIndicator();
-            UpdateChargeParticleDirection();
         }
 
         public void ForceStop() {
             if (isCharging) {
                 if(chargeParticles != null) {
-                    chargeParticles.Stop();
+                    chargeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                 }
 
                 if (chargeLoopInstance.isValid()) {
@@ -78,6 +94,8 @@ namespace Minigames.DireDodging {
                 }
 
                 isCharging = false;
+                KillPulseTween();
+                chargeCompleteEventFired = false;
             }
         }
 
@@ -86,6 +104,7 @@ namespace Minigames.DireDodging {
                 chargeLoopInstance.stop(STOP_MODE.IMMEDIATE);
                 chargeLoopInstance.release();
             }
+            KillPulseTween();
         }
 
         private void HandleCharging() {
@@ -108,13 +127,12 @@ namespace Minigames.DireDodging {
             chargeStartTime = Time.time;
     
             if (chargeParticles != null) {
-                Vector2 shootDirection = player.GetShootDirection();
-                Vector2 particleOffset = shootDirection * 2f;
-                chargeParticles.transform.localPosition = particleOffset;
-        
-                float angle = Mathf.Atan2(-shootDirection.y, -shootDirection.x) * Mathf.Rad2Deg;
-                chargeParticles.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-        
+                chargeParticles.transform.localPosition = Vector3.zero;
+                chargeParticles.transform.localRotation = Quaternion.identity;
+                
+                var main = chargeParticles.main;
+                main.startColor = player.PlayerEffectColor;
+                
                 chargeParticles.Play();
             }
 
@@ -137,7 +155,7 @@ namespace Minigames.DireDodging {
             float requiredTime = player.IsGhostMode ? ghostChargeTime : chargeTimeRequired;
         
             if (chargeParticles != null) {
-                chargeParticles.Stop();
+                chargeParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             }
     
             if (chargeLoopInstance.isValid()) {
@@ -157,7 +175,7 @@ namespace Minigames.DireDodging {
         }
         
         private void UpdateChargeIndicator() {
-            if (chargeIndicator == null) return;
+            if (chargeIndicator == null || chargeRingMaterial == null) return;
     
             if (isCharging) {
                 float chargeTime = Time.time - chargeStartTime;
@@ -174,37 +192,53 @@ namespace Minigames.DireDodging {
                 if (chargeLoopInstance.isValid()) {
                     chargeLoopInstance.setParameterByName("ChargeProgress", chargePercent);
                 }
-        
-                chargeIndicator.transform.localScale = new Vector3(3.6f, chargePercent * 3.6f, 1f);
-        
-                if (chargePercent >= 1f) {
-                    chargeIndicator.color = Color.green;
 
-                    if (chargeLoopInstance.isValid()) {
-                        chargeLoopInstance.stop(STOP_MODE.IMMEDIATE);
-                        chargeLoopInstance.release();
-                        RuntimeManager.PlayOneShot(chargeCompleteEvent);
-                    }
-                    
-                } else {
-                    chargeIndicator.color = Color.yellow;
+                chargeRingMaterial.SetFloat(FillAmountProperty, chargePercent);
+                
+                Color ringColor = Color.Lerp(Color.grey, player.PlayerEffectColor, chargePercent);
+                ringColor.a = Mathf.Lerp(0.4f, 1f, chargePercent);
+                chargeRingMaterial.SetColor(ColorProperty, ringColor);
+
+                Vector2 shootDirection = player.GetShootDirection();
+                float aimAngle = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
+                if (chargeAimIndicator != null) {
+                    chargeAimIndicator.rotation = Quaternion.Euler(0, 0, aimAngle - 90f);
                 }
-        
+
+                if (chargePercent >= 1f) {
+                    if (!chargeCompleteEventFired) {
+                        chargeCompleteEventFired = true;
+
+                        if (chargeLoopInstance.isValid()) {
+                            chargeLoopInstance.stop(STOP_MODE.IMMEDIATE);
+                            chargeLoopInstance.release();
+                            RuntimeManager.PlayOneShot(chargeCompleteEvent);
+                        }
+
+                        fullChargePulseTween = chargeIndicator.transform
+                            .DOScale(chargeRingBaseScale * 1.05f, 3f)
+                            .SetEase(Ease.InOutSine)
+                            .SetLoops(-1, LoopType.Yoyo);
+                    }
+                }
+                
                 chargeIndicator.enabled = true;
+                if(chargeAimIndicator != null) chargeAimIndicator.gameObject.SetActive(true);
             } else {
                 chargeIndicator.enabled = false;
+                chargeRingMaterial.SetFloat(FillAmountProperty, 0f);
+                if(chargeAimIndicator != null) chargeAimIndicator.gameObject.SetActive(false);
+                KillPulseTween();
+                chargeCompleteEventFired = false;
             }
         }
-        
-        private void UpdateChargeParticleDirection() {
-            if (!isCharging || chargeParticles == null) return;
-    
-            Vector2 shootDirection = player.GetShootDirection();
-            Vector2 particleOffset = shootDirection * 2f;
-            chargeParticles.transform.localPosition = particleOffset;
-    
-            float angle = Mathf.Atan2(-shootDirection.y, -shootDirection.x) * Mathf.Rad2Deg;
-            chargeParticles.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+
+        private void KillPulseTween() {
+            if (fullChargePulseTween != null && fullChargePulseTween.IsActive()) {
+                fullChargePulseTween.Kill();
+                fullChargePulseTween = null;
+                chargeIndicator.transform.localScale = chargeRingBaseScale;
+            }
         }
         
         private void ShootChargedProjectile() {
