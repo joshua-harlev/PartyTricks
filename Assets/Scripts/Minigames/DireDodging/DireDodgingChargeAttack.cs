@@ -265,7 +265,7 @@ namespace Minigames.DireDodging {
             projectile.transform.rotation = player.GetRotationForDirection(shootDirection);
             projectile.transform.localScale = Vector3.one * (player.ProjectileScale * chargedProjectileScale * 0.3f);
     
-            projectile.Initialize(player.PlayerIndex, damage, speed, shootDirection, player.IsGhostMode, showTrail: true);
+            projectile.Initialize(player.PlayerIndex, damage, speed, shootDirection, player.IsGhostMode, showTrail);
         }
     }
 }
