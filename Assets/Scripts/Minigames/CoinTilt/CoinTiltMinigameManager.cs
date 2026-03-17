@@ -336,7 +336,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
         }
 
         for (int i = 0; i < 4; i++) {
-            results[i] = new PlayerMinigameResult(i, ranks[i], fundsPerRank[i]);
+            results[i] = new PlayerMinigameResult(i, ranks[i], fundsPerRank[ranks[i]]);
         }
 
         return results;
