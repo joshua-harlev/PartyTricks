@@ -14,6 +14,7 @@ public class DireDodgingProjectile : MonoBehaviour {
     
     [SerializeField] private Rigidbody2D Rigidbody2D;
     [SerializeField] private SpriteRenderer SpriteRenderer;
+    [SerializeField] private TrailRenderer TrailRenderer;
     
     private IObjectPool<DireDodgingProjectile> projectilePool;
 
@@ -21,7 +22,7 @@ public class DireDodgingProjectile : MonoBehaviour {
         projectilePool = pool;
     }
 
-    public void Initialize(int ownerIndex, float damage, float speed, Vector2 direction, bool isGhost = false) {
+    public void Initialize(int ownerIndex, float damage, float speed, Vector2 direction, bool isGhost = false, bool showTrail = false) {
         OwnerIndex = ownerIndex;
         Damage = damage;
         Speed = speed;
@@ -34,10 +35,17 @@ public class DireDodgingProjectile : MonoBehaviour {
             ghostColor.a = 0.5f; // Semi-transparent
             SpriteRenderer.color = ghostColor;
         }
+        
+        TrailRenderer.emitting = showTrail;
+        TrailRenderer.Clear();
     }
 
     public void SetColor(Color playerColor) {
         SpriteRenderer.color = playerColor;
+        TrailRenderer.startColor = playerColor;
+        var fadedColor = playerColor;
+        fadedColor.a = 0f;
+        TrailRenderer.endColor = fadedColor;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -49,6 +57,8 @@ public class DireDodgingProjectile : MonoBehaviour {
     public void ReturnToPool() {
         if (hasBeenReturned) return;
         hasBeenReturned = true;
+        TrailRenderer.emitting = false;
+        TrailRenderer.Clear();
         if (projectilePool != null) {
             projectilePool.Release(this);
         }

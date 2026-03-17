@@ -10,6 +10,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     public bool InputEnabled => inputEnabled;
     public IDirectionalTwoButtonInputHandler Navigator => navigator;
     public bool IsGhostMode => isGhostMode;
+    public bool IsStunned => isStunned;
     public int PlayerIndex => playerIndex;
     public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
@@ -24,6 +25,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     public Color BaseColor => baseColor;
     public Camera MainCamera => mainCamera;
     public Vector2 LastMoveDirection => lastMoveDirection;
+    public Color PlayerEffectColor => playerEffectColor;
 
     private float maxMoveSpeed;
     private float projectileScale;
@@ -45,7 +47,10 @@ public class DireDodgingPlayer : MonoBehaviour {
     [SerializeField] private DireDodgingProjectilePool ProjectilePool;
     [SerializeField] private DireDodgingChargeAttack ChargeAttack;
     [SerializeField] private DireDodgingDeathHandler DeathHandler;
+    [SerializeField] private DireDodgingShockwave Shockwave;
     [SerializeField] private ParticleSystem stunParticles;
+    [SerializeField] private ParticleSystem deathParticles;
+    [SerializeField] private Color playerEffectColor = Color.white;
 
     private Coroutine shootingCoroutineInstance = null;
     private Vector2 lastMoveDirection = Vector2.right;
@@ -61,10 +66,15 @@ public class DireDodgingPlayer : MonoBehaviour {
     private bool shootEventExists;
     private bool isGhostMode = false;
     private bool isPlayingStunnedAnimation = false;
-
+    private bool showTrail = false;
+    private float baseMaxHealth;
 
     private Coroutine damageCoroutineInstance = null;
+    private Coroutine stunCoroutineInstance = null;
     private Coroutine intensityCoroutineInstance = null;
+    private Tween stunColorTween;
+    private Tween stunShakeTween;
+    private float originalSpeedBeforeStun;
     private Camera mainCamera;
     private readonly Quaternion leftRotation = Quaternion.Euler(0, 0, 90);
     private readonly Quaternion rightRotation = Quaternion.Euler(0, 0, 270);
@@ -82,13 +92,18 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool initializeAsAI, CombatModifiers modifiers, bool isDoubleRound) {
         mainCamera = Camera.main;
-        DireDodgingDeathHandler.CaptureOriginalCamera(mainCamera);
+        DireDodgingCameraZoomService.Initialize(mainCamera);
         ApplyBaseStats();
         if (isDoubleRound) {
             this.maxHealth *= 2;
             this.currentHealth *= 2;
         }
+        this.baseMaxHealth = this.maxHealth;
         ApplyStatBuffs(modifiers.IncreasedHPCount, modifiers.IncreasedAttackSpeedCount);
+        if (modifiers.IncreasedHPCount > 0) {
+            HealthBar.InitializeWithShield(this.baseMaxHealth, this.maxHealth - this.baseMaxHealth, playerEffectColor);
+            HealthBar.UpdateDisplay(currentHealth, maxHealth);
+        }
         this.multishotCount = modifiers.MultishotCount;
         this.playerIndex = index;
         this.navigator = inputHandler;
@@ -103,7 +118,8 @@ public class DireDodgingPlayer : MonoBehaviour {
         
         ProjectilePool.Initialize();
         ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO, modifiers);
-        DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO);
+        DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO, deathParticles);
+        if(modifiers.ShockwaveCount > 0) Shockwave.Initialize(this, modifiers.ShockwaveCount);
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} initialized. IsAI: {isAI}");
     }
 
@@ -114,7 +130,10 @@ public class DireDodgingPlayer : MonoBehaviour {
         this.currentHealth = this.maxHealth;
         for (int i = 0; i < numberOfIncreasedAttackSpeedPowerups; i++) {
             this.projectileShootRate *= 0.75f;
+            this.projectileSpeed *= 1.25f;
         }
+
+        if (numberOfIncreasedAttackSpeedPowerups > 0) showTrail = true;
     }
 
     public void EnableInput() {
@@ -129,6 +148,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void Update() {
         ChargeAttack.Tick();
+        Shockwave.Tick();
     }
 
     private void FixedUpdate() {
@@ -215,11 +235,11 @@ public class DireDodgingPlayer : MonoBehaviour {
             var projectile = ProjectilePool.GetNormal();
 
             Vector2 spawnOffset = shootDirection * (spriteHalfWidth * 1.5f);
+            projectile.transform.SetParent(null);
             projectile.transform.position = (Vector2)transform.position + spawnOffset;
-
             projectile.transform.rotation = baseRotation * Quaternion.Euler(0, 0, angleOffset);
-            projectile.transform.localScale = Vector3.one * projectileScale;
-            projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false);
+            projectile.transform.localScale = Vector3.one * (projectileScale * 0.3f);
+            projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false, showTrail);
         }
         if (shootEventExists) {
             RuntimeManager.PlayOneShot(PlayerStatsSO.BasicShootEvent);
@@ -277,7 +297,9 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     public void Freeze() {
         inputEnabled = false;
+        ClearStun();
         ChargeAttack.ForceStop();
+        Shockwave.ForceStop();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -325,31 +347,77 @@ public class DireDodgingPlayer : MonoBehaviour {
     private float nextShootTime;
 
     public void Stun(float stunDuration = -1f) {
+        if (isStunned) return;
         StartCoroutine(StunCoroutine(stunDuration));
     }
 
     private IEnumerator StunCoroutine(float stunDuration = -1f) {
-        if (isStunned) yield break;
-
         if (Mathf.Approximately(stunDuration, -1f)) stunDuration = defaultStunDuration;
+        
         stunNudgeMultiplier = 0.02f;
         isStunned = true;
         stunParticles.Play();
         StopShooting();
         ChargeAttack.ForceStop();
-        float originalSpeed = maxMoveSpeed;
+        
+        StopColorChangeSequence();
+        if (damageCoroutineInstance != null) {
+            StopCoroutine(damageCoroutineInstance);
+            damageCoroutineInstance = null;
+        }
+        
+        originalSpeedBeforeStun = maxMoveSpeed;
         maxMoveSpeed = 0f;
 
-        Color originalColor = SpriteRenderer.color;
-        SpriteRenderer.color = new Color(1f, 1f, 1f, 0.5f);
+        Color stunColor = new Color(1f, 0.7f, 0.2f, 1f) * baseColor;
+        stunColor.a = 1f;
+        stunColorTween = SpriteRenderer.DOColor(stunColor, 0.15f);
+
+        stunShakeTween = transform.DOShakePosition(
+            duration: stunDuration,
+            strength: 0.05f,
+            vibrato: 15,
+            randomness: 90,
+            fadeOut: false
+        );
 
         yield return new WaitForSeconds(stunDuration);
-        StartShooting();
 
-        maxMoveSpeed = originalSpeed;
-        SpriteRenderer.color = originalColor;
+        EndStun();
+    }
+
+    private void EndStun() {
+        if (!isStunned) return;
         isStunned = false;
+        
+        if(stunColorTween != null && stunColorTween.IsActive()) stunColorTween.Kill();
+        if(stunShakeTween != null && stunShakeTween.IsActive()) stunShakeTween.Kill();
+        stunColorTween = null;
+        stunShakeTween = null;
+
+        transform.DOKill();
+
+        maxMoveSpeed = originalSpeedBeforeStun;
+        SpriteRenderer.color = baseColor;
+        
         stunParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        if (isAlive) {
+            StartShooting();
+        }
+
+        stunCoroutineInstance = null;
+    }
+
+    public void ClearStun() {
+        if (!isStunned) return;
+
+        if (stunCoroutineInstance != null) {
+            StopCoroutine(stunCoroutineInstance);
+            stunCoroutineInstance = null;
+        }
+        
+        EndStun();
     }
 
     private IEnumerator DamageCoroutine() {
@@ -424,6 +492,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void OnDestroy() {
         ChargeAttack.Cleanup();
         DeathHandler.Cleanup();
+        Shockwave.Cleanup();
     }
 
     public void ResetShootCooldown() {
