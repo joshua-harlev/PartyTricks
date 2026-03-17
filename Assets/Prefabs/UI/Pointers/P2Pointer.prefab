@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7023470640935377982, guid: cf5e75a6b67c94a84bfae0ab95844aa5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd1c4a7f0647f4815bcdf8cd2c5fe4f8, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -88,10 +88,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba30fab6964cc417aa9cb6b129b54c2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Shop::ShopPointer
-  lockedIcon: {fileID: -290882873404551215, guid: 901513ec108f74090b02f2f0de8fcb39, type: 3}
-  pointerIcon: {fileID: 7023470640935377982, guid: cf5e75a6b67c94a84bfae0ab95844aa5, type: 3}
+  lockedIcon: {fileID: 21300000, guid: 06e0e7ee30a6745828dc7cd38b1033fb, type: 3}
+  pointerIcon: {fileID: 21300000, guid: bd1c4a7f0647f4815bcdf8cd2c5fe4f8, type: 3}
   imageComponent: {fileID: 4793716686603316603}
-  NoIcon: {fileID: 21300000, guid: 55c3e73f7d66540a19d1092e77c7442a, type: 3}
+  NoIcon: {fileID: 21300000, guid: fc19da56db28244c38f57ac601442d03, type: 3}
   shakeDurationInSeconds: 0.3
   shakeStrength: 10
   shakeVibrato: 6
