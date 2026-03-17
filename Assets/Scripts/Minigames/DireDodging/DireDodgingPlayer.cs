@@ -67,7 +67,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     private bool isGhostMode = false;
     private bool isPlayingStunnedAnimation = false;
     private bool showTrail = false;
-
+    private float baseMaxHealth;
 
     private Coroutine damageCoroutineInstance = null;
     private Coroutine stunCoroutineInstance = null;
@@ -98,7 +98,12 @@ public class DireDodgingPlayer : MonoBehaviour {
             this.maxHealth *= 2;
             this.currentHealth *= 2;
         }
+        this.baseMaxHealth = this.maxHealth;
         ApplyStatBuffs(modifiers.IncreasedHPCount, modifiers.IncreasedAttackSpeedCount);
+        if (modifiers.IncreasedHPCount > 0) {
+            HealthBar.InitializeWithShield(this.baseMaxHealth, this.maxHealth - this.baseMaxHealth, playerEffectColor);
+            HealthBar.UpdateDisplay(currentHealth, maxHealth);
+        }
         this.multishotCount = modifiers.MultishotCount;
         this.playerIndex = index;
         this.navigator = inputHandler;

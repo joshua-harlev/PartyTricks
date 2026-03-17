@@ -98,7 +98,7 @@ namespace Minigames.DireDodging {
             player.StopShooting();
 
             if (player.PlayerHealthBar != null) {
-                player.PlayerHealthBar.gameObject.SetActive(false);
+                player.PlayerHealthBar.SetVisible(false);
             }
             
             yield return new WaitForSeconds(respawnDelay);
@@ -147,7 +147,7 @@ namespace Minigames.DireDodging {
             player.PlayerSpriteRenderer.color = aliveColor;
             
             if (player.PlayerHealthBar != null) {
-                player.PlayerHealthBar.gameObject.SetActive(true);
+                player.PlayerHealthBar.SetVisible(true);
                 player.PlayerHealthBar.UpdateDisplay(player.CurrentHealth, player.MaxHealth);
             }
     
