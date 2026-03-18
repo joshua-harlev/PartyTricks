@@ -12,6 +12,7 @@ TagManager:
   - Paddle
   - Puck
   - PlayerCamera
+  - Divider
   layers:
   - Default
   - TransparentFX
