@@ -4,29 +4,35 @@ using System.Linq;
 using FMOD.Studio;
 using FMODUnity;
 using Services;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.UI;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class MainMenu : MonoBehaviour {
-    [SerializeField] private UIDocument mainMenu;
     [SerializeField] private EventReference musicEvent;
+    [SerializeField] private Button startGameButton;
+    [SerializeField] private Button optionsButton;
+    [SerializeField] private Button quitButton;
+    [SerializeField] private TMP_Text connectedPlayersLabel;
 
     private EventInstance musicInstance;
-    private Button startGameButton;
-    private Button optionsButton;
-    private Button quitButton;
-    private IGameFlowService gameFlowService;
     private Button[] buttons;
     private int focusedIndex;
     private float lastNavigateTime;
     private const float NavigationCooldownSeconds = 0.2f;
-    private Label connectedPlayersLabel;
+    private IGameFlowService gameFlowService;
     private IPlayerService playerService;
     private readonly List<InputAction> subscribedSubmitActions = new();
     private readonly List<InputAction> gamepadNavigateActions = new();
     private Coroutine intensityCoroutine;
+    private InputSystemUIInputModule inputModule;
+    private InputActionReference cachedMoveAction;
+    private InputActionReference cachedSubmitAction;
 
     private void Awake() {
         gameFlowService = ServiceLocatorAccessor.GetService<IGameFlowService>();
@@ -40,14 +46,10 @@ public class MainMenu : MonoBehaviour {
             musicInstance.start();
             intensityCoroutine = StartCoroutine(IncreaseIntensityOverTime());
         }
-        VisualElement root = mainMenu.rootVisualElement;
-        startGameButton = root.Query<Button>("StartGameButton");
-        optionsButton = root.Query<Button>("OptionsButton");
-        quitButton = root.Query<Button>("QuitButton");
-        quitButton.clicked += QuitGame;
-        startGameButton.clicked += StartGame;
-        optionsButton.clicked += ShowOptions;
-        connectedPlayersLabel = root.Q<Label>("ConnectedPlayersLabel");
+
+        startGameButton.onClick.AddListener(StartGame);
+        optionsButton.onClick.AddListener(ShowOptions);
+        quitButton.onClick.AddListener(QuitGame);
 
         buttons = new [] {
             startGameButton,
@@ -60,7 +62,15 @@ public class MainMenu : MonoBehaviour {
         foreach (var playerSlot in playerService.PlayerSlots) {
             if(playerSlot.IsOccupied && !playerSlot.IsAI) HandlePlayerJoined(playerSlot.SlotIndex);
         }
-        
+
+        inputModule = EventSystem.current.GetComponent<InputSystemUIInputModule>();
+        if (inputModule != null) {
+            cachedMoveAction = inputModule.move;
+            cachedSubmitAction = inputModule.submit;
+            inputModule.move = null;
+            inputModule.submit = null;
+        }
+
         StartCoroutine(FocusFirstButtonAfterOneFrame());
         SubscribeToGamepadActions();
     }
@@ -103,10 +113,7 @@ public class MainMenu : MonoBehaviour {
 
     private void OnGamepadSubmitPerformed(InputAction.CallbackContext context) {
         if (focusedIndex < 0 || focusedIndex >= buttons.Length) return;
-        using (var evt = NavigationSubmitEvent.GetPooled()) {
-            evt.target = buttons[focusedIndex];
-            buttons[focusedIndex].SendEvent(evt);
-        }
+        buttons[focusedIndex].onClick.Invoke();
     }
 
     private void Update() {
@@ -121,7 +128,7 @@ public class MainMenu : MonoBehaviour {
             } else {
                 focusedIndex = Mathf.Min(buttons.Length - 1, focusedIndex + 1);
             }
-            buttons[focusedIndex].Focus();
+            EventSystem.current.SetSelectedGameObject(buttons[focusedIndex].gameObject);
             lastNavigateTime = Time.time;
             break;
         }
@@ -140,13 +147,13 @@ public class MainMenu : MonoBehaviour {
             }
         }
         connectedPlayersLabel.text = connectedPlayers.Count > 0 ?
-            "Connected: " + string.Join(", ", connectedPlayers) 
+            "Connected: " + string.Join(", ", connectedPlayers)
             : string.Empty;
     }
 
     private void QuitGame() {
         #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+        EditorApplication.isPlaying = false;
         #else
         Application.Quit();
         #endif
@@ -159,7 +166,7 @@ public class MainMenu : MonoBehaviour {
 
     private void FocusFirstButton() {
         if (startGameButton != null) {
-            startGameButton.Focus();
+            EventSystem.current.SetSelectedGameObject(startGameButton.gameObject);
         }
         focusedIndex = 0;
     }
@@ -174,21 +181,25 @@ public class MainMenu : MonoBehaviour {
             Debug.LogError("MainMenu: GameFlowManager not found.");
         }
     }
-    
+
     private void ShowOptions() {
         FindFirstObjectByType<OptionsMenu>()?.Show();
     }
 
     private void OnDestroy() {
-        playerService.OnPlayerJoined -= HandlePlayerJoined;   
-        quitButton.clicked -= QuitGame;
-        startGameButton.clicked -= StartGame;
-        optionsButton.clicked -= ShowOptions;
+        playerService.OnPlayerJoined -= HandlePlayerJoined;
+        startGameButton.onClick.RemoveAllListeners();
+        optionsButton.onClick.RemoveAllListeners();
+        quitButton.onClick.RemoveAllListeners();
         foreach (var action in subscribedSubmitActions) {
             action.performed -= OnGamepadSubmitPerformed;
         }
         subscribedSubmitActions.Clear();
         gamepadNavigateActions.Clear();
+        if (inputModule != null) {
+            inputModule.move = cachedMoveAction;
+            inputModule.submit = cachedSubmitAction;
+        }
         if (musicInstance.isValid()) {
             musicInstance.stop(STOP_MODE.IMMEDIATE);
         }
