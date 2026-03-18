@@ -6301,6 +6301,13 @@ MonoBehaviour:
   WinnerNumberLabel: {fileID: 1298580144}
   BackgroundImage: {fileID: 1923835915}
   PlacesScreenPanel: {fileID: 1726369368}
+  returnSound:
+    Guid:
+      Data1: -563337581
+      Data2: 1257654547
+      Data3: -469877069
+      Data4: -1407350213
+    Path: event:/UI/Select
 --- !u!1 &1847373507
 GameObject:
   m_ObjectHideFlags: 0

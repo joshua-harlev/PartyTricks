@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using FMODUnity;
 using Image = UnityEngine.UI.Image;
 
 namespace ResultsScreen {
@@ -17,6 +18,7 @@ namespace ResultsScreen {
         [SerializeField] private TMP_Text WinnerNumberLabel;
         [SerializeField] private Image BackgroundImage;
         [SerializeField] private PlacesScreenPanel PlacesScreenPanel;
+        [SerializeField] private EventReference returnSound;
         private int playerWinnerIndex;
         private int[] playerFunds;
         private Button mainMenuButton;
@@ -31,6 +33,7 @@ namespace ResultsScreen {
 
         public void ReturnToMainMenu() {
             if (canReturnToMainMenu) {
+                RuntimeManager.PlayOneShot(returnSound);
                 ResetProfiles();
                 SceneManager.LoadScene("MainMenu");
             }
