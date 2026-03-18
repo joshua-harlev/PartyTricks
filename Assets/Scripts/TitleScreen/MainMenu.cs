@@ -19,6 +19,7 @@ public class MainMenu : MonoBehaviour {
     [SerializeField] private Button optionsButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private TMP_Text connectedPlayersLabel;
+    [SerializeField] private MenuSoundConfigSO menuSoundConfig;
 
     private EventInstance musicInstance;
     private Button[] buttons;
@@ -129,6 +130,7 @@ public class MainMenu : MonoBehaviour {
                 focusedIndex = Mathf.Min(buttons.Length - 1, focusedIndex + 1);
             }
             EventSystem.current.SetSelectedGameObject(buttons[focusedIndex].gameObject);
+            RuntimeManager.PlayOneShot(buttons[focusedIndex].name);
             lastNavigateTime = Time.time;
             break;
         }

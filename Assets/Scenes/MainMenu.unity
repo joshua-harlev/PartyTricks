@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &194905647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +338,7 @@ GameObject:
   - component: {fileID: 351831292}
   - component: {fileID: 351831291}
   - component: {fileID: 351831294}
+  - component: {fileID: 351831295}
   m_Layer: 5
   m_Name: StartGameButton
   m_TagString: Untagged
@@ -459,6 +460,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d6ff94b57484279a5f3dab59c604af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonScaleEffect
+--- !u!114 &351831295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351831289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1091184428
+      Data2: 1151263356
+      Data3: -710299770
+      Data4: 1714921151
+    Path: event:/UI/Highlight
+  Event: 
+  EventPlayTrigger: 17
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &422575841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1418,6 +1450,7 @@ MonoBehaviour:
   optionsButton: {fileID: 1899834469}
   quitButton: {fileID: 1707394508}
   connectedPlayersLabel: {fileID: 1902922458}
+  menuSoundConfig: {fileID: 11400000, guid: 0d46b1b9688164d7d955625d12172f29, type: 2}
 --- !u!1 &1457923513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1632,6 +1665,7 @@ GameObject:
   - component: {fileID: 1707394509}
   - component: {fileID: 1707394508}
   - component: {fileID: 1707394511}
+  - component: {fileID: 1707394512}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -1753,6 +1787,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d6ff94b57484279a5f3dab59c604af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonScaleEffect
+--- !u!114 &1707394512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707394506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1091184428
+      Data2: 1151263356
+      Data3: -710299770
+      Data4: 1714921151
+    Path: event:/UI/Highlight
+  Event: 
+  EventPlayTrigger: 17
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1731545303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1933,6 +1998,7 @@ GameObject:
   - component: {fileID: 1899834470}
   - component: {fileID: 1899834469}
   - component: {fileID: 1899834473}
+  - component: {fileID: 1899834474}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -2054,6 +2120,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d6ff94b57484279a5f3dab59c604af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonScaleEffect
+--- !u!114 &1899834474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899834468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1091184428
+      Data2: 1151263356
+      Data3: -710299770
+      Data4: 1714921151
+    Path: event:/UI/Highlight
+  Event: 
+  EventPlayTrigger: 17
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1902922456
 GameObject:
   m_ObjectHideFlags: 0
