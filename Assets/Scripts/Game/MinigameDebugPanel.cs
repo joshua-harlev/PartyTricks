@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Game {
     public class MinigameDebugPanel {
@@ -100,6 +101,11 @@ namespace Game {
                     cachedPlayerCameras[i].enabled = false;
                 }
             }
+
+            var dividers = GameObject.FindGameObjectsWithTag("Divider");
+            foreach (var divider in dividers) {
+                divider.GetComponent<Image>().enabled = false;
+            }
         }
         
         private void RestoreCameras() {
@@ -108,6 +114,10 @@ namespace Game {
                 if (cachedPlayerCameras[i] == null) continue;
                 cachedPlayerCameras[i].rect = originalViewpointRects[i];
                 cachedPlayerCameras[i].enabled = true;
+            }
+            var dividers = GameObject.FindGameObjectsWithTag("Divider");
+            foreach (var divider in dividers) {
+                divider.GetComponent<Image>().enabled = true;
             }
         }
 
