@@ -24,6 +24,7 @@ namespace Minigames.Swinging {
         [SerializeField] private int vineCount = 20;
         [SerializeField] private float vineAnchorY = 4f;
         [SerializeField] private VineSwingingPlayerStatsSO playerStats;
+        [SerializeField] private VineSwingingAIConfigSO aiConfig;
 
         [Header("References")] [SerializeField]
         private MinigameStartCountdown startCountdown;
@@ -47,6 +48,7 @@ namespace Minigames.Swinging {
         public PlayerCornerDisplay[] PlayerCornerDisplays => playerCornerDisplays;
         public VineSwingingPlayerView[] PlayerViews => playerViews;
         public int[] FundsPerRank => fundsPerRank;
+        public VineSwingingAIConfigSO AIConfig => aiConfig;
 
         private IVineSwingingGameState currentState;
         private IPowerUpService powerUpService;

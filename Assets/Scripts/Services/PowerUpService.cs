@@ -49,6 +49,12 @@ namespace Services {
                     case "increasedAttackSpeed":
                         combatModifiers.IncreasedAttackSpeedCount++;
                         break;
+                    case "multishot":
+                        combatModifiers.MultishotCount++;
+                        break;
+                    case "shockwave":
+                        combatModifiers.ShockwaveCount++;
+                        break;
                 }
             }
             return combatModifiers;

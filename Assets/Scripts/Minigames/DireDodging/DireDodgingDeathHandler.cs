@@ -1,15 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using FMODUnity;
 using UnityEngine;
 
 namespace Minigames.DireDodging {
     public class DireDodgingDeathHandler : MonoBehaviour {
-        private static bool isDeathZoomActive = false;
-        private static float trueOriginalCameraSize;
-        private static Vector3 trueOriginalCameraPosition;
-        
         private const float cameraFreezeDuration = 1f;
         private const float cameraZoomAmount = 0.7f;
 
@@ -23,19 +18,13 @@ namespace Minigames.DireDodging {
         private float deathAnimationTimeInSeconds;
         private bool isInvincible;
         private EventReference deathEvent;
+        private ParticleSystem deathParticles;
         
-        public static bool IsDeathZoomActive => isDeathZoomActive;
+        public static bool IsDeathZoomActive => DireDodgingCameraZoomService.DeathZoomActive;
         public bool IsInvincible => isInvincible;
-
-        public static void CaptureOriginalCamera(Camera camera) {
-            if (!isDeathZoomActive) {
-                trueOriginalCameraSize = camera.orthographicSize;
-                trueOriginalCameraPosition = camera.transform.position;
-            }
-        }
-
+        
         public void Initialize(DireDodgingPlayer player, DireDodgingChargeAttack chargeAttack,
-            DireDodgingProjectilePool pool, DireDodgingPlayerStatsSO stats) {
+            DireDodgingProjectilePool pool, DireDodgingPlayerStatsSO stats, ParticleSystem deathParticles) {
             this.player = player;
             this.chargeAttack = chargeAttack;
             this.projectilePool = pool;
@@ -43,10 +32,14 @@ namespace Minigames.DireDodging {
             this.respawnDelay = 3f;
             this.invincibilityDuration = 2f;
             this.deathEvent = stats.DeathEvent;
+            this.deathParticles = deathParticles;
+            var main = deathParticles.main;
+            main.startColor = player.PlayerEffectColor;
         }
 
         public void TriggerDeath() {
             player.SetAliveState(false, true);
+            player.ClearStun();
 
             Rigidbody2D rigidbody = player.PlayerRigidbody2D;
             rigidbody.linearVelocity = Vector2.zero;
@@ -54,6 +47,7 @@ namespace Minigames.DireDodging {
             rigidbody.bodyType = RigidbodyType2D.Kinematic;
             
             Time.timeScale = 0f;
+            deathParticles.Play();
 
             ZoomCameraOnDeath();
             chargeAttack.ForceStop();
@@ -65,7 +59,7 @@ namespace Minigames.DireDodging {
         }
 
         public void Cleanup() {
-            isDeathZoomActive = false;
+            DireDodgingCameraZoomService.Cleanup();
         }
 
         private void TransitionSpriteOpacityOnDeath() {
@@ -80,29 +74,13 @@ namespace Minigames.DireDodging {
                 throw new MissingComponentException("Main Camera is missing.");
             }
 
-            mainCamera.DOKill();
-            mainCamera.transform.DOKill();
-            DoCameraZoomSequence(mainCamera);
-        }
-        
-        private void DoCameraZoomSequence(Camera camera) {
-            isDeathZoomActive = true;
-            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, trueOriginalCameraPosition.z);
-            camera.DOOrthoSize(trueOriginalCameraSize * cameraZoomAmount, cameraFreezeDuration * 0.5f).SetUpdate(true);
-            camera.transform.DOMove(targetPosition, cameraFreezeDuration * 0.5f).SetUpdate(true);
-
-            cameraZoomTween = DOVirtual.DelayedCall(cameraFreezeDuration, () => {
-                ReturnCameraToOriginalState(camera);
+            DireDodgingCameraZoomService.StartDeathZoom(transform.position, cameraZoomAmount, cameraFreezeDuration * 0.5f);
+            cameraZoomTween = DOVirtual.DelayedCall(cameraFreezeDuration, () =>
+            {
+                DireDodgingCameraZoomService.ReturnFromDeathZoom();
                 Time.timeScale = 1f;
                 DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
             }, false).SetUpdate(true);
-        }
-        
-        private void ReturnCameraToOriginalState(Camera camera) {
-            camera.DOOrthoSize(trueOriginalCameraSize, 0.3f).SetUpdate(true);
-            camera.transform.DOMove(trueOriginalCameraPosition, 0.3f).SetUpdate(true).OnComplete(() => {
-                isDeathZoomActive = false;
-            });
         }
         
         private IEnumerator DeathCoroutine() {
@@ -117,10 +95,10 @@ namespace Minigames.DireDodging {
             player.PlayerSpriteRenderer.color = ghostColor;
             
             projectilePool.ReturnAllToPool();
-            player.StopShootingCoroutine();
+            player.StopShooting();
 
             if (player.PlayerHealthBar != null) {
-                player.PlayerHealthBar.gameObject.SetActive(false);
+                player.PlayerHealthBar.SetVisible(false);
             }
             
             yield return new WaitForSeconds(respawnDelay);
@@ -146,16 +124,10 @@ namespace Minigames.DireDodging {
         }
 
         private void Respawn() {
-            Camera mainCamera = player.MainCamera;
+            deathParticles.Stop();
             if (cameraZoomTween != null && cameraZoomTween.IsActive()) {
                 cameraZoomTween.Kill();
-                mainCamera.DOKill();
-                mainCamera.transform.DOKill();
-
-                mainCamera.DOOrthoSize(trueOriginalCameraSize, 0.3f).SetUpdate(true);
-                mainCamera.transform.DOMove(trueOriginalCameraPosition, 0.3f).SetUpdate(true).OnComplete(() => {
-                    isDeathZoomActive = false;
-                });
+                DireDodgingCameraZoomService.CancelDeathZoom();
                 Time.timeScale = 1f;
                 DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
             }
@@ -173,10 +145,9 @@ namespace Minigames.DireDodging {
             Color aliveColor = player.BaseColor;
             aliveColor.a = 1f;
             player.PlayerSpriteRenderer.color = aliveColor;
-    
-            // Show health bar
+            
             if (player.PlayerHealthBar != null) {
-                player.PlayerHealthBar.gameObject.SetActive(true);
+                player.PlayerHealthBar.SetVisible(true);
                 player.PlayerHealthBar.UpdateDisplay(player.CurrentHealth, player.MaxHealth);
             }
     

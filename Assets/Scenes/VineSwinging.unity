@@ -3752,7 +3752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d54534f5b46abbdb38c5956073187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineTrackView
-  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 898a0d6a2574044d6b006767ad3bf550, type: 3}
+  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 33fb84ec0bffc460ebfc8a57d6ebc1d8, type: 3}
 --- !u!1 &1136707357
 GameObject:
   m_ObjectHideFlags: 0
@@ -6636,6 +6636,7 @@ MonoBehaviour:
   vineCount: 40
   vineAnchorY: 4
   playerStats: {fileID: 11400000, guid: f40ce12690a6d4c91acb1c250c4504b4, type: 2}
+  aiConfig: {fileID: 11400000, guid: 2f4ef5f11108844ceb86315b8fe2581c, type: 2}
   startCountdown: {fileID: 2110988712}
   gameTimer: {fileID: 2124561518}
   placesDisplay: {fileID: 595825008}

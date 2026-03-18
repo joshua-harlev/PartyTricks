@@ -17,9 +17,10 @@ public class DebugMenu : MonoBehaviour {
     private bool isDoubleRound = false;
     private IPlayerService playerService;
     private DireDodgingMinigameManager direDodgingManager;
+    public static Action<IPlayerService> PowerupPanelDraw;
     
     private void Awake() {
-        windowRect = new Rect(20, 20, 300, 600);
+        windowRect = new Rect(20, 20, 400, 600);
         if (instance != null && instance != this) {
             Destroy(gameObject);
             return;
@@ -107,6 +108,17 @@ public class DebugMenu : MonoBehaviour {
             if (GUILayout.Button("Kill Player 4", GUILayout.Height(30))) {
                 KillDireDodgingPlayer(3);
             }
+            
+            GUILayout.Space(10);
+            
+            GUILayout.Label("Stun Player", GUI.skin.box);
+            GUILayout.BeginHorizontal();
+            for (int i = 0; i < 4; i++) {
+                if (GUILayout.Button($"Stun P{i+1}", GUILayout.Height(40))) {
+                    DireDodgingMinigameManager.Instance.DebugStunPlayer(i);
+                }
+            }
+            GUILayout.EndHorizontal();
         
             GUILayout.Space(20);
         }
@@ -163,6 +175,7 @@ public class DebugMenu : MonoBehaviour {
         }
 
         minigamePanel.Draw();
+        PowerupPanelDraw?.Invoke(playerService);
         
         GUILayout.EndVertical();
         GUILayout.EndScrollView();

@@ -7,6 +7,9 @@ public class ShopPointer : MonoBehaviour {
     [SerializeField] private Sprite pointerIcon;
     [Tooltip("Icon when player can't afford an item")]
     [SerializeField] private Image imageComponent;
+
+    [Tooltip("Icon when player has discount")] [SerializeField]
+    private Image bonusIcon;
     
     [Header("Sprite Shake")]
     [SerializeField] private Sprite NoIcon;
@@ -15,6 +18,12 @@ public class ShopPointer : MonoBehaviour {
     [SerializeField] private int shakeVibrato = 6;
     
     private bool isLocked = false;
+    private bool showBonus = false;
+
+    public void SetBonusStatus(bool enabled) {
+        showBonus = enabled;
+        bonusIcon.enabled = enabled;
+    }
 
     public void SetLocked() {
         if (isLocked) return;
@@ -30,13 +39,14 @@ public class ShopPointer : MonoBehaviour {
 
     public void PlayCannotAffordFeedback() {
         imageComponent.sprite = NoIcon;
-        
+        if (showBonus) bonusIcon.enabled = false;
         var rectTransform = imageComponent.rectTransform;
         rectTransform.DOShakeAnchorPos(shakeDurationInSeconds, new Vector2(shakeStrength, 0), shakeVibrato, 0)
             .OnComplete(() =>
             {
                 if(isLocked) imageComponent.sprite = lockedIcon;
                 else imageComponent.sprite = pointerIcon;
+                if (showBonus) bonusIcon.enabled = true;
             });
     }
     

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ShopPointers : MonoBehaviour {
     [SerializeField] private ShopPointer[] pointers;
@@ -24,5 +23,10 @@ public class ShopPointers : MonoBehaviour {
 
     public void OnCannotAffordPermanent(int playerIndex) {
         pointers[playerIndex].SetCannotAffordPermanent();
+    }
+
+    public void SetPointerBonusStatus(int playerIndex, bool showBonus) {
+        var pointer = pointers[playerIndex];
+        pointer.SetBonusStatus(showBonus);
     }
 }

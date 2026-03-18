@@ -3,6 +3,7 @@ using System.Collections;
 using CoreData;
 using FMOD.Studio;
 using FMODUnity;
+using Input;
 using Services;
 using UnityEngine;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
@@ -64,10 +65,13 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         for (int i = 0; i < Players.Length; i++) {
             if (Players[i] == null) continue;
             PlayerSlot slot = playerService.PlayerSlots[i];
+            if (slot.IsAI) {
+                slot.SwapAIHandler<AIDireDodgingInputHandler>();
+                var aiHandler = slot.GetAIHandler<AIDireDodgingInputHandler>();
+                aiHandler?.SetPlayerContext(Players[i].transform, Camera.main);
+            }
             CombatModifiers modifiers = powerUpService.GetCombatModifiers(slot.Profile);
-            int increasedHPPowerupCount = modifiers.IncreasedHPCount;
-            int increasedAttackSpeedPowerupCount = modifiers.IncreasedAttackSpeedCount;
-            Players[i].Initialize(i, slot.InputHandler, slot.IsAI, increasedHPPowerupCount, increasedAttackSpeedPowerupCount, IsDoubleRound);
+            Players[i].Initialize(i, slot.InputHandler, slot.IsAI, modifiers, IsDoubleRound);
         }
     }
 
@@ -205,10 +209,14 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         var dummyProjectile = new GameObject("DummyProjectile").AddComponent<DireDodgingProjectile>();
         dummyProjectile.Initialize(playerIndex, 9999f, 0f, Vector2.zero, false);
     
-        var method = typeof(DireDodgingPlayer).GetMethod("TakeDamage", 
+        var method = typeof(DireDodgingPlayer).GetMethod("HandleProjectileCollision", 
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         method?.Invoke(player, new object[] { dummyProjectile });
     
         Destroy(dummyProjectile.gameObject);
+    }
+
+    public void DebugStunPlayer(int playerIndex) {
+        Players[playerIndex].Stun();
     }
 }

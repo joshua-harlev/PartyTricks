@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using CoreData;
 using UnityEngine;
 
 
@@ -15,7 +16,6 @@ public class CoinTiltPlayer : MonoBehaviour {
     private float moveSpeed = 15f;
     private float acceleration = 7f;
     private float slipFactor = 1.7f;
-    
     private float jumpForce = 8f;
     private float airControlMultiplier = 1;
     private float gravityScale = 3f;
@@ -54,15 +54,15 @@ public class CoinTiltPlayer : MonoBehaviour {
         }
     }
 
-    public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool isAI, int numberOfMagnetPowerups, int numberOfMoveBoosts) {
+    public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool isAI, MovementModifiers modifiers) {
         ApplyBaseStats();
-        ApplyMoveBoosts(numberOfMoveBoosts);
+        ApplyMoveBoosts(modifiers.MoveBoostCount);
         this.playerIndex = index;
         this.navigator = inputHandler;
         this.isAI = isAI;
         this.inputEnabled = false;
         this.isFalling = false;
-
+        int numberOfMagnetPowerups = modifiers.MagnetCount;
         if (numberOfMagnetPowerups > 0) {
             this.magnetEnabled = true;
             if (numberOfMagnetPowerups > 1) {

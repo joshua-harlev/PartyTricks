@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 
 public class Inventory {
-    private List<ItemDefinition> items = new();
+    private readonly List<ItemDefinition> items = new();
     public event Action<ItemDefinition> OnItemAdded;
+    public event Action OnInventoryClear;
+    
     public Inventory() {
         this.items = new List<ItemDefinition>();
     }
@@ -16,6 +18,7 @@ public class Inventory {
     public IReadOnlyList<ItemDefinition> Items => items;
 
     public void Reset() {
+        OnInventoryClear?.Invoke();
         items.Clear();
     }
 }

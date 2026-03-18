@@ -20,7 +20,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="ShopControls" style="flex-grow: 1;">
                     <ui:Label text="General Controls" style="-unity-text-align: upper-left; -unity-font-definition: url(&quot;project://database/Assets/Fonts/DM_Sans/static/DMSans-Black.ttf?fileID=12800000&amp;guid=e9e9ba64716a24509a9fce80ef9e0826&amp;type=3#DMSans-Black&quot;); font-size: 30px;" />
-                    <ui:Label text="D-Pad/Joystick or Arrow Keys to navigate/move. &#10;Enter/Spacebar/A: Select/Jump/Action&#10;B/Esc: Cancel/Action 2&#10;Ctrl+` on the keyboard for debug menu.&#10;Press P or +/Start to pause.&lt;/indent&gt;" emoji-fallback-support="true" style="-unity-text-align: upper-left; -unity-font-definition: url(&quot;project://database/Assets/Fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf?fileID=12800000&amp;guid=621a05a21302949faae6799298818d73&amp;type=3#DMSans-VariableFont_opsz,wght&quot;); font-size: 30px; white-space: normal; width: 841px;" />
+                    <ui:Label text="D-Pad/Joystick or Arrow Keys to navigate/move. &#10;Enter/Spacebar/A: Select/Jump/Action&#10;B/Esc: Cancel/Action 2&#10;Ctrl+` or - on the keyboard for debug menu.&#10;Press P or +/Start to pause.&lt;/indent&gt;" emoji-fallback-support="true" style="-unity-text-align: upper-left; -unity-font-definition: url(&quot;project://database/Assets/Fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf?fileID=12800000&amp;guid=621a05a21302949faae6799298818d73&amp;type=3#DMSans-VariableFont_opsz,wght&quot;); font-size: 30px; white-space: normal; width: 841px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

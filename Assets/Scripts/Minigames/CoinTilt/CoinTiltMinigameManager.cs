@@ -184,9 +184,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     private void InitializePlayerWithEvents(int playerIndex, PlayerSlot slot) {
         PlayerProfile profile = playerService.PlayerSlots[playerIndex].Profile;
         MovementModifiers modifiers = powerUpService.GetMovementModifiers(profile);
-        int numberOfMagnetPowerups = modifiers.MagnetCount;
-        int numberOfMoveBoosts = modifiers.MoveBoostCount;
-        players[playerIndex].Initialize(playerIndex, slot.InputHandler, slot.IsAI, numberOfMagnetPowerups, numberOfMoveBoosts);
+        players[playerIndex].Initialize(playerIndex, slot.InputHandler, slot.IsAI, modifiers);
         players[playerIndex].OnCoinCollected += HandleCoinCollected;
         players[playerIndex].OnFallOff += HandlePlayerFall;
     }
@@ -338,7 +336,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
         }
 
         for (int i = 0; i < 4; i++) {
-            results[i] = new PlayerMinigameResult(i, ranks[i], fundsPerRank[i]);
+            results[i] = new PlayerMinigameResult(i, ranks[i], fundsPerRank[ranks[i]]);
         }
 
         return results;
