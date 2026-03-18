@@ -10,8 +10,9 @@ public class CoinTiltPlayer : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private MeshRenderer meshRenderer;
-
     [SerializeField] private CoinTiltPlayerStatsSO baseStats;
+    [SerializeField] private ParticleSystem magnetParticles;
+
     
     private float moveSpeed = 15f;
     private float acceleration = 7f;
@@ -65,6 +66,7 @@ public class CoinTiltPlayer : MonoBehaviour {
         int numberOfMagnetPowerups = modifiers.MagnetCount;
         if (numberOfMagnetPowerups > 0) {
             this.magnetEnabled = true;
+            if (magnetParticles != null) magnetParticles.Play();
             if (numberOfMagnetPowerups > 1) {
                 magnetRadius += numberOfMagnetPowerups * 0.4f;
                 magnetPullSpeed += numberOfMagnetPowerups * 0.5f;
@@ -275,6 +277,7 @@ public class CoinTiltPlayer : MonoBehaviour {
     private void TriggerFall() {
         if (isFalling) return;
         isFalling = true;
+        if (magnetParticles != null) magnetParticles.Stop();
         inputEnabled = false;
         OnFallOff?.Invoke(playerIndex);
         DebugLogger.Log(LogChannel.Systems,  $"P{playerIndex+1} falling.", LogLevel.Verbose);
@@ -298,6 +301,8 @@ public class CoinTiltPlayer : MonoBehaviour {
         isFalling = false;
         if(!isFrozen) inputEnabled = true;
         isGrounded = false;
+        
+        if (magnetEnabled && magnetParticles != null) magnetParticles.Play();
         
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} respawned.", LogLevel.Verbose);
     }
