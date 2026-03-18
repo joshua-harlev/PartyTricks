@@ -3752,7 +3752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d54534f5b46abbdb38c5956073187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineTrackView
-  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 898a0d6a2574044d6b006767ad3bf550, type: 3}
+  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 33fb84ec0bffc460ebfc8a57d6ebc1d8, type: 3}
 --- !u!1 &1136707357
 GameObject:
   m_ObjectHideFlags: 0
