@@ -10,6 +10,7 @@ public class ShopPlayerManager {
     private PlayerCornerDisplay[] playerCornerDisplays;
     private List<ShopSlotSelector> activeSelectors = new();
     private IPlayerService playerService;
+    private IPowerUpService powerUpService;
     
     // locked count, locked AI count, total human count
     public event Action<int, int, int> OnLockCountChanged;
@@ -20,6 +21,7 @@ public class ShopPlayerManager {
         this.shopItemUIElements = shopItemUIElements;
         this.playerCornerDisplays = playerCornerDisplays;
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+        powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
     }
 
     public void InitializePlayers() {
@@ -41,6 +43,12 @@ public class ShopPlayerManager {
             PlayerSlot slot = playerService.PlayerSlots[i];
             if (slot.InputHandler == null) continue;
             var selector = CreateSelector(i, slot);
+            var modifiers = powerUpService.GetShopModifiers(slot.Profile);
+            if (modifiers.ShopDiscountCount > 0) {
+                foreach (var shopItemUIElement in shopItemUIElements) {
+                    shopItemUIElement.SetPointerBonusStatus(i, true);
+                }
+            }
             activeSelectors.Add(selector);
         }
     }

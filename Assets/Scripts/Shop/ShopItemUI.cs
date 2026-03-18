@@ -53,4 +53,8 @@ public class ShopItemUI : MonoBehaviour {
     public void OnCannotAffordPermanent(int playerIndex) {
         pointers.OnCannotAffordPermanent(playerIndex);
     }
+
+    public void SetPointerBonusStatus(int playerIndex, bool showBonus) {
+        pointers.SetPointerBonusStatus(playerIndex, showBonus);
+    }
 }
