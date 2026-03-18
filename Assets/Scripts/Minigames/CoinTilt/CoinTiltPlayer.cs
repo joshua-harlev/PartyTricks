@@ -16,7 +16,6 @@ public class CoinTiltPlayer : MonoBehaviour {
     private float moveSpeed = 15f;
     private float acceleration = 7f;
     private float slipFactor = 1.7f;
-    
     private float jumpForce = 8f;
     private float airControlMultiplier = 1;
     private float gravityScale = 3f;
