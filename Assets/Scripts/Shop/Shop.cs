@@ -79,7 +79,7 @@ namespace Shop {
 
             int roundIndex = gameFlowService.GetCompletedMinigameList().Count;
             ShopStock stock = null;
-            if (ShopStockConfig != null && roundIndex < ShopStockConfig.StocksOrderedByRound.Length) {
+            if (GameSettings.UsePresetBoard && ShopStockConfig != null && roundIndex < ShopStockConfig.StocksOrderedByRound.Length) {
                 stock = ShopStockConfig.StocksOrderedByRound[roundIndex];
             }
             

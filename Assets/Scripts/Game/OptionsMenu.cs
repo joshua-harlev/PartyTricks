@@ -1,14 +1,15 @@
-  using System.Collections.Generic;
-  using UnityEngine;
-  using UnityEngine.UIElements;
-  using System.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UIElements;
 
-  public class OptionsMenu : MonoBehaviour
+public class OptionsMenu : MonoBehaviour
   {
       [SerializeField] private UIDocument optionsDocument;
 
       private VisualElement root;
       private Toggle vSyncToggle;
+      private Toggle presetBoardToggle;
       private DropdownField resolutionDropdown;
       private DropdownField antiAliasingDropdown;
       private Slider volumeSlider;
@@ -28,6 +29,7 @@
       private void Start()
       {
           vSyncToggle = root.Q<Toggle>("Vsync_Toggle");
+          presetBoardToggle = root.Q<Toggle>("Preset_Board_Toggle");
           resolutionDropdown = root.Q<DropdownField>("Resolution_Dropdown");
           antiAliasingDropdown = root.Q<DropdownField>("Anti-Aliasing_Dropdown");
           volumeSlider = root.Q<Slider>("Volume_Slider");
@@ -38,6 +40,7 @@
           SyncUIToSettings();
 
           vSyncToggle.RegisterValueChangedCallback(evt => GameSettings.VSync = evt.newValue);
+          presetBoardToggle.RegisterValueChangedCallback(evt => GameSettings.UsePresetBoard = evt.newValue);
           resolutionDropdown.RegisterValueChangedCallback(evt =>
           {
               var sel = resolutionList[resolutionDropdown.index];
@@ -82,7 +85,7 @@
       private void SyncUIToSettings()
       {
           vSyncToggle.value = GameSettings.VSync;
-
+          presetBoardToggle.value = GameSettings.UsePresetBoard;
           int resIndex = resolutionList.FindIndex(r =>
               r.width == GameSettings.ResolutionWidth && r.height == GameSettings.ResolutionHeight);
           resolutionDropdown.index = resIndex >= 0 ? resIndex : resolutionList.Count - 1;

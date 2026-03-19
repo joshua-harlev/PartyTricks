@@ -9,7 +9,7 @@ public class GameBoardGenerator {
     private readonly MinigameType[] availableTypes = new[]
     {
         MinigameType.Combat,
-        MinigameType.Gambling,
+        // MinigameType.Gambling,
         MinigameType.Movement
     };
 
