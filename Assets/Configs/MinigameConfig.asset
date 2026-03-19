@@ -25,7 +25,7 @@ MonoBehaviour:
     - VineSwinging
   - Type: 3
     SceneNames:
-    - Blackjack
+    - VineSwinging
     - CoinTiltGame
     - DireDodging
   sceneTutorials:

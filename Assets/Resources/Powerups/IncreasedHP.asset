@@ -15,7 +15,7 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 544f5287c32ad496e8204940bde865e6, type: 3}
   Id: increasedHP
   DisplayName: Health Up
-  Cost: 75
+  Cost: 50
   Category: 2
   Description: Increases your vitality.\n+50% base HP in combat.
   IsTemporary: 0
