@@ -15,7 +15,7 @@ MonoBehaviour:
   Icon: {fileID: -7013172118770143867, guid: e9158660a7dee41449586777cfa969d5, type: 3}
   Id: shopDiscount
   DisplayName: Discount
-  Cost: 250
+  Cost: 200
   Category: 4
   Description: Get to know the shopkeeper. -50 cost on shop items.
   IsTemporary: 0
