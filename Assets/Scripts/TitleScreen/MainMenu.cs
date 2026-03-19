@@ -130,7 +130,7 @@ public class MainMenu : MonoBehaviour {
                 focusedIndex = Mathf.Min(buttons.Length - 1, focusedIndex + 1);
             }
             EventSystem.current.SetSelectedGameObject(buttons[focusedIndex].gameObject);
-            RuntimeManager.PlayOneShot(buttons[focusedIndex].name);
+            RuntimeManager.PlayOneShot(menuSoundConfig.HighlightSound);
             lastNavigateTime = Time.time;
             break;
         }

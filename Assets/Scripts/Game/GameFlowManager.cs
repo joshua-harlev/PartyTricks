@@ -33,10 +33,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     }
 
     public void StartGame() {
-        if (gameBoardPreset == null || gameBoardPreset.RoundList.Count == 0) {
-            boardGenerator.GenerateRandomBoard();
-            sceneOverrides = null;
-        } else {
+        if (GameSettings.UsePresetBoard && gameBoardPreset != null && gameBoardPreset.RoundList.Count != 0) {
             List<GameBoardPresetSO.RoundEntry> roundList = gameBoardPreset.RoundList;
             var boardToGenerate = new List<(MinigameType minigameType, bool IsDouble)>();
             sceneOverrides = new string[roundList.Count];
@@ -45,6 +42,9 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
                 if (!string.IsNullOrWhiteSpace(roundList[i].SceneName)) sceneOverrides[i] = roundList[i].SceneName;
             }
             boardGenerator.GenerateSpecificBoard(boardToGenerate.ToArray());
+        } else {
+            boardGenerator.GenerateRandomBoard();
+            sceneOverrides = null;
         }
         gameBoard = boardGenerator.GameBoard;
         currentRoundIndex = 0;

@@ -1107,6 +1107,17 @@
                 },
                 {
                     "name": "",
+                    "id": "c070c77a-f9e5-4309-8c15-da76bd7f3bf1",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Charge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b26ec168-5efa-4541-8b4c-a6e3ee26327c",
                     "path": "*/{Submit}",
                     "interactions": "",

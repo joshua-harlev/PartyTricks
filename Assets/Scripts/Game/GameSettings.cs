@@ -1,7 +1,8 @@
-  using UnityEngine;
-  using UnityEngine.Rendering.Universal;
+using FMODUnity;
+using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
-  public static class GameSettings
+public static class GameSettings
   {
       private const string KEY_VSYNC = "Settings_VSync";
       private const string KEY_RES_WIDTH = "Settings_ResWidth";
@@ -9,6 +10,7 @@
       private const string KEY_AA_MODE = "Settings_AntiAliasing";
       private const string KEY_VOLUME = "Settings_Volume";
       private const string KEY_SCREEN_SHAKE = "Settings_ScreenShake";
+      private const string KEY_USE_PRESET_BOARD = "Settings_PresetBoard";
 
       public static bool VSync { get; set; }
       public static int ResolutionWidth { get; set; }
@@ -16,6 +18,7 @@
       public static int AntiAliasingMode { get; set; }
       public static float Volume { get; set; }
       public static float ScreenShakeIntensity { get; set; }
+      public static bool UsePresetBoard { get; set; }
 
       public static void Load()
       {
@@ -25,6 +28,7 @@
           AntiAliasingMode = PlayerPrefs.GetInt(KEY_AA_MODE, 0);
           Volume = PlayerPrefs.GetFloat(KEY_VOLUME, 1f);
           ScreenShakeIntensity = PlayerPrefs.GetFloat(KEY_SCREEN_SHAKE, 1f);
+          UsePresetBoard = PlayerPrefs.GetInt(KEY_USE_PRESET_BOARD, 1) == 1;
       }
 
       public static void Save()
@@ -33,6 +37,7 @@
           PlayerPrefs.SetInt(KEY_RES_WIDTH, ResolutionWidth);
           PlayerPrefs.SetInt(KEY_RES_HEIGHT, ResolutionHeight);
           PlayerPrefs.SetInt(KEY_AA_MODE, AntiAliasingMode);
+          PlayerPrefs.SetInt(KEY_USE_PRESET_BOARD, UsePresetBoard ? 1 : 0);
           PlayerPrefs.SetFloat(KEY_VOLUME, Volume);
           PlayerPrefs.SetFloat(KEY_SCREEN_SHAKE, ScreenShakeIntensity);
           PlayerPrefs.Save();
@@ -42,12 +47,12 @@
       {
           QualitySettings.vSyncCount = VSync ? 1 : 0;
           Screen.SetResolution(ResolutionWidth, ResolutionHeight, Screen.fullScreen);
-          FMODUnity.RuntimeManager.GetBus("bus:/").setVolume(Volume);
+          RuntimeManager.GetBus("bus:/").setVolume(Volume);
           ApplyAntiAliasing();
       }
 
       public static void ApplyVolume() {
-          FMODUnity.RuntimeManager.GetBus("bus:/").setVolume(Volume);
+          RuntimeManager.GetBus("bus:/").setVolume(Volume);
       }
 
       public static void ApplyAntiAliasing()

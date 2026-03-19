@@ -15,7 +15,7 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: cb0522c3bbd7540fc8b92851830f2de1, type: 3}
   Id: increasedAttackSpeed
   DisplayName: Attack Faster
-  Cost: 50
+  Cost: 75
   Category: 2
   Description: Faster charging & attack speed.\nA simple but effective boost.
   IsTemporary: 0
