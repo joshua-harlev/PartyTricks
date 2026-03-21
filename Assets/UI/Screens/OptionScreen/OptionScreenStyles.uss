@@ -129,3 +129,26 @@ Button:focus {
     scale: 1.2 1.2 1.2;
     transition-duration: 0.3s;
 }
+
+#Background > #Buttons > #Music_Toggle {
+    margin-bottom: 34px;
+}
+
+#Background > #Buttons > #Music_Toggle > .unity-toggle__label {
+}
+
+#Background > #Buttons > #Vsync_Toggle > .unity-toggle__label {
+    margin-right: 754px;
+}
+
+#Background > #Buttons > .unity-scroll-view--vertical > #Music_Toggle {
+    margin-bottom: 65px;
+}
+
+#Background > #Buttons > .unity-scroll-view--vertical > #Music_Toggle > .unity-toggle__label {
+    margin-right: 365px;
+}
+
+#Background > #Buttons > .unity-scroll-view--vertical > #Vsync_Toggle > .unity-toggle__label {
+    margin-right: 517px;
+}

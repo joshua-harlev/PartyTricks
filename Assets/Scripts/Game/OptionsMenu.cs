@@ -14,6 +14,7 @@
       private Slider volumeSlider;
       private Slider screenShakeSlider;
       private Button okayButton;
+      private Toggle musicToggle;
 
       private List<(int width, int height)> resolutionList = new();
 
@@ -33,6 +34,7 @@
           volumeSlider = root.Q<Slider>("Volume_Slider");
           screenShakeSlider = root.Q<Slider>("Screen_Shake_Slider");
           okayButton = root.Q<Button>("Okay_Button");
+          musicToggle = root.Q<Toggle>("Music_Toggle");
 
           SetUpResolutionList();
           SyncUIToSettings();
@@ -52,6 +54,7 @@
               GameSettings.ApplyVolume();
           });
           screenShakeSlider.RegisterValueChangedCallback(evt => GameSettings.ScreenShakeIntensity = evt.newValue);
+          musicToggle.RegisterValueChangedCallback(evt => { GameSettings.MusicEnabled = evt.newValue; GameSettings.ApplyMusic(); });
           okayButton.clicked += OnOkay;
       }
 
@@ -97,6 +100,7 @@
           screenShakeSlider.lowValue = 0f;
           screenShakeSlider.highValue = 1f;
           screenShakeSlider.value = GameSettings.ScreenShakeIntensity;
+          musicToggle.value = GameSettings.MusicEnabled;
       }
 
       private void OnOkay()

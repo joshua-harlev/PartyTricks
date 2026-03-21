@@ -9,6 +9,7 @@
       private const string KEY_AA_MODE = "Settings_AntiAliasing";
       private const string KEY_VOLUME = "Settings_Volume";
       private const string KEY_SCREEN_SHAKE = "Settings_ScreenShake";
+      private const string KEY_MUSIC = "Settings_MusicEnabled";
 
       public static bool VSync { get; set; }
       public static int ResolutionWidth { get; set; }
@@ -16,6 +17,7 @@
       public static int AntiAliasingMode { get; set; }
       public static float Volume { get; set; }
       public static float ScreenShakeIntensity { get; set; }
+      public static bool MusicEnabled { get; set; }
 
       public static void Load()
       {
@@ -25,6 +27,7 @@
           AntiAliasingMode = PlayerPrefs.GetInt(KEY_AA_MODE, 0);
           Volume = PlayerPrefs.GetFloat(KEY_VOLUME, 1f);
           ScreenShakeIntensity = PlayerPrefs.GetFloat(KEY_SCREEN_SHAKE, 1f);
+          MusicEnabled = PlayerPrefs.GetInt(KEY_MUSIC, 1) == 1;
       }
 
       public static void Save()
@@ -35,6 +38,7 @@
           PlayerPrefs.SetInt(KEY_AA_MODE, AntiAliasingMode);
           PlayerPrefs.SetFloat(KEY_VOLUME, Volume);
           PlayerPrefs.SetFloat(KEY_SCREEN_SHAKE, ScreenShakeIntensity);
+          PlayerPrefs.SetInt(KEY_MUSIC, MusicEnabled ? 1 : 0);
           PlayerPrefs.Save();
       }
 
@@ -44,14 +48,14 @@
           Screen.SetResolution(ResolutionWidth, ResolutionHeight, Screen.fullScreen);
           FMODUnity.RuntimeManager.GetBus("bus:/").setVolume(Volume);
           ApplyAntiAliasing();
+          ApplyMusic();
       }
 
       public static void ApplyVolume() {
           FMODUnity.RuntimeManager.GetBus("bus:/").setVolume(Volume);
       }
 
-      public static void ApplyAntiAliasing()
-      {
+      public static void ApplyAntiAliasing() {
           var mode = AntiAliasingMode switch
           {
               1 => AntialiasingMode.FastApproximateAntialiasing,
@@ -67,6 +71,10 @@
                   cameraData.antialiasing = mode;
               }
           }
+      }
+
+      public static void ApplyMusic() {
+          FMODUnity.RuntimeManager.GetBus("bus:/Music").setMute(!MusicEnabled);
       }
   }
 
