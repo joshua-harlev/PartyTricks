@@ -19,11 +19,16 @@ namespace Minigames.Swinging {
 
             tiles.Add(transform);
         }
+        
+        public void Initialize(Transform camTransform) {
+            cameraTransform = camTransform;
+        }
+
 
         private void LateUpdate() {
             if (cameraTransform == null) return;
 
-            float camX = cameraTransform.position.x;
+            float camX = cameraTransform.position.x - transform.parent.position.x;
 
             float rightEdge = camX + tileWidth * tilesAhead;
             while (nextTileIndex * tileWidth < rightEdge) {

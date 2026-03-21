@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: VineSwingingPlayerStatsSO
   m_EditorClassIdentifier: Swinging::VineSwingingPlayerStatsSO
   Amplitude: 1.17
-  RopeLength: 4.67
+  RopeLength: 8
   Period: 2.7
   LaunchForce: 1.47
   GrabRadius: 2
