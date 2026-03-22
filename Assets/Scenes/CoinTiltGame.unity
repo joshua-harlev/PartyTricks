@@ -2936,8 +2936,8 @@ MonoBehaviour:
   spawnRadiusMin: 2
   spawnRadiusMax: 7.5
   playerAvoidanceRadius: 3.5
-  spawnHeight: 0.02
-  platformTransform: {fileID: 0}
+  spawnHeight: 0.0025
+  platformTransform: {fileID: 51662739}
   assignedPlayer: {fileID: 629062079}
 --- !u!1 &995733717
 GameObject:
@@ -3167,8 +3167,8 @@ MonoBehaviour:
   spawnRadiusMin: 2
   spawnRadiusMax: 7.5
   playerAvoidanceRadius: 3.5
-  spawnHeight: 0.02
-  platformTransform: {fileID: 0}
+  spawnHeight: 0.0025
+  platformTransform: {fileID: 475094059}
   assignedPlayer: {fileID: 165266142}
 --- !u!1 &1130235402
 GameObject:
@@ -3466,7 +3466,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e8385e1b1f0f94701aadc2848c52cefc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4cd4cc1c9a96e4649952e5402e91193f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4494,8 +4494,8 @@ MonoBehaviour:
   spawnRadiusMin: 2
   spawnRadiusMax: 7.5
   playerAvoidanceRadius: 3.5
-  spawnHeight: 0.02
-  platformTransform: {fileID: 0}
+  spawnHeight: 0.0025
+  platformTransform: {fileID: 1311059413}
   assignedPlayer: {fileID: 1683248331}
 --- !u!114 &1617611594 stripped
 MonoBehaviour:
@@ -5452,8 +5452,8 @@ MonoBehaviour:
   spawnRadiusMin: 2
   spawnRadiusMax: 7.5
   playerAvoidanceRadius: 3.5
-  spawnHeight: 0.02
-  platformTransform: {fileID: 0}
+  spawnHeight: 0.0025
+  platformTransform: {fileID: 737268767}
   assignedPlayer: {fileID: 1547170144}
 --- !u!1001 &1989869099
 PrefabInstance:
