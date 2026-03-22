@@ -34,6 +34,7 @@ namespace VineSwinging.Core {
             var (fallbackVx, fallbackVy) = SwingSimulation.GetShapedReleaseVelocity(
                 playerContext.SwingPhase, swingConfig.Amplitude, vinePeriod, swingConfig.LaunchForce,
                 swingConfig.RopeLength, swingConfig.ReleaseCurveExponent);
+            fallbackVy *= swingConfig.VerticalLaunchScale;
             
             float bestVx = fallbackVx;
             float bestVy = fallbackVy;
@@ -45,6 +46,7 @@ namespace VineSwinging.Core {
                     futurePhase, swingConfig.Amplitude, vinePeriod,
                     swingConfig.LaunchForce, swingConfig.RopeLength,
                     swingConfig.ReleaseCurveExponent);
+                vy *= swingConfig.VerticalLaunchScale;
 
                 var (_, offsetY) =
                     SwingSimulation.GetSwingPosition(futurePhase, swingConfig.Amplitude, swingConfig.RopeLength);

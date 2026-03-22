@@ -29,11 +29,12 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
     [Header("Powerups")]
     [SerializeField] public float MagnetRadius = 3f;
     [SerializeField] public float MagnetPullSpeed = 8f;
-    [SerializeField] public float GrabRadiusPercentBoostPerMoveBoost = 0.05f;
+    [SerializeField] public float GrabRadiusPercentBoostPerMoveBoost = 0.10f;
+    [SerializeField] [Range(0,1)] public float VerticalScalePerMoveBoost = 0.78f;
     
     [Header("Lookahead")]
     [Tooltip("Applies on move boost powerup")] 
-    [SerializeField] public int GrabLookaheadFramesPerBoost = 8;
+    [SerializeField] public int GrabLookaheadFramesPerBoost = 2;
     [SerializeField] public int ReleaseLookaheadFramesPerBoost = 2;
 
     [Header("Release Forgiveness")]
@@ -49,15 +50,18 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
         float modifiedRespawnDelay = RespawnDelayInSeconds;
         float modifiedLaunchForce = LaunchForce;
         float modifiedGrabRadius = GrabRadius;
-        // decrease period by 20% for each move modifier; swing faster
+        float modifiedVerticalScale = 1f;
+        // decrease period by 18% for each move modifier; swing faster
         // decrease respawn delay by 30% for each move modifier; respawn faster
         // increase grab radius by specified % for each move modifier; grab more easily
-        // DON'T increase launch force for each move modifier; makes you overshoot
+        // decrease launch force to partially compensate for velocity increase from period
+        // decrease vertical launch scale to flatten arc and avoid overshooting
         for (int i = 0; i < movementModifiers.MoveBoostCount; i++) {
             modifiedPeriod *= 0.82f;
             modifiedRespawnDelay *= 0.70f;
             modifiedGrabRadius *= 1f + GrabRadiusPercentBoostPerMoveBoost;
-            modifiedLaunchForce *= 0.93f;
+            modifiedLaunchForce *= 0.85f;
+            modifiedVerticalScale *= VerticalScalePerMoveBoost;
         }
 
         int modifiedCoinsPerGap = CoinsPerGap + coinsPerGapBoost;
@@ -67,6 +71,6 @@ public class VineSwingingPlayerStatsSO : ScriptableObject {
         return new SwingConfig(Amplitude, RopeLength, modifiedPeriod, modifiedLaunchForce, modifiedGrabRadius, FallThresholdY,
             modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue, CoinArcHeight,
             grabLookaheadFrames, MinimumReleaseVelocityX, releaseLookaheadFrames: releaseLookaheadFrames,
-            phaseChainOffset: PhaseChainOffset, coinBaseHeightRatio: CoinBaseHeightRatio);
+            phaseChainOffset: PhaseChainOffset, coinBaseHeightRatio: CoinBaseHeightRatio, verticalLaunchScale: modifiedVerticalScale);
     }
 }
