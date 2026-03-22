@@ -1,15 +1,17 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameBoardPresetSO", menuName = "Scriptable Objects/Game Board Preset")]
 public class GameBoardPresetSO : ScriptableObject
 {
-    [System.Serializable]
+    [Serializable]
     public class RoundEntry {
         [SerializeField] private MinigameType minigameType;
         [SerializeField] private bool isDouble;
         [Tooltip("Optional. Leave blank for a random scene.")]
         [SerializeField] private string sceneName;
+        
         
         public MinigameType MinigameType => minigameType;
         public bool IsDouble => isDouble;
@@ -22,6 +24,8 @@ public class GameBoardPresetSO : ScriptableObject
         }
     }
 
+    [SerializeField] private bool showTutorials;
     [SerializeField] private List<RoundEntry> roundList;
     public List<RoundEntry> RoundList => roundList;
+    public bool ShowTutorials => showTutorials;
 }
