@@ -380,13 +380,61 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a29968e1edcc84e63afad8fdf847b5bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 51662741}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a29968e1edcc84e63afad8fdf847b5bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 51662742}
   m_SourcePrefab: {fileID: 100100000, guid: a29968e1edcc84e63afad8fdf847b5bf, type: 3}
 --- !u!4 &51662739 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a29968e1edcc84e63afad8fdf847b5bf, type: 3}
   m_PrefabInstance: {fileID: 51662738}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &51662740 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a29968e1edcc84e63afad8fdf847b5bf, type: 3}
+  m_PrefabInstance: {fileID: 51662738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &51662741
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51662740}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.08, y: 0.003855085, z: 0.08}
+  m_Center: {x: 0, y: -0.0017947, z: 0}
+--- !u!114 &51662742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51662740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 910ea0cb12b04ce3b36cd65ab0e22558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::TiltingPlatform
+  maxTiltAngle: 30
+  tiltSpeed: 2
+  centerDeadzone: 2
+  platformRadius: 8.5
 --- !u!1001 &58021826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1149,13 +1197,61 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d803103c2842a42ec9a912d15e25cadd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 475094061}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d803103c2842a42ec9a912d15e25cadd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 475094062}
   m_SourcePrefab: {fileID: 100100000, guid: d803103c2842a42ec9a912d15e25cadd, type: 3}
 --- !u!4 &475094059 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d803103c2842a42ec9a912d15e25cadd, type: 3}
   m_PrefabInstance: {fileID: 475094058}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &475094060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d803103c2842a42ec9a912d15e25cadd, type: 3}
+  m_PrefabInstance: {fileID: 475094058}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &475094061
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475094060}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.08, y: 0.003855085, z: 0.08}
+  m_Center: {x: 0, y: -0.0017947, z: 0}
+--- !u!114 &475094062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475094060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 910ea0cb12b04ce3b36cd65ab0e22558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::TiltingPlatform
+  maxTiltAngle: 30
+  tiltSpeed: 2
+  centerDeadzone: 2
+  platformRadius: 8.5
 --- !u!1 &523073372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,13 +1935,61 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1fa74f560f6744f0e8cc0193903264b6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 737268769}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1fa74f560f6744f0e8cc0193903264b6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 737268770}
   m_SourcePrefab: {fileID: 100100000, guid: 1fa74f560f6744f0e8cc0193903264b6, type: 3}
 --- !u!4 &737268767 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1fa74f560f6744f0e8cc0193903264b6, type: 3}
   m_PrefabInstance: {fileID: 737268766}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &737268768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1fa74f560f6744f0e8cc0193903264b6, type: 3}
+  m_PrefabInstance: {fileID: 737268766}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &737268769
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737268768}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.08, y: 0.003985022, z: 0.08}
+  m_Center: {x: 0, y: -0.0017947, z: 0}
+--- !u!114 &737268770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737268768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 910ea0cb12b04ce3b36cd65ab0e22558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::TiltingPlatform
+  maxTiltAngle: 30
+  tiltSpeed: 2
+  centerDeadzone: 2
+  platformRadius: 8.5
 --- !u!1 &807312469
 GameObject:
   m_ObjectHideFlags: 0
@@ -3552,13 +3696,61 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f2bb716bad6094ee997a1c411cde1192, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1311059415}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f2bb716bad6094ee997a1c411cde1192, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1311059416}
   m_SourcePrefab: {fileID: 100100000, guid: f2bb716bad6094ee997a1c411cde1192, type: 3}
 --- !u!4 &1311059413 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f2bb716bad6094ee997a1c411cde1192, type: 3}
   m_PrefabInstance: {fileID: 1311059412}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1311059414 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f2bb716bad6094ee997a1c411cde1192, type: 3}
+  m_PrefabInstance: {fileID: 1311059412}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1311059415
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311059414}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.08, y: 0.003855085, z: 0.08}
+  m_Center: {x: 0, y: -0.0017947, z: 0}
+--- !u!114 &1311059416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311059414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 910ea0cb12b04ce3b36cd65ab0e22558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::TiltingPlatform
+  maxTiltAngle: 30
+  tiltSpeed: 2
+  centerDeadzone: 2
+  platformRadius: 8.5
 --- !u!1 &1325775221
 GameObject:
   m_ObjectHideFlags: 0
