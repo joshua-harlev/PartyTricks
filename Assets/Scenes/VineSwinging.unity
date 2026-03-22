@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1173318910}
-  parallaxFactor: 0
+  parallaxFactor: 0.3
 --- !u!1 &29620251
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 526212524}
-  parallaxFactor: 0
+  parallaxFactor: 0.4
 --- !u!1 &66018831
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1368874961}
-  parallaxFactor: 0
+  parallaxFactor: 0.3
 --- !u!1 &292529216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,7 +1552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1463277171}
-  parallaxFactor: 0
+  parallaxFactor: 0.25
 --- !u!1 &460143787
 GameObject:
   m_ObjectHideFlags: 0
@@ -3324,7 +3324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1173318910}
-  parallaxFactor: 0
+  parallaxFactor: 0.275
 --- !u!1 &693494041
 GameObject:
   m_ObjectHideFlags: 0
@@ -3716,7 +3716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 526212524}
-  parallaxFactor: 0
+  parallaxFactor: 0.25
 --- !u!1 &776735908
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,7 +4099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1463277171}
-  parallaxFactor: 0
+  parallaxFactor: 0.3
 --- !u!1 &838382977
 GameObject:
   m_ObjectHideFlags: 0
@@ -4146,7 +4146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 526212524}
-  parallaxFactor: 0
+  parallaxFactor: 0.3
 --- !u!1 &866440770
 GameObject:
   m_ObjectHideFlags: 0
@@ -4299,7 +4299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 526212524}
-  parallaxFactor: 0
+  parallaxFactor: 0.3
 --- !u!1 &916288466
 GameObject:
   m_ObjectHideFlags: 0
@@ -4489,7 +4489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1173318910}
-  parallaxFactor: 0
+  parallaxFactor: 0.25
 --- !u!1 &970471781
 GameObject:
   m_ObjectHideFlags: 0
@@ -4850,7 +4850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1368874961}
-  parallaxFactor: 0
+  parallaxFactor: 0.275
 --- !u!1 &989432567
 GameObject:
   m_ObjectHideFlags: 0
@@ -5250,7 +5250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1368874961}
-  parallaxFactor: 0
+  parallaxFactor: 0.4
 --- !u!1 &1115110992
 GameObject:
   m_ObjectHideFlags: 0
@@ -5297,7 +5297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 526212524}
-  parallaxFactor: 0
+  parallaxFactor: 0.275
 --- !u!1 &1122885769
 GameObject:
   m_ObjectHideFlags: 0
@@ -6134,7 +6134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1368874961}
-  parallaxFactor: 0
+  parallaxFactor: 0.25
 --- !u!1 &1247180850
 GameObject:
   m_ObjectHideFlags: 0
@@ -6548,7 +6548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1463277171}
-  parallaxFactor: 0
+  parallaxFactor: 0.4
 --- !u!1 &1368874960
 GameObject:
   m_ObjectHideFlags: 0
@@ -6898,7 +6898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1173318910}
-  parallaxFactor: 0
+  parallaxFactor: 0.4
 --- !u!1 &1411885819
 GameObject:
   m_ObjectHideFlags: 0
@@ -7770,7 +7770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1173318910}
-  parallaxFactor: 0
+  parallaxFactor: 0.3
 --- !u!1 &1507226959
 GameObject:
   m_ObjectHideFlags: 0
@@ -8225,7 +8225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1368874961}
-  parallaxFactor: 0
+  parallaxFactor: 0.3
 --- !u!1 &1614654673
 GameObject:
   m_ObjectHideFlags: 0
@@ -8970,7 +8970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1463277171}
-  parallaxFactor: 0
+  parallaxFactor: 0.3
 --- !u!1 &1884786538
 GameObject:
   m_ObjectHideFlags: 0
@@ -10084,7 +10084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1463277171}
-  parallaxFactor: 0
+  parallaxFactor: 0.275
 --- !u!1 &2119169595
 GameObject:
   m_ObjectHideFlags: 0

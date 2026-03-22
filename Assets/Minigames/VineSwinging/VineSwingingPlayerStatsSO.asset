@@ -15,7 +15,7 @@ MonoBehaviour:
   Amplitude: 1.17
   RopeLength: 7
   Period: 3.5
-  LaunchForce: 1.25
+  LaunchForce: 1.5
   GrabRadius: 2
   VineSpacing: 20
   Gravity: 17
