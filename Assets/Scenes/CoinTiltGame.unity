@@ -5225,10 +5225,10 @@ MonoBehaviour:
   - {fileID: 629062079}
   - {fileID: 1683248331}
   tiltingPlatforms:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 737268770}
+  - {fileID: 475094062}
+  - {fileID: 51662742}
+  - {fileID: 1311059416}
   coinSpawners:
   - {fileID: 1935983394}
   - {fileID: 1112550246}
