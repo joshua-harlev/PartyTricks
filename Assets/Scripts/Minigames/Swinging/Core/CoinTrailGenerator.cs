@@ -34,6 +34,7 @@ namespace VineSwinging.Core {
                     if(releaseVx > 0) t = worldXFromRelease / releaseVx;
                     if (t < 0) t = 0;
                     float trajectoryRelativeY = releaseOffsetY + releaseVy * t - 0.5f * config.Gravity * t * t;
+                    trajectoryRelativeY -= config.CoinBaseHeightRatio * config.RopeLength;
                     
                     trails[i][coinIndex] = new CoinPosition
                     {

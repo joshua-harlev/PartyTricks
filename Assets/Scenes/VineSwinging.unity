@@ -472,7 +472,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1368874961}
   minGap: 20
   maxGap: 60
-  spawnAheadDistance: 30
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &89889061
 SpriteRenderer:
@@ -709,6 +709,73 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 175316721}
   m_CullTransparentMesh: 1
+--- !u!1001 &181476259
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 776735909}
+    m_Modifications:
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4393467995600519701, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+      propertyPath: m_Name
+      value: PlayerTrail
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+--- !u!4 &181476260 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+  m_PrefabInstance: {fileID: 181476259}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &181476261 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4570590981038959637, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
+  m_PrefabInstance: {fileID: 181476259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &197502773
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,7 +824,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1368874961}
   minGap: 25
   maxGap: 70
-  spawnAheadDistance: 20
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &197502776
 SpriteRenderer:
@@ -864,73 +931,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ParallaxLayer
   cameraTransform: {fileID: 1368874961}
   parallaxFactor: 0.3
---- !u!1001 &181476259
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 776735909}
-    m_Modifications:
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4393467995600519701, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-      propertyPath: m_Name
-      value: PlayerTrail
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
---- !u!4 &181476260 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3078461808230628623, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-  m_PrefabInstance: {fileID: 181476259}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &181476261 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4570590981038959637, guid: d86cb39ddd7db441ea6a96d88b70d9b2, type: 3}
-  m_PrefabInstance: {fileID: 181476259}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &276403989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1685,7 +1685,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1368874961}
   minGap: 15
   maxGap: 50
-  spawnAheadDistance: 20
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &481076747
 SpriteRenderer:
@@ -1793,7 +1793,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1463277171}
   minGap: 15
   maxGap: 45
-  spawnAheadDistance: 30
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &522558649
 SpriteRenderer:
@@ -2968,7 +2968,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 526212524}
   minGap: 15
   maxGap: 45
-  spawnAheadDistance: 30
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!1 &615467733
 GameObject:
@@ -3635,7 +3635,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1463277171}
   minGap: 20
   maxGap: 60
-  spawnAheadDistance: 30
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &733056255
 SpriteRenderer:
@@ -4334,7 +4334,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1173318910}
   minGap: 20
   maxGap: 60
-  spawnAheadDistance: 30
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &920983032
 SpriteRenderer:
@@ -4990,7 +4990,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1463277171}
   minGap: 25
   maxGap: 70
-  spawnAheadDistance: 20
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &1065835714
 SpriteRenderer:
@@ -6037,7 +6037,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 526212524}
   minGap: 25
   maxGap: 70
-  spawnAheadDistance: 20
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!1 &1237021600
 GameObject:
@@ -6192,7 +6192,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 526212524}
   minGap: 20
   maxGap: 60
-  spawnAheadDistance: 30
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!1 &1261292148
 GameObject:
@@ -8295,7 +8295,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1173318910}
   minGap: 15
   maxGap: 50
-  spawnAheadDistance: 20
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &1614654676
 SpriteRenderer:
@@ -8461,7 +8461,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 526212524}
   minGap: 15
   maxGap: 50
-  spawnAheadDistance: 20
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!1 &1706074390
 GameObject:
@@ -8647,7 +8647,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1173318910}
   minGap: 25
   maxGap: 70
-  spawnAheadDistance: 20
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &1739979712
 SpriteRenderer:
@@ -9040,7 +9040,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1368874961}
   minGap: 15
   maxGap: 45
-  spawnAheadDistance: 30
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &1884786541
 SpriteRenderer:
@@ -9842,7 +9842,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1463277171}
   minGap: 15
   maxGap: 50
-  spawnAheadDistance: 20
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &2079640367
 SpriteRenderer:
@@ -10154,7 +10154,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1173318910}
   minGap: 15
   maxGap: 45
-  spawnAheadDistance: 30
+  spawnAheadDistance: 50
   cleanupBehindDistance: 50
 --- !u!212 &2119169598
 SpriteRenderer:
