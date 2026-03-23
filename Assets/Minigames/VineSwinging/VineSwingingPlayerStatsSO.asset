@@ -27,10 +27,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1e055c9adfc97415a8e26d3a53fc5705, type: 2}
   - {fileID: 11400000, guid: ded30831a03cb48dcb1dacbcde121f2c, type: 2}
   CoinArcHeight: 1
-  CoinBaseHeightRatio: 0.6
+  CoinBaseHeightRatio: 0
   MagnetRadius: 3
   MagnetPullSpeed: 8
-  GrabRadiusPercentBoostPerMoveBoost: 0.02
+  GrabRadiusPercentBoostPerMoveBoost: 0.1
+  VerticalScalePerMoveBoost: 0.78
   GrabLookaheadFramesPerBoost: 2
   ReleaseLookaheadFramesPerBoost: 12
   MinimumReleaseVelocityX: 8
