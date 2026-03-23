@@ -4373,7 +4373,7 @@ MonoBehaviour:
   spawnRadiusMax: 7.5
   playerAvoidanceRadius: 3.5
   spawnHeight: 0.0025
-  platformTransform: {fileID: 0}
+  platformTransform: {fileID: 1900664946}
   assignedPlayer: {fileID: 1683248331}
 --- !u!114 &1617611594 stripped
 MonoBehaviour:
