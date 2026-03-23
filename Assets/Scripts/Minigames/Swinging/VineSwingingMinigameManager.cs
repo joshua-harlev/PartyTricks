@@ -118,10 +118,13 @@ namespace Minigames.Swinging {
             for (int i = 0; i < 4; i++) {
                 PlayerSlot slot = PlayerService.PlayerSlots[i];
                 MovementModifiers movementModifiers = powerUpService.GetMovementModifiers(slot.Profile);
+                bool hasMoveBoost = movementModifiers.MoveBoostCount > 0;
                 playerModifiers[i] = movementModifiers;
                 PlayerHasMagnet[i] = (movementModifiers.MagnetCount > 0);
                 PlayerMagnetRadii[i] = playerStats.MagnetRadius * movementModifiers.MagnetCount;
                 PlayerMagnetPullSpeed[i] = playerStats.MagnetPullSpeed * movementModifiers.MagnetCount;
+                
+                playerViews[i].Initialize(hasMoveBoost);
                 
                 SwingConfig config = playerStats.CreateConfig(movementModifiers, movementModifiers.CoinSpawnRateBoostCount);
                 var (vinePositions, phaseOffsets, periods) = trackViews[i].SpawnVines(vineCount, config.VineSpacing, vineAnchorY, config, new System.Random(seed), countdownDurationInSeconds);

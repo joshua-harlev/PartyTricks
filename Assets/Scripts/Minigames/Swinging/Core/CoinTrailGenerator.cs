@@ -11,7 +11,15 @@ namespace VineSwinging.Core {
             float safeMargin = 1.5f; // estimated value; player extents + coin radius
             float flightStartX = (swingReach + safeMargin) / config.VineSpacing;
             float flightEndX = 1f - flightStartX;
-            float baseYPosition = -config.RopeLength * config.CoinBaseHeightRatio;
+
+            float idealPhase = 0.55f;
+            var (releaseVx, releaseVy) = SwingSimulation.GetShapedReleaseVelocity(idealPhase, config.Amplitude,
+                config.Period, config.LaunchForce, config.RopeLength, config.ReleaseCurveExponent);
+            releaseVy *= config.VerticalLaunchScale;
+
+            var (releaseOffsetX, releaseOffsetY) =
+                SwingSimulation.GetSwingPosition(idealPhase, config.Amplitude, config.RopeLength);
+            
             CoinPosition[][] trails = new CoinPosition[vineCount-1][];
             trails[0] = new CoinPosition[0];
             
@@ -19,10 +27,18 @@ namespace VineSwinging.Core {
                 trails[i] = new CoinPosition[config.CoinsPerGap];
                 for (int coinIndex = 0; coinIndex < config.CoinsPerGap; coinIndex++) {
                     float fractionAlongArc = (coinIndex + 1f) / (config.CoinsPerGap + 1f);
+                    float xFraction = flightStartX + fractionAlongArc * (flightEndX - flightStartX);
+
+                    float worldXFromRelease = xFraction * config.VineSpacing - releaseOffsetX;
+                    float t = 0f;
+                    if(releaseVx > 0) t = worldXFromRelease / releaseVx;
+                    if (t < 0) t = 0;
+                    float trajectoryRelativeY = releaseOffsetY + releaseVy * t - 0.5f * config.Gravity * t * t;
+                    
                     trails[i][coinIndex] = new CoinPosition
                     {
-                        RelativeXPosition = flightStartX + fractionAlongArc * (flightEndX - flightStartX),
-                        RelativeYPosition = baseYPosition + config.CoinArcHeight * 4f * fractionAlongArc * (1f - fractionAlongArc)
+                        RelativeXPosition = xFraction,
+                        RelativeYPosition = trajectoryRelativeY
                     };
                 }
             }

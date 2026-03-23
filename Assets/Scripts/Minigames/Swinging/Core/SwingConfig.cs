@@ -21,11 +21,12 @@ namespace VineSwinging.Core {
         public readonly int ReleaseLookaheadFrames;
         
         public readonly float PhaseChainOffset;
+        public readonly float VerticalLaunchScale;
 
         public SwingConfig(float amplitude, float ropeLength, float period, float launchForce, float grabRadius,
             float fallThresholdY, float respawnDelay, float vineSpacing, float gravity, int coinsPerGap,
             int vineScoreValue, float coinArcHeight, int grabLookaheadFrames, float minimumReleaseVelocityX,
-            float releaseCurveExponent = 0.6f, float phaseChainOffset = 0f, int releaseLookaheadFrames = 4, float coinBaseHeightRatio = 0.5f) {
+            float releaseCurveExponent = 0.6f, float phaseChainOffset = 0f, int releaseLookaheadFrames = 4, float coinBaseHeightRatio = 0.5f, float verticalLaunchScale = 1.0f) {
             Amplitude = amplitude;
             RopeLength = ropeLength;
             Period = period;
@@ -44,6 +45,7 @@ namespace VineSwinging.Core {
             ReleaseLookaheadFrames = releaseLookaheadFrames;
             PhaseChainOffset = phaseChainOffset;
             CoinBaseHeightRatio = coinBaseHeightRatio;
+            VerticalLaunchScale = verticalLaunchScale;
         }
     }
 }
