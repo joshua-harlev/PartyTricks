@@ -13,6 +13,13 @@ namespace Minigames.Swinging {
             pullSpeed = speed;
             isBeingPulled = true;
         }
+        
+        public void ForceCollect(VineSwingingPlayerView playerView) {
+            if (isCollected) return;
+            isCollected = true;
+            playerView.CollectCoin(coinValue);
+            Destroy(gameObject);
+        }
 
         private void Update() {
             if (isBeingPulled && magnetTarget != null) {
