@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1d048a769f134f9b9c95c2e05b0bb80, type: 3}
-  m_Name: Shop Stocks
+  m_Name: IEEE Stocks
   m_EditorClassIdentifier: Shop::ShopStockConfig
   StocksOrderedByRound:
-  - {fileID: 11400000, guid: 50ec0d45e8733428d937112a75bd62d8, type: 2}
-  - {fileID: 11400000, guid: 33a96e6adc3bc444bb04106b9ef46c95, type: 2}
-  - {fileID: 11400000, guid: ec11f259bd24146e48242033a612a2ac, type: 2}
-  - {fileID: 11400000, guid: a136256b9964949629bf87739c566668, type: 2}
-  - {fileID: 11400000, guid: 08e8f634f8c9c411ca865ece3f61dd7c, type: 2}
+  - {fileID: 11400000, guid: 9f3fe466e278b4d4ba43647761f7a30f, type: 2}
+  - {fileID: 11400000, guid: d0dc432f816c042559b25420b05449e9, type: 2}
+  - {fileID: 11400000, guid: 87b20c0c455cd483e8d1c57057caf9a7, type: 2}
+  - {fileID: 11400000, guid: a521c3afd42434fb48c618d485f96933, type: 2}

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5576439a2e24929af16e38cde0d631, type: 3}
+  m_Name: Round 1
+  m_EditorClassIdentifier: Shop::ShopStock
+  Items:
+  - {fileID: 11400000, guid: 463ab28775f4f4e7ca66b45d0c9c3d13, type: 2}
+  - {fileID: 11400000, guid: 5f8fe92aee2634557a92b78104248a6a, type: 2}
+  - {fileID: 11400000, guid: 7a472c6e6bf904898a30bda0587beaed, type: 2}

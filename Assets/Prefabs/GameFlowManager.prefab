@@ -47,5 +47,5 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 34ab9c2c23dec4ad4b9d0d3c4baca2eb, type: 2}
   initialGameLength: 5
   gameBoardDisplayPrefab: {fileID: 6226369746933357051, guid: 91fa6cdfe75e641988a37beb4d3e4f29, type: 3}
-  gameBoardPreset: {fileID: 11400000, guid: 2cdcaa2cd21464748a1be7c3ed9f61a0, type: 2}
+  gameBoardPreset: {fileID: 11400000, guid: 653865dbd13d74ec1aed8cc83d39c51b, type: 2}
   tutorialPrefab: {fileID: 3083871463373611263, guid: e8805a423b6d14cb8bf3d42e55e4ea3a, type: 3}
