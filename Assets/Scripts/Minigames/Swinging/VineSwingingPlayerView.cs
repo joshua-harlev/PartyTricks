@@ -6,6 +6,8 @@ using VineSwinging.Core;
 namespace Minigames.Swinging {
     public class VineSwingingPlayerView : MonoBehaviour {
         [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private ParticleSystem boostTrailParticles;
+        private ParticleSystem.EmissionModule trailEmission;
         private PlayerContext currentPlayerContext;
         [SerializeField] private EventReference grabEvent;
         [SerializeField] private EventReference launchEvent;
@@ -14,7 +16,17 @@ namespace Minigames.Swinging {
 
         private bool isSnapping;
         private bool needsSweep;
+        private bool showTrail;
         private const float SnapSpeed = 80f;
+
+        public void Initialize(bool showTrail) {
+            this.showTrail = showTrail;
+            if (showTrail) {
+                trailEmission = boostTrailParticles.emission;
+                trailEmission.enabled = false;
+                boostTrailParticles.Play();
+            }
+        }
         
         public void Pull(PlayerContext playerContext) {
             currentPlayerContext = playerContext;
@@ -65,6 +77,11 @@ namespace Minigames.Swinging {
             
             transform.localRotation = Quaternion.Euler(0f, 0f, currentPlayerContext.SwingAngle * Mathf.Rad2Deg);
             spriteRenderer.enabled = (currentPlayerContext.CurrentStateType != PlayerStateType.Falling);
+
+            if (showTrail) {
+                bool notFalling = playerContext.CurrentStateType != PlayerStateType.Falling;
+                trailEmission.enabled = notFalling;
+            }
         }
 
         public void CollectCoin(int value) {
