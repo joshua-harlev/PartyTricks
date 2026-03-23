@@ -133,6 +133,7 @@ namespace Minigames.Swinging {
                 PlayerStateMachines[i].Start(0);
                 cameraFollows[i].Initialize(PlayerStateMachines[i].PlayerContext);
             }
+
             
             for (int i = 0; i < 4; i++) {
                 var randomNumberGenerator = new System.Random(seed);
