@@ -38,37 +38,38 @@ Minigame Type: Combat
 
 2D battle minigame; shoot your opponents with quick regular attacks or powerful charged attacks and rack up the most eliminations.
 
-![Dire Dodging Gameplay](https://github.com/user-attachments/assets/693b054e-2c23-45bb-ba14-40df5d9989b0)
+![Dire Dodging Gameplay](https://github.com/user-attachments/assets/6b4fb65a-e584-4073-af5a-cbb78d4c9f07)
+
 
 #### Coin Tilt
 Minigame Type: Movement
 
 Traverse a floating platform and collect coins. Be careful, though, because it's easy to fall off!
 
-![Coin Tilt Gameplay](https://github.com/user-attachments/assets/3ea0d420-e18c-4f88-8003-259a296d50e3)
+![Coin Tilt Gameplay](https://github.com/user-attachments/assets/b0ca9de0-3734-4ffa-9266-bdad43a847ce)
 
 #### Vine Swinging
 Minigame Type: Movement
 
 Swing from vine to vine while collecting coins. Make it as far as you can while maximizing coin collection to win!
 
-![Vine Swinging Gameplay](https://github.com/user-attachments/assets/4c8312ec-5277-4743-837d-14b1515650ff)
-
+![Vine Swinging Gameplay](https://github.com/user-attachments/assets/bf28f12f-3c32-4705-ba9c-e7221053b5fe)
 
 ### Shop
 The shop displays between minigames and includes power-ups for the player to purchase. 
 
-![Shop Gameplay](https://github.com/user-attachments/assets/ebc8525d-9a43-4fdc-a45a-f15f542360bc)
+![Shop Gameplay](https://github.com/user-attachments/assets/50534ee5-37a7-4eff-a2a2-3c81699111e4)
 
 ### Power-Ups
 Power-ups are generally minigame-type dependent, and last for the duration of an entire game (multiple rounds / until somebody wins).
 
-For example, the **Magnet** powerup will magnetize coins to you in **Movement** minigames, allowing you to rack up points more quickly and take fewer risks.
+For example, the **Magnet** powerup will magnetize coins to you in **Movement** minigames, allowing you to rack up points more quickly and take fewer risks. 
 
 Meanwhile, the **Increased HP** powerup will make you more resilient in **Combat** minigames, allowing you to take more hits without dying.
 
-![Magnet Powerup Demonstration](https://github.com/user-attachments/assets/33df0785-57bf-4e65-8d53-64cb3a50fd8e)
-_Pictured: Player 1 (top left) attracts coins using the Magnet powerup in the Coin Tilt minigame._
+![Dire Dodging With Powerups](https://github.com/user-attachments/assets/db86c83d-15b5-4ae9-bc0d-0db4a0a78d8a)
+
+_Pictured: Player 1 attacks more effectively using an attack speed and multishot powerup._
 
 ### Gameplay Video
 (last updated Mar 05, 2026)
@@ -77,7 +78,7 @@ Most Recent Footage: [Sprint 2 Trailer](https://youtu.be/fwe8L3UIld4)
 
 Voiced Trailer: [Sprint 1 Trailer](https://www.youtube.com/watch?v=D4D7D5y370I)
 
-_Not fully representative of work as of the end of Sprint 2. Will be updated around the end of Sprint 3._
+_Not fully representative of work as of the end of Sprint 3. Will likely be updated around the end of Sprint 4._
 
 ## How to Play
 
@@ -97,7 +98,7 @@ _If there's no recent build, follow the [Development Guide](#development-guide) 
 | Debug Menu (P1 only)                                     | Ctrl + Esc                    | - / Select             |
 
 ## Roadmap
-_Last updated Mar 5, 2026_
+_Last updated Mar 25, 2026_
 
 ### Completed Sprints
 #### Sprint 1 (Ended February 19)
@@ -117,16 +118,23 @@ Deferred: Dire Dodging character art, 3D character models for Coin Tilt (started
 Nixed: air hockey minigame
 
 Completed (but not explicitly planned): miscellaneous menu improvements, bug fixes, shop feedback, debug view options, various sound effects, music in more places, shop rigging in Unity, powerup buffs, options menu
+
+#### Sprint 3 (Ended March 19)
+
+Planned and complete: Minigames further refined, Vine Swinging art (initial), Title Screen integration, visual overhauls for powerups, Shockwave combat powerup, additional visually interesting powerup (multishot)
+
+Deferred: Dire Dodging Character Art integration, Coin Tilt Model completion, integration, and refinement, more sound effects, board display visual overhaul, Vine Swinging character art
+
+Completed (but not originally planned): Coin Tilt visual overhaul (new platforms, backgrounds, new coins), colorblindness fix for shop, discount badge for shop, Dire Dodging gamefeel changes (lots of particles), powerup assignment for debug menu, Dire Dodging stun effect changes
+
+_NOTE: Competition deadline announced as earlier than anticipated at the end of Sprint 3._
  
 ### Current Sprint
+**Sprint 4 (Ends April 2):** 
 
-**Sprint 3 (Ends March 19)** 
-
-Planned: Minigames further refined, Vine Swinging art (initial), Dire Dodging character art, Title Screen integration, Coin Tilt Model integration and refinement, more sound effects, visual overhauls for powerups, board display visual overhaul, Shockwave combat powerup, additional visually interesting powerup
+Planned: IEEE trailer outline and V1, final art for Dire Dodging, initial music from composer, Coin Tilt Model completion, integration, and refinement, sound effect work, board display visual overhaul, Vine Swinging character art, magnet VFX, character art swap in for results screen
 
 ### Upcoming Sprints
-
-**Sprint 4 (Ends April 2)** Victory screen rework complete, IEEE trailer outline and V1, final art for Vine Swinging
 
 **Sprint 5 (Ends April 16):** Game (vertical slice) is done! Any other work is polish.
 
