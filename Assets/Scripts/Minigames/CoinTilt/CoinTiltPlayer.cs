@@ -188,7 +188,7 @@ public class CoinTiltPlayer : MonoBehaviour {
             Quaternion targetRotation = Quaternion.LookRotation(inputDirection, Vector3.up);
             facingRotation = Quaternion.Slerp(facingRotation, targetRotation, turnSpeed * Time.deltaTime);
         }
-}
+    }
 
     private void ApplyGroundMovement(Vector3 inputDirection) {
         if (inputDirection.magnitude > 0.1f) {
