@@ -35,14 +35,6 @@ namespace Minigames.Swinging {
                 SpawnTile(nextTileIndex);
                 nextTileIndex++;
             }
-
-            for (int i = tiles.Count - 1; i >= 0; i--) {
-                if (tiles[i] == transform) continue; // don't destroy the original
-                if (tiles[i].position.x + tileWidth < camX - tileWidth) {
-                    Destroy(tiles[i].gameObject);
-                    tiles.RemoveAt(i);
-                }
-            }
         }
 
         private void SpawnTile(int index) {
