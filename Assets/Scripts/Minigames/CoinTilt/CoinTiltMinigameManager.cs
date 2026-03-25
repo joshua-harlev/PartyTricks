@@ -178,6 +178,7 @@ public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager
     private void InitializeTiltingPlatformForPlayer(int playerIndex) {
         if (tiltingPlatforms[playerIndex] != null) {
             tiltingPlatforms[playerIndex].Initialize(players[playerIndex]);
+            players[playerIndex].SetPlatform(tiltingPlatforms[playerIndex]);
         }
     }
 

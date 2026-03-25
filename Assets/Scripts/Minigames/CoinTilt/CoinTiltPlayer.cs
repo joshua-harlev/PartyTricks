@@ -3,7 +3,6 @@ using System.Collections;
 using CoreData;
 using UnityEngine;
 
-
 public class CoinTiltPlayer : MonoBehaviour {
     public event Action<int, int> OnCoinCollected;
     public event Action<int> OnFallOff;
@@ -13,7 +12,7 @@ public class CoinTiltPlayer : MonoBehaviour {
     [SerializeField] private CoinTiltPlayerStatsSO baseStats;
     [SerializeField] private ParticleSystem magnetParticles;
 
-    
+    private TiltingPlatform platform;
     private float moveSpeed = 15f;
     private float acceleration = 7f;
     private float slipFactor = 1.7f;
@@ -23,6 +22,7 @@ public class CoinTiltPlayer : MonoBehaviour {
     private float coyoteTime = 0.15f;
     private float momentumCancelPercentageRegular = 0.5f;
     private float momentumCancelPercentageBoosted = 0.75f;
+    private Quaternion baseRotation;
     
     private float fallThresholdY = -10f;
     private float respawnDelayInSeconds = 0.75f;
@@ -49,10 +49,15 @@ public class CoinTiltPlayer : MonoBehaviour {
     public Vector3 Position => transform.position;
 
     private void Awake() {
+        baseRotation = transform.rotation;
         characterController = GetComponent<CharacterController>();
         if (characterController == null) {
             Debug.LogError("CoinTiltPlayer could not find CharacterController component.");
         }
+    }
+
+    public void SetPlatform(TiltingPlatform platform) {
+        this.platform = platform;
     }
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool isAI, MovementModifiers modifiers) {
@@ -120,10 +125,23 @@ public class CoinTiltPlayer : MonoBehaviour {
         CheckForFall();
         HandleInput();
         ApplyMovement();
+        AlignToPlatform();
 
         if (magnetEnabled && inputEnabled) {
             PullNearbyCoins();
         }
+    }
+
+    private void AlignToPlatform() {
+        if (platform == null) return;
+
+        Quaternion targetRotation;
+        if (isGrounded) {
+            targetRotation = platform.transform.rotation * baseRotation;
+        }
+        else targetRotation = baseRotation;
+        
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
     }
 
     private void PullNearbyCoins() {
