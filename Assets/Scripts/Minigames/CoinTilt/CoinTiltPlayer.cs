@@ -22,7 +22,9 @@ public class CoinTiltPlayer : MonoBehaviour {
     private float coyoteTime = 0.15f;
     private float momentumCancelPercentageRegular = 0.5f;
     private float momentumCancelPercentageBoosted = 0.75f;
-    private Quaternion baseRotation;
+    private Quaternion initialRotation;
+    private Quaternion facingRotation = Quaternion.identity;
+    private float turnSpeed = 10f;
     
     private float fallThresholdY = -10f;
     private float respawnDelayInSeconds = 0.75f;
@@ -49,7 +51,7 @@ public class CoinTiltPlayer : MonoBehaviour {
     public Vector3 Position => transform.position;
 
     private void Awake() {
-        baseRotation = transform.rotation;
+        initialRotation = transform.rotation;
         characterController = GetComponent<CharacterController>();
         if (characterController == null) {
             Debug.LogError("CoinTiltPlayer could not find CharacterController component.");
@@ -68,6 +70,7 @@ public class CoinTiltPlayer : MonoBehaviour {
         this.isAI = isAI;
         this.inputEnabled = false;
         this.isFalling = false;
+        facingRotation = Quaternion.identity;
         int numberOfMagnetPowerups = modifiers.MagnetCount;
         if (numberOfMagnetPowerups > 0) {
             this.magnetEnabled = true;
@@ -101,6 +104,7 @@ public class CoinTiltPlayer : MonoBehaviour {
         momentumCancelPercentageBoosted = baseStats.MomentumCancelPercentageBoosted;
         fallThresholdY = baseStats.FallThresholdY;
         respawnDelayInSeconds = baseStats.RespawnDelayInSeconds;
+        turnSpeed = baseStats.TurnSpeed;
     }
 
     public void EnableInput() {
@@ -135,11 +139,13 @@ public class CoinTiltPlayer : MonoBehaviour {
     private void AlignToPlatform() {
         if (platform == null) return;
 
+        Quaternion baseFacing = facingRotation * initialRotation;
+        
         Quaternion targetRotation;
         if (isGrounded) {
-            targetRotation = platform.transform.rotation * baseRotation;
+            targetRotation = platform.transform.rotation * baseFacing;
         }
-        else targetRotation = baseRotation;
+        else targetRotation = baseFacing;
         
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
     }
@@ -177,7 +183,12 @@ public class CoinTiltPlayer : MonoBehaviour {
         if (navigator.SelectIsPressed() && (isGrounded || timeSinceGrounded <= coyoteTime)) {
             Jump();
         }
-    }
+
+        if (inputDirection.magnitude > 0.1f) {
+            Quaternion targetRotation = Quaternion.LookRotation(inputDirection, Vector3.up);
+            facingRotation = Quaternion.Slerp(facingRotation, targetRotation, turnSpeed * Time.deltaTime);
+        }
+}
 
     private void ApplyGroundMovement(Vector3 inputDirection) {
         if (inputDirection.magnitude > 0.1f) {
@@ -313,6 +324,7 @@ public class CoinTiltPlayer : MonoBehaviour {
     private void Respawn() {
         transform.position = respawnPosition;
         currentVelocity = Vector3.zero;
+        facingRotation = Quaternion.identity;
         meshRenderer.enabled = true;
         characterController.enabled = true;
         

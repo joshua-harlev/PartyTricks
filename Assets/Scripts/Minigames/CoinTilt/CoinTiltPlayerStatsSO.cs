@@ -6,6 +6,7 @@ public class CoinTiltPlayerStatsSO : ScriptableObject {
     public float MoveSpeed = 15f;
     public float Acceleration = 7f;
     public float SlipFactor = 1.7f;
+    public float TurnSpeed = 10f;
     
     [Header("Jump Settings")]
     public float JumpForce = 8f;
