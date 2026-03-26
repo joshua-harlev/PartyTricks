@@ -65,7 +65,7 @@ DropdownField .unity-base-popup-field__text {
 
 Slider {
     align-self: center;
-    width: 1130px;
+    width: 1120px;
     height: 80px;
     margin-top: 10px;
     margin-bottom: 10px;

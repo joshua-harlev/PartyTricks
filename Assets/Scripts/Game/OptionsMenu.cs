@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,6 +11,7 @@ public class OptionsMenu : MonoBehaviour
       private VisualElement root;
       private Toggle vSyncToggle;
       private Toggle presetBoardToggle;
+      private DropdownField displayModeDropdown;
       private DropdownField resolutionDropdown;
       private DropdownField antiAliasingDropdown;
       private Slider volumeSlider;
@@ -18,6 +20,8 @@ public class OptionsMenu : MonoBehaviour
       private Toggle musicToggle;
 
       private List<(int width, int height)> resolutionList = new();
+      private List<string> displayModeOptions = new();
+      private bool resolutionChanged;
 
       private void Awake()
       {
@@ -31,6 +35,7 @@ public class OptionsMenu : MonoBehaviour
       {
           vSyncToggle = root.Q<Toggle>("Vsync_Toggle");
           presetBoardToggle = root.Q<Toggle>("Preset_Board_Toggle");
+          displayModeDropdown = root.Q<DropdownField>("DisplayMode_Dropdown");
           resolutionDropdown = root.Q<DropdownField>("Resolution_Dropdown");
           antiAliasingDropdown = root.Q<DropdownField>("Anti-Aliasing_Dropdown");
           volumeSlider = root.Q<Slider>("Volume_Slider");
@@ -39,6 +44,7 @@ public class OptionsMenu : MonoBehaviour
           musicToggle = root.Q<Toggle>("Music_Toggle");
 
           SetUpResolutionList();
+          SetUpDisplayModeList();
           SyncUIToSettings();
 
           vSyncToggle.RegisterValueChangedCallback(evt => GameSettings.VSync = evt.newValue);
@@ -48,6 +54,7 @@ public class OptionsMenu : MonoBehaviour
               var sel = resolutionList[resolutionDropdown.index];
               GameSettings.ResolutionWidth = sel.width;
               GameSettings.ResolutionHeight = sel.height;
+              resolutionChanged = true;
           });
           antiAliasingDropdown.RegisterValueChangedCallback(evt =>
               GameSettings.AntiAliasingMode = antiAliasingDropdown.index);
@@ -58,7 +65,41 @@ public class OptionsMenu : MonoBehaviour
           });
           screenShakeSlider.RegisterValueChangedCallback(evt => GameSettings.ScreenShakeIntensity = evt.newValue);
           musicToggle.RegisterValueChangedCallback(evt => { GameSettings.MusicEnabled = evt.newValue; GameSettings.ApplyMusic(); });
+          displayModeDropdown.RegisterValueChangedCallback(SetDisplayMode);
           okayButton.clicked += OnOkay;
+      }
+
+      private void SetUpDisplayModeList() {
+          displayModeOptions = new List<string>
+          {
+              "Fullscreen",
+              "Windowed"
+          };
+          
+          displayModeDropdown.choices = displayModeOptions;
+      }
+      
+      private void SetDisplayMode(ChangeEvent<string> evt) {
+          switch (evt.newValue) {
+              case "Fullscreen":
+                  GameSettings.DisplayMode = FullScreenMode.ExclusiveFullScreen;
+                  break;
+              case "Windowed":
+                  GameSettings.DisplayMode = FullScreenMode.Windowed;
+                  break;
+              default:
+                  DebugLogger.LogException(LogChannel.Systems, new InvalidEnumArgumentException("Invalid display mode in GameSettings!"));
+                  break;
+          }
+      }
+
+      private int GetDisplayIndexFromEnum(FullScreenMode displayMode) {
+          return displayMode switch
+          {
+              FullScreenMode.ExclusiveFullScreen => 0,
+              FullScreenMode.Windowed => 1,
+              _ => 0
+          };
       }
 
       private void SetUpResolutionList()
@@ -93,6 +134,9 @@ public class OptionsMenu : MonoBehaviour
               r.width == GameSettings.ResolutionWidth && r.height == GameSettings.ResolutionHeight);
           resolutionDropdown.index = resIndex >= 0 ? resIndex : resolutionList.Count - 1;
 
+
+          displayModeDropdown.index = GetDisplayIndexFromEnum(GameSettings.DisplayMode);
+          
           antiAliasingDropdown.choices = new List<string> { "None", "FXAA", "SMAA" };
           antiAliasingDropdown.index = GameSettings.AntiAliasingMode;
 
@@ -104,12 +148,13 @@ public class OptionsMenu : MonoBehaviour
           screenShakeSlider.highValue = 1f;
           screenShakeSlider.value = GameSettings.ScreenShakeIntensity;
           musicToggle.value = GameSettings.MusicEnabled;
+          resolutionChanged = false;
       }
 
       private void OnOkay()
       {
           GameSettings.Save();
-          GameSettings.Apply();
+          GameSettings.Apply(resolutionChanged);
           root.style.display = DisplayStyle.None;
       }
 

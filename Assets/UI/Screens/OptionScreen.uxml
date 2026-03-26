@@ -6,9 +6,10 @@
             <ui:TabView name="Options_TabView" style="height: 631px;">
                 <ui:Tab label="Display" name="Display_Tab">
                     <ui:ScrollView>
-                        <ui:Toggle label="Vsync" name="Vsync_Toggle" value="false" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
+                        <ui:DropdownField label="Display Mode" name="DisplayMode_Dropdown" style="top: 0; width: 1130px; margin-top: 10px; margin-left: 0; margin-bottom: 10px; margin-right: 0;" />
                         <ui:DropdownField label="Resolution" name="Resolution_Dropdown" style="top: 0; width: 1130px; margin-top: 10px; margin-left: 0; margin-bottom: 10px; margin-right: 0;" />
                         <ui:DropdownField label="Anti-Aliasing" name="Anti-Aliasing_Dropdown" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-right: 0;" />
+                        <ui:Toggle label="Vsync" name="Vsync_Toggle" value="false" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
                     </ui:ScrollView>
                 </ui:Tab>
                 <ui:Tab label="Sound" name="Sound_Tab">
