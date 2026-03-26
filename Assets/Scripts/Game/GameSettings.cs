@@ -26,8 +26,6 @@ public static class GameSettings
       public static bool MusicEnabled { get; set; }
       public static FullScreenMode DisplayMode { get; set; }
 
-      private static FullScreenMode initialDisplayMode;
-
       public static void Load()
       {
           VSync = PlayerPrefs.GetInt(KEY_VSYNC, 1) == 1;
@@ -44,17 +42,16 @@ public static class GameSettings
       private static void LoadDisplayMode() {
           string mode = PlayerPrefs.GetString(KEY_DISPLAYMODE, nameof(FullScreenMode.ExclusiveFullScreen));
           switch (mode) {
-              case "Fullscreen":
+              case nameof(FullScreenMode.ExclusiveFullScreen):
                   DisplayMode = FullScreenMode.ExclusiveFullScreen;
                   break;
-              case "Windowed":
+              case nameof(FullScreenMode.Windowed):
                   DisplayMode = FullScreenMode.Windowed;
                   break;
               default:
                   DebugLogger.LogException(LogChannel.Systems, new InvalidEnumArgumentException("Invalid display mode in GameSettings!"));
                   break;
           }
-          initialDisplayMode = DisplayMode;
       }
 
       public static void Save()
@@ -71,14 +68,13 @@ public static class GameSettings
           PlayerPrefs.Save();
       }
 
-      public static void Apply(bool applyResolution = true)
+      public static void Apply(bool applyDisplay = true)
       {
           QualitySettings.vSyncCount = VSync ? 1 : 0;
-          if(applyResolution) Screen.SetResolution(ResolutionWidth, ResolutionHeight, Screen.fullScreen);
+          if(applyDisplay) Screen.SetResolution(ResolutionWidth, ResolutionHeight, DisplayMode);
           RuntimeManager.GetBus("bus:/").setVolume(Volume);
           ApplyAntiAliasing();
           ApplyMusic();
-          ApplyDisplayMode();
       }
 
       public static void ApplyVolume() {
@@ -100,12 +96,6 @@ public static class GameSettings
               {
                   cameraData.antialiasing = mode;
               }
-          }
-      }
-
-      private static void ApplyDisplayMode() {
-          if (initialDisplayMode != DisplayMode) {
-              Screen.fullScreenMode = DisplayMode;
           }
       }
 
