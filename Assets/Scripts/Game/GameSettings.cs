@@ -1,9 +1,11 @@
+using System.ComponentModel;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 public static class GameSettings
   {
+
       private const string KEY_VSYNC = "Settings_VSync";
       private const string KEY_RES_WIDTH = "Settings_ResWidth";
       private const string KEY_RES_HEIGHT = "Settings_ResHeight";
@@ -12,6 +14,7 @@ public static class GameSettings
       private const string KEY_SCREEN_SHAKE = "Settings_ScreenShake";
       private const string KEY_USE_PRESET_BOARD = "Settings_PresetBoard";
       private const string KEY_MUSIC = "Settings_MusicEnabled";
+      private const string KEY_DISPLAYMODE = "Settings_DisplayMode";
 
       public static bool VSync { get; set; }
       public static int ResolutionWidth { get; set; }
@@ -21,6 +24,9 @@ public static class GameSettings
       public static float ScreenShakeIntensity { get; set; }
       public static bool UsePresetBoard { get; set; }
       public static bool MusicEnabled { get; set; }
+      public static FullScreenMode DisplayMode { get; set; }
+
+      private static FullScreenMode initialDisplayMode;
 
       public static void Load()
       {
@@ -32,6 +38,23 @@ public static class GameSettings
           ScreenShakeIntensity = PlayerPrefs.GetFloat(KEY_SCREEN_SHAKE, 1f);
           UsePresetBoard = PlayerPrefs.GetInt(KEY_USE_PRESET_BOARD, 1) == 1;
           MusicEnabled = PlayerPrefs.GetInt(KEY_MUSIC, 1) == 1;
+          LoadDisplayMode();
+      }
+
+      private static void LoadDisplayMode() {
+          string mode = PlayerPrefs.GetString(KEY_DISPLAYMODE, nameof(FullScreenMode.ExclusiveFullScreen));
+          switch (mode) {
+              case "Fullscreen":
+                  DisplayMode = FullScreenMode.ExclusiveFullScreen;
+                  break;
+              case "Windowed":
+                  DisplayMode = FullScreenMode.Windowed;
+                  break;
+              default:
+                  DebugLogger.LogException(LogChannel.Systems, new InvalidEnumArgumentException("Invalid display mode in GameSettings!"));
+                  break;
+          }
+          initialDisplayMode = DisplayMode;
       }
 
       public static void Save()
@@ -44,16 +67,18 @@ public static class GameSettings
           PlayerPrefs.SetFloat(KEY_VOLUME, Volume);
           PlayerPrefs.SetFloat(KEY_SCREEN_SHAKE, ScreenShakeIntensity);
           PlayerPrefs.SetInt(KEY_MUSIC, MusicEnabled ? 1 : 0);
+          PlayerPrefs.SetString(KEY_DISPLAYMODE, DisplayMode.ToString());
           PlayerPrefs.Save();
       }
 
-      public static void Apply()
+      public static void Apply(bool applyResolution = true)
       {
           QualitySettings.vSyncCount = VSync ? 1 : 0;
-          Screen.SetResolution(ResolutionWidth, ResolutionHeight, Screen.fullScreen);
+          if(applyResolution) Screen.SetResolution(ResolutionWidth, ResolutionHeight, Screen.fullScreen);
           RuntimeManager.GetBus("bus:/").setVolume(Volume);
           ApplyAntiAliasing();
           ApplyMusic();
+          ApplyDisplayMode();
       }
 
       public static void ApplyVolume() {
@@ -78,8 +103,14 @@ public static class GameSettings
           }
       }
 
+      private static void ApplyDisplayMode() {
+          if (initialDisplayMode != DisplayMode) {
+              Screen.fullScreenMode = DisplayMode;
+          }
+      }
+
       public static void ApplyMusic() {
-          FMODUnity.RuntimeManager.GetBus("bus:/Music").setMute(!MusicEnabled);
+          RuntimeManager.GetBus("bus:/Music").setMute(!MusicEnabled);
       }
   }
 
