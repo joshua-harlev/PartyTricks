@@ -21,7 +21,7 @@ public class OptionsMenu : MonoBehaviour
 
       private List<(int width, int height)> resolutionList = new();
       private List<string> displayModeOptions = new();
-      private bool resolutionChanged;
+      private bool displayOptionChanged;
 
       private void Awake()
       {
@@ -54,7 +54,7 @@ public class OptionsMenu : MonoBehaviour
               var sel = resolutionList[resolutionDropdown.index];
               GameSettings.ResolutionWidth = sel.width;
               GameSettings.ResolutionHeight = sel.height;
-              resolutionChanged = true;
+              displayOptionChanged = true;
           });
           antiAliasingDropdown.RegisterValueChangedCallback(evt =>
               GameSettings.AntiAliasingMode = antiAliasingDropdown.index);
@@ -80,6 +80,7 @@ public class OptionsMenu : MonoBehaviour
       }
       
       private void SetDisplayMode(ChangeEvent<string> evt) {
+          displayOptionChanged = true;
           switch (evt.newValue) {
               case "Fullscreen":
                   GameSettings.DisplayMode = FullScreenMode.ExclusiveFullScreen;
@@ -123,6 +124,7 @@ public class OptionsMenu : MonoBehaviour
               if (seen.Add($"{resolution.width}x{resolution.height}")) resolutionList.Add((resolution.width, resolution.height));
           }
 
+          resolutionList.Sort();
           resolutionDropdown.choices = resolutionList.Select(r => $"{r.width} x {r.height}").ToList();
       }
 
@@ -132,14 +134,17 @@ public class OptionsMenu : MonoBehaviour
           presetBoardToggle.value = GameSettings.UsePresetBoard;
           int currentWidth = Screen.width;
           int currentHeight = Screen.height;
+          
           resolutionList.Sort();
           int resIndex = resolutionList.FindIndex(r =>
               r.width == currentWidth && r.height == currentHeight);
           if (resIndex < 0) {
               resolutionList.Add((currentWidth, currentHeight));
-              resolutionDropdown.choices = resolutionList.Select(r => $"{r.width} x {r.height}").ToList();
-              resIndex = resolutionList.Count - 1;
+              resolutionList.Sort();
+              resIndex = resolutionList.FindIndex(r=> r.width == currentWidth && r.height == currentHeight);
           }
+          
+          resolutionDropdown.choices = resolutionList.Select(r => $"{r.width} x {r.height}").ToList();
 
           resolutionDropdown.index = resIndex;
           
@@ -159,13 +164,13 @@ public class OptionsMenu : MonoBehaviour
           screenShakeSlider.highValue = 1f;
           screenShakeSlider.value = GameSettings.ScreenShakeIntensity;
           musicToggle.value = GameSettings.MusicEnabled;
-          resolutionChanged = false;
+          displayOptionChanged = false;
       }
 
       private void OnOkay()
       {
           GameSettings.Save();
-          GameSettings.Apply(resolutionChanged);
+          GameSettings.Apply(displayOptionChanged);
           root.style.display = DisplayStyle.None;
       }
 
