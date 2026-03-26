@@ -136,25 +136,65 @@ Button:focus {
     transition-duration: 0.3s;
 }
 
-#Background > #Buttons > #Music_Toggle {
-    margin-bottom: 34px;
+TabView {
+    flex-grow: 1;
+    align-self: stretch;
 }
 
-#Background > #Buttons > #Music_Toggle > .unity-toggle__label {
+Tab {
+    flex-grow: 1;
 }
 
-#Background > #Buttons > #Vsync_Toggle > .unity-toggle__label {
-    margin-right: 754px;
+Tab > ScrollView {
+    flex-grow: 1;
 }
 
-#Background > #Buttons > .unity-scroll-view--vertical > #Music_Toggle {
-    margin-bottom: 65px;
+.unity-tab-view__header-container {
+    flex-direction: row;
+    justify-content: center;
+    background-color: rgba(0,0,0,0);
+    width: 100%;
+    border-bottom-width: 0;
 }
 
-#Background > #Buttons > .unity-scroll-view--vertical > #Music_Toggle > .unity-toggle__label {
-    margin-right: 365px;
+.unity-tab__header {
+    font-size: 36px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
+    background-color: rgba(255,255,255,0.3);
+    color: rgb(60,40,100);
+    padding: 12px 24px;
+    margin: 0 4px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
 }
 
-#Background > #Buttons > .unity-scroll-view--vertical > #Vsync_Toggle > .unity-toggle__label {
-    margin-right: 517px;
+.unity-tab__header:checked {
+    background-color: rgb(255,255,255);
+    color: rgb(40,20,80);
+}
+
+.unity-tab__header:hover {
+    background-color: rgba(255,255,255,0.6);
+}
+
+.unity-tab-view__content-container {
+    flex-grow: 1;
+}
+
+.unity-tab__content-container {
+    padding: 20px 20px;
+    align-items: center;
+    background-color: rgba(255,255,255,1);
+    border-radius: 8px;
+    flex-grow: 1;
+}
+
+.unity-tab__header-underline {
+    height: 0;
 }
