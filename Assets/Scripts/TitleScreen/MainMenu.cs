@@ -34,6 +34,7 @@ public class MainMenu : MonoBehaviour {
     private InputSystemUIInputModule inputModule;
     private InputActionReference cachedMoveAction;
     private InputActionReference cachedSubmitAction;
+    private bool gameStarted = false;
 
     private void Awake() {
         gameFlowService = ServiceLocatorAccessor.GetService<IGameFlowService>();
@@ -174,8 +175,10 @@ public class MainMenu : MonoBehaviour {
     }
 
     private void StartGame() {
+        if (gameStarted) return;
         if (gameFlowService != null) {
             gameFlowService.StartGame();
+            gameStarted = true;
             if(intensityCoroutine != null) StopCoroutine(intensityCoroutine);
             musicInstance.setParameterByName("Intensity", 2f);
         }

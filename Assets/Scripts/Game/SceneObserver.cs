@@ -1,13 +1,15 @@
 using System.Linq;
 using Services;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class SceneObserver {
-    private static readonly string[] scenesWithPausingDisabled = { "MainMenu"};
+    private static readonly string[] scenesWithPausingDisabled = { "MainMenu" };
     public static void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        GameSettings.ApplyAntiAliasing();
         var pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
-        foreach (var input in Object.FindObjectsByType<UnityEngine.InputSystem.PlayerInput>(FindObjectsSortMode.None)) {
+        foreach (var input in Object.FindObjectsByType<PlayerInput>(FindObjectsSortMode.None)) {
             input.ActivateInput();
         }
 
