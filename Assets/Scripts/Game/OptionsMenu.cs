@@ -130,10 +130,21 @@ public class OptionsMenu : MonoBehaviour
       {
           vSyncToggle.value = GameSettings.VSync;
           presetBoardToggle.value = GameSettings.UsePresetBoard;
+          int currentWidth = Screen.width;
+          int currentHeight = Screen.height;
+          resolutionList.Sort();
           int resIndex = resolutionList.FindIndex(r =>
-              r.width == GameSettings.ResolutionWidth && r.height == GameSettings.ResolutionHeight);
-          resolutionDropdown.index = resIndex >= 0 ? resIndex : resolutionList.Count - 1;
+              r.width == currentWidth && r.height == currentHeight);
+          if (resIndex < 0) {
+              resolutionList.Add((currentWidth, currentHeight));
+              resolutionDropdown.choices = resolutionList.Select(r => $"{r.width} x {r.height}").ToList();
+              resIndex = resolutionList.Count - 1;
+          }
 
+          resolutionDropdown.index = resIndex;
+          
+          GameSettings.ResolutionWidth = currentWidth;
+          GameSettings.ResolutionHeight = currentHeight;
 
           displayModeDropdown.index = GetDisplayIndexFromEnum(GameSettings.DisplayMode);
           
