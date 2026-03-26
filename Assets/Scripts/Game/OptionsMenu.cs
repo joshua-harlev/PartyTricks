@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Services;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,11 +23,13 @@ public class OptionsMenu : MonoBehaviour
       private List<(int width, int height)> resolutionList = new();
       private List<string> displayModeOptions = new();
       private bool displayOptionChanged;
+      private IPauseService pauseService;
 
       private void Awake()
       {
           root = optionsDocument.rootVisualElement;
           root.style.display = DisplayStyle.None;
+          pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
           GameSettings.Load();
           GameSettings.Apply();
       }
@@ -183,5 +186,9 @@ public class OptionsMenu : MonoBehaviour
       private void OnDestroy()
       {
           if (okayButton != null) okayButton.clicked -= OnOkay;
+      }
+
+      public void Hide() {
+          root.style.display = DisplayStyle.None;
       }
   }
