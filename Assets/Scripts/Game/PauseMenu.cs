@@ -81,6 +81,8 @@ public class PauseMenu : MonoBehaviour {
     }
 
     private void OnDestroy() {
+        if(optionsMenu != null) optionsMenu.Hide();
+        
         if (resumeButton != null) {
             resumeButton.clicked -= OnResumeClicked;
         }
