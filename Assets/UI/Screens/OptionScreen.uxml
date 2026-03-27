@@ -14,10 +14,12 @@
                 </ui:Tab>
                 <ui:Tab label="Sound" name="Sound_Tab">
                     <ui:ScrollView>
-                        <ui:Toggle label="Toggle Music" name="Music_Toggle" value="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
-                        <ui:Slider label="Volume" value="42" high-value="100" name="Volume_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; height: 80px;" />
+                        <ui:Slider label="Master Volume" value="42" high-value="100" name="Volume_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; height: 80px;" />
+                        <ui:Slider label="Music Volume" value="42" high-value="100" name="Music_Volume_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; height: 80px;" />
+                        <ui:Slider label="SFX Volume" value="42" high-value="100" name="SFX_Volume_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; height: 80px;" />
                     </ui:ScrollView>
                 </ui:Tab>
+
                 <ui:Tab label="Gameplay" name="Gameplay_Tab">
                     <ui:ScrollView>
                         <ui:Toggle label="Use Curated Board" name="Preset_Board_Toggle" value="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
