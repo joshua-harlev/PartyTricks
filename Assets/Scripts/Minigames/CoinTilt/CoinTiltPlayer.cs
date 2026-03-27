@@ -11,6 +11,7 @@ public class CoinTiltPlayer : MonoBehaviour {
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private CoinTiltPlayerStatsSO baseStats;
     [SerializeField] private ParticleSystem magnetParticles;
+    [SerializeField] private GameObject magnetOutline;
 
     private TiltingPlatform platform;
     private float moveSpeed = 15f;
@@ -74,10 +75,18 @@ public class CoinTiltPlayer : MonoBehaviour {
         int numberOfMagnetPowerups = modifiers.MagnetCount;
         if (numberOfMagnetPowerups > 0) {
             this.magnetEnabled = true;
-            if (magnetParticles != null) magnetParticles.Play();
             if (numberOfMagnetPowerups > 1) {
                 magnetRadius += numberOfMagnetPowerups * 0.4f;
                 magnetPullSpeed += numberOfMagnetPowerups * 0.5f;
+            }
+            if (magnetParticles != null) {
+                var shape = magnetParticles.shape;
+                shape.radius = magnetRadius;
+                magnetParticles.Play();
+            }
+
+            if (magnetOutline != null) {
+                magnetOutline.SetActive(true);
             }
         }
         respawnPosition = transform.position;
@@ -133,6 +142,9 @@ public class CoinTiltPlayer : MonoBehaviour {
 
         if (magnetEnabled && inputEnabled) {
             PullNearbyCoins();
+            if (magnetParticles) {
+                magnetParticles.transform.position = transform.position;
+            }
         }
     }
 
@@ -306,7 +318,8 @@ public class CoinTiltPlayer : MonoBehaviour {
     private void TriggerFall() {
         if (isFalling) return;
         isFalling = true;
-        if (magnetParticles != null) magnetParticles.Stop();
+        magnetParticles?.Stop();
+        magnetOutline?.SetActive(false);
         inputEnabled = false;
         OnFallOff?.Invoke(playerIndex);
         DebugLogger.Log(LogChannel.Systems,  $"P{playerIndex+1} falling.", LogLevel.Verbose);
@@ -332,7 +345,10 @@ public class CoinTiltPlayer : MonoBehaviour {
         if(!isFrozen) inputEnabled = true;
         isGrounded = false;
         
-        if (magnetEnabled && magnetParticles != null) magnetParticles.Play();
+        if (magnetEnabled) {
+            magnetParticles?.Play();
+            magnetOutline?.SetActive(true);
+        }
         
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} respawned.", LogLevel.Verbose);
     }
