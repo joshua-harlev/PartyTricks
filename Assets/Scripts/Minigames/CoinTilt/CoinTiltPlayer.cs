@@ -197,7 +197,7 @@ public class CoinTiltPlayer : MonoBehaviour {
         }
 
         if (inputDirection.magnitude > 0.1f) {
-            Quaternion targetRotation = Quaternion.LookRotation(inputDirection, Vector3.up);
+            Quaternion targetRotation = Quaternion.LookRotation(-inputDirection, Vector3.up);
             facingRotation = Quaternion.Slerp(facingRotation, targetRotation, turnSpeed * Time.deltaTime);
         }
     }
