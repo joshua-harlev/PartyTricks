@@ -18,7 +18,8 @@ public class OptionsMenu : MonoBehaviour
       private Slider volumeSlider;
       private Slider screenShakeSlider;
       private Button okayButton;
-      private Toggle musicToggle;
+      private Slider musicVolumeSlider;
+      private Slider sfxVolumeSlider;
 
       private List<(int width, int height)> resolutionList = new();
       private List<string> displayModeOptions = new();
@@ -44,7 +45,8 @@ public class OptionsMenu : MonoBehaviour
           volumeSlider = root.Q<Slider>("Volume_Slider");
           screenShakeSlider = root.Q<Slider>("Screen_Shake_Slider");
           okayButton = root.Q<Button>("Okay_Button");
-          musicToggle = root.Q<Toggle>("Music_Toggle");
+          musicVolumeSlider = root.Q<Slider>("Music_Volume_Slider");
+          sfxVolumeSlider = root.Q<Slider>("SFX_Volume_Slider");
 
           SetUpResolutionList();
           SetUpDisplayModeList();
@@ -67,7 +69,16 @@ public class OptionsMenu : MonoBehaviour
               GameSettings.ApplyVolume();
           });
           screenShakeSlider.RegisterValueChangedCallback(evt => GameSettings.ScreenShakeIntensity = evt.newValue);
-          musicToggle.RegisterValueChangedCallback(evt => { GameSettings.MusicEnabled = evt.newValue; GameSettings.ApplyMusic(); });
+          musicVolumeSlider.RegisterValueChangedCallback(evt =>
+          {
+              GameSettings.MusicVolume = evt.newValue;
+              GameSettings.ApplyMusicVolume();
+          });
+          sfxVolumeSlider.RegisterValueChangedCallback(evt =>
+          {
+              GameSettings.SFXVolume = evt.newValue;
+              GameSettings.ApplySFXVolume();
+          });
           displayModeDropdown.RegisterValueChangedCallback(SetDisplayMode);
           okayButton.clicked += OnOkay;
       }
@@ -162,11 +173,18 @@ public class OptionsMenu : MonoBehaviour
           volumeSlider.lowValue = 0f;
           volumeSlider.highValue = 1f;
           volumeSlider.value = GameSettings.Volume;
+          
+          musicVolumeSlider.lowValue = 0f;
+          musicVolumeSlider.highValue = 1f;
+          musicVolumeSlider.value = GameSettings.MusicVolume;
+
+          sfxVolumeSlider.lowValue = 0f;
+          sfxVolumeSlider.highValue = 1f;
+          sfxVolumeSlider.value = GameSettings.SFXVolume;
 
           screenShakeSlider.lowValue = 0f;
           screenShakeSlider.highValue = 1f;
           screenShakeSlider.value = GameSettings.ScreenShakeIntensity;
-          musicToggle.value = GameSettings.MusicEnabled;
           displayOptionChanged = false;
       }
 
