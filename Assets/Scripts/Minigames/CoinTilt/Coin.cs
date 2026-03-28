@@ -3,6 +3,8 @@ using UnityEngine;
 namespace Minigames.CoinTilt {
     public class Coin : MonoBehaviour {
         [SerializeField] private CoinTypeSO coinType;
+        [SerializeField] private ParticleSystem pullTrailParticles;
+        private float spawnHeight;
         private int pointValue;
         private bool hasBeenCollected;
         private Transform pullTarget;
@@ -14,6 +16,7 @@ namespace Minigames.CoinTilt {
                 isBeingPulled = true;
                 pullTarget = target;
                 pullSpeed = speed;
+                pullTrailParticles?.Play();
             }
         }
 
@@ -21,7 +24,15 @@ namespace Minigames.CoinTilt {
             if (isBeingPulled && pullTarget != null) {
                 Vector3 direction = pullTarget.position - transform.position;
                 transform.position += direction * pullSpeed * Time.deltaTime;
+                
+                EnsureSpawnHeight();
             }
+        }
+
+        private void EnsureSpawnHeight() {
+            Vector3 localPosition = transform.localPosition;
+            localPosition.y = spawnHeight;
+            transform.localPosition = localPosition;
         }
 
         private void Awake() {
@@ -36,7 +47,7 @@ namespace Minigames.CoinTilt {
         public int Collect() {
             if (hasBeenCollected) return 0;
             hasBeenCollected = true;
-
+            pullTrailParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             Destroy(gameObject);
             return pointValue;
         }
@@ -46,6 +57,10 @@ namespace Minigames.CoinTilt {
             if (coinType != null) {
                 pointValue = coinType.PointValue;
             }
+        }
+
+        public void SetSpawnHeight(float height) {
+            spawnHeight = height;
         }
     }
 }

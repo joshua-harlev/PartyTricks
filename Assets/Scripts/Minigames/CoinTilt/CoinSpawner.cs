@@ -143,7 +143,10 @@ namespace Minigames.CoinTilt {
 
         private void InitializeAndTrackCoin(GameObject coinObject, CoinTypeSO coinType) {
             Coin coin = coinObject.GetComponent<Coin>();
-            if (coin) coin.InitializeWithType(coinType);
+            if (coin) {
+                coin.InitializeWithType(coinType);
+                coin.SetSpawnHeight(spawnHeight);
+            }
             activeCoins.Add(coinObject);
 
             if (coinLifetimeInSeconds > 0) {
