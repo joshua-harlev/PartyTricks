@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f772eedc27664082abbe78135e6952c, type: 3}
   m_Name: CoinAnimationConfigSO
   m_EditorClassIdentifier: Game::CoinAnimationSO
-  BobMultiplier: 0.25
-  SpinMultiplier: 30
+  BobMultiplier: 0.4
+  SpinMultiplier: 40
