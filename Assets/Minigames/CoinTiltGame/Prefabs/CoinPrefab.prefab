@@ -33,6 +33,7 @@ Transform:
   m_Children:
   - {fileID: 4273697102493111984}
   - {fileID: 3969205227862792036}
+  - {fileID: 8480115903294882382}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8685023548472718157
@@ -69,6 +70,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::Coin
   coinType: {fileID: 11400000, guid: 342bc063dfc26413fb08b9623fe8e152, type: 2}
+  pullTrailParticles: {fileID: 6951737650778166100}
+  renderer: {fileID: 3099624448998256095}
+  modelTransform: {fileID: 4273697102493111984}
+  coinAnimationConfig: {fileID: 11400000, guid: cb477e1882d5c44deac5f66965864d0a, type: 2}
 --- !u!1001 &2462328769455256437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,6 +212,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 0bbb5a62d82ab4b23a368163b5ff994c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0bbb5a62d82ab4b23a368163b5ff994c, type: 3}
       propertyPath: m_Name
       value: coin_model
@@ -216,8 +225,80 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bbb5a62d82ab4b23a368163b5ff994c, type: 3}
+--- !u!23 &3099624448998256095 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 0bbb5a62d82ab4b23a368163b5ff994c, type: 3}
+  m_PrefabInstance: {fileID: 4379048746966233435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4273697102493111984 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0bbb5a62d82ab4b23a368163b5ff994c, type: 3}
   m_PrefabInstance: {fileID: 4379048746966233435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6852095751719829313
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 734198761694080407}
+    m_Modifications:
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0621
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.026
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0241
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4393467995600519701, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+      propertyPath: m_Name
+      value: CoinPullTrailParticles
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+--- !u!198 &6951737650778166100 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4570590981038959637, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+  m_PrefabInstance: {fileID: 6852095751719829313}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8480115903294882382 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3078461808230628623, guid: 7902e4de7feb2465eb53f5fd1b3494eb, type: 3}
+  m_PrefabInstance: {fileID: 6852095751719829313}
   m_PrefabAsset: {fileID: 0}

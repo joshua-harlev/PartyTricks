@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Game;
+using Minigames.CoinTilt;
 using Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
