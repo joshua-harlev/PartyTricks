@@ -327,7 +327,7 @@ public class DireDodgingPlayer : MonoBehaviour {
                 return;
             } else {
                 RuntimeManager.PlayOneShot(hitEvent);
-                mainCamera.DOShakePosition(duration: 0.05f, strength: 0.2f, vibrato: 1, randomness: 90f, fadeOut: false).SetUpdate(true);
+                mainCamera.DOShakePosition(duration: 0.05f, strength: GameSettings.ScreenShakeIntensity*0.2f, vibrato: 1, randomness: 90f, fadeOut: false).SetUpdate(true);
             }
 
             if (damageCoroutineInstance != null) {
