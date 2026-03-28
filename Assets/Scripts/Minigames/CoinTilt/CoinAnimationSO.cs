@@ -7,4 +7,6 @@ public class CoinAnimationSO : ScriptableObject {
 
     [Range(1f, 100f)]
     public float SpinMultiplier = 30f;
+
+    public float AnimateInTimeInSeconds = 0.3f;
 }

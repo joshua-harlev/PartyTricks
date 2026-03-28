@@ -58,12 +58,26 @@ namespace Minigames.CoinTilt {
                 Debug.LogError("No coin type specified");
             }
 
+            StartCoroutine(SpawnIn());
+
             bobPhase = Random.Range(0f, Mathf.PI * 2f);
             spinPhase = Random.Range(0f, 360f);
             initialModelEulerAngles = modelTransform.localEulerAngles;
             
             maxHeight = coinAnimationConfig.BobMultiplier;
             jitter = Random.Range(0.8f, 1.2f);
+        }
+
+        private IEnumerator SpawnIn() {
+            Vector3 idealScale = this.modelTransform.localScale;
+            modelTransform.localScale = Vector3.zero;
+            float currentTime = 0f;
+            while (currentTime < coinAnimationConfig.AnimateInTimeInSeconds) {
+                currentTime += Time.deltaTime;
+                float t = currentTime / coinAnimationConfig.AnimateInTimeInSeconds;
+                modelTransform.localScale = Vector3.Lerp(Vector3.zero, idealScale, t);
+                yield return null;
+            }
         }
 
         public int Collect() {
