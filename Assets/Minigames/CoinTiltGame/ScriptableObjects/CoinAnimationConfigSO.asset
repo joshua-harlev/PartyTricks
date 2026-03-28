@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CoinAnimationConfigSO
   m_EditorClassIdentifier: Game::CoinAnimationSO
   BobMultiplier: 0.4
-  SpinMultiplier: 40
+  SpinMultiplier: 125
   AnimateInTimeInSeconds: 0.04
