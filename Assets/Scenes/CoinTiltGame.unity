@@ -880,6 +880,7 @@ MonoBehaviour:
   baseStats: {fileID: 11400000, guid: 26f2af22c9c744b51935fbb5db0d3cc6, type: 2}
   magnetParticles: {fileID: 28267787}
   magnetOutline: {fileID: 624646193}
+  coinCollectEffectPrefab: {fileID: 4393467995600519701, guid: 30ccdb4446ce44d2682dde50b6153b9a, type: 3}
 --- !u!65 &165266143
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1851,6 +1852,7 @@ MonoBehaviour:
   baseStats: {fileID: 11400000, guid: 26f2af22c9c744b51935fbb5db0d3cc6, type: 2}
   magnetParticles: {fileID: 58021828}
   magnetOutline: {fileID: 312447934}
+  coinCollectEffectPrefab: {fileID: 4393467995600519701, guid: 30ccdb4446ce44d2682dde50b6153b9a, type: 3}
 --- !u!65 &629062080
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4862,6 +4864,7 @@ MonoBehaviour:
   baseStats: {fileID: 11400000, guid: 26f2af22c9c744b51935fbb5db0d3cc6, type: 2}
   magnetParticles: {fileID: 1517621506}
   magnetOutline: {fileID: 1416930829}
+  coinCollectEffectPrefab: {fileID: 4393467995600519701, guid: 30ccdb4446ce44d2682dde50b6153b9a, type: 3}
 --- !u!64 &1547170145
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5392,6 +5395,7 @@ MonoBehaviour:
   baseStats: {fileID: 11400000, guid: 26f2af22c9c744b51935fbb5db0d3cc6, type: 2}
   magnetParticles: {fileID: 962479105}
   magnetOutline: {fileID: 1702877794}
+  coinCollectEffectPrefab: {fileID: 4393467995600519701, guid: 30ccdb4446ce44d2682dde50b6153b9a, type: 3}
 --- !u!65 &1683248332
 BoxCollider:
   m_ObjectHideFlags: 0

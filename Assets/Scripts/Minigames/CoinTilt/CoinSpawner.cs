@@ -150,7 +150,7 @@ namespace Minigames.CoinTilt {
             activeCoins.Add(coinObject);
 
             if (coinLifetimeInSeconds > 0) {
-                Destroy(coinObject, coinLifetimeInSeconds);
+                coin.PrepareForDestruction(coinLifetimeInSeconds);
             }
         }
 

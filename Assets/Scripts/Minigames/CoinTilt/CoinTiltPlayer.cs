@@ -8,12 +8,12 @@ namespace Minigames.CoinTilt {
         public event Action<int, int> OnCoinCollected;
         public event Action<int> OnFallOff;
 
-        [Header("References")] [SerializeField]
-        private MeshRenderer meshRenderer;
-
+        [Header("References")] 
+        [SerializeField] private MeshRenderer meshRenderer;
         [SerializeField] private CoinTiltPlayerStatsSO baseStats;
         [SerializeField] private ParticleSystem magnetParticles;
         [SerializeField] private GameObject magnetOutline;
+        [SerializeField] private GameObject coinCollectEffectPrefab;
 
         private TiltingPlatform platform;
         private float moveSpeed = 15f;
@@ -310,6 +310,14 @@ namespace Minigames.CoinTilt {
             if (other.CompareTag("Coin")) {
                 Coin coin = other.GetComponent<Coin>();
                 if (coin != null) {
+                    if (coinCollectEffectPrefab != null) {
+                        var instantiatedEffect = Instantiate(coinCollectEffectPrefab, other.transform.position, Quaternion.identity);
+                        if (coin.IsSpecialCoin) {
+                            var collectParticles = instantiatedEffect.GetComponent<ParticleSystem>();
+                            var main = collectParticles.main;
+                            main.startColor = new Color(221/255f, 204/255f, 252/255f);
+                        }
+                    }
                     int coinValue = coin.Collect();
                     OnCoinCollected?.Invoke(playerIndex, coinValue);
                 }

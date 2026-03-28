@@ -71,6 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::Coin
   coinType: {fileID: 11400000, guid: 9b44c30e4263948c58bda4eaf19f7970, type: 2}
   pullTrailParticles: {fileID: 3593600129999267736}
+  renderer: {fileID: 6692531510899870296}
 --- !u!1001 &138157207588671276
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -312,5 +313,10 @@ PrefabInstance:
 --- !u!4 &5524660207006019895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 41d794403abd348b69b839adc512a3fc, type: 3}
+  m_PrefabInstance: {fileID: 5413661358135252700}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6692531510899870296 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 41d794403abd348b69b839adc512a3fc, type: 3}
   m_PrefabInstance: {fileID: 5413661358135252700}
   m_PrefabAsset: {fileID: 0}
