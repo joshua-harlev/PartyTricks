@@ -6,6 +6,8 @@ namespace Minigames.CoinTilt {
         [SerializeField] private CoinTypeSO coinType;
         [SerializeField] private ParticleSystem pullTrailParticles;
         [SerializeField] private Renderer renderer;
+        [SerializeField] private Transform modelTransform;
+        [SerializeField] private CoinAnimationSO coinAnimationConfig;
         private float spawnHeight;
         private int pointValue;
         private bool hasBeenCollected;
@@ -14,6 +16,11 @@ namespace Minigames.CoinTilt {
         private float pullSpeed;
         public bool IsSpecialCoin => coinType.IsSpecialCoin;
         private Coroutine flashCoroutine;
+        private Vector3 initialModelEulerAngles;
+        private float bobPhase;
+        private float spinPhase;
+        private float maxHeight;
+        private float jitter;
 
         public void StartPull(Transform target, float speed) {
             if (!isBeingPulled) {
@@ -25,6 +32,10 @@ namespace Minigames.CoinTilt {
         }
 
         private void Update() {
+            float bobHeight = Mathf.Sin(Time.time * 2f + bobPhase) * coinAnimationConfig.BobMultiplier;
+            modelTransform.localPosition = new Vector3(0f, bobHeight + maxHeight/2f, 0f);
+            modelTransform.localRotation = Quaternion.Euler(initialModelEulerAngles.x, Time.time *
+                (coinAnimationConfig.SpinMultiplier * jitter) + spinPhase, initialModelEulerAngles.z);
             if (isBeingPulled && pullTarget != null) {
                 Vector3 direction = pullTarget.position - transform.position;
                 transform.position += direction * pullSpeed * Time.deltaTime;
@@ -46,6 +57,13 @@ namespace Minigames.CoinTilt {
             else {
                 Debug.LogError("No coin type specified");
             }
+
+            bobPhase = Random.Range(0f, Mathf.PI * 2f);
+            spinPhase = Random.Range(0f, 360f);
+            initialModelEulerAngles = modelTransform.localEulerAngles;
+            
+            maxHeight = coinAnimationConfig.BobMultiplier;
+            jitter = Random.Range(0.8f, 1.2f);
         }
 
         public int Collect() {

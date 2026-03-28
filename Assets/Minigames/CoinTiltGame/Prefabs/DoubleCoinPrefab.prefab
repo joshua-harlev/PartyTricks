@@ -72,6 +72,8 @@ MonoBehaviour:
   coinType: {fileID: 11400000, guid: 9b44c30e4263948c58bda4eaf19f7970, type: 2}
   pullTrailParticles: {fileID: 3593600129999267736}
   renderer: {fileID: 6692531510899870296}
+  modelTransform: {fileID: 5524660207006019895}
+  coinAnimationConfig: {fileID: 11400000, guid: cb477e1882d5c44deac5f66965864d0a, type: 2}
 --- !u!1001 &138157207588671276
 PrefabInstance:
   m_ObjectHideFlags: 0
