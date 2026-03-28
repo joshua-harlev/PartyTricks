@@ -5,7 +5,7 @@ namespace Minigames.CoinTilt {
     public class Coin : MonoBehaviour {
         [SerializeField] private CoinTypeSO coinType;
         [SerializeField] private ParticleSystem pullTrailParticles;
-        [SerializeField] private Renderer renderer;
+        [SerializeField] private Renderer coinMeshRenderer;
         [SerializeField] private Transform modelTransform;
         [SerializeField] private CoinAnimationSO coinAnimationConfig;
         private float spawnHeight;
@@ -21,7 +21,9 @@ namespace Minigames.CoinTilt {
         private float spinPhase;
         private float maxHeight;
         private float jitter;
-        private int spinSign;
+        private int spinSign = 1;
+
+        private const bool randomizeSpinDirection = false;
 
         public void StartPull(Transform target, float speed) {
             if (!isBeingPulled) {
@@ -63,7 +65,7 @@ namespace Minigames.CoinTilt {
             
             RandomizePhases();
             jitter = Random.Range(0.8f, 1.2f);
-            RandomizeSpinDirection();
+            if(randomizeSpinDirection) RandomizeSpinDirection();
             maxHeight = coinAnimationConfig.BobMultiplier;
             initialModelEulerAngles = modelTransform.localEulerAngles;
         }
@@ -118,7 +120,7 @@ namespace Minigames.CoinTilt {
         }
 
         private IEnumerator FlashOut(float timeInSeconds) {
-            if (renderer == null) yield break;
+            if (coinMeshRenderer == null) yield break;
 
             float flashDuration = Mathf.Min(timeInSeconds * 0.3f, 3f);
             float timeBeforeFlashing = timeInSeconds - flashDuration;
@@ -130,7 +132,7 @@ namespace Minigames.CoinTilt {
                 float progress = elapsedTime / flashDuration;
                 float interval = Mathf.Lerp(0.25f, 0.05f, progress);
                 
-                renderer.enabled = !renderer.enabled;
+                coinMeshRenderer.enabled = !coinMeshRenderer.enabled;
                 yield return new WaitForSeconds(interval);
                 elapsedTime += interval;
             }
