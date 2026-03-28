@@ -8,13 +8,15 @@ namespace Minigames.CoinTilt {
         [SerializeField] private Renderer coinMeshRenderer;
         [SerializeField] private Transform modelTransform;
         [SerializeField] private CoinAnimationSO coinAnimationConfig;
+        
+        public bool IsSpecialCoin => coinType.IsSpecialCoin;
+        
         private float spawnHeight;
         private int pointValue;
         private bool hasBeenCollected;
         private Transform pullTarget;
         private bool isBeingPulled;
         private float pullSpeed;
-        public bool IsSpecialCoin => coinType.IsSpecialCoin;
         private Coroutine flashCoroutine;
         private Vector3 initialModelEulerAngles;
         private float bobPhase;
@@ -35,16 +37,23 @@ namespace Minigames.CoinTilt {
         }
 
         private void Update() {
+            AnimateCoinMovement();
+            if (isBeingPulled && pullTarget != null) {
+                MoveTowardsPullTarget();
+                EnsureSpawnHeight();
+            }
+        }
+
+        private void MoveTowardsPullTarget() {
+            Vector3 direction = pullTarget.position - transform.position;
+            transform.position += direction * pullSpeed * Time.deltaTime;
+        }
+
+        private void AnimateCoinMovement() {
             float bobHeight = Mathf.Sin(Time.time * 2f + bobPhase) * coinAnimationConfig.BobMultiplier;
             modelTransform.localPosition = new Vector3(0f, bobHeight + maxHeight/2f, 0f);
             modelTransform.localRotation = Quaternion.Euler(initialModelEulerAngles.x, Time.time *
                 (coinAnimationConfig.SpinMultiplier * spinSign * jitter) + spinPhase, initialModelEulerAngles.z);
-            if (isBeingPulled && pullTarget != null) {
-                Vector3 direction = pullTarget.position - transform.position;
-                transform.position += direction * pullSpeed * Time.deltaTime;
-                
-                EnsureSpawnHeight();
-            }
         }
 
         private void EnsureSpawnHeight() {
@@ -54,20 +63,23 @@ namespace Minigames.CoinTilt {
         }
 
         private void Awake() {
+            InitializeCoinValue();
+            StartCoroutine(SpawnInAnimation());
+            RandomizePhases();
+            
+            jitter = Random.Range(0.8f, 1.2f);
+            if(randomizeSpinDirection) RandomizeSpinDirection();
+            maxHeight = coinAnimationConfig.BobMultiplier;
+            initialModelEulerAngles = modelTransform.localEulerAngles;
+        }
+
+        private void InitializeCoinValue() {
             if (coinType != null) {
                 pointValue = coinType.PointValue;
             }
             else {
                 Debug.LogError("No coin type specified");
             }
-
-            StartCoroutine(SpawnIn());
-            
-            RandomizePhases();
-            jitter = Random.Range(0.8f, 1.2f);
-            if(randomizeSpinDirection) RandomizeSpinDirection();
-            maxHeight = coinAnimationConfig.BobMultiplier;
-            initialModelEulerAngles = modelTransform.localEulerAngles;
         }
 
         private void RandomizePhases() {
@@ -81,7 +93,7 @@ namespace Minigames.CoinTilt {
             } else spinSign = -1;
         }
 
-        private IEnumerator SpawnIn() {
+        private IEnumerator SpawnInAnimation() {
             Vector3 idealScale = this.modelTransform.localScale;
             modelTransform.localScale = Vector3.zero;
             float currentTime = 0f;
