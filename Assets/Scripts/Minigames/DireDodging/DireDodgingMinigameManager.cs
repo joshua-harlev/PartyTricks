@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Reflection;
 using CoreData;
 using FMOD.Studio;
 using FMODUnity;
@@ -207,10 +208,10 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         }
     
         var dummyProjectile = new GameObject("DummyProjectile").AddComponent<DireDodgingProjectile>();
-        dummyProjectile.Initialize(playerIndex, 9999f, 0f, Vector2.zero, false);
+        dummyProjectile.Initialize(null, playerIndex, 9999f, 0f, Vector2.zero, false);
     
         var method = typeof(DireDodgingPlayer).GetMethod("HandleProjectileCollision", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            BindingFlags.NonPublic | BindingFlags.Instance);
         method?.Invoke(player, new object[] { dummyProjectile });
     
         Destroy(dummyProjectile.gameObject);

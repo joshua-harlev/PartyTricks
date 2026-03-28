@@ -17,12 +17,14 @@ public class DireDodgingProjectile : MonoBehaviour {
     [SerializeField] private TrailRenderer TrailRenderer;
     
     private IObjectPool<DireDodgingProjectile> projectilePool;
+    private DireDodgingPlayer owner;
 
     public void SetPool(IObjectPool<DireDodgingProjectile> pool) {
         projectilePool = pool;
     }
 
-    public void Initialize(int ownerIndex, float damage, float speed, Vector2 direction, bool isGhost = false, bool showTrail = false) {
+    public void Initialize(DireDodgingPlayer owner, int ownerIndex, float damage, float speed, Vector2 direction, bool isGhost = false, bool showTrail = false) {
+        this.owner = owner;
         OwnerIndex = ownerIndex;
         Damage = damage;
         Speed = speed;
@@ -47,6 +49,8 @@ public class DireDodgingProjectile : MonoBehaviour {
         fadedColor.a = 0f;
         TrailRenderer.endColor = fadedColor;
     }
+
+    public void RegisterSuccessfulHit() => owner.OnSuccessfulHit();
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("ProjectileDespawnBounds") || other.CompareTag("Wall")) {

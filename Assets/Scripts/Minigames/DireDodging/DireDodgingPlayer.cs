@@ -41,6 +41,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     [SerializeField] private DireDodgingPlayerStatsSO PlayerStatsSO;
     [SerializeField] private SpriteRenderer SpriteRenderer;
+    [SerializeField] private SpriteRenderer HitFlashOverlay;
     [SerializeField] private Collider2D Collider2D;
     [SerializeField] private Rigidbody2D Rigidbody2D;
     [SerializeField] private DireDodgingHealthBar HealthBar;
@@ -74,6 +75,8 @@ public class DireDodgingPlayer : MonoBehaviour {
     private Coroutine intensityCoroutineInstance = null;
     private Tween stunColorTween;
     private Tween stunShakeTween;
+    private Tween hitFlashTween;
+    private MaterialPropertyBlock flashMaterialPropertyBlock;
     private float originalSpeedBeforeStun;
     private Camera mainCamera;
     private readonly Quaternion leftRotation = Quaternion.Euler(0, 0, 90);
@@ -121,6 +124,25 @@ public class DireDodgingPlayer : MonoBehaviour {
         DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO, deathParticles);
         if(modifiers.ShockwaveCount > 0) Shockwave.Initialize(this, modifiers.ShockwaveCount);
         DebugLogger.Log(LogChannel.Systems, $"P{playerIndex+1} initialized. IsAI: {isAI}");
+    }
+
+    public void OnSuccessfulHit() {
+        if (HitFlashOverlay == null) return;
+        if(hitFlashTween != null && hitFlashTween.IsActive()) hitFlashTween.Kill();
+
+        if (flashMaterialPropertyBlock == null) flashMaterialPropertyBlock = new MaterialPropertyBlock();
+        float startIntensity = 0.75f;
+        hitFlashTween = DOTween.To(
+            () => startIntensity,
+            x =>
+            {
+                flashMaterialPropertyBlock.SetColor("_BaseColor", new Color(x, x, x, x));
+                HitFlashOverlay.SetPropertyBlock(flashMaterialPropertyBlock);
+            },
+            0f, 0.30f).SetEase(Ease.OutQuad);
+        
+        HitFlashOverlay.color = new Color(1f, 1f, 1f, 0.7f);
+        hitFlashTween = HitFlashOverlay.DOFade(0f, 0.30f).SetEase(Ease.OutQuad);
     }
 
     public void DestroyVisibleProjectiles() => ProjectilePool.DestroyAllVisible();
@@ -239,7 +261,7 @@ public class DireDodgingPlayer : MonoBehaviour {
             projectile.transform.position = (Vector2)transform.position + spawnOffset;
             projectile.transform.rotation = baseRotation * Quaternion.Euler(0, 0, angleOffset);
             projectile.transform.localScale = Vector3.one * (projectileScale * 0.3f);
-            projectile.Initialize(playerIndex, baseDamage, projectileSpeed, shootDirection, false, showTrail);
+            projectile.Initialize(this, playerIndex, baseDamage, projectileSpeed, shootDirection, false, showTrail);
         }
         if (shootEventExists) {
             RuntimeManager.PlayOneShot(PlayerStatsSO.BasicShootEvent);
@@ -300,6 +322,16 @@ public class DireDodgingPlayer : MonoBehaviour {
         ClearStun();
         ChargeAttack.ForceStop();
         Shockwave.ForceStop();
+        CleanupHitFlashOverlay();
+    }
+
+    private void CleanupHitFlashOverlay() {
+        if (hitFlashTween != null && hitFlashTween.IsActive()) hitFlashTween.Kill();
+        if (HitFlashOverlay != null) {
+            if(flashMaterialPropertyBlock == null) flashMaterialPropertyBlock = new MaterialPropertyBlock();
+            flashMaterialPropertyBlock.SetColor("_BaseColor", Color.black);
+            HitFlashOverlay.SetPropertyBlock(flashMaterialPropertyBlock);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -314,7 +346,9 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void HandleProjectileCollision(DireDodgingProjectile projectile) {
         if (!isAlive || isGhostMode || DeathHandler.IsInvincible) return;
-
+        
+        projectile.RegisterSuccessfulHit();
+        
         if (projectile.IsGhostProjectile) {
             Stun(defaultStunDuration);
             RuntimeManager.PlayOneShot(hitEvent);
@@ -493,6 +527,7 @@ public class DireDodgingPlayer : MonoBehaviour {
         ChargeAttack.Cleanup();
         DeathHandler.Cleanup();
         Shockwave.Cleanup();
+        CleanupHitFlashOverlay();
     }
 
     public void ResetShootCooldown() {
