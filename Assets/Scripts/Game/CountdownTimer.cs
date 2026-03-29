@@ -17,7 +17,7 @@ public class CountdownTimer : MonoBehaviour {
     }
     
     private IEnumerator Countdown() {
-        timeRemaining = countdownDurationInSeconds;
+        timeRemaining = Mathf.Ceil(countdownDurationInSeconds);
         while (timeRemaining > 0) {
             OnTick?.Invoke((int)timeRemaining);
             yield return new WaitForSeconds(1f/speedMultiplier);

@@ -21,7 +21,7 @@ public class MinigameTimer : MonoBehaviour {
 
     public void Initialize(float gameLengthInSeconds, string endOfGameText = "Game!") {
         originalTimerDuration = gameLengthInSeconds;
-        RemainingTimeInSeconds = gameLengthInSeconds;
+        RemainingTimeInSeconds = Mathf.Ceil(gameLengthInSeconds);
         this.endOfGameText = endOfGameText;
         HidePanel();
     }
