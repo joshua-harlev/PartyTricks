@@ -17,6 +17,7 @@ public class OptionsMenu : MonoBehaviour
       private DropdownField antiAliasingDropdown;
       private Slider volumeSlider;
       private Slider screenShakeSlider;
+      private Toggle shopBackgroundMovementToggle;
       private Button okayButton;
       private Slider musicVolumeSlider;
       private Slider sfxVolumeSlider;
@@ -45,6 +46,7 @@ public class OptionsMenu : MonoBehaviour
           antiAliasingDropdown = root.Q<DropdownField>("Anti-Aliasing_Dropdown");
           volumeSlider = root.Q<Slider>("Volume_Slider");
           screenShakeSlider = root.Q<Slider>("Screen_Shake_Slider");
+          shopBackgroundMovementToggle = root.Q<Toggle>("Shop_Background_Movement_Toggle");
           okayButton = root.Q<Button>("Okay_Button");
           musicVolumeSlider = root.Q<Slider>("Music_Volume_Slider");
           sfxVolumeSlider = root.Q<Slider>("SFX_Volume_Slider");
@@ -84,6 +86,7 @@ public class OptionsMenu : MonoBehaviour
           displayModeDropdown.RegisterValueChangedCallback(SetDisplayMode);
           randomizeCoinSpinDirectionToggle.RegisterValueChangedCallback(evt => GameSettings.RandomizeCoinSpinDirection = evt.newValue);
           okayButton.clicked += OnOkay;
+          shopBackgroundMovementToggle.RegisterValueChangedCallback(evt => GameSettings.AnimateClouds = evt.newValue);
       }
 
       private void SetUpDisplayModeList() {
@@ -188,6 +191,9 @@ public class OptionsMenu : MonoBehaviour
           screenShakeSlider.lowValue = 0f;
           screenShakeSlider.highValue = 1f;
           screenShakeSlider.value = GameSettings.ScreenShakeIntensity;
+
+          shopBackgroundMovementToggle.value = GameSettings.AnimateClouds;
+          
           displayOptionChanged = false;
 
           randomizeCoinSpinDirectionToggle.value = GameSettings.RandomizeCoinSpinDirection;

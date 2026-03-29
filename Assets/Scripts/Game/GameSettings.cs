@@ -1,7 +1,9 @@
+using System;
 using System.ComponentModel;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Object = UnityEngine.Object;
 
 public static class GameSettings {
 
@@ -16,6 +18,7 @@ public static class GameSettings {
     private const string KEY_USE_PRESET_BOARD = "Settings_PresetBoard";
     private const string KEY_DISPLAY_MODE = "Settings_DisplayMode";
     private const string KEY_RANDOMIZE_COIN_SPIN_DIRECTION = "Settings_RandomizeCoinSpinDirection";
+    private const string KEY_ANIMATE_CLOUDS = "Settings_AnimateClouds";
     public static bool VSync { get; set; }
     public static int ResolutionWidth { get; set; }
     public static int ResolutionHeight { get; set; }
@@ -27,6 +30,8 @@ public static class GameSettings {
     public static bool UsePresetBoard { get; set; }
     public static FullScreenMode DisplayMode { get; set; }
     public static bool RandomizeCoinSpinDirection { get; set; }
+    public static bool AnimateClouds { get; set; }
+    public static event Action OnApplySettings;
 
     public static void Load() {
         VSync = PlayerPrefs.GetInt(KEY_VSYNC, 1) == 1;
@@ -39,6 +44,7 @@ public static class GameSettings {
         ScreenShakeIntensity = PlayerPrefs.GetFloat(KEY_SCREEN_SHAKE, 1f);
         UsePresetBoard = PlayerPrefs.GetInt(KEY_USE_PRESET_BOARD, 1) == 1;
         RandomizeCoinSpinDirection = PlayerPrefs.GetInt(KEY_RANDOMIZE_COIN_SPIN_DIRECTION, 0) == 1;
+        AnimateClouds = PlayerPrefs.GetInt(KEY_ANIMATE_CLOUDS, 1) == 1;
         LoadDisplayMode();
     }
 
@@ -67,6 +73,7 @@ public static class GameSettings {
         PlayerPrefs.SetInt(KEY_AA_MODE, AntiAliasingMode);
         PlayerPrefs.SetInt(KEY_USE_PRESET_BOARD, UsePresetBoard ? 1 : 0);
         PlayerPrefs.SetInt(KEY_RANDOMIZE_COIN_SPIN_DIRECTION, RandomizeCoinSpinDirection ? 1 : 0);
+        PlayerPrefs.SetInt(KEY_ANIMATE_CLOUDS, AnimateClouds ? 1 : 0);
         PlayerPrefs.SetFloat(KEY_VOLUME, Volume);
         PlayerPrefs.SetFloat(KEY_MUSIC_VOLUME, MusicVolume);
         PlayerPrefs.SetFloat(KEY_SFX_VOLUME, SFXVolume);
@@ -82,6 +89,7 @@ public static class GameSettings {
         ApplyMusicVolume();
         ApplySFXVolume();
         ApplyAntiAliasing();
+        OnApplySettings?.Invoke();
     }
 
     public static void ApplyVolume() {
