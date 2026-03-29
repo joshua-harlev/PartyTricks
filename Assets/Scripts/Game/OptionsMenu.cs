@@ -20,6 +20,7 @@ public class OptionsMenu : MonoBehaviour
       private Button okayButton;
       private Slider musicVolumeSlider;
       private Slider sfxVolumeSlider;
+      private Toggle randomizeCoinSpinDirectionToggle;
 
       private List<(int width, int height)> resolutionList = new();
       private List<string> displayModeOptions = new();
@@ -47,6 +48,7 @@ public class OptionsMenu : MonoBehaviour
           okayButton = root.Q<Button>("Okay_Button");
           musicVolumeSlider = root.Q<Slider>("Music_Volume_Slider");
           sfxVolumeSlider = root.Q<Slider>("SFX_Volume_Slider");
+          randomizeCoinSpinDirectionToggle = root.Q<Toggle>("Coin_Spin_Randomization_Toggle");
 
           SetUpResolutionList();
           SetUpDisplayModeList();
@@ -80,6 +82,7 @@ public class OptionsMenu : MonoBehaviour
               GameSettings.ApplySFXVolume();
           });
           displayModeDropdown.RegisterValueChangedCallback(SetDisplayMode);
+          randomizeCoinSpinDirectionToggle.RegisterValueChangedCallback(evt => GameSettings.RandomizeCoinSpinDirection = evt.newValue);
           okayButton.clicked += OnOkay;
       }
 
@@ -186,6 +189,8 @@ public class OptionsMenu : MonoBehaviour
           screenShakeSlider.highValue = 1f;
           screenShakeSlider.value = GameSettings.ScreenShakeIntensity;
           displayOptionChanged = false;
+
+          randomizeCoinSpinDirectionToggle.value = GameSettings.RandomizeCoinSpinDirection;
       }
 
       private void OnOkay()

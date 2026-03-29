@@ -19,7 +19,6 @@
                         <ui:Slider label="SFX Volume" value="42" high-value="100" name="SFX_Volume_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; height: 80px;" />
                     </ui:ScrollView>
                 </ui:Tab>
-
                 <ui:Tab label="Gameplay" name="Gameplay_Tab">
                     <ui:ScrollView>
                         <ui:Toggle label="Use Curated Board" name="Preset_Board_Toggle" value="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
@@ -28,6 +27,11 @@
                 <ui:Tab label="Accessibility" name="Accessibility_Tab">
                     <ui:ScrollView>
                         <ui:Slider label="Screen Shake" value="42" high-value="100" name="Screen_Shake_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; margin-right: 0;" />
+                    </ui:ScrollView>
+                </ui:Tab>
+                <ui:Tab label="Miscellaneous" name="Misc_Tab">
+                    <ui:ScrollView>
+                        <ui:Toggle label="Randomize Coin Spin Direction" name="Coin_Spin_Randomization_Toggle" value="false" enabled="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
                     </ui:ScrollView>
                 </ui:Tab>
             </ui:TabView>

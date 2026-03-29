@@ -25,8 +25,6 @@ namespace Minigames.CoinTilt {
         private float jitter;
         private int spinSign = 1;
 
-        private const bool randomizeSpinDirection = false;
-
         public void StartPull(Transform target, float speed) {
             if (!isBeingPulled) {
                 isBeingPulled = true;
@@ -68,7 +66,7 @@ namespace Minigames.CoinTilt {
             RandomizePhases();
             
             jitter = Random.Range(0.8f, 1.2f);
-            if(randomizeSpinDirection) RandomizeSpinDirection();
+            if(GameSettings.RandomizeCoinSpinDirection) RandomizeSpinDirection();
             maxHeight = coinAnimationConfig.BobMultiplier;
             initialModelEulerAngles = modelTransform.localEulerAngles;
         }
