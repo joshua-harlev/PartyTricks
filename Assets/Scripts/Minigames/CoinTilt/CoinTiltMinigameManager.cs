@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CoreData;
 using FMOD.Studio;
 using FMODUnity;
+using Game;
 using Services;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,8 +16,7 @@ namespace Minigames.CoinTilt {
         public event Action<PlayerMinigameResult[]> OnMinigameFinished;
         public bool IsDoubleRound { get; private set; }
 
-        [Header("Minigame Settings")] [SerializeField]
-        private int gameDurationInSeconds = 30;
+        [Header("Minigame Settings")]
 
         [SerializeField] private int countdownDurationInSeconds = 5;
         [SerializeField] private float resultsDisplayDurationInSeconds = 5f;
@@ -37,6 +37,8 @@ namespace Minigames.CoinTilt {
         [SerializeField] private MinigameTimer gameTimer;
         [SerializeField] private PlacesDisplay placesDisplay;
 
+        private float baseGameDurationInSeconds => TimerLengths.GetMinigameTimerLengthInSeconds();
+        private float effectiveGameDurationInSeconds;
         private float targetIntensityCompletionTime;
         private bool hasBeenInitialized;
         private EventInstance musicInstance;
@@ -52,6 +54,7 @@ namespace Minigames.CoinTilt {
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
             powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
             musicInstance = RuntimeManager.CreateInstance(MusicEvent);
+            effectiveGameDurationInSeconds = baseGameDurationInSeconds;
         }
 
         public void Initialize(bool isDoubleRound) {
@@ -64,7 +67,7 @@ namespace Minigames.CoinTilt {
             DebugLogger.Log(LogChannel.Systems, $"CoinTiltMinigame initialized. Double round: {isDoubleRound}");
         }
 
-        private void OnTimerTick(int elapsedTimeInSeconds, int remainingTimeInSeconds) {
+        private void OnTimerTick(float elapsedTimeInSeconds, float remainingTimeInSeconds) {
             float musicIntensity = Mathf.Lerp(0f, 2f, elapsedTimeInSeconds / targetIntensityCompletionTime);
             SetMusicIntensity(musicIntensity);
         }
@@ -83,9 +86,9 @@ namespace Minigames.CoinTilt {
                 Debug.LogError("CoinTiltMinigameManager does not have a Coin Tilt Minigame Timer assigned!");
             }
             else {
-                gameTimer.Initialize(gameDurationInSeconds);
+                gameTimer.Initialize(effectiveGameDurationInSeconds);
                 gameTimer.OnTimerEnd += EndGame;
-                targetIntensityCompletionTime = gameDurationInSeconds * 0.6f;
+                targetIntensityCompletionTime = effectiveGameDurationInSeconds * 0.6f;
                 gameTimer.OnTimerTick += OnTimerTick;
             }
         }
@@ -116,7 +119,7 @@ namespace Minigames.CoinTilt {
 
         private void AdjustGameDurationForDoubleRound() {
             if (IsDoubleRound) {
-                gameDurationInSeconds *= 2;
+                effectiveGameDurationInSeconds *= 2;
             }
         }
 
@@ -222,7 +225,7 @@ namespace Minigames.CoinTilt {
         private void StartCoinSpawning() {
             for (int i = 0; i < coinSpawners.Length; i++) {
                 if (coinSpawners[i]) {
-                    coinSpawners[i].StartSpawning(gameDurationInSeconds, playerService.GetPlayerProfile(i));
+                    coinSpawners[i].StartSpawning(effectiveGameDurationInSeconds, playerService.GetPlayerProfile(i));
                 }
             }
         }

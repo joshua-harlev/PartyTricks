@@ -20,7 +20,7 @@ public class DireDodgingGameplayState : IDireDodgingState {
         pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
     }
 
-    private void OnHalfwayPointReached(int remainingTimeInSeconds) {
+    private void OnHalfwayPointReached(float remainingTimeInSeconds) {
         timer.OnHalfwayPointReached -= OnHalfwayPointReached;
         DireDodgingMinigameManager.Instance.StartIncreasingIntensity(remainingTimeInSeconds);
         DireDodgingMinigameManager.Instance.SetMusicIntensity(2);
