@@ -8,20 +8,20 @@ public class MinigameTimer : MonoBehaviour {
     [SerializeField] private TMP_Text TimerText;
     [SerializeField] private CanvasGroup TimerCanvasGroup;
     public event Action OnTimerEnd;
-    public event Action<int> OnHalfwayPointReached;
+    public event Action<float> OnHalfwayPointReached;
     
-    // Elapsed time, Total Time
-    public event Action<int, int> OnTimerTick;
+    // Elapsed time, Remaining Time
+    public event Action<float, float> OnTimerTick;
     private string endOfGameText;
-    private int RemainingTimeInSeconds { get; set; }
-    private int originalTimerDuration;
+    private float RemainingTimeInSeconds { get; set; }
+    private float originalTimerDuration;
     private bool halfwayPointEventTriggered;
     private bool isPaused;
     private Coroutine timerCoroutine = null;
 
-    public void Initialize(int gameLengthInSeconds, string endOfGameText = "Game!") {
-        originalTimerDuration = gameLengthInSeconds;
-        RemainingTimeInSeconds = gameLengthInSeconds;
+    public void Initialize(float gameLengthInSeconds, string endOfGameText = "Game!") {
+        RemainingTimeInSeconds = Mathf.Ceil(gameLengthInSeconds);
+        originalTimerDuration = RemainingTimeInSeconds;
         this.endOfGameText = endOfGameText;
         HidePanel();
     }
@@ -66,7 +66,7 @@ public class MinigameTimer : MonoBehaviour {
         TimerText.text = "Time!";
     }
 
-    private void OnTick(int remainingTimeInSeconds) {
+    private void OnTick(float remainingTimeInSeconds) {
         OnTimerTick?.Invoke(originalTimerDuration-remainingTimeInSeconds, remainingTimeInSeconds);
         TimeSpan timeSpan = TimeSpan.FromSeconds(remainingTimeInSeconds);
         string timeInMinutes = timeSpan.Minutes.ToString("00");

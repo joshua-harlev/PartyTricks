@@ -3,23 +3,23 @@ using System.Collections;
 using UnityEngine;
 
 public class CountdownTimer : MonoBehaviour {
-    private int countdownDurationInSeconds;
-    private int timeRemaining;
+    private float countdownDurationInSeconds;
+    private float timeRemaining;
     private float speedMultiplier = 1f;
     private const float MinimumSpeedMultiplier = 0.1f;
     public Action OnTimerEnd;
     public Action<int> OnTick;
     public Action OnReset;
 
-    public void StartTimer(int ShopDurationInSeconds) {
+    public void StartTimer(float ShopDurationInSeconds) {
         this.countdownDurationInSeconds = ShopDurationInSeconds;
         StartCoroutine(Countdown());
     }
     
     private IEnumerator Countdown() {
-        timeRemaining = countdownDurationInSeconds;
+        timeRemaining = Mathf.Ceil(countdownDurationInSeconds);
         while (timeRemaining > 0) {
-            OnTick?.Invoke(timeRemaining);
+            OnTick?.Invoke((int)timeRemaining);
             yield return new WaitForSeconds(1f/speedMultiplier);
             timeRemaining--;
         }

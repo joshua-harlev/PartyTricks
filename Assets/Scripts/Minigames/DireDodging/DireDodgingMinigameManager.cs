@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Reflection;
 using CoreData;
 using FMOD.Studio;
 using FMODUnity;
+using Game;
 using Input;
 using Services;
 using UnityEngine;
@@ -18,7 +20,8 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     private IPowerUpService powerUpService;
 
     [Header("Minigame Settings")] 
-    [SerializeField] private int GameTimeoutDurationInSeconds = 25;
+    [Tooltip("How much shorter should this minigame be from other minigames?")]
+    [SerializeField] private int TimerDecreaseAmount = 5;
     [SerializeField] private int CountdownDurationInSeconds = 5;
     [SerializeField] private int ResultsDisplayDurationInSeconds = 5;
     [SerializeField] private int[] BaseFundsPerRank = new[] { 100, 80, 60, 50 };
@@ -32,6 +35,8 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     [SerializeField] private PlacesDisplay PlacesDisplay;
     [SerializeField] private Camera MainCamera;
     
+    private float baseGameDurationInSeconds => Mathf.Max(TimerLengths.GetMinigameTimerLengthInSeconds() - TimerDecreaseAmount, 5f);
+    private float effectiveGameDurationInSeconds;
     private bool hasBeenInitialized = false;
     private bool gameHasEnded = false;
     public bool GameHasEnded => gameHasEnded;
@@ -43,7 +48,9 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         }
 
         Instance = this;
-
+        
+        effectiveGameDurationInSeconds = baseGameDurationInSeconds;
+        
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
         this.musicInstance = RuntimeManager.CreateInstance(MusicEvent);
@@ -59,9 +66,9 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         PlacesDisplay.Hide();
         StartCountdown.Initialize(CountdownDurationInSeconds);
         if (IsDoubleRound) {
-            GameTimeoutDurationInSeconds *= 2;
+            effectiveGameDurationInSeconds *= 2;
         }
-        MinigameTimer.Initialize(GameTimeoutDurationInSeconds, null);
+        MinigameTimer.Initialize(effectiveGameDurationInSeconds, null);
         for (int i = 0; i < Players.Length; i++) {
             if (Players[i] == null) continue;
             PlayerSlot slot = playerService.PlayerSlots[i];
@@ -181,7 +188,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         }
     }
 
-    public void StartIncreasingIntensity(int remainingTimeInSeconds) {
+    public void StartIncreasingIntensity(float remainingTimeInSeconds) {
         foreach (var player in Players) {
             player.StartIncreasingIntensity(remainingTimeInSeconds);
         }
@@ -210,7 +217,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         dummyProjectile.Initialize(playerIndex, 9999f, 0f, Vector2.zero, false);
     
         var method = typeof(DireDodgingPlayer).GetMethod("HandleProjectileCollision", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            BindingFlags.NonPublic | BindingFlags.Instance);
         method?.Invoke(player, new object[] { dummyProjectile });
     
         Destroy(dummyProjectile.gameObject);

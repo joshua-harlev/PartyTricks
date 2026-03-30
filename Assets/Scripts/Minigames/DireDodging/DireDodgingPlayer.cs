@@ -456,11 +456,11 @@ public class DireDodgingPlayer : MonoBehaviour {
     
     private bool PlayerIsDead => currentHealth <= 0;
 
-    public void StartIncreasingIntensity(int remainingTimeInSeconds) {
+    public void StartIncreasingIntensity(float remainingTimeInSeconds) {
         intensityCoroutineInstance = StartCoroutine(IntensityCoroutine(remainingTimeInSeconds));
     }
 
-    private IEnumerator IntensityCoroutine(int remainingTimeInSeconds) {
+    private IEnumerator IntensityCoroutine(float remainingTimeInSeconds) {
         float startTime = Time.time;
         float timeAtFullyRampedUpSpeed = 5f;
         float duration = remainingTimeInSeconds - timeAtFullyRampedUpSpeed;

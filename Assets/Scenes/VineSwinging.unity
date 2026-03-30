@@ -9496,7 +9496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingMinigameManager
   gameDurationInSeconds: 30
-  countdownDurationInSeconds: 5
+  countdownDurationInSeconds: 3
   resultsDisplayDurationInSeconds: 5
   fundsPerRank: 64000000500000003c00000032000000
   vineCount: 40

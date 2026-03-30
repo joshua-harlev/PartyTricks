@@ -17,12 +17,23 @@ public class OptionsMenu : MonoBehaviour
       private DropdownField antiAliasingDropdown;
       private Slider volumeSlider;
       private Slider screenShakeSlider;
+      private Toggle shopBackgroundMovementToggle;
       private Button okayButton;
       private Slider musicVolumeSlider;
       private Slider sfxVolumeSlider;
+      private Toggle randomizeCoinSpinDirectionToggle;
+      private DropdownField timerLengthDropdown;
 
       private List<(int width, int height)> resolutionList = new();
       private List<string> displayModeOptions = new();
+
+      private List<string> timerLengthOptions = new()
+      {
+          "Less Time",
+          "Default",
+          "More Time"
+      };
+      
       private bool displayOptionChanged;
       private IPauseService pauseService;
 
@@ -42,13 +53,17 @@ public class OptionsMenu : MonoBehaviour
           displayModeDropdown = root.Q<DropdownField>("DisplayMode_Dropdown");
           resolutionDropdown = root.Q<DropdownField>("Resolution_Dropdown");
           antiAliasingDropdown = root.Q<DropdownField>("Anti-Aliasing_Dropdown");
+          timerLengthDropdown = root.Q<DropdownField>("Timer_Length_Dropdown");
           volumeSlider = root.Q<Slider>("Volume_Slider");
           screenShakeSlider = root.Q<Slider>("Screen_Shake_Slider");
+          shopBackgroundMovementToggle = root.Q<Toggle>("Shop_Background_Movement_Toggle");
           okayButton = root.Q<Button>("Okay_Button");
           musicVolumeSlider = root.Q<Slider>("Music_Volume_Slider");
           sfxVolumeSlider = root.Q<Slider>("SFX_Volume_Slider");
+          randomizeCoinSpinDirectionToggle = root.Q<Toggle>("Coin_Spin_Randomization_Toggle");
 
           SetUpResolutionList();
+          SetUpTimerLengthList();
           SetUpDisplayModeList();
           SyncUIToSettings();
 
@@ -80,7 +95,18 @@ public class OptionsMenu : MonoBehaviour
               GameSettings.ApplySFXVolume();
           });
           displayModeDropdown.RegisterValueChangedCallback(SetDisplayMode);
+          randomizeCoinSpinDirectionToggle.RegisterValueChangedCallback(evt => GameSettings.RandomizeCoinSpinDirection = evt.newValue);
           okayButton.clicked += OnOkay;
+          shopBackgroundMovementToggle.RegisterValueChangedCallback(evt => GameSettings.AnimateClouds = evt.newValue);
+          timerLengthDropdown.RegisterValueChangedCallback(OnTimerLengthChanged);
+      }
+
+      private void OnTimerLengthChanged(ChangeEvent<string> evt) {
+          GameSettings.TimerLengths = timerLengthOptions.IndexOf(evt.newValue);
+      }
+
+      private void SetUpTimerLengthList() {
+          timerLengthDropdown.choices = timerLengthOptions;
       }
 
       private void SetUpDisplayModeList() {
@@ -170,6 +196,8 @@ public class OptionsMenu : MonoBehaviour
           antiAliasingDropdown.choices = new List<string> { "None", "FXAA", "SMAA" };
           antiAliasingDropdown.index = GameSettings.AntiAliasingMode;
 
+          timerLengthDropdown.index = GameSettings.TimerLengths;
+
           volumeSlider.lowValue = 0f;
           volumeSlider.highValue = 1f;
           volumeSlider.value = GameSettings.Volume;
@@ -185,7 +213,12 @@ public class OptionsMenu : MonoBehaviour
           screenShakeSlider.lowValue = 0f;
           screenShakeSlider.highValue = 1f;
           screenShakeSlider.value = GameSettings.ScreenShakeIntensity;
+
+          shopBackgroundMovementToggle.value = GameSettings.AnimateClouds;
+          
           displayOptionChanged = false;
+
+          randomizeCoinSpinDirectionToggle.value = GameSettings.RandomizeCoinSpinDirection;
       }
 
       private void OnOkay()

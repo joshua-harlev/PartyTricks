@@ -2,6 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using FMOD.Studio;
 using FMODUnity;
+using Game;
 using ResultsScreen;
 using Services;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Shop {
         private Sequence currentSequence;
         public int GridRows = 2;
         public int GridColumns = 2;
-        public int ShopDurationInSeconds = 10;
+        private float ShopDurationInSeconds => TimerLengths.GetShopTimerLengthInSeconds();
 
         private void Awake() {
             gameFlowService = GlobalServiceLocator.Instance.GetService<IGameFlowService>();

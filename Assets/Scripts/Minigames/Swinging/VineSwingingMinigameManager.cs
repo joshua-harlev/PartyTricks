@@ -3,6 +3,7 @@ using System.Collections;
 using CoreData;
 using FMOD.Studio;
 using FMODUnity;
+using Game;
 using Minigames.Swinging.States;
 using Services;
 using UnityEngine;
@@ -15,9 +16,7 @@ namespace Minigames.Swinging {
         public event Action<PlayerMinigameResult[]> OnMinigameFinished;
         public bool IsDoubleRound { get; set; }
 
-        [Header("Minigame Settings")] [SerializeField]
-        private int gameDurationInSeconds = 30;
-
+        [Header("Minigame Settings")] 
         [SerializeField] private int countdownDurationInSeconds = 5;
         [SerializeField] private float resultsDisplayDurationInSeconds = 5f;
         [SerializeField] private int[] fundsPerRank = new[] { 100, 80, 60, 50 };
@@ -56,6 +55,9 @@ namespace Minigames.Swinging {
 
         private float targetIntensityCompletionTime;
         private bool isInGameplay;
+        
+        private float baseGameDurationInSeconds => TimerLengths.GetMinigameTimerLengthInSeconds();
+        private float effectiveGameDurationInSeconds;
 
         public bool[] PlayerHasMagnet { get; private set; }
         public float[] PlayerMagnetRadii { get; private set; }
@@ -71,6 +73,7 @@ namespace Minigames.Swinging {
             PlayerService = ServiceLocatorAccessor.GetService<IPlayerService>();
             powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
             musicInstance = RuntimeManager.CreateInstance(musicEvent);
+            effectiveGameDurationInSeconds = baseGameDurationInSeconds;
         }
 
         private IEnumerator Start() {
@@ -89,23 +92,23 @@ namespace Minigames.Swinging {
             DebugLogger.Log(LogChannel.Systems, $"VineSwinging initiated. Double round: {isDoubleRound}");
         }
 
-        private void OnTimerTick(int elapsedTimeInSeconds, int remainingTimeInSeconds) {
+        private void OnTimerTick(float elapsedTimeInSeconds, float remainingTimeInSeconds) {
             float musicIntensity = Mathf.Lerp(0f, 2f, elapsedTimeInSeconds / targetIntensityCompletionTime);
             SetMusicIntensity(musicIntensity);
         }
         
         private void SetUpVariables() {
             if (IsDoubleRound) {
-                gameDurationInSeconds *= 2;
+                effectiveGameDurationInSeconds *= 2;
                 vineCount *= 2;
             }
 
-            targetIntensityCompletionTime = gameDurationInSeconds * 0.6f;
+            targetIntensityCompletionTime = effectiveGameDurationInSeconds * 0.6f;
 
             InitializePlayerDisplays(); 
             placesDisplay.Hide();
             startCountdown.Initialize(countdownDurationInSeconds);
-            gameTimer.Initialize(gameDurationInSeconds);
+            gameTimer.Initialize(effectiveGameDurationInSeconds);
             
             PlayerStateMachines = new PlayerStateMachine[4];
             PlayerHasMagnet = new bool[4];
