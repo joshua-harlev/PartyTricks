@@ -10,7 +10,7 @@ public class MinigameTimer : MonoBehaviour {
     public event Action OnTimerEnd;
     public event Action<float> OnHalfwayPointReached;
     
-    // Elapsed time, Total Time
+    // Elapsed time, Remaining Time
     public event Action<float, float> OnTimerTick;
     private string endOfGameText;
     private float RemainingTimeInSeconds { get; set; }
@@ -20,8 +20,8 @@ public class MinigameTimer : MonoBehaviour {
     private Coroutine timerCoroutine = null;
 
     public void Initialize(float gameLengthInSeconds, string endOfGameText = "Game!") {
-        originalTimerDuration = gameLengthInSeconds;
         RemainingTimeInSeconds = Mathf.Ceil(gameLengthInSeconds);
+        originalTimerDuration = RemainingTimeInSeconds;
         this.endOfGameText = endOfGameText;
         HidePanel();
     }
