@@ -1901,6 +1901,7 @@ MonoBehaviour:
   LabelShouldDisappear: 1
   TimeUntilAutomaticDestructionInSeconds: 5
   LockRotation: 1
+  spriteRenderer: {fileID: 522758218}
 --- !u!212 &522758218
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3018,6 +3019,7 @@ MonoBehaviour:
   LabelShouldDisappear: 1
   TimeUntilAutomaticDestructionInSeconds: 5
   LockRotation: 1
+  spriteRenderer: {fileID: 615467736}
 --- !u!212 &615467736
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3124,6 +3126,7 @@ MonoBehaviour:
   LabelShouldDisappear: 1
   TimeUntilAutomaticDestructionInSeconds: 5
   LockRotation: 1
+  spriteRenderer: {fileID: 636279984}
 --- !u!212 &636279984
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4146,6 +4149,7 @@ MonoBehaviour:
   LabelShouldDisappear: 1
   TimeUntilAutomaticDestructionInSeconds: 5
   LockRotation: 1
+  spriteRenderer: {fileID: 866440773}
 --- !u!212 &866440773
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9495,7 +9499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 236f1774c74e4622b75bcfb0ee450daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingMinigameManager
-  gameDurationInSeconds: 30
   countdownDurationInSeconds: 3
   resultsDisplayDurationInSeconds: 5
   fundsPerRank: 64000000500000003c00000032000000
