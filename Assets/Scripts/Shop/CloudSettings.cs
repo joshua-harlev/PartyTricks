@@ -18,7 +18,7 @@ namespace Shop {
         }
 
         private void UpdateCloudAnimationSpeed() {
-            if (GameSettings.AnimateClouds) {
+            if (GameSettings.Accessibility.AnimateClouds) {
                 cloudMaterialInstance.SetFloat("_ModulationEvolutionSpeed", originalModulationSpeed);
                 cloudMaterialInstance.SetFloat("_EvolutionSpeed", originalEvolutionSpeed);
                 cloudMaterialInstance.SetFloat("_ScrollSpeedX", originalScrollSpeeds.Item1);

@@ -11,7 +11,7 @@ namespace Game {
         }
 
         private static TimerLengthOptions GetTimerLength() {
-            return GameSettings.TimerLengths switch
+            return GameSettings.Gameplay.TimerLengths switch
             {
                 0 => TimerLengthOptions.LessTime,
                 1 => TimerLengthOptions.Default,
