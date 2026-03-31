@@ -1,13 +1,31 @@
+using Services;
 using UnityEngine.UIElements;
+using Button = UnityEngine.UIElements.Button;
+using Slider = UnityEngine.UIElements.Slider;
+using Toggle = UnityEngine.UIElements.Toggle;
 
 namespace Options {
     public class AccessibilityTabHandler : IOptionsTab {
         private Slider screenShakeSlider;
         private Toggle shopBackgroundMovementToggle;
+        private Toggle tinnitusFilterToggle;
+        private Slider tinnitusFilterFrequencySlider;
+        private Slider tinnitusFilterGainSlider;
+        private Button testToneButton;
+        private VisualElement tinnitusFilterControls;
+        private ITinnitusFilterService tinnitusFilterService;
+        private Label TinnitusFilterText;
         
         public void Initialize(VisualElement tabRoot) {
             screenShakeSlider = tabRoot.Q<Slider>("Screen_Shake_Slider");
             shopBackgroundMovementToggle = tabRoot.Q<Toggle>("Shop_Background_Movement_Toggle");
+            tinnitusFilterToggle = tabRoot.Q<Toggle>("Tinnitus_Filter_Toggle");
+            tinnitusFilterFrequencySlider = tabRoot.Q<Slider>("Tinnitus_Filter_Frequency_Slider");
+            tinnitusFilterGainSlider = tabRoot.Q<Slider>("Tinnitus_Filter_Gain_Slider");
+            testToneButton = tabRoot.Q<Button>("Tinnitus_Filter_Test_Tone_button");
+            tinnitusFilterControls = tabRoot.Q<VisualElement>("Tinnitus_Filter_Controls");
+            tinnitusFilterService = ServiceLocatorAccessor.GetService<ITinnitusFilterService>();
+            TinnitusFilterText = tabRoot.Q<Label>("Tinnitus_Filter_Labels");
         }
 
         public void SyncToSettings() {
@@ -16,11 +34,89 @@ namespace Options {
             screenShakeSlider.value = GameSettings.Accessibility.ScreenShakeIntensity;
 
             shopBackgroundMovementToggle.value = GameSettings.Accessibility.AnimateClouds;
+
+            tinnitusFilterToggle.value = GameSettings.Accessibility.TinnitusFilterEnabled;
+
+            tinnitusFilterFrequencySlider.lowValue = 5000f;
+            tinnitusFilterFrequencySlider.highValue = 16000f;
+            tinnitusFilterFrequencySlider.value = GameSettings.Accessibility.TinnitusFilterFrequency;
+            
+            tinnitusFilterGainSlider.lowValue = -30f;
+            tinnitusFilterGainSlider.highValue = 0f;
+            tinnitusFilterGainSlider.value = GameSettings.Accessibility.TinnitusFilterGain;
+            
+            SetTinnitusControlsVisible(GameSettings.Accessibility.TinnitusFilterEnabled);
+            
+            if(tinnitusFilterService != null && tinnitusFilterService.IsPlayingTestTone) tinnitusFilterService.StopTestTone();
+            testToneButton.text = "Play Test Tone";
+            
+            UpdateTinnitusFilterLabel();
         }
 
         public void RegisterCallbacks() {
             screenShakeSlider.RegisterValueChangedCallback(evt => GameSettings.Accessibility.ScreenShakeIntensity = evt.newValue);
             shopBackgroundMovementToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.AnimateClouds = evt.newValue);
+
+            tinnitusFilterToggle.RegisterValueChangedCallback(evt =>
+            {
+                GameSettings.Accessibility.TinnitusFilterEnabled = evt.newValue;
+                tinnitusFilterService?.SetEnabled(evt.newValue);
+                SetTinnitusControlsVisible(evt.newValue);
+                UpdateTinnitusFilterLabel();
+            });
+
+            tinnitusFilterFrequencySlider.RegisterValueChangedCallback(evt =>
+            {
+                GameSettings.Accessibility.TinnitusFilterFrequency = evt.newValue;
+                tinnitusFilterService?.SetFrequency(evt.newValue);
+                UpdateTinnitusFilterLabel();
+            });
+
+            tinnitusFilterGainSlider.RegisterValueChangedCallback(evt =>
+            {
+                GameSettings.Accessibility.TinnitusFilterGain = evt.newValue;
+                tinnitusFilterService?.SetGain(evt.newValue);
+                UpdateTinnitusFilterLabel();
+            });
+
+            testToneButton.clicked += OnTestToneClicked;
+        }
+
+        private void UpdateTinnitusFilterLabel() {
+            TinnitusFilterText.text =
+                $"Current Frequency: {GameSettings.Accessibility.TinnitusFilterFrequency:F0} Hz, Current Gain: {GameSettings.Accessibility.TinnitusFilterGain:F0} dB";
+        }
+
+        public void Cleanup() {
+            testToneButton.clicked -= OnTestToneClicked;
+            tinnitusFilterService?.StopTestTone();
+        }
+
+        private void OnTestToneClicked() {
+            if (tinnitusFilterService == null) return;
+
+            if (tinnitusFilterService.IsPlayingTestTone) {
+                tinnitusFilterService.StopTestTone();
+                testToneButton.text = "Play Test Tone";
+                if (testToneButton.ClassListContains(".on")) {
+                    testToneButton.RemoveFromClassList(".on");
+                }
+                testToneButton.Blur();
+            }
+            else {
+                tinnitusFilterService.PlayTestTone();
+                testToneButton.text = "Stop Test Tone";
+                testToneButton.AddToClassList(".on");
+            }
+        }
+
+        private void SetTinnitusControlsVisible(bool visible) {
+            if (visible) {
+                tinnitusFilterControls.style.display = DisplayStyle.Flex;
+            }
+            else {
+                tinnitusFilterControls.style.display = DisplayStyle.None;
+            }
         }
     }
 }

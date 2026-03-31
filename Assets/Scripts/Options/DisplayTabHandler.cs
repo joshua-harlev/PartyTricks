@@ -73,7 +73,9 @@ namespace Options {
                 GameSettings.Display.AntiAliasingMode = antiAliasingDropdown.index);
             displayModeDropdown.RegisterValueChangedCallback(SetDisplayMode);
         }
-        
+
+        public void Cleanup() { }
+
         private void SetUpDisplayModeList() {
             displayModeOptions = new List<string>
             {
