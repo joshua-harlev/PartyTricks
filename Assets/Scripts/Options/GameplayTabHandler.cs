@@ -29,7 +29,9 @@ namespace Options {
             timerLengthDropdown.RegisterValueChangedCallback(OnTimerLengthChanged);
             presetBoardToggle.RegisterValueChangedCallback(evt => GameSettings.Gameplay.UsePresetBoard = evt.newValue);
         }
-        
+
+        public void Cleanup() { }
+
         private void OnTimerLengthChanged(ChangeEvent<string> evt) {
             GameSettings.Gameplay.TimerLengths = timerLengthOptions.IndexOf(evt.newValue);
         }

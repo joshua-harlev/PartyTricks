@@ -62,6 +62,9 @@ public class OptionsMenu : MonoBehaviour
       private void OnDestroy()
       {
           if (okayButton != null) okayButton.clicked -= OnOkay;
+          foreach (var tab in tabs) {
+              tab.Cleanup();
+          }
       }
 
       public void Hide() {

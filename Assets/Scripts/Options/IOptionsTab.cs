@@ -5,5 +5,6 @@ namespace Options {
         void Initialize(VisualElement tabRoot);
         void SyncToSettings();
         void RegisterCallbacks();
+        void Cleanup();
     }
 }

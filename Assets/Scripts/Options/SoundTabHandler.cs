@@ -43,5 +43,7 @@ namespace Options {
                 GameSettings.Sound.ApplySFXVolume();
             });
         }
+
+        public void Cleanup() { }
     }
 }

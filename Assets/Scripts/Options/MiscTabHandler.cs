@@ -19,5 +19,7 @@ namespace Options {
             randomizeCoinSpinDirectionToggle.RegisterValueChangedCallback(evt => GameSettings.Misc.RandomizeCoinSpinDirection = evt.newValue);
             showPlayerLabelToggle.RegisterValueChangedCallback(evt => GameSettings.Misc.ShowPlayerLabels = evt.newValue);
         }
+
+        public void Cleanup() { }
     }
 }

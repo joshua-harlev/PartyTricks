@@ -21,6 +21,7 @@ namespace Services {
             CreateGameFlowManager();
             CreateGameSessionManager();
             CreateMenuSoundService();
+            CreateTinnitusFilterService();
             LoadPlayerOptions();
         }
 
@@ -145,6 +146,13 @@ namespace Services {
             var service = menuSoundServiceObject.AddComponent<MenuSoundService>();
             service.Initialize(config.MenuSoundConfig);
             ServiceLocatorAccessor.RegisterGlobal<IMenuSoundService>(service);
+        }
+        
+        private void CreateTinnitusFilterService() {
+            GameObject tinnitusFilterServiceObject = new GameObject("TinnitusFilterService");
+            tinnitusFilterServiceObject.transform.SetParent(transform);
+            var service = tinnitusFilterServiceObject.AddComponent<TinnitusFilterService>();
+            ServiceLocatorAccessor.RegisterGlobal<ITinnitusFilterService>(service);
         }
     }
 }
