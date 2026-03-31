@@ -15,32 +15,32 @@ namespace Options {
         public void SyncToSettings() {
             volumeSlider.lowValue = 0f;
             volumeSlider.highValue = 1f;
-            volumeSlider.value = GameSettings.Volume;
+            volumeSlider.value = GameSettings.Sound.Volume;
           
             musicVolumeSlider.lowValue = 0f;
             musicVolumeSlider.highValue = 1f;
-            musicVolumeSlider.value = GameSettings.MusicVolume;
+            musicVolumeSlider.value = GameSettings.Sound.MusicVolume;
 
             sfxVolumeSlider.lowValue = 0f;
             sfxVolumeSlider.highValue = 1f;
-            sfxVolumeSlider.value = GameSettings.SFXVolume;
+            sfxVolumeSlider.value = GameSettings.Sound.SFXVolume;
         }
 
         public void RegisterCallbacks() {
             volumeSlider.RegisterValueChangedCallback(evt =>
             {
-                GameSettings.Volume = evt.newValue;
-                GameSettings.ApplyVolume();
+                GameSettings.Sound.Volume = evt.newValue;
+                GameSettings.Sound.ApplyVolume();
             });
             musicVolumeSlider.RegisterValueChangedCallback(evt =>
             {
-                GameSettings.MusicVolume = evt.newValue;
-                GameSettings.ApplyMusicVolume();
+                GameSettings.Sound.MusicVolume = evt.newValue;
+                GameSettings.Sound.ApplyMusicVolume();
             });
             sfxVolumeSlider.RegisterValueChangedCallback(evt =>
             {
-                GameSettings.SFXVolume = evt.newValue;
-                GameSettings.ApplySFXVolume();
+                GameSettings.Sound.SFXVolume = evt.newValue;
+                GameSettings.Sound.ApplySFXVolume();
             });
         }
     }

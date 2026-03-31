@@ -66,7 +66,7 @@ namespace Minigames.CoinTilt {
             RandomizePhases();
             
             jitter = Random.Range(0.8f, 1.2f);
-            if(GameSettings.RandomizeCoinSpinDirection) RandomizeSpinDirection();
+            if(GameSettings.Misc.RandomizeCoinSpinDirection) RandomizeSpinDirection();
             maxHeight = coinAnimationConfig.BobMultiplier;
             initialModelEulerAngles = modelTransform.localEulerAngles;
         }

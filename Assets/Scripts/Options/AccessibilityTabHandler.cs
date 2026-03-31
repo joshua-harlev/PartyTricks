@@ -13,14 +13,14 @@ namespace Options {
         public void SyncToSettings() {
             screenShakeSlider.lowValue = 0f;
             screenShakeSlider.highValue = 1f;
-            screenShakeSlider.value = GameSettings.ScreenShakeIntensity;
+            screenShakeSlider.value = GameSettings.Accessibility.ScreenShakeIntensity;
 
-            shopBackgroundMovementToggle.value = GameSettings.AnimateClouds;
+            shopBackgroundMovementToggle.value = GameSettings.Accessibility.AnimateClouds;
         }
 
         public void RegisterCallbacks() {
-            screenShakeSlider.RegisterValueChangedCallback(evt => GameSettings.ScreenShakeIntensity = evt.newValue);
-            shopBackgroundMovementToggle.RegisterValueChangedCallback(evt => GameSettings.AnimateClouds = evt.newValue);
+            screenShakeSlider.RegisterValueChangedCallback(evt => GameSettings.Accessibility.ScreenShakeIntensity = evt.newValue);
+            shopBackgroundMovementToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.AnimateClouds = evt.newValue);
         }
     }
 }

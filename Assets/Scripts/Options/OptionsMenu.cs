@@ -18,7 +18,7 @@ public class OptionsMenu : MonoBehaviour
           root = optionsDocument.rootVisualElement;
           root.style.display = DisplayStyle.None;
           GameSettings.Load();
-          GameSettings.Apply();
+          GameSettings.Gameplay.Apply();
       }
 
       private void Start()

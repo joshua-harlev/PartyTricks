@@ -21,17 +21,17 @@ namespace Options {
         }
 
         public void SyncToSettings() {
-            presetBoardToggle.value = GameSettings.UsePresetBoard;
-            timerLengthDropdown.index = GameSettings.TimerLengths;
+            presetBoardToggle.value = GameSettings.Gameplay.UsePresetBoard;
+            timerLengthDropdown.index = GameSettings.Gameplay.TimerLengths;
         }
 
         public void RegisterCallbacks() {
             timerLengthDropdown.RegisterValueChangedCallback(OnTimerLengthChanged);
-            presetBoardToggle.RegisterValueChangedCallback(evt => GameSettings.UsePresetBoard = evt.newValue);
+            presetBoardToggle.RegisterValueChangedCallback(evt => GameSettings.Gameplay.UsePresetBoard = evt.newValue);
         }
         
         private void OnTimerLengthChanged(ChangeEvent<string> evt) {
-            GameSettings.TimerLengths = timerLengthOptions.IndexOf(evt.newValue);
+            GameSettings.Gameplay.TimerLengths = timerLengthOptions.IndexOf(evt.newValue);
         }
 
         private void SetUpTimerLengthList() {

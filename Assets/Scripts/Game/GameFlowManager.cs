@@ -33,7 +33,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     }
 
     public void StartGame() {
-        if (GameSettings.UsePresetBoard && gameBoardPreset != null && gameBoardPreset.RoundList.Count != 0) {
+        if (GameSettings.Gameplay.UsePresetBoard && gameBoardPreset != null && gameBoardPreset.RoundList.Count != 0) {
             List<GameBoardPresetSO.RoundEntry> roundList = gameBoardPreset.RoundList;
             var boardToGenerate = new List<(MinigameType minigameType, bool IsDouble)>();
             sceneOverrides = new string[roundList.Count];

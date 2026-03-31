@@ -27,7 +27,7 @@ namespace Options {
         }
 
         public void SyncToSettings() {
-            vSyncToggle.value = GameSettings.VSync;
+            vSyncToggle.value = GameSettings.Display.VSync;
             
             int currentWidth = Screen.width;
             int currentHeight = Screen.height;
@@ -45,28 +45,28 @@ namespace Options {
 
             resolutionDropdown.index = resIndex;
           
-            GameSettings.ResolutionWidth = currentWidth;
-            GameSettings.ResolutionHeight = currentHeight;
+            GameSettings.Display.ResolutionWidth = currentWidth;
+            GameSettings.Display.ResolutionHeight = currentHeight;
 
-            displayModeDropdown.index = GetDisplayIndexFromEnum(GameSettings.DisplayMode);
+            displayModeDropdown.index = GetDisplayIndexFromEnum(GameSettings.Display.DisplayMode);
           
             antiAliasingDropdown.choices = new List<string> { "None", "FXAA", "SMAA" };
-            antiAliasingDropdown.index = GameSettings.AntiAliasingMode;
+            antiAliasingDropdown.index = GameSettings.Display.AntiAliasingMode;
             
             displayOptionChanged = false;
         }
 
         public void RegisterCallbacks() {
-            vSyncToggle.RegisterValueChangedCallback(evt => GameSettings.VSync = evt.newValue);
+            vSyncToggle.RegisterValueChangedCallback(evt => GameSettings.Display.VSync = evt.newValue);
             resolutionDropdown.RegisterValueChangedCallback(evt =>
             {
                 var sel = resolutionList[resolutionDropdown.index];
-                GameSettings.ResolutionWidth = sel.width;
-                GameSettings.ResolutionHeight = sel.height;
+                GameSettings.Display.ResolutionWidth = sel.width;
+                GameSettings.Display.ResolutionHeight = sel.height;
                 displayOptionChanged = true;
             });
             antiAliasingDropdown.RegisterValueChangedCallback(evt =>
-                GameSettings.AntiAliasingMode = antiAliasingDropdown.index);
+                GameSettings.Display.AntiAliasingMode = antiAliasingDropdown.index);
             displayModeDropdown.RegisterValueChangedCallback(SetDisplayMode);
         }
         
@@ -84,10 +84,10 @@ namespace Options {
             displayOptionChanged = true;
             switch (evt.newValue) {
                 case "Fullscreen":
-                    GameSettings.DisplayMode = FullScreenMode.ExclusiveFullScreen;
+                    GameSettings.Display.DisplayMode = FullScreenMode.ExclusiveFullScreen;
                     break;
                 case "Windowed":
-                    GameSettings.DisplayMode = FullScreenMode.Windowed;
+                    GameSettings.Display.DisplayMode = FullScreenMode.Windowed;
                     break;
                 default:
                     DebugLogger.LogException(LogChannel.Systems, new InvalidEnumArgumentException("Invalid display mode in GameSettings!"));

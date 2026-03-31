@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class SceneObserver {
     private static readonly string[] scenesWithPausingDisabled = { "MainMenu" };
     public static void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        GameSettings.ApplyAntiAliasing();
+        GameSettings.Display.ApplyAntiAliasing();
         var pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
         foreach (var input in Object.FindObjectsByType<PlayerInput>(FindObjectsSortMode.None)) {
             input.ActivateInput();

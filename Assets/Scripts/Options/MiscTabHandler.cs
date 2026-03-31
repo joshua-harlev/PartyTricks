@@ -9,11 +9,11 @@ namespace Options {
         }
 
         public void SyncToSettings() {
-            randomizeCoinSpinDirectionToggle.value = GameSettings.RandomizeCoinSpinDirection;
+            randomizeCoinSpinDirectionToggle.value = GameSettings.Misc.RandomizeCoinSpinDirection;
         }
 
         public void RegisterCallbacks() {
-            randomizeCoinSpinDirectionToggle.RegisterValueChangedCallback(evt => GameSettings.RandomizeCoinSpinDirection = evt.newValue);
+            randomizeCoinSpinDirectionToggle.RegisterValueChangedCallback(evt => GameSettings.Misc.RandomizeCoinSpinDirection = evt.newValue);
         }
     }
 }
