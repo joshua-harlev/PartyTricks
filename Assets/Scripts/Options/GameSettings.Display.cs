@@ -22,7 +22,7 @@ public static partial class GameSettings {
             VSync = PlayerPrefs.GetInt(KEY_VSYNC, 1) == 1;
             ResolutionWidth = PlayerPrefs.GetInt(KEY_RES_WIDTH, UnityEngine.Display.main.systemWidth);
             ResolutionHeight = PlayerPrefs.GetInt(KEY_RES_HEIGHT, UnityEngine.Display.main.systemHeight);
-            AntiAliasingMode = PlayerPrefs.GetInt(KEY_AA_MODE, 0);
+            AntiAliasingMode = PlayerPrefs.GetInt(KEY_AA_MODE, 1);
             Bloom = PlayerPrefs.GetInt(KEY_BLOOM, 1) == 1;
             LoadDisplayMode();
         }
