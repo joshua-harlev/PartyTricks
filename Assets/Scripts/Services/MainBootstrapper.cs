@@ -21,6 +21,12 @@ namespace Services {
             CreateGameFlowManager();
             CreateGameSessionManager();
             CreateMenuSoundService();
+            LoadPlayerOptions();
+        }
+
+        private void LoadPlayerOptions() {
+            GameSettings.Load();
+            GameSettings.Apply();
         }
 
         private void LoadConfig() {
