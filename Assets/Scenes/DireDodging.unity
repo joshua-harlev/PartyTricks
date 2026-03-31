@@ -1655,7 +1655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7fc3944c9cac4e91add8fd1b8b5a1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::DireDodgingMinigameManager
-  GameTimeoutDurationInSeconds: 25
+  TimerDecreaseAmount: 5
   CountdownDurationInSeconds: 3
   ResultsDisplayDurationInSeconds: 5
   BaseFundsPerRank: 64000000500000003c00000032000000
@@ -2682,6 +2682,7 @@ MonoBehaviour:
   LabelShouldDisappear: 0
   TimeUntilAutomaticDestructionInSeconds: 10
   LockRotation: 0
+  spriteRenderer: {fileID: 736511332}
 --- !u!1001 &743663051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6146,6 +6147,7 @@ MonoBehaviour:
   LabelShouldDisappear: 0
   TimeUntilAutomaticDestructionInSeconds: 10
   LockRotation: 0
+  spriteRenderer: {fileID: 1625963116}
 --- !u!1 &1639456613
 GameObject:
   m_ObjectHideFlags: 0
@@ -6464,6 +6466,7 @@ MonoBehaviour:
   LabelShouldDisappear: 0
   TimeUntilAutomaticDestructionInSeconds: 10
   LockRotation: 0
+  spriteRenderer: {fileID: 1693751386}
 --- !u!1 &1711397427
 GameObject:
   m_ObjectHideFlags: 0
@@ -7789,6 +7792,7 @@ MonoBehaviour:
   LabelShouldDisappear: 0
   TimeUntilAutomaticDestructionInSeconds: 10
   LockRotation: 0
+  spriteRenderer: {fileID: 2110432750}
 --- !u!1001 &1089550400072865722
 PrefabInstance:
   m_ObjectHideFlags: 0
