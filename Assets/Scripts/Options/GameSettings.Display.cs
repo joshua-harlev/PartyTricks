@@ -9,8 +9,10 @@ public static partial class GameSettings {
         private const string KEY_RES_HEIGHT = "Settings_ResHeight";
         private const string KEY_AA_MODE = "Settings_AntiAliasing";
         private const string KEY_DISPLAY_MODE = "Settings_DisplayMode";
+        private const string KEY_BLOOM = "Settings_Bloom";
 
         public static bool VSync { get; set; }
+        public static bool Bloom { get; set; }
         public static int ResolutionWidth { get; set; }
         public static int ResolutionHeight { get; set; }
         public static int AntiAliasingMode { get; set; }
@@ -20,12 +22,14 @@ public static partial class GameSettings {
             VSync = PlayerPrefs.GetInt(KEY_VSYNC, 1) == 1;
             ResolutionWidth = PlayerPrefs.GetInt(KEY_RES_WIDTH, UnityEngine.Display.main.systemWidth);
             ResolutionHeight = PlayerPrefs.GetInt(KEY_RES_HEIGHT, UnityEngine.Display.main.systemHeight);
-            AntiAliasingMode = PlayerPrefs.GetInt(KEY_AA_MODE, 0);
+            AntiAliasingMode = PlayerPrefs.GetInt(KEY_AA_MODE, 1);
+            Bloom = PlayerPrefs.GetInt(KEY_BLOOM, 1) == 1;
             LoadDisplayMode();
         }
 
         public static void Save() {
             PlayerPrefs.SetInt(KEY_VSYNC, VSync ? 1 : 0);
+            PlayerPrefs.SetInt(KEY_BLOOM, Bloom ? 1 : 0);
             PlayerPrefs.SetInt(KEY_RES_WIDTH, ResolutionWidth);
             PlayerPrefs.SetInt(KEY_RES_HEIGHT, ResolutionHeight);
             PlayerPrefs.SetInt(KEY_AA_MODE, AntiAliasingMode);
