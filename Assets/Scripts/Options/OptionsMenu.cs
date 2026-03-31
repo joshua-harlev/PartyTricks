@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using Services;
+using Options;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,227 +8,54 @@ public class OptionsMenu : MonoBehaviour
       [SerializeField] private UIDocument optionsDocument;
 
       private VisualElement root;
-      private Toggle vSyncToggle;
-      private Toggle presetBoardToggle;
-      private DropdownField displayModeDropdown;
-      private DropdownField resolutionDropdown;
-      private DropdownField antiAliasingDropdown;
-      private Slider volumeSlider;
-      private Slider screenShakeSlider;
-      private Toggle shopBackgroundMovementToggle;
       private Button okayButton;
-      private Slider musicVolumeSlider;
-      private Slider sfxVolumeSlider;
-      private Toggle randomizeCoinSpinDirectionToggle;
-      private DropdownField timerLengthDropdown;
-
-      private List<(int width, int height)> resolutionList = new();
-      private List<string> displayModeOptions = new();
-
-      private List<string> timerLengthOptions = new()
-      {
-          "Less Time",
-          "Default",
-          "More Time"
-      };
       
-      private bool displayOptionChanged;
-      private IPauseService pauseService;
-
+      private DisplayTabHandler displayTab;
+      private List<IOptionsTab> tabs;
+      
       private void Awake()
       {
           root = optionsDocument.rootVisualElement;
           root.style.display = DisplayStyle.None;
-          pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
           GameSettings.Load();
           GameSettings.Apply();
       }
 
       private void Start()
       {
-          vSyncToggle = root.Q<Toggle>("Vsync_Toggle");
-          presetBoardToggle = root.Q<Toggle>("Preset_Board_Toggle");
-          displayModeDropdown = root.Q<DropdownField>("DisplayMode_Dropdown");
-          resolutionDropdown = root.Q<DropdownField>("Resolution_Dropdown");
-          antiAliasingDropdown = root.Q<DropdownField>("Anti-Aliasing_Dropdown");
-          timerLengthDropdown = root.Q<DropdownField>("Timer_Length_Dropdown");
-          volumeSlider = root.Q<Slider>("Volume_Slider");
-          screenShakeSlider = root.Q<Slider>("Screen_Shake_Slider");
-          shopBackgroundMovementToggle = root.Q<Toggle>("Shop_Background_Movement_Toggle");
           okayButton = root.Q<Button>("Okay_Button");
-          musicVolumeSlider = root.Q<Slider>("Music_Volume_Slider");
-          sfxVolumeSlider = root.Q<Slider>("SFX_Volume_Slider");
-          randomizeCoinSpinDirectionToggle = root.Q<Toggle>("Coin_Spin_Randomization_Toggle");
 
-          SetUpResolutionList();
-          SetUpTimerLengthList();
-          SetUpDisplayModeList();
-          SyncUIToSettings();
-
-          vSyncToggle.RegisterValueChangedCallback(evt => GameSettings.VSync = evt.newValue);
-          presetBoardToggle.RegisterValueChangedCallback(evt => GameSettings.UsePresetBoard = evt.newValue);
-          resolutionDropdown.RegisterValueChangedCallback(evt =>
+          displayTab = new DisplayTabHandler();
+          tabs = new List<IOptionsTab>
           {
-              var sel = resolutionList[resolutionDropdown.index];
-              GameSettings.ResolutionWidth = sel.width;
-              GameSettings.ResolutionHeight = sel.height;
-              displayOptionChanged = true;
-          });
-          antiAliasingDropdown.RegisterValueChangedCallback(evt =>
-              GameSettings.AntiAliasingMode = antiAliasingDropdown.index);
-          volumeSlider.RegisterValueChangedCallback(evt =>
-          {
-              GameSettings.Volume = evt.newValue;
-              GameSettings.ApplyVolume();
-          });
-          screenShakeSlider.RegisterValueChangedCallback(evt => GameSettings.ScreenShakeIntensity = evt.newValue);
-          musicVolumeSlider.RegisterValueChangedCallback(evt =>
-          {
-              GameSettings.MusicVolume = evt.newValue;
-              GameSettings.ApplyMusicVolume();
-          });
-          sfxVolumeSlider.RegisterValueChangedCallback(evt =>
-          {
-              GameSettings.SFXVolume = evt.newValue;
-              GameSettings.ApplySFXVolume();
-          });
-          displayModeDropdown.RegisterValueChangedCallback(SetDisplayMode);
-          randomizeCoinSpinDirectionToggle.RegisterValueChangedCallback(evt => GameSettings.RandomizeCoinSpinDirection = evt.newValue);
-          okayButton.clicked += OnOkay;
-          shopBackgroundMovementToggle.RegisterValueChangedCallback(evt => GameSettings.AnimateClouds = evt.newValue);
-          timerLengthDropdown.RegisterValueChangedCallback(OnTimerLengthChanged);
-      }
-
-      private void OnTimerLengthChanged(ChangeEvent<string> evt) {
-          GameSettings.TimerLengths = timerLengthOptions.IndexOf(evt.newValue);
-      }
-
-      private void SetUpTimerLengthList() {
-          timerLengthDropdown.choices = timerLengthOptions;
-      }
-
-      private void SetUpDisplayModeList() {
-          displayModeOptions = new List<string>
-          {
-              "Fullscreen",
-              "Windowed"
+              displayTab,
+              new SoundTabHandler(),
+              new MiscTabHandler(),
+              new AccessibilityTabHandler(),
+              new GameplayTabHandler()
           };
+
+          foreach (var tab in tabs) {
+              tab.Initialize(root);
+              tab.SyncToSettings();
+              tab.RegisterCallbacks();
+          }
           
-          displayModeDropdown.choices = displayModeOptions;
+          okayButton.clicked += OnOkay;
       }
       
-      private void SetDisplayMode(ChangeEvent<string> evt) {
-          displayOptionChanged = true;
-          switch (evt.newValue) {
-              case "Fullscreen":
-                  GameSettings.DisplayMode = FullScreenMode.ExclusiveFullScreen;
-                  break;
-              case "Windowed":
-                  GameSettings.DisplayMode = FullScreenMode.Windowed;
-                  break;
-              default:
-                  DebugLogger.LogException(LogChannel.Systems, new InvalidEnumArgumentException("Invalid display mode in GameSettings!"));
-                  break;
-          }
-      }
-
-      private int GetDisplayIndexFromEnum(FullScreenMode displayMode) {
-          return displayMode switch
-          {
-              FullScreenMode.ExclusiveFullScreen => 0,
-              FullScreenMode.Windowed => 1,
-              _ => 0
-          };
-      }
-
-      private void SetUpResolutionList()
-      {
-          var seen = new HashSet<string>();
-          foreach (var res in Screen.resolutions)
-          {
-              if (seen.Add($"{res.width}x{res.height}"))
-                  resolutionList.Add((res.width, res.height));
-          }
-          
-          var fallbackResolutionList = new List<(int width, int height)>
-          {
-              (800, 600), (1280, 720), (1280, 800),
-              (1366, 768), (1600, 900), (1680, 1050),
-              (1920, 1080), (1920, 1200), (2560, 1440),
-              (2560, 1600), (3840, 2160)
-          };
-
-          foreach (var resolution in fallbackResolutionList) {
-              if (seen.Add($"{resolution.width}x{resolution.height}")) resolutionList.Add((resolution.width, resolution.height));
-          }
-
-          resolutionList.Sort();
-          resolutionDropdown.choices = resolutionList.Select(r => $"{r.width} x {r.height}").ToList();
-      }
-
-      private void SyncUIToSettings()
-      {
-          vSyncToggle.value = GameSettings.VSync;
-          presetBoardToggle.value = GameSettings.UsePresetBoard;
-          int currentWidth = Screen.width;
-          int currentHeight = Screen.height;
-          
-          resolutionList.Sort();
-          int resIndex = resolutionList.FindIndex(r =>
-              r.width == currentWidth && r.height == currentHeight);
-          if (resIndex < 0) {
-              resolutionList.Add((currentWidth, currentHeight));
-              resolutionList.Sort();
-              resIndex = resolutionList.FindIndex(r=> r.width == currentWidth && r.height == currentHeight);
-          }
-          
-          resolutionDropdown.choices = resolutionList.Select(r => $"{r.width} x {r.height}").ToList();
-
-          resolutionDropdown.index = resIndex;
-          
-          GameSettings.ResolutionWidth = currentWidth;
-          GameSettings.ResolutionHeight = currentHeight;
-
-          displayModeDropdown.index = GetDisplayIndexFromEnum(GameSettings.DisplayMode);
-          
-          antiAliasingDropdown.choices = new List<string> { "None", "FXAA", "SMAA" };
-          antiAliasingDropdown.index = GameSettings.AntiAliasingMode;
-
-          timerLengthDropdown.index = GameSettings.TimerLengths;
-
-          volumeSlider.lowValue = 0f;
-          volumeSlider.highValue = 1f;
-          volumeSlider.value = GameSettings.Volume;
-          
-          musicVolumeSlider.lowValue = 0f;
-          musicVolumeSlider.highValue = 1f;
-          musicVolumeSlider.value = GameSettings.MusicVolume;
-
-          sfxVolumeSlider.lowValue = 0f;
-          sfxVolumeSlider.highValue = 1f;
-          sfxVolumeSlider.value = GameSettings.SFXVolume;
-
-          screenShakeSlider.lowValue = 0f;
-          screenShakeSlider.highValue = 1f;
-          screenShakeSlider.value = GameSettings.ScreenShakeIntensity;
-
-          shopBackgroundMovementToggle.value = GameSettings.AnimateClouds;
-          
-          displayOptionChanged = false;
-
-          randomizeCoinSpinDirectionToggle.value = GameSettings.RandomizeCoinSpinDirection;
-      }
-
       private void OnOkay()
       {
           GameSettings.Save();
-          GameSettings.Apply(displayOptionChanged);
+          GameSettings.Apply(displayTab.DisplayOptionChanged);
           root.style.display = DisplayStyle.None;
       }
 
       public void Show()
       {
-          SyncUIToSettings();
+          foreach (var tab in tabs) {
+              tab.SyncToSettings();
+          }
           root.style.display = DisplayStyle.Flex;
       }
 
