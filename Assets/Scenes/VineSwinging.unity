@@ -219,14 +219,14 @@ MonoBehaviour:
       Data2: 1167337187
       Data3: 1178454923
       Data4: 961581799
-    Path: event:/VineSwinging/VineGrab
+    Path: event:/Swinging/VineGrab
   launchEvent:
     Guid:
       Data1: 1089352894
       Data2: 1088428243
       Data3: 1427342265
       Data4: 608675366
-    Path: event:/VineSwinging/VineRelease
+    Path: event:/Swinging/VineRelease
   fallEvent:
     Guid:
       Data1: 198578112
@@ -585,14 +585,14 @@ MonoBehaviour:
       Data2: 1167337187
       Data3: 1178454923
       Data4: 961581799
-    Path: event:/VineSwinging/VineGrab
+    Path: event:/Swinging/VineGrab
   launchEvent:
     Guid:
       Data1: 1089352894
       Data2: 1088428243
       Data3: 1427342265
       Data4: 608675366
-    Path: event:/VineSwinging/VineRelease
+    Path: event:/Swinging/VineRelease
   fallEvent:
     Guid:
       Data1: 198578112
@@ -6450,14 +6450,14 @@ MonoBehaviour:
       Data2: 1167337187
       Data3: 1178454923
       Data4: 961581799
-    Path: event:/VineSwinging/VineGrab
+    Path: event:/Swinging/VineGrab
   launchEvent:
     Guid:
       Data1: 1089352894
       Data2: 1088428243
       Data3: 1427342265
       Data4: 608675366
-    Path: event:/VineSwinging/VineRelease
+    Path: event:/Swinging/VineRelease
   fallEvent:
     Guid:
       Data1: 198578112
@@ -8103,14 +8103,14 @@ MonoBehaviour:
       Data2: 1167337187
       Data3: 1178454923
       Data4: 961581799
-    Path: event:/VineSwinging/VineGrab
+    Path: event:/Swinging/VineGrab
   launchEvent:
     Guid:
       Data1: 1089352894
       Data2: 1088428243
       Data3: 1427342265
       Data4: 608675366
-    Path: event:/VineSwinging/VineRelease
+    Path: event:/Swinging/VineRelease
   fallEvent:
     Guid:
       Data1: 198578112
@@ -9554,7 +9554,7 @@ MonoBehaviour:
       Data2: 1089373099
       Data3: -363563380
       Data4: -712907215
-    Path: event:/VineSwinging/VineSwingingMusic
+    Path: event:/Swinging/VineSwingingMusic
 --- !u!4 &2038017122
 Transform:
   m_ObjectHideFlags: 0
