@@ -9,6 +9,7 @@ namespace Options {
         public bool DisplayOptionChanged => displayOptionChanged;
         
         private Toggle vSyncToggle;
+        private Toggle bloomToggle;
         private DropdownField displayModeDropdown;
         private DropdownField resolutionDropdown;
         private DropdownField antiAliasingDropdown;
@@ -18,6 +19,7 @@ namespace Options {
         private List<string> displayModeOptions = new();
         
         public void Initialize(VisualElement tabRoot) {
+            bloomToggle = tabRoot.Q<Toggle>("Bloom_Toggle");
             vSyncToggle = tabRoot.Q<Toggle>("Vsync_Toggle");
             displayModeDropdown = tabRoot.Q<DropdownField>("DisplayMode_Dropdown");
             resolutionDropdown = tabRoot.Q<DropdownField>("Resolution_Dropdown");
@@ -28,6 +30,7 @@ namespace Options {
 
         public void SyncToSettings() {
             vSyncToggle.value = GameSettings.Display.VSync;
+            bloomToggle.value = GameSettings.Display.Bloom;
             
             int currentWidth = Screen.width;
             int currentHeight = Screen.height;
@@ -58,6 +61,7 @@ namespace Options {
 
         public void RegisterCallbacks() {
             vSyncToggle.RegisterValueChangedCallback(evt => GameSettings.Display.VSync = evt.newValue);
+            bloomToggle.RegisterValueChangedCallback(evt => GameSettings.Display.Bloom = evt.newValue);
             resolutionDropdown.RegisterValueChangedCallback(evt =>
             {
                 var sel = resolutionList[resolutionDropdown.index];
