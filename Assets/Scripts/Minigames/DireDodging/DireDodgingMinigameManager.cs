@@ -21,10 +21,10 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
 
     [Header("Minigame Settings")] 
     private int countdownDurationInSeconds;
+    private int[] BaseFundsPerRank => MinigamePayouts.GetBaseFundsPerRank();
     [Tooltip("How much shorter should this minigame be from other minigames?")]
     [SerializeField] private int TimerDecreaseAmount = 5;
     [SerializeField] private int ResultsDisplayDurationInSeconds = 5;
-    [SerializeField] private int[] BaseFundsPerRank = new[] { 100, 80, 60, 50 };
     [SerializeField] private EventReference MusicEvent;
 
     [Header("References")] 
