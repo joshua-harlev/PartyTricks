@@ -11,4 +11,8 @@ public class TimerLengthsSO : ScriptableObject {
     public float MinigameTimerLength_LessTime = 25;
     public float MinigameTimerLength_Default = 30;
     public float MinigameTimerLength_MoreTime = 40;
+    
+    [Header("Countdown Lengths")]
+    public int CountdownTimerLength_Default = 3;
+    public int CountdownTimerLength_MoreTime = 10;
 }

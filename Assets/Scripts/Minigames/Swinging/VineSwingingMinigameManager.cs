@@ -16,8 +16,8 @@ namespace Minigames.Swinging {
         public event Action<PlayerMinigameResult[]> OnMinigameFinished;
         public bool IsDoubleRound { get; set; }
 
-        [Header("Minigame Settings")] 
-        [SerializeField] private int countdownDurationInSeconds = 5;
+        [Header("Minigame Settings")]
+        private readonly int countdownDurationInSeconds = TimerLengths.GetCountdownTimerLengthInSeconds();
         [SerializeField] private float resultsDisplayDurationInSeconds = 5f;
         [SerializeField] private int[] fundsPerRank = new[] { 100, 80, 60, 50 };
         [SerializeField] private int vineCount = 20;
