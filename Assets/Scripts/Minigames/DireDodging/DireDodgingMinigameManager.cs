@@ -20,7 +20,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     private IPowerUpService powerUpService;
 
     [Header("Minigame Settings")] 
-    private int CountdownDurationInSeconds = TimerLengths.GetCountdownTimerLengthInSeconds();
+    private int countdownDurationInSeconds;
     [Tooltip("How much shorter should this minigame be from other minigames?")]
     [SerializeField] private int TimerDecreaseAmount = 5;
     [SerializeField] private int ResultsDisplayDurationInSeconds = 5;
@@ -57,6 +57,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     }
 
     private void Start() {
+        countdownDurationInSeconds = TimerLengths.GetCountdownTimerLengthInSeconds();
         SetUpVariables();
         StartCoroutine(WaitForInitialization());
     }
@@ -64,7 +65,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     private void SetUpVariables() {
         InitializePlayerDisplays();
         PlacesDisplay.Hide();
-        StartCountdown.Initialize(CountdownDurationInSeconds);
+        StartCountdown.Initialize(countdownDurationInSeconds);
         if (IsDoubleRound) {
             effectiveGameDurationInSeconds *= 2;
         }

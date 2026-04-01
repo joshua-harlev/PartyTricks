@@ -16,8 +16,8 @@ namespace Minigames.Swinging {
         public event Action<PlayerMinigameResult[]> OnMinigameFinished;
         public bool IsDoubleRound { get; set; }
 
-        [Header("Minigame Settings")]
-        private readonly int countdownDurationInSeconds = TimerLengths.GetCountdownTimerLengthInSeconds();
+        [Header("Minigame Settings")] 
+        private int countdownDurationInSeconds;
         [SerializeField] private float resultsDisplayDurationInSeconds = 5f;
         [SerializeField] private int[] fundsPerRank = new[] { 100, 80, 60, 50 };
         [SerializeField] private int vineCount = 20;
@@ -87,6 +87,7 @@ namespace Minigames.Swinging {
 
         public void Initialize(bool isDoubleRound) {
             IsDoubleRound = isDoubleRound;
+            countdownDurationInSeconds = TimerLengths.GetCountdownTimerLengthInSeconds();
             hasBeenInitialized = true;
             GameTimer.OnTimerTick += OnTimerTick;
             DebugLogger.Log(LogChannel.Systems, $"VineSwinging initiated. Double round: {isDoubleRound}");

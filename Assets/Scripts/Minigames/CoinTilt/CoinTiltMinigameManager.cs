@@ -16,9 +16,8 @@ namespace Minigames.CoinTilt {
         public event Action<PlayerMinigameResult[]> OnMinigameFinished;
         public bool IsDoubleRound { get; private set; }
 
-        [Header("Minigame Settings")]
-
-        private readonly int countdownDurationInSeconds = TimerLengths.GetCountdownTimerLengthInSeconds();
+        [Header("Minigame Settings")] 
+        private int countdownDurationInSeconds;
         [SerializeField] private float resultsDisplayDurationInSeconds = 5f;
         [SerializeField] private int[] fundsPerRank = new[] { 100, 80, 60, 50 };
         [SerializeField] private EventReference MusicEvent;
@@ -59,6 +58,7 @@ namespace Minigames.CoinTilt {
 
         public void Initialize(bool isDoubleRound) {
             this.IsDoubleRound = isDoubleRound;
+            countdownDurationInSeconds = TimerLengths.GetCountdownTimerLengthInSeconds();
             AdjustGameDurationForDoubleRound();
             CheckForGameObjectAssignments();
             InitializeVariables();
