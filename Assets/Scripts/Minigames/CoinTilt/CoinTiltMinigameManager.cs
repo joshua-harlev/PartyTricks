@@ -18,7 +18,7 @@ namespace Minigames.CoinTilt {
 
         [Header("Minigame Settings")]
 
-        [SerializeField] private int countdownDurationInSeconds = 5;
+        private readonly int countdownDurationInSeconds = TimerLengths.GetCountdownTimerLengthInSeconds();
         [SerializeField] private float resultsDisplayDurationInSeconds = 5f;
         [SerializeField] private int[] fundsPerRank = new[] { 100, 80, 60, 50 };
         [SerializeField] private EventReference MusicEvent;

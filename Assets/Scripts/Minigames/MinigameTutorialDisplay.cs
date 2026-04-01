@@ -9,7 +9,7 @@ public class MinigameTutorialDisplay : MonoBehaviour
     [SerializeField] private TMP_Text tutorialText;
     [SerializeField] private TMP_Text buttonPromptText;
     [SerializeField] private float displayDurationInSeconds = 7f;
-    [SerializeField] private float blockSkipDurationInSeconds = 1f;
+    [SerializeField] private float blockSkipDurationInSeconds = 3f;
     private IPlayerService playerService;
     private IPauseService pauseService;
     public event Action OnDismissed;
@@ -54,8 +54,10 @@ public class MinigameTutorialDisplay : MonoBehaviour
     }
 
     private IEnumerator AutoDismissTimer() {
-        yield return new WaitForSeconds(displayDurationInSeconds);
-        Dismiss();
+        if (GameSettings.Gameplay.AutoDismissTutorials) {
+            yield return new WaitForSeconds(displayDurationInSeconds);
+            Dismiss();
+        }
     }
 
     private void Dismiss() {

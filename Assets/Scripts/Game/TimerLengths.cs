@@ -48,6 +48,15 @@ namespace Game {
             }
         }
 
+        public static int GetCountdownTimerLengthInSeconds() {
+            EnsureTimerLengthsConfigLoaded();
+            if (GameSettings.Gameplay.LongerMinigameCountdowns) {
+                return lengthsConfig.CountdownTimerLength_MoreTime;
+            }
+
+            return lengthsConfig.CountdownTimerLength_Default;
+        }
+
         private static void EnsureTimerLengthsConfigLoaded() {
             if (lengthsConfig == null) lengthsConfig = Resources.Load<TimerLengthsSO>(ConfigPath);
         }

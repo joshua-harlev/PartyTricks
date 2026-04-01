@@ -9513,7 +9513,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 236f1774c74e4622b75bcfb0ee450daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingMinigameManager
-  countdownDurationInSeconds: 3
   resultsDisplayDurationInSeconds: 5
   fundsPerRank: 64000000500000003c00000032000000
   vineCount: 40
@@ -9955,7 +9954,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.00022125}
-  m_SizeDelta: {x: 300, y: 1079.7}
+  m_SizeDelta: {x: 1000, y: 1079.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2110988712
 MonoBehaviour:
