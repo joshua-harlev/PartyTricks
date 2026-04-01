@@ -43,7 +43,7 @@ namespace VineSwinging.Core {
             
             if (hasDriveTarget) {
                 int tip = PointCount - 1;
-                positions[tip] = positions[tip] + (driveTarget - positions[tip]) * driveStiffness;
+                positions[tip] = driveTarget;
             }
         }
 
