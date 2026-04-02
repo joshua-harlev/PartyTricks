@@ -15,6 +15,7 @@ namespace Minigames.Swinging {
         }
 
         private void LateUpdate() {
+            if (GameSettings.Accessibility.DisableParallax) return;
             if (cameraTransform == null) return;
             float camDelta = cameraTransform.localPosition.x - startCamX;
             transform.localPosition = new Vector3(
