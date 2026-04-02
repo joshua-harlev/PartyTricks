@@ -2679,6 +2679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
   LabelShouldDisappear: 0
   TimeUntilAutomaticDestructionInSeconds: 10
+  UseCountdownTimeForDestruction: 0
   LockRotation: 0
   spriteRenderer: {fileID: 736511332}
 --- !u!1001 &743663051
@@ -6144,6 +6145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
   LabelShouldDisappear: 0
   TimeUntilAutomaticDestructionInSeconds: 10
+  UseCountdownTimeForDestruction: 0
   LockRotation: 0
   spriteRenderer: {fileID: 1625963116}
 --- !u!1 &1639456613
@@ -6463,6 +6465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
   LabelShouldDisappear: 0
   TimeUntilAutomaticDestructionInSeconds: 10
+  UseCountdownTimeForDestruction: 0
   LockRotation: 0
   spriteRenderer: {fileID: 1693751386}
 --- !u!1 &1711397427
@@ -7468,7 +7471,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -10
   m_Sprite: {fileID: -1299416227, guid: 1fa8e99f790fe4eda9d353b4d1acdbd8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 0.773, g: 0.773, b: 0.773, a: 0.003921569}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -7907,6 +7910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
   LabelShouldDisappear: 0
   TimeUntilAutomaticDestructionInSeconds: 10
+  UseCountdownTimeForDestruction: 0
   LockRotation: 0
   spriteRenderer: {fileID: 2110432750}
 --- !u!1001 &1089550400072865722
