@@ -19,6 +19,7 @@ namespace Minigames.Swinging {
         private bool isSnapping;
         private bool needsSweep;
         private bool showTrail;
+        private float trailOffsetX;
         private const float SnapSpeed = 80f;
 
         public void Initialize(bool showTrail) {
@@ -28,6 +29,7 @@ namespace Minigames.Swinging {
                 trailEmission.enabled = false;
                 boostTrailParticles.Play();
             }
+            trailOffsetX = boostTrailParticles.transform.localPosition.x;
         }
         
         public void Pull(PlayerContext playerContext) {
@@ -39,6 +41,12 @@ namespace Minigames.Swinging {
             }
             else {
                 spriteRenderer.flipX = currentPlayerContext.VelocityX < 0f;
+            }
+
+            if (showTrail) {
+                var localPos = boostTrailParticles.transform.localPosition;
+                localPos.x = spriteRenderer.flipX ? -trailOffsetX : trailOffsetX;
+                boostTrailParticles.transform.localPosition = localPos;
             }
             
             Vector3 targetPosition = new Vector3(playerContext.PositionX, playerContext.PositionY);
