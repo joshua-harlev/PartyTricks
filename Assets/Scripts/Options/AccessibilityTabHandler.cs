@@ -8,24 +8,28 @@ namespace Options {
     public class AccessibilityTabHandler : IOptionsTab {
         private Slider screenShakeSlider;
         private Toggle shopBackgroundMovementToggle;
+        private Toggle increaseBackgroundVisibilityToggle;
+        private Toggle disableParallaxToggle;
         private Toggle tinnitusFilterToggle;
         private Slider tinnitusFilterFrequencySlider;
         private Slider tinnitusFilterGainSlider;
         private Button testToneButton;
         private VisualElement tinnitusFilterControls;
         private ITinnitusFilterService tinnitusFilterService;
-        private Label TinnitusFilterText;
+        private Label tinnitusFilterText;
         
         public void Initialize(VisualElement tabRoot) {
             screenShakeSlider = tabRoot.Q<Slider>("Screen_Shake_Slider");
             shopBackgroundMovementToggle = tabRoot.Q<Toggle>("Shop_Background_Movement_Toggle");
+            increaseBackgroundVisibilityToggle = tabRoot.Q<Toggle>("Increase_Background_Visibility_Toggle");
+            disableParallaxToggle = tabRoot.Q<Toggle>("Disable_Parallax_Toggle");
             tinnitusFilterToggle = tabRoot.Q<Toggle>("Tinnitus_Filter_Toggle");
             tinnitusFilterFrequencySlider = tabRoot.Q<Slider>("Tinnitus_Filter_Frequency_Slider");
             tinnitusFilterGainSlider = tabRoot.Q<Slider>("Tinnitus_Filter_Gain_Slider");
             testToneButton = tabRoot.Q<Button>("Tinnitus_Filter_Test_Tone_button");
             tinnitusFilterControls = tabRoot.Q<VisualElement>("Tinnitus_Filter_Controls");
             tinnitusFilterService = ServiceLocatorAccessor.GetService<ITinnitusFilterService>();
-            TinnitusFilterText = tabRoot.Q<Label>("Tinnitus_Filter_Labels");
+            tinnitusFilterText = tabRoot.Q<Label>("Tinnitus_Filter_Labels");
         }
 
         public void SyncToSettings() {
@@ -34,6 +38,8 @@ namespace Options {
             screenShakeSlider.value = GameSettings.Accessibility.ScreenShakeIntensity;
 
             shopBackgroundMovementToggle.value = GameSettings.Accessibility.AnimateClouds;
+            increaseBackgroundVisibilityToggle.value = GameSettings.Accessibility.IncreaseBackgroundVisibility;
+            disableParallaxToggle.value = GameSettings.Accessibility.DisableParallax;
 
             tinnitusFilterToggle.value = GameSettings.Accessibility.TinnitusFilterEnabled;
 
@@ -56,6 +62,8 @@ namespace Options {
         public void RegisterCallbacks() {
             screenShakeSlider.RegisterValueChangedCallback(evt => GameSettings.Accessibility.ScreenShakeIntensity = evt.newValue);
             shopBackgroundMovementToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.AnimateClouds = evt.newValue);
+            increaseBackgroundVisibilityToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.IncreaseBackgroundVisibility = evt.newValue);
+            disableParallaxToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.DisableParallax = evt.newValue);
 
             tinnitusFilterToggle.RegisterValueChangedCallback(evt =>
             {
@@ -83,7 +91,7 @@ namespace Options {
         }
 
         private void UpdateTinnitusFilterLabel() {
-            TinnitusFilterText.text =
+            tinnitusFilterText.text =
                 $"Current Frequency: {GameSettings.Accessibility.TinnitusFilterFrequency:F0} Hz, Current Gain: {GameSettings.Accessibility.TinnitusFilterGain:F0} dB";
         }
 

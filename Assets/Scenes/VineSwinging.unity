@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 89889059}
   - component: {fileID: 89889061}
   - component: {fileID: 89889060}
+  - component: {fileID: 89889062}
   m_Layer: 0
   m_Name: GREEN_MedProp
   m_TagString: Untagged
@@ -532,6 +533,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &89889062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89889058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 89889061}
 --- !u!1 &136553499
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,6 +801,7 @@ GameObject:
   - component: {fileID: 197502774}
   - component: {fileID: 197502776}
   - component: {fileID: 197502775}
+  - component: {fileID: 197502777}
   m_Layer: 0
   m_Name: GREEN_BigProp
   m_TagString: Untagged
@@ -884,6 +899,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &197502777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197502773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 197502776}
 --- !u!1 &244899918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,6 +1690,7 @@ GameObject:
   - component: {fileID: 481076745}
   - component: {fileID: 481076747}
   - component: {fileID: 481076746}
+  - component: {fileID: 481076748}
   m_Layer: 0
   m_Name: GREEN_Smallprop
   m_TagString: Untagged
@@ -1759,6 +1788,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &481076748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481076744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 481076747}
 --- !u!1 &522558646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,6 +1812,7 @@ GameObject:
   - component: {fileID: 522558647}
   - component: {fileID: 522558649}
   - component: {fileID: 522558648}
+  - component: {fileID: 522558650}
   m_Layer: 0
   m_Name: BLUE_Foreground
   m_TagString: Untagged
@@ -1867,6 +1910,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &522558650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522558646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 522558649}
 --- !u!1 &522758215
 GameObject:
   m_ObjectHideFlags: 0
@@ -2152,6 +2208,7 @@ GameObject:
   - component: {fileID: 529178366}
   - component: {fileID: 529178368}
   - component: {fileID: 529178367}
+  - component: {fileID: 529178369}
   m_Layer: 0
   m_Name: PURP_Scaffolding
   m_TagString: Untagged
@@ -2246,6 +2303,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &529178369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529178365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 529178368}
 --- !u!1 &535326622
 GameObject:
   m_ObjectHideFlags: 0
@@ -2888,6 +2958,7 @@ GameObject:
   - component: {fileID: 610928046}
   - component: {fileID: 610928047}
   - component: {fileID: 610928048}
+  - component: {fileID: 610928049}
   m_Layer: 0
   m_Name: RED_Foreground
   m_TagString: Untagged
@@ -2985,6 +3056,19 @@ MonoBehaviour:
   maxGap: 45
   spawnAheadDistance: 50
   cleanupBehindDistance: 50
+--- !u!114 &610928049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610928045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 610928047}
 --- !u!1 &615467733
 GameObject:
   m_ObjectHideFlags: 0
@@ -3615,6 +3699,7 @@ GameObject:
   - component: {fileID: 733056253}
   - component: {fileID: 733056255}
   - component: {fileID: 733056254}
+  - component: {fileID: 733056256}
   m_Layer: 0
   m_Name: BLUE_MedProp
   m_TagString: Untagged
@@ -3712,6 +3797,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &733056256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733056252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 733056255}
 --- !u!1 &746793088
 GameObject:
   m_ObjectHideFlags: 0
@@ -4315,6 +4413,7 @@ GameObject:
   - component: {fileID: 920983030}
   - component: {fileID: 920983032}
   - component: {fileID: 920983031}
+  - component: {fileID: 920983033}
   m_Layer: 0
   m_Name: PURP_MedProp
   m_TagString: Untagged
@@ -4412,6 +4511,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &920983033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920983029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 920983032}
 --- !u!1 &932889363
 GameObject:
   m_ObjectHideFlags: 0
@@ -4971,6 +5083,7 @@ GameObject:
   - component: {fileID: 1065835712}
   - component: {fileID: 1065835714}
   - component: {fileID: 1065835713}
+  - component: {fileID: 1065835715}
   m_Layer: 0
   m_Name: BLUE_BigProp
   m_TagString: Untagged
@@ -5068,6 +5181,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1065835715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065835711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1065835714}
 --- !u!1 &1077806967
 GameObject:
   m_ObjectHideFlags: 0
@@ -5855,6 +5981,7 @@ GameObject:
   - component: {fileID: 1182732664}
   - component: {fileID: 1182732665}
   - component: {fileID: 1182732666}
+  - component: {fileID: 1182732667}
   m_Layer: 0
   m_Name: RED_Scaffolding
   m_TagString: Untagged
@@ -5949,6 +6076,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.ScrollingBackground
   cameraTransform: {fileID: 526212524}
   tilesAhead: 5
+--- !u!114 &1182732667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182732663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1182732665}
 --- !u!1 &1219371421
 GameObject:
   m_ObjectHideFlags: 0
@@ -5960,6 +6100,7 @@ GameObject:
   - component: {fileID: 1219371422}
   - component: {fileID: 1219371423}
   - component: {fileID: 1219371424}
+  - component: {fileID: 1219371425}
   m_Layer: 0
   m_Name: RED_BigProp
   m_TagString: Untagged
@@ -6057,6 +6198,19 @@ MonoBehaviour:
   maxGap: 70
   spawnAheadDistance: 50
   cleanupBehindDistance: 50
+--- !u!114 &1219371425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219371421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1219371423}
 --- !u!1 &1237021600
 GameObject:
   m_ObjectHideFlags: 0
@@ -6115,6 +6269,7 @@ GameObject:
   - component: {fileID: 1247180851}
   - component: {fileID: 1247180852}
   - component: {fileID: 1247180853}
+  - component: {fileID: 1247180854}
   m_Layer: 0
   m_Name: RED_MedProp
   m_TagString: Untagged
@@ -6212,6 +6367,19 @@ MonoBehaviour:
   maxGap: 60
   spawnAheadDistance: 50
   cleanupBehindDistance: 50
+--- !u!114 &1247180854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247180850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1247180852}
 --- !u!1 &1261292148
 GameObject:
   m_ObjectHideFlags: 0
@@ -7563,6 +7731,7 @@ GameObject:
   - component: {fileID: 1473505847}
   - component: {fileID: 1473505849}
   - component: {fileID: 1473505848}
+  - component: {fileID: 1473505850}
   m_Layer: 0
   m_Name: GREEN_Scaffolding
   m_TagString: Untagged
@@ -7657,6 +7826,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1473505850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473505846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1473505849}
 --- !u!1 &1473722923
 GameObject:
   m_ObjectHideFlags: 0
@@ -7668,6 +7850,7 @@ GameObject:
   - component: {fileID: 1473722924}
   - component: {fileID: 1473722926}
   - component: {fileID: 1473722925}
+  - component: {fileID: 1473722927}
   m_Layer: 0
   m_Name: BLUE_Scaffolding
   m_TagString: Untagged
@@ -7762,6 +7945,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1473722927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473722923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1473722926}
 --- !u!1 &1497543106
 GameObject:
   m_ObjectHideFlags: 0
@@ -8276,6 +8472,7 @@ GameObject:
   - component: {fileID: 1614654674}
   - component: {fileID: 1614654676}
   - component: {fileID: 1614654675}
+  - component: {fileID: 1614654677}
   m_Layer: 0
   m_Name: PURP_SmallProp
   m_TagString: Untagged
@@ -8373,6 +8570,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1614654677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614654673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1614654676}
 --- !u!1 &1641283172
 GameObject:
   m_ObjectHideFlags: 0
@@ -8384,6 +8594,7 @@ GameObject:
   - component: {fileID: 1641283173}
   - component: {fileID: 1641283174}
   - component: {fileID: 1641283175}
+  - component: {fileID: 1641283176}
   m_Layer: 0
   m_Name: RED_SmallProp
   m_TagString: Untagged
@@ -8481,6 +8692,19 @@ MonoBehaviour:
   maxGap: 50
   spawnAheadDistance: 50
   cleanupBehindDistance: 50
+--- !u!114 &1641283176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641283172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1641283174}
 --- !u!1 &1706074390
 GameObject:
   m_ObjectHideFlags: 0
@@ -8628,6 +8852,7 @@ GameObject:
   - component: {fileID: 1739979710}
   - component: {fileID: 1739979712}
   - component: {fileID: 1739979711}
+  - component: {fileID: 1739979713}
   m_Layer: 0
   m_Name: PURP_BigProp
   m_TagString: Untagged
@@ -8725,6 +8950,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1739979713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739979709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1739979712}
 --- !u!1 &1770116923
 GameObject:
   m_ObjectHideFlags: 0
@@ -9021,6 +9259,7 @@ GameObject:
   - component: {fileID: 1884786539}
   - component: {fileID: 1884786541}
   - component: {fileID: 1884786540}
+  - component: {fileID: 1884786542}
   m_Layer: 0
   m_Name: Green_Forground
   m_TagString: Untagged
@@ -9118,6 +9357,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1884786542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884786538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1884786541}
 --- !u!1 &1892944979
 GameObject:
   m_ObjectHideFlags: 0
@@ -9514,7 +9766,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingMinigameManager
   resultsDisplayDurationInSeconds: 5
-  fundsPerRank: 64000000500000003c00000032000000
   vineCount: 40
   vineAnchorY: 8
   playerStats: {fileID: 11400000, guid: f40ce12690a6d4c91acb1c250c4504b4, type: 2}
@@ -9821,6 +10072,7 @@ GameObject:
   - component: {fileID: 2079640365}
   - component: {fileID: 2079640367}
   - component: {fileID: 2079640366}
+  - component: {fileID: 2079640368}
   m_Layer: 0
   m_Name: BLUE_SmallProp
   m_TagString: Untagged
@@ -9918,6 +10170,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2079640368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079640364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 2079640367}
 --- !u!1 &2110988710
 GameObject:
   m_ObjectHideFlags: 0
@@ -10133,6 +10398,7 @@ GameObject:
   - component: {fileID: 2119169596}
   - component: {fileID: 2119169598}
   - component: {fileID: 2119169597}
+  - component: {fileID: 2119169599}
   m_Layer: 0
   m_Name: PURP_Foreground
   m_TagString: Untagged
@@ -10230,6 +10496,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2119169599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119169595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 2119169598}
 --- !u!1 &2124561514
 GameObject:
   m_ObjectHideFlags: 0
