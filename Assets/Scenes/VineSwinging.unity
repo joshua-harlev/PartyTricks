@@ -241,6 +241,8 @@ MonoBehaviour:
       Data3: -1797647485
       Data4: -944831712
     Path: event:/Swinging/Coin
+  defaultSprite: {fileID: 21300000, guid: 3137bd4b107464a45b7df9c37dffe4c1, type: 3}
+  releasedSprite: {fileID: 21300000, guid: 4f018365cda7a4cbd8e665fe614ea983, type: 3}
 --- !u!1 &47849531
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,6 +623,8 @@ MonoBehaviour:
       Data3: -1797647485
       Data4: -944831712
     Path: event:/Swinging/Coin
+  defaultSprite: {fileID: 21300000, guid: 055bfbc6ccbaa4c79803773d2d6d3e87, type: 3}
+  releasedSprite: {fileID: 21300000, guid: 4b8708c7373a1483ab8953145e4d0674, type: 3}
 --- !u!1 &175316721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,7 +1303,7 @@ Transform:
   m_GameObject: {fileID: 389333654}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1354,7 +1358,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3137bd4b107464a45b7df9c37dffe4c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3523,7 +3527,7 @@ Transform:
   m_GameObject: {fileID: 703407583}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3578,7 +3582,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 055bfbc6ccbaa4c79803773d2d6d3e87, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3885,7 +3889,7 @@ Transform:
   m_GameObject: {fileID: 776735908}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3940,7 +3944,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ed87bd1b1ce4941c1b0bdcdff624031b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6640,6 +6644,8 @@ MonoBehaviour:
       Data3: -1797647485
       Data4: -944831712
     Path: event:/Swinging/Coin
+  defaultSprite: {fileID: 21300000, guid: ed87bd1b1ce4941c1b0bdcdff624031b, type: 3}
+  releasedSprite: {fileID: 21300000, guid: 35646e2972cf749faa8394dd5ab0809c, type: 3}
 --- !u!1 &1322480787
 GameObject:
   m_ObjectHideFlags: 0
@@ -7287,7 +7293,7 @@ Transform:
   m_GameObject: {fileID: 1435971376}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7342,7 +7348,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 954d7bd592bf34948baa7bced435bc3e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8321,6 +8327,8 @@ MonoBehaviour:
       Data3: -1797647485
       Data4: -944831712
     Path: event:/Swinging/Coin
+  defaultSprite: {fileID: 21300000, guid: 954d7bd592bf34948baa7bced435bc3e, type: 3}
+  releasedSprite: {fileID: 21300000, guid: 1b1e9c69ea8eb48c7a054544e122676e, type: 3}
 --- !u!1 &1596411626
 GameObject:
   m_ObjectHideFlags: 0

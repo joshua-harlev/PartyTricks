@@ -10,6 +10,7 @@ namespace VineSwinging.Core {
         }
         public void Enter(PlayerContext playerContext, SwingConfig swingConfig) {
             playerContext.CurrentStateType = PlayerStateType.Swinging;
+            playerContext.PendingEvents.Add(PlayerEvent.GrabbedVine);
             float vinePeriod = playerStateMachine.VinePeriods[playerContext.CurrentVineIndex];
             playerContext.SwingPhase = playerStateMachine.VinePhaseOffsets[playerContext.CurrentVineIndex]
                 + (float)(2*Math.PI / vinePeriod) * playerStateMachine.ElapsedTime;
