@@ -1,3 +1,4 @@
+using Game;
 using UnityEngine;
 
 public class DisappearingPlayerLabel : MonoBehaviour {
@@ -5,6 +6,7 @@ public class DisappearingPlayerLabel : MonoBehaviour {
     [SerializeField] private bool LabelShouldDisappear = false;
     [Tooltip("How long until the label automatically disappears, if the above is true?")]
     [SerializeField] private float TimeUntilAutomaticDestructionInSeconds = 10f;
+    [SerializeField] private bool UseCountdownTimeForDestruction = false;
     [Tooltip("Only enable if player rotates, for performance reasons")]
     [SerializeField] private bool LockRotation = false;
 
@@ -26,7 +28,9 @@ public class DisappearingPlayerLabel : MonoBehaviour {
     }
 
     public void Start() {
-        if(LabelShouldDisappear) {
+        if (UseCountdownTimeForDestruction && LabelShouldDisappear) {
+            Destroy(gameObject, TimerLengths.GetCountdownTimerLengthInSeconds());
+        } else if(LabelShouldDisappear) {
             Destroy(gameObject, TimeUntilAutomaticDestructionInSeconds);
         }
     }
