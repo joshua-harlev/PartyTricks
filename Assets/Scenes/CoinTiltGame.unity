@@ -693,6 +693,7 @@ GameObject:
   m_Component:
   - component: {fileID: 130258285}
   - component: {fileID: 130258286}
+  - component: {fileID: 130258287}
   m_Layer: 0
   m_Name: P1Background
   m_TagString: Untagged
@@ -773,6 +774,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &130258287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130258284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 130258286}
 --- !u!1001 &161294327
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1002,6 +1016,7 @@ GameObject:
   m_Component:
   - component: {fileID: 206689318}
   - component: {fileID: 206689319}
+  - component: {fileID: 206689320}
   m_Layer: 0
   m_Name: P2Background
   m_TagString: Untagged
@@ -1082,6 +1097,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &206689320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206689317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 206689319}
 --- !u!1001 &310726475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4139,6 +4167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1265523577}
   - component: {fileID: 1265523578}
+  - component: {fileID: 1265523579}
   m_Layer: 0
   m_Name: P4Background
   m_TagString: Untagged
@@ -4219,6 +4248,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1265523579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265523576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1265523578}
 --- !u!1 &1290908783
 GameObject:
   m_ObjectHideFlags: 0
@@ -4315,8 +4357,8 @@ Camera:
   m_GameObject: {fileID: 1290908783}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.24528301, g: 0.056692775, b: 0.056692775, a: 1}
   m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -4381,6 +4423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1325775222}
   - component: {fileID: 1325775223}
+  - component: {fileID: 1325775224}
   m_Layer: 0
   m_Name: P3Background
   m_TagString: Untagged
@@ -4461,6 +4504,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1325775224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325775221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f06d0ff7ce4ed4af70c1ca2d9e90e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.BackgroundContrastHider
+  backgroundRenderer: {fileID: 1325775223}
 --- !u!1 &1351585865
 GameObject:
   m_ObjectHideFlags: 0
@@ -5251,8 +5307,8 @@ Camera:
   m_GameObject: {fileID: 1630600583}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.091261126, g: 0.086463146, b: 0.2735849, a: 1}
   m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -5403,8 +5459,8 @@ Camera:
   m_GameObject: {fileID: 1633101901}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.11974294, g: 0.0065414775, b: 0.1981132, a: 1}
   m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -5801,8 +5857,8 @@ Camera:
   m_GameObject: {fileID: 1753127685}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.00080099865, g: 0.16981131, b: 0.00080099865, a: 1}
   m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -5940,7 +5996,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::CoinTiltMinigameManager
   resultsDisplayDurationInSeconds: 5
-  fundsPerRank: 64000000500000003c00000032000000
   MusicEvent:
     Guid:
       Data1: -1243255822
