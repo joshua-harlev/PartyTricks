@@ -1974,6 +1974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
   LabelShouldDisappear: 1
   TimeUntilAutomaticDestructionInSeconds: 5
+  UseCountdownTimeForDestruction: 1
   LockRotation: 1
   spriteRenderer: {fileID: 522758218}
 --- !u!212 &522758218
@@ -3120,6 +3121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
   LabelShouldDisappear: 1
   TimeUntilAutomaticDestructionInSeconds: 5
+  UseCountdownTimeForDestruction: 1
   LockRotation: 1
   spriteRenderer: {fileID: 615467736}
 --- !u!212 &615467736
@@ -3227,6 +3229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
   LabelShouldDisappear: 1
   TimeUntilAutomaticDestructionInSeconds: 5
+  UseCountdownTimeForDestruction: 1
   LockRotation: 1
   spriteRenderer: {fileID: 636279984}
 --- !u!212 &636279984
@@ -4264,6 +4267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::DireDodgingPlayerLabel
   LabelShouldDisappear: 1
   TimeUntilAutomaticDestructionInSeconds: 5
+  UseCountdownTimeForDestruction: 1
   LockRotation: 1
   spriteRenderer: {fileID: 866440773}
 --- !u!212 &866440773
