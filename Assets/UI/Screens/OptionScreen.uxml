@@ -5,7 +5,7 @@
         <ui:VisualElement name="Buttons" style="flex-grow: 1; width: 1266px; height: 852px; flex-direction: column; align-items: center; justify-content: flex-start; position: relative; align-self: center; align-content: center; top: 0; left: 0;">
             <ui:TabView name="Options_TabView" style="height: 631px;">
                 <ui:Tab label="Display" name="Display_Tab" style="overflow: hidden;">
-                    <ui:ScrollView>
+                    <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" style="flex-shrink: 1;">
                         <ui:DropdownField label="Display Mode" name="DisplayMode_Dropdown" style="top: 0; width: 1130px; margin-top: 10px; margin-left: 0; margin-bottom: 10px; margin-right: 0;" />
                         <ui:DropdownField label="Resolution" name="Resolution_Dropdown" style="top: 0; width: 1130px; margin-top: 10px; margin-left: 0; margin-bottom: 10px; margin-right: 0;" />
                         <ui:Toggle label="Bloom" name="Bloom_Toggle" value="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
@@ -14,14 +14,14 @@
                     </ui:ScrollView>
                 </ui:Tab>
                 <ui:Tab label="Sound" name="Sound_Tab" style="overflow: hidden;">
-                    <ui:ScrollView>
+                    <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" style="flex-shrink: 1;">
                         <ui:Slider label="Master Volume" value="42" high-value="100" name="Volume_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; height: 80px;" />
                         <ui:Slider label="Music Volume" value="42" high-value="100" name="Music_Volume_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; height: 80px;" />
                         <ui:Slider label="SFX Volume" value="42" high-value="100" name="SFX_Volume_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; height: 80px;" />
                     </ui:ScrollView>
                 </ui:Tab>
                 <ui:Tab label="Gameplay" name="Gameplay_Tab" style="overflow: hidden;">
-                    <ui:ScrollView>
+                    <ui:ScrollView name="ScrollView" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" style="flex-shrink: 1;">
                         <ui:Toggle label="Auto-Dismiss Tutorials&#x9;" name="Auto_Dismiss_Tutorials_Toggle" value="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
                         <ui:Toggle label="Longer Minigame Countdowns" name="Longer_Minigame_Countdowns_Toggle" value="false" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
                         <ui:Toggle label="Use Curated Board" name="Preset_Board_Toggle" value="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
@@ -29,7 +29,7 @@
                     </ui:ScrollView>
                 </ui:Tab>
                 <ui:Tab label="Accessibility" name="Accessibility_Tab" style="overflow: hidden;">
-                    <ui:ScrollView>
+                    <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" style="overflow: hidden; flex-shrink: 1;">
                         <ui:Slider label="Screen Shake" value="42" high-value="100" name="Screen_Shake_Slider" style="top: 0; width: 1130px; margin-top: 10px; margin-bottom: 10px; margin-left: 0; margin-right: 0;" />
                         <ui:Toggle label="Shop Background Movement&#x9;" name="Shop_Background_Movement_Toggle" value="true" enabled="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
                         <ui:Toggle label="Hide Game Backgrounds" name="Increase_Background_Visibility_Toggle" value="false" enabled="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
@@ -47,7 +47,7 @@
                     </ui:ScrollView>
                 </ui:Tab>
                 <ui:Tab label="Miscellaneous" name="Misc_Tab" style="overflow: hidden;">
-                    <ui:ScrollView>
+                    <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" style="flex-shrink: 1;">
                         <ui:Toggle label="Randomize Coin Spin Direction" name="Coin_Spin_Randomization_Toggle" value="false" enabled="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
                         <ui:Toggle label="Show Player Labels" name="Player_Label_Visibility_Toggle" value="true" enabled="true" style="width: 1130px; justify-content: space-between; align-items: center; align-content: center; background-image: none; background-color: rgba(188, 188, 188, 0); align-self: center; top: 0; margin-left: 0; margin-right: 0; margin-bottom: 10px; margin-top: 10px; flex-direction: row;" />
                     </ui:ScrollView>
