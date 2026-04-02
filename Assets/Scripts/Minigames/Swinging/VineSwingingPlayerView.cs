@@ -13,6 +13,8 @@ namespace Minigames.Swinging {
         [SerializeField] private EventReference launchEvent;
         [SerializeField] private EventReference fallEvent;
         [SerializeField] private EventReference collectCoinEvent;
+        [SerializeField] private Sprite defaultSprite;
+        [SerializeField] private Sprite releasedSprite;
 
         private bool isSnapping;
         private bool needsSweep;
@@ -30,6 +32,15 @@ namespace Minigames.Swinging {
         
         public void Pull(PlayerContext playerContext) {
             currentPlayerContext = playerContext;
+
+            if (currentPlayerContext.CurrentStateType == PlayerStateType.Swinging) {
+                float swingDirection = Mathf.Cos(currentPlayerContext.SwingPhase);
+                spriteRenderer.flipX = swingDirection < 0f;
+            }
+            else {
+                spriteRenderer.flipX = currentPlayerContext.VelocityX < 0f;
+            }
+            
             Vector3 targetPosition = new Vector3(playerContext.PositionX, playerContext.PositionY);
 
             if (currentPlayerContext.PendingEvents.Contains(PlayerEvent.GrabbedVine)) {
@@ -46,6 +57,10 @@ namespace Minigames.Swinging {
                 switch (pendingEvent) {
                     case PlayerEvent.GrabbedVine:
                         RuntimeManager.PlayOneShot(grabEvent, transform.position);
+                        spriteRenderer.sprite = defaultSprite;
+                        transform.localPosition =
+                            new Vector3(currentPlayerContext.PositionX, currentPlayerContext.PositionY);
+                        isSnapping = false;
                         break;
                     case PlayerEvent.Fell:
                         isSnapping = false;
@@ -54,6 +69,7 @@ namespace Minigames.Swinging {
                         break;
                     case PlayerEvent.Launched:
                         RuntimeManager.PlayOneShot(launchEvent, transform.position);
+                        spriteRenderer.sprite = releasedSprite;
                         break;
                     case PlayerEvent.CollectedCoin:
                         RuntimeManager.PlayOneShot(collectCoinEvent, transform.position);
