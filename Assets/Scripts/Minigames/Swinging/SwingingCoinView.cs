@@ -7,17 +7,22 @@ namespace Minigames.Swinging {
         private Transform magnetTarget;
         private float pullSpeed;
         private bool isBeingPulled;
+        [SerializeField] private ParticleSystem pullTrailParticles;
 
         public void StartPull(Transform target, float speed) {
+            if(!isBeingPulled) {
+                isBeingPulled = true;
+                pullTrailParticles?.Play();
+            }
             magnetTarget = target;
             pullSpeed = speed;
-            isBeingPulled = true;
         }
         
         public void ForceCollect(VineSwingingPlayerView playerView) {
             if (isCollected) return;
             isCollected = true;
             playerView.CollectCoin(coinValue);
+            pullTrailParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             Destroy(gameObject);
         }
 
@@ -38,6 +43,7 @@ namespace Minigames.Swinging {
             if (playerView == null) return;
             isCollected = true;
             playerView.CollectCoin(coinValue);
+            pullTrailParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             Destroy(gameObject);
         }
     }
