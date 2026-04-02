@@ -123,10 +123,14 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
         minigameManager.OnMinigameFinished += ProcessMinigameResults;
         var currentRoundDefinition = GetCurrentRoundDefinition();
 
-        string tutorialText = config.GetTutorialText(currentMinigameSceneName);
-        if (!string.IsNullOrWhiteSpace(tutorialText) && !shownTutorialScenes.Contains(currentMinigameSceneName)) {
-            shownTutorialScenes.Add(currentMinigameSceneName);
-            ShowTutorial(tutorialText, () => minigameManager.Initialize(currentRoundDefinition.IsDouble));
+        if(GameSettings.Gameplay.ShowTutorials) {
+            string tutorialText = config.GetTutorialText(currentMinigameSceneName);
+            if (!string.IsNullOrWhiteSpace(tutorialText) && !shownTutorialScenes.Contains(currentMinigameSceneName)) {
+                shownTutorialScenes.Add(currentMinigameSceneName);
+                ShowTutorial(tutorialText, () => minigameManager.Initialize(currentRoundDefinition.IsDouble));
+            } else {
+                minigameManager.Initialize(currentRoundDefinition.IsDouble);
+            }
         }
         else {
             minigameManager.Initialize(currentRoundDefinition.IsDouble);

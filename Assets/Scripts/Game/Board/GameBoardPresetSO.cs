@@ -23,9 +23,7 @@ public class GameBoardPresetSO : ScriptableObject
             this.sceneName = sceneName;
         }
     }
-
-    [SerializeField] private bool showTutorials;
+    
     [SerializeField] private List<RoundEntry> roundList;
     public List<RoundEntry> RoundList => roundList;
-    public bool ShowTutorials => showTutorials;
 }

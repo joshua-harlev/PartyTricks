@@ -6,6 +6,7 @@ using VineSwinging.Core;
 namespace Minigames.Swinging {
     public class VineSwingingPlayerView : MonoBehaviour {
         [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private SpriteRenderer magnetOutline;
         [SerializeField] private ParticleSystem boostTrailParticles;
         private ParticleSystem.EmissionModule trailEmission;
         private PlayerContext currentPlayerContext;
@@ -19,15 +20,25 @@ namespace Minigames.Swinging {
         private bool isSnapping;
         private bool needsSweep;
         private bool showTrail;
+        private float trailOffsetX;
+        private bool hasMagnet;
         private const float SnapSpeed = 80f;
 
-        public void Initialize(bool showTrail) {
+        public void Initialize(bool showTrail, bool hasMagnet) {
             this.showTrail = showTrail;
             if (showTrail) {
                 trailEmission = boostTrailParticles.emission;
                 trailEmission.enabled = false;
                 boostTrailParticles.Play();
             }
+            
+            this.hasMagnet = hasMagnet;
+            
+            if (hasMagnet && magnetOutline != null) {
+                magnetOutline.gameObject.SetActive(true);
+            } else magnetOutline.gameObject.SetActive(false);
+            
+            trailOffsetX = boostTrailParticles.transform.localPosition.x;
         }
         
         public void Pull(PlayerContext playerContext) {
@@ -39,6 +50,12 @@ namespace Minigames.Swinging {
             }
             else {
                 spriteRenderer.flipX = currentPlayerContext.VelocityX < 0f;
+            }
+
+            if (showTrail) {
+                var localPos = boostTrailParticles.transform.localPosition;
+                localPos.x = spriteRenderer.flipX ? -trailOffsetX : trailOffsetX;
+                boostTrailParticles.transform.localPosition = localPos;
             }
             
             Vector3 targetPosition = new Vector3(playerContext.PositionX, playerContext.PositionY);
@@ -93,6 +110,11 @@ namespace Minigames.Swinging {
             
             transform.localRotation = Quaternion.Euler(0f, 0f, currentPlayerContext.SwingAngle * Mathf.Rad2Deg);
             spriteRenderer.enabled = (currentPlayerContext.CurrentStateType != PlayerStateType.Falling);
+            if (hasMagnet && magnetOutline != null) {
+                magnetOutline.sprite = spriteRenderer.sprite;
+                magnetOutline.flipX = spriteRenderer.flipX;
+                magnetOutline.enabled = spriteRenderer.enabled;
+            }
 
             if (showTrail) {
                 bool notFalling = playerContext.CurrentStateType != PlayerStateType.Falling;
