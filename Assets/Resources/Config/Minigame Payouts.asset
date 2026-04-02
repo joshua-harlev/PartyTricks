@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f812ab1a0794c608d80743556f05ab, type: 3}
   m_Name: Minigame Payouts
   m_EditorClassIdentifier: Game::MinigamePayoutConfigSO
-  BaseFundsPerRank: 64000000500000003c00000032000000
+  BaseFundsPerRank: c8000000960000006400000050000000
