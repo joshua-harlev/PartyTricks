@@ -13,6 +13,7 @@ The game supports both macOS & Windows, and may be played with up to four contro
 
 ### Authors
 
+- Halle Broadnax (Programmer, QA)
 - Jade Harlev (Producer, Programmer)
 - Kamron Swingle (Programmer, UX, Level Design)
 - Ren Peng (Theme and Narrative, Gamefeel, 3D Artist)
