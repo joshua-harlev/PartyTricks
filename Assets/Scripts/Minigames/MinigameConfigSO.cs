@@ -1,17 +1,19 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "MinigameConfigSO", menuName = "Scriptable Objects/Minigame Configuration")]
 public class MinigameConfigSO : ScriptableObject
 {
-    [System.Serializable]
+    [Serializable]
     public class SceneTutorialEntry {
         public string SceneName;
         [TextArea(2, 5)]
         public string TutorialText;
     }
     
-    [System.Serializable]
+    [Serializable]
     public class MinigameSceneMapping {
         public MinigameType Type;
         [Tooltip("List of scene names available for minigame type")]
@@ -35,5 +37,17 @@ public class MinigameConfigSO : ScriptableObject
     public string GetTutorialText(string sceneName) {
         var entry = sceneTutorials.Find(s => s.SceneName == sceneName);
         return entry?.TutorialText;
+    }
+
+    public MinigameType GetTypeForMinigame(string sceneName) {
+        MinigameType type = MinigameType.Unknown;
+        foreach (var minigameSceneMapping in configurations) {
+            if (minigameSceneMapping.SceneNames.Contains(sceneName) &&
+                minigameSceneMapping.Type != MinigameType.Final) {
+                return minigameSceneMapping.Type;
+            }
+        }
+
+        return type;
     }
 }
