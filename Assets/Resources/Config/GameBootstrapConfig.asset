@@ -18,3 +18,4 @@ MonoBehaviour:
   GameFlowManagerPrefab: {fileID: 6739754320632189103, guid: 4af094f947e6041e48acdc715cdc71b3, type: 3}
   EconomyServicePrefab: {fileID: 5735206764703903884, guid: 013cc391181a04dcf832d415104c1a9e, type: 3}
   MenuSoundConfig: {fileID: 11400000, guid: 0d46b1b9688164d7d955625d12172f29, type: 2}
+  MinigameConfig: {fileID: 11400000, guid: 34ab9c2c23dec4ad4b9d0d3c4baca2eb, type: 2}

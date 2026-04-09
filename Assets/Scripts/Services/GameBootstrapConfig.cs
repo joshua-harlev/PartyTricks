@@ -8,6 +8,7 @@ public class GameBootstrapConfig : ScriptableObject {
     public GameObject GameFlowManagerPrefab;
     public GameObject EconomyServicePrefab;
     public MenuSoundConfigSO MenuSoundConfig;
+    public MinigameConfigSO MinigameConfig;
     
     // Where is this file stored? (within the Resources/ folder)
     public static readonly string ResourcePath = "Config/GameBootstrapConfig";

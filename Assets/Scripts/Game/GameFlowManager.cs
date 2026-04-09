@@ -26,6 +26,8 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     private int[] previousRoundFunds;
     private bool shouldShowPlacesScreen;
     
+    public bool HasActiveSession => gameBoard != null && gameBoard.Count > 0;
+    
     private void Awake() {
         economyService = ServiceLocatorAccessor.GetService<IEconomyService>();
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
@@ -220,5 +222,29 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
             upcomingMinigames.Add(gameBoard[i]);
         }
         return upcomingMinigames;
+    }
+
+    public void StartGameForColdStart(MinigameType type, bool isShop, bool isResults) {
+        if (isResults) return;
+        
+        if (isShop) {
+            boardGenerator.GenerateRandomBoard();
+            sceneOverrides = null;
+            gameBoard = boardGenerator.GameBoard;
+            currentRoundIndex = 0;
+            return;
+        }
+        
+        gameBoard = new List<(MinigameType minigameType, bool IsDouble)> { (type, IsDouble: false) };
+        currentRoundIndex = 0;
+
+        var minigameManager = FindMinigameManager();
+        if(minigameManager == null) {
+            Debug.LogError($"GameFlowManager: Couldn't find minigame manager");
+            return;
+        }
+        
+        minigameManager.OnMinigameFinished += ProcessMinigameResults;
+        minigameManager.Initialize(false);
     }
 }
