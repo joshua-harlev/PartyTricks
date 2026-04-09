@@ -41,7 +41,7 @@ jobs:
         with: 
             name: Party-Tricks-Windows
             path: build/StandaloneWindows64
-            retention-days: 90
+            retention-days: 30
             
   build-macos:
     name: macOS Build
@@ -75,4 +75,4 @@ jobs:
         with:
           name: Party-Tricks-macOS
           path: build/StandaloneOSX
-          retention-days: 90
+          retention-days: 30
