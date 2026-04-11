@@ -1,0 +1,35 @@
+name: Test BeatBattle.Core
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Assets/Scripts/Minigames/BeatBattle/Core/**'
+      - 'Tests/BeatBattle.Core.Tests/**'
+      - '.github/workflows/test-beatbattle-core.yml'
+  pull_request:
+    paths:
+      - 'Assets/Scripts/Minigames/BeatBattle/Core/**'
+      - 'Tests/ResBeatBattleults.Core.Tests/**'
+      - '.github/workflows/test-beatbattle-core.yml'
+
+jobs:
+  test:
+    name: Results.BeatBattle Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+          
+      - name: Restore
+        run: dotnet restore Tests/Beatbattle.Core.Tests/
+        
+      - name: Build
+        run: dotnet build Tests/Beatbattle.Core.Tests/ --no-restore
+        
+      - name: Test
+        run: dotnet test Tests/Beatbattle.Core.Tests/ --no-build --verbosity normal

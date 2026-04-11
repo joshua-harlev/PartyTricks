@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Swinging.Core.Tests/Swinging.Core.Tests.csproj" />
   <Project Path="Results.Core.Tests/Results.Core.Tests.csproj" />
+  <Project Path="BeatBattle.Core.Tests/BeatBattle.Core.Tests.csproj" />
 </Solution>
