@@ -1,0 +1,19 @@
+{
+    "name": "BeatBattle",
+    "rootNamespace": "",
+    "references": [
+        "Game",
+        "BeatBattle.Core",
+        "Input",
+        "FMODUnity"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
