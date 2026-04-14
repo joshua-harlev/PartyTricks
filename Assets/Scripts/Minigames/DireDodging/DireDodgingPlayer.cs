@@ -38,6 +38,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     private float spriteHalfHeight;
     private float damageAnimationTimeInSeconds;
     private int multishotCount;
+    private int originalScreenWidth, originalScreenHeight;
 
     [SerializeField] private DireDodgingPlayerStatsSO PlayerStatsSO;
     [SerializeField] private SpriteRenderer SpriteRenderer;
@@ -67,7 +68,12 @@ public class DireDodgingPlayer : MonoBehaviour {
     private bool isGhostMode = false;
     private bool isPlayingStunnedAnimation = false;
     private bool showTrail = false;
+    private bool shockwaveZoomEnabled;
     private float baseMaxHealth;
+    private float screenBottom;
+    private float screenTop;
+    private float screenLeft;
+    private float screenRight;
 
     private Coroutine damageCoroutineInstance = null;
     private Coroutine stunCoroutineInstance = null;
@@ -88,11 +94,24 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void Awake() {
         baseColor = SpriteRenderer.color;
+        DireDodgingCameraZoomService.OnShockwaveZoomStatusChange += OnShockwaveZoomStatusChange;
+    }
+
+    private void OnShockwaveZoomStatusChange(bool zooming) {
+        if (!zooming) {
+            // reset screen position
+            UpdateScreenBounds();
+        }
+    }
+
+    private void Start() {
+        originalScreenWidth = Screen.width;
+        originalScreenHeight = Screen.height;
+        UpdateScreenBounds();
     }
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool initializeAsAI, CombatModifiers modifiers, bool isDoubleRound) {
         mainCamera = Camera.main;
-        DireDodgingCameraZoomService.Initialize(mainCamera);
         ApplyBaseStats();
         if (isDoubleRound) {
             this.maxHealth *= 2;
@@ -189,10 +208,28 @@ public class DireDodgingPlayer : MonoBehaviour {
         Vector2 movement = input.normalized * (maxMoveSpeed * speedMultiplier * Time.fixedDeltaTime);
         Vector2 newPosition = Rigidbody2D.position + movement;
 
+        CheckScreenBounds();
         newPosition.x = ClampXPosition(newPosition.x);
         newPosition.y = ClampYPosition(newPosition.y);
 
         Rigidbody2D.MovePosition(newPosition);
+    }
+
+    private void CheckScreenBounds() {
+        if (Screen.width != originalScreenWidth || Screen.height != originalScreenHeight) {
+            originalScreenWidth = Screen.width;
+            originalScreenHeight = Screen.height;
+            UpdateScreenBounds();
+        } else if (DireDodgingCameraZoomService.ShockwaveZoomActive && !DireDodgingCameraZoomService.DeathZoomActive) {
+            UpdateScreenBounds();
+        }
+    }
+
+    private void UpdateScreenBounds() {
+        screenBottom = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 0)).y;
+        screenTop = mainCamera.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y;
+        screenLeft = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 0)).x;
+        screenRight = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
     }
 
     private void ApplyBaseStats() {
@@ -284,14 +321,10 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private float ClampYPosition(float yPosition) {
-        float screenBottom = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 0)).y;
-        float screenTop = mainCamera.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y;
         return Mathf.Clamp(yPosition, screenBottom + spriteHalfHeight, screenTop - spriteHalfHeight);
     }
 
     private float ClampXPosition(float xPosition) {
-        float screenLeft = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 0)).x;
-        float screenRight = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
         return Mathf.Clamp(xPosition, screenLeft + spriteHalfWidth, screenRight - spriteHalfWidth);
     }
 
@@ -491,8 +524,8 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void OnDestroy() {
         ChargeAttack.Cleanup();
-        DeathHandler.Cleanup();
         Shockwave.Cleanup();
+        DireDodgingCameraZoomService.OnShockwaveZoomStatusChange -= OnShockwaveZoomStatusChange;
     }
 
     public void ResetShootCooldown() {
