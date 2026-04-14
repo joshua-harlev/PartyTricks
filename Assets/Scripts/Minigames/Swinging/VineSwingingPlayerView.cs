@@ -23,8 +23,9 @@ namespace Minigames.Swinging {
         private float trailOffsetX;
         private bool hasMagnet;
         private const float SnapSpeed = 80f;
+        private RaycastHit2D[] magnetHits;
 
-        public void Initialize(bool showTrail, bool hasMagnet) {
+        public void Initialize(bool showTrail, bool hasMagnet, int coinsPerGap) {
             this.showTrail = showTrail;
             if (showTrail) {
                 trailEmission = boostTrailParticles.emission;
@@ -39,6 +40,7 @@ namespace Minigames.Swinging {
             } else magnetOutline.gameObject.SetActive(false);
             
             trailOffsetX = boostTrailParticles.transform.localPosition.x;
+            magnetHits = new RaycastHit2D[coinsPerGap*2];
         }
         
         public void Pull(PlayerContext playerContext) {
@@ -144,8 +146,9 @@ namespace Minigames.Swinging {
 
             float sweepRadius = Mathf.Clamp(distance * 0.25f, 0.1f, 1.5f);
             
-            var hits = Physics2D.CircleCastAll(fromWorldPosition, sweepRadius, direction.normalized, distance);
-            foreach (var hit in hits) {
+            int hitCount = Physics2D.CircleCast(origin: fromWorldPosition, radius: sweepRadius, direction: direction.normalized, contactFilter: ContactFilter2D.noFilter, results: magnetHits, distance: distance);
+            for (var i = 0; i < hitCount; i++) {
+                var hit = magnetHits[i];
                 var coin = hit.collider.GetComponent<SwingingCoinView>();
                 coin?.ForceCollect(this);
             }
