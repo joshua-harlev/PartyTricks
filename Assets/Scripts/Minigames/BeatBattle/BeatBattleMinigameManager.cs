@@ -1,6 +1,7 @@
 using System;
 using FMOD.Studio;
 using FMODUnity;
+using Minigames.BeatBattle;
 using Minigames.BeatBattle.Core;
 using Minigames.BeatBattle.States;
 using Services;
@@ -9,6 +10,8 @@ using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class BeatBattleMinigameManager : MonoBehaviour, IMinigameManager {
     [SerializeField] private BeatBattleConfigSO configSO;
+    [SerializeField] private BeatBattleLaneView[] laneViews;
+    [SerializeField] private BeatBattleHUD hud;
     [SerializeField] private MinigameStartCountdown countdown;
     [SerializeField] private EventReference musicEvent;
 
@@ -24,6 +27,7 @@ public class BeatBattleMinigameManager : MonoBehaviour, IMinigameManager {
     public event Action<int> OnTransitionStart;
     
     public BeatBattleConfigSO ConfigSO => configSO;
+    public BeatBattleHUD HUD => hud;
     public RoundState RoundState { get; private set; }
     public RoundScorer Scorer { get; private set; }
 
@@ -41,6 +45,7 @@ public class BeatBattleMinigameManager : MonoBehaviour, IMinigameManager {
         var config = configSO.GetConfig();
         RoundState = new RoundState(config, Environment.TickCount);
         Scorer = new RoundScorer();
+        Scorer.ScoreChanged += (playerIndex, newTotal) => hud.UpdateScore(playerIndex, newTotal);
 
         ChangeState(new BeatBattleCountdownState(this, countdown));
     }
@@ -83,5 +88,9 @@ public class BeatBattleMinigameManager : MonoBehaviour, IMinigameManager {
             musicInstance.stop(STOP_MODE.IMMEDIATE);
             musicInstance.release();
         }
+    }
+
+    public BeatBattleLaneView GetLaneView(int creatorIndex) {
+        return laneViews[creatorIndex];
     }
 }

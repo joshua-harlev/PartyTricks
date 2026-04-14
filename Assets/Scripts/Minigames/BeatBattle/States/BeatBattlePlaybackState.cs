@@ -4,6 +4,7 @@ using Minigames.BeatBattle.Core;
 
 namespace Minigames.BeatBattle.States {
     public class BeatBattlePlaybackState : IBeatBattleGameState {
+        private readonly BeatBattleLaneView[] playerLanes;
         private readonly BeatBattleMinigameManager manager;
         private readonly BeatBattleChart chart;
         private readonly int creatorIndex;
@@ -16,13 +17,19 @@ namespace Minigames.BeatBattle.States {
             this.manager = manager;
             this.chart = beatBattleChart;
             this.creatorIndex = manager.RoundState.CurrentCreatorIndex;
-
+            
+            
             var indices = new List<int>();
             for (int i = 0; i < 4; i++) {
                 if(i != creatorIndex) indices.Add(i);
             }
             playerIndices = indices.ToArray();
 
+            playerLanes = new BeatBattleLaneView[3];
+            for (int i = 0; i < 3; i++) {
+                playerLanes[i] = manager.GetLaneView(playerIndices[i]);
+            }
+            
             var config = manager.ConfigSO.GetConfig();
             chartPlayers = new ChartPlayer[3];
             for (int i = 0; i < 3; i++) {
@@ -34,11 +41,22 @@ namespace Minigames.BeatBattle.States {
             noteHitHandlers = new Action<int, float>[3];
             phaseStartTimeInMs = manager.GetTimelinePositionInMs();
             manager.InvokePlaybackPhaseStarted(creatorIndex, chart);
+            
+            float playbackDuration = manager.ConfigSO.PlaybackDurationInSeconds;
+            float gridSlotDuration = manager.ConfigSO.GetConfig().GridSlotDuration;
+            for (int i = 0; i < 3; i++) {
+                playerLanes[i].BeginPlayback(chart, playbackDuration, gridSlotDuration);
+            }
+            
 
             for (int i = 0; i < 3; i++) {
                 int playerIndex = playerIndices[i];
+                int capturedIndex = i;
                 noteHitHandlers[i] = (noteIndex, offsetInMs) =>
+                {
                     manager.InvokePlayerHit(playerIndex, noteIndex, offsetInMs);
+                    playerLanes[capturedIndex].OnNoteHit(noteIndex);
+                };
                 chartPlayers[i].NoteHit += noteHitHandlers[i];
             }
         }
@@ -59,12 +77,14 @@ namespace Minigames.BeatBattle.States {
                 } else if (input.CancelIsPressed()) {
                     chartPlayers[i].ProcessInput(elapsedTimeInSeconds, NoteType.B);
                 }
+                playerLanes[i].UpdateScroll(elapsedTimeInSeconds);
             }
         }
 
         public void Exit() {
             for (int i = 0; i < 3; i++) {
                 chartPlayers[i].NoteHit -= noteHitHandlers[i];
+                playerLanes[i].ClearNotes();
             }
         }
 

@@ -16,8 +16,8 @@ namespace Minigames.BeatBattle.States {
             for (int i = 0; i < 4; i++) {
                 int baseFunds = MinigamePayouts.GetBaseFundsPerRank()[rankings[i]] * multiplier;
                 results[i] = new PlayerMinigameResult(i, rankings[i], baseFunds);
+                manager.HUD.SetStatus(i, $"{results[i].PlayerPlace} Place");
             }
-            
             manager.InvokeMinigameFinished(results);
         }
 

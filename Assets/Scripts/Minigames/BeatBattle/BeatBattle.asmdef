@@ -5,7 +5,8 @@
         "Game",
         "BeatBattle.Core",
         "Input",
-        "FMODUnity"
+        "FMODUnity",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
