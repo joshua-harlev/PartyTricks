@@ -63,6 +63,10 @@ namespace Minigames.DireDodging {
                 return;
             }
 
+            AnimateToOriginal(durationInSeconds);
+        }
+
+        private static void AnimateToOriginal(float durationInSeconds) {
             KillCameraTweens();
             camera.DOOrthoSize(originalSize, durationInSeconds).SetEase(Ease.InOutQuad);
             camera.transform.DOMove(originalPosition, durationInSeconds).SetEase(Ease.InOutQuad).OnComplete(() =>
@@ -130,12 +134,7 @@ namespace Minigames.DireDodging {
 
                 if (pendingReverseToOriginal) {
                     pendingReverseToOriginal = false;
-                    KillCameraTweens();
-                    camera.DOOrthoSize(originalSize, 0.15f).SetEase(Ease.InOutQuad);
-                    camera.transform.DOMove(originalPosition, 0.15f).SetEase(Ease.InOutQuad).OnComplete(() =>
-                    {
-                        OnShockwaveZoomStatusChange?.Invoke(false);
-                    });
+                    AnimateToOriginal(0.15f);
                 }
             });
         }
