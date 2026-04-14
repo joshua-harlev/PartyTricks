@@ -135,6 +135,9 @@ namespace Minigames.Swinging {
                 allVinePositions[i] = vinePositions;
                 PlayerStateMachines[i] = new PlayerStateMachine(config, vinePositions, vineAnchorY, phaseOffsets, periods);
                 PlayerStateMachines[i].Start(0);
+                playerViews[i].transform.localPosition = new Vector3(
+                    PlayerStateMachines[i].PlayerContext.PositionX,
+                    PlayerStateMachines[i].PlayerContext.PositionY);
                 cameraFollows[i].Initialize(PlayerStateMachines[i].PlayerContext);
             }
 
