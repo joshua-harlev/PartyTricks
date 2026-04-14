@@ -35,9 +35,10 @@ namespace Minigames.CoinTilt {
         private float gameDuration;
         private float elapsedTime;
         private bool powerupsHaveBeenApplied = false;
-        private float increasedSpecialCoinRateModifier = 1;
         private readonly List<GameObject> activeCoins = new();
         private IPowerUpService powerUpService;
+        private CoinTypeSelector coinTypeSelector;
+        private System.Random random;
 
         private void Awake() {
             powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
@@ -61,7 +62,11 @@ namespace Minigames.CoinTilt {
         public void StartSpawning(float durationInSeconds,
             PlayerProfile playerProfile) {
             MovementModifiers modifiers = powerUpService.GetMovementModifiers(playerProfile);
-            increasedSpecialCoinRateModifier = 1 + modifiers.SpecialCoinRateBoostCount;
+            
+            float specialCoinRateBoostModifier = 1 + (modifiers.SpecialCoinRateBoostCount * 3f);
+            coinTypeSelector = new CoinTypeSelector(availableCoinTypes, specialCoinRateBoostModifier);
+            random = new System.Random();
+            
             if (!powerupsHaveBeenApplied) {
                 float spawnRateMultiplier = 1;
                 for (int i = 0; i < modifiers.CoinSpawnRateBoostCount; i++) {
@@ -123,7 +128,7 @@ namespace Minigames.CoinTilt {
                 return;
             }
 
-            CoinTypeSO coinType = SelectRandomCoinType();
+            CoinTypeSO coinType = coinTypeSelector.SelectCoinType(random);
 
             if (!coinType || !coinType.CoinPrefab) {
                 Debug.LogWarning("No valid coin type/prefab available.");
@@ -183,50 +188,6 @@ namespace Minigames.CoinTilt {
                 desiredWorldScale.y / parentScale.y,
                 desiredWorldScale.z / parentScale.z);
             return coinObject;
-        }
-
-        private CoinTypeSO SelectRandomCoinType() {
-            if (availableCoinTypes == null || availableCoinTypes.Length == 0) return null;
-
-            float totalWeight = 0f;
-            totalWeight = CalculateTotalSpawnWeight(totalWeight);
-
-            float randomValue = Random.Range(0f, totalWeight);
-            float cumulativeWeight = 0f;
-
-            return GetRandomCoinType(cumulativeWeight, randomValue);
-        }
-
-        private CoinTypeSO GetRandomCoinType(float cumulativeWeight, float randomValue) {
-            foreach (var coinType in availableCoinTypes) {
-                if (coinType) {
-                    if (coinType.IsSpecialCoin) {
-                        cumulativeWeight += coinType.SpawnWeight * increasedSpecialCoinRateModifier;
-                    }
-                    else {
-                        cumulativeWeight += coinType.SpawnWeight;
-                    }
-
-                    if (randomValue <= cumulativeWeight) {
-                        return coinType;
-                    }
-                }
-            }
-
-            return availableCoinTypes[0];
-        }
-
-        private float CalculateTotalSpawnWeight(float totalWeight) {
-            foreach (var coinType in availableCoinTypes) {
-                if (coinType) {
-                    if (coinType.IsSpecialCoin) {
-                        totalWeight += coinType.SpawnWeight * increasedSpecialCoinRateModifier;
-                    }
-                    else totalWeight += coinType.SpawnWeight;
-                }
-            }
-
-            return totalWeight;
         }
 
         private Vector3 GetRandomSpawnPosition() {
