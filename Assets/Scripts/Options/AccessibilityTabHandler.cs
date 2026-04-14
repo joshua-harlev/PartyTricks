@@ -17,12 +17,14 @@ namespace Options {
         private VisualElement tinnitusFilterControls;
         private ITinnitusFilterService tinnitusFilterService;
         private Label tinnitusFilterText;
+        private Toggle oneHandedModeToggle;
         
         public void Initialize(VisualElement tabRoot) {
             screenShakeSlider = tabRoot.Q<Slider>("Screen_Shake_Slider");
             shopBackgroundMovementToggle = tabRoot.Q<Toggle>("Shop_Background_Movement_Toggle");
             increaseBackgroundVisibilityToggle = tabRoot.Q<Toggle>("Increase_Background_Visibility_Toggle");
             disableParallaxToggle = tabRoot.Q<Toggle>("Disable_Parallax_Toggle");
+            oneHandedModeToggle = tabRoot.Q<Toggle>("One_Handed_Mode_Toggle");
             tinnitusFilterToggle = tabRoot.Q<Toggle>("Tinnitus_Filter_Toggle");
             tinnitusFilterFrequencySlider = tabRoot.Q<Slider>("Tinnitus_Filter_Frequency_Slider");
             tinnitusFilterGainSlider = tabRoot.Q<Slider>("Tinnitus_Filter_Gain_Slider");
@@ -40,6 +42,8 @@ namespace Options {
             shopBackgroundMovementToggle.value = GameSettings.Accessibility.AnimateClouds;
             increaseBackgroundVisibilityToggle.value = GameSettings.Accessibility.IncreaseBackgroundVisibility;
             disableParallaxToggle.value = GameSettings.Accessibility.DisableParallax;
+            
+            oneHandedModeToggle.value = GameSettings.Accessibility.OneHandedMode;
 
             tinnitusFilterToggle.value = GameSettings.Accessibility.TinnitusFilterEnabled;
 
@@ -64,6 +68,7 @@ namespace Options {
             shopBackgroundMovementToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.AnimateClouds = evt.newValue);
             increaseBackgroundVisibilityToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.IncreaseBackgroundVisibility = evt.newValue);
             disableParallaxToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.DisableParallax = evt.newValue);
+            oneHandedModeToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.OneHandedMode = evt.newValue);
 
             tinnitusFilterToggle.RegisterValueChangedCallback(evt =>
             {

@@ -31,6 +31,7 @@ namespace Services {
       private void Awake() {
          InitializeSlots();
          SetUpEventListeners();
+         GameSettings.OnApplySettings += SyncOneHandedMode;
       }
 
       private void InitializeSlots() {
@@ -83,6 +84,11 @@ namespace Services {
 
          int slotIndex = aiSlot.SlotIndex;
          aiSlot.SetUpAsHuman(input);
+         
+         var handler = input.gameObject.GetComponent<PlayerUITwoButtonInputHandler>();
+         if (handler != null) {
+            handler.OneHandedMode = GameSettings.Accessibility.OneHandedMode;
+         }
 
          if (debugMode) {
             DebugLogger.Log(LogChannel.Systems, $"Player joined at slot {slotIndex}.");
@@ -149,6 +155,21 @@ namespace Services {
 
          return -1;
       }
+      
+      private void SyncOneHandedMode() {
+         foreach (var slot in playerSlots) {
+            if (slot.IsAI || slot.PlayerInput == null) continue;
+            var handler = slot.PlayerInput.gameObject.GetComponent<PlayerUITwoButtonInputHandler>();
+            if (handler != null) {
+               handler.OneHandedMode = GameSettings.Accessibility.OneHandedMode;
+            }
+         }
+      }
+      
+      private void OnDestroy() {
+         GameSettings.OnApplySettings -= SyncOneHandedMode;
+      }
+
 
       public void ResetAllPlayers() {
          foreach (var slot in PlayerSlots) {
