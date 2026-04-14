@@ -18,6 +18,7 @@ namespace Options {
         private ITinnitusFilterService tinnitusFilterService;
         private Label tinnitusFilterText;
         private Toggle oneHandedModeToggle;
+        private Toggle toggleChargeModeToggle;
         
         public void Initialize(VisualElement tabRoot) {
             screenShakeSlider = tabRoot.Q<Slider>("Screen_Shake_Slider");
@@ -25,6 +26,7 @@ namespace Options {
             increaseBackgroundVisibilityToggle = tabRoot.Q<Toggle>("Increase_Background_Visibility_Toggle");
             disableParallaxToggle = tabRoot.Q<Toggle>("Disable_Parallax_Toggle");
             oneHandedModeToggle = tabRoot.Q<Toggle>("One_Handed_Mode_Toggle");
+            toggleChargeModeToggle = tabRoot.Q<Toggle>("Toggle_Charge_Mode_Toggle");
             tinnitusFilterToggle = tabRoot.Q<Toggle>("Tinnitus_Filter_Toggle");
             tinnitusFilterFrequencySlider = tabRoot.Q<Slider>("Tinnitus_Filter_Frequency_Slider");
             tinnitusFilterGainSlider = tabRoot.Q<Slider>("Tinnitus_Filter_Gain_Slider");
@@ -44,6 +46,8 @@ namespace Options {
             disableParallaxToggle.value = GameSettings.Accessibility.DisableParallax;
             
             oneHandedModeToggle.value = GameSettings.Accessibility.OneHandedMode;
+            
+            toggleChargeModeToggle.value = GameSettings.Accessibility.ToggleCharge;
 
             tinnitusFilterToggle.value = GameSettings.Accessibility.TinnitusFilterEnabled;
 
@@ -69,6 +73,7 @@ namespace Options {
             increaseBackgroundVisibilityToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.IncreaseBackgroundVisibility = evt.newValue);
             disableParallaxToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.DisableParallax = evt.newValue);
             oneHandedModeToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.OneHandedMode = evt.newValue);
+            toggleChargeModeToggle.RegisterValueChangedCallback(evt => GameSettings.Accessibility.ToggleCharge = evt.newValue);
 
             tinnitusFilterToggle.RegisterValueChangedCallback(evt =>
             {
