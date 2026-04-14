@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -23,6 +24,8 @@ namespace Minigames.DireDodging {
         private static float shockwaveZoomStartTime;
         
         public static bool DeathZoomActive => deathZoomActive;
+        public static bool ShockwaveZoomActive => shockwaveZoomActive;
+        public static Action<bool> OnShockwaveZoomStatusChange;
 
         public static void Initialize(Camera sceneCamera) {
             camera = sceneCamera;
@@ -38,6 +41,8 @@ namespace Minigames.DireDodging {
 
         public static void StartShockwaveZoom(Vector3 playerPosition, float zoomPercentage, float lerpAmount,
             float duration) {
+            if (deathZoomActive) return;
+            OnShockwaveZoomStatusChange?.Invoke(true);
             shockwaveZoomActive = true;
             shockwaveZoomDuration = duration;
             shockwaveLerpAmount = lerpAmount;
@@ -60,7 +65,10 @@ namespace Minigames.DireDodging {
 
             KillCameraTweens();
             camera.DOOrthoSize(originalSize, durationInSeconds).SetEase(Ease.InOutQuad);
-            camera.transform.DOMove(originalPosition, durationInSeconds).SetEase(Ease.InOutQuad);
+            camera.transform.DOMove(originalPosition, durationInSeconds).SetEase(Ease.InOutQuad).OnComplete(() =>
+            {
+                OnShockwaveZoomStatusChange?.Invoke(false);
+            });
         }
 
         public static void UpdateShockwaveZoomPosition(Vector3 playerPosition) {
