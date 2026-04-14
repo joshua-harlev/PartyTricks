@@ -248,7 +248,7 @@ namespace Minigames.CoinTilt {
             ApplyMomentumCancellationForJump();
             currentVelocity.y = jumpForce;
             isGrounded = false;
-            DebugLogger.Log(LogChannel.Systems, $"P{playerIndex + 1} jumped.", LogLevel.Verbose);
+            DebugLogger.Log(LogChannel.Systems, $"P{(playerIndex + 1).ToString()} jumped.", LogLevel.Verbose);
         }
 
         private void ApplyMomentumCancellationForJump() {
@@ -339,7 +339,7 @@ namespace Minigames.CoinTilt {
             magnetOutline?.SetActive(false);
             inputEnabled = false;
             OnFallOff?.Invoke(playerIndex);
-            DebugLogger.Log(LogChannel.Systems, $"P{playerIndex + 1} falling.", LogLevel.Verbose);
+            DebugLogger.Log(LogChannel.Systems, $"P{(playerIndex + 1).ToString()} falling.", LogLevel.Verbose);
             respawnCoroutine = StartCoroutine(RespawnAfterDelay());
         }
 
