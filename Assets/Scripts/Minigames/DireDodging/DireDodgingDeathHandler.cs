@@ -58,10 +58,6 @@ namespace Minigames.DireDodging {
             StartCoroutine(DeathCoroutine());
         }
 
-        public void Cleanup() {
-            DireDodgingCameraZoomService.Cleanup();
-        }
-
         private void TransitionSpriteOpacityOnDeath() {
             var color = player.BaseColor;
             color.a = 0.1f;

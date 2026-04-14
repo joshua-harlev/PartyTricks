@@ -112,7 +112,6 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool initializeAsAI, CombatModifiers modifiers, bool isDoubleRound) {
         mainCamera = Camera.main;
-        DireDodgingCameraZoomService.Initialize(mainCamera);
         ApplyBaseStats();
         if (isDoubleRound) {
             this.maxHealth *= 2;
@@ -525,7 +524,6 @@ public class DireDodgingPlayer : MonoBehaviour {
 
     private void OnDestroy() {
         ChargeAttack.Cleanup();
-        DeathHandler.Cleanup();
         Shockwave.Cleanup();
         DireDodgingCameraZoomService.OnShockwaveZoomStatusChange -= OnShockwaveZoomStatusChange;
     }

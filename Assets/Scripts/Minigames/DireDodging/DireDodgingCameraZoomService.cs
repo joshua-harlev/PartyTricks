@@ -132,7 +132,10 @@ namespace Minigames.DireDodging {
                     pendingReverseToOriginal = false;
                     KillCameraTweens();
                     camera.DOOrthoSize(originalSize, 0.15f).SetEase(Ease.InOutQuad);
-                    camera.transform.DOMove(originalPosition, 0.15f).SetEase(Ease.InOutQuad);
+                    camera.transform.DOMove(originalPosition, 0.15f).SetEase(Ease.InOutQuad).OnComplete(() =>
+                    {
+                        OnShockwaveZoomStatusChange?.Invoke(false);
+                    });
                 }
             });
         }

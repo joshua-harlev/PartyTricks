@@ -6,6 +6,7 @@ using FMOD.Studio;
 using FMODUnity;
 using Game;
 using Input;
+using Minigames.DireDodging;
 using Services;
 using UnityEngine;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
@@ -81,6 +82,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
             CombatModifiers modifiers = powerUpService.GetCombatModifiers(slot.Profile);
             Players[i].Initialize(i, slot.InputHandler, slot.IsAI, modifiers, IsDoubleRound);
         }
+        DireDodgingCameraZoomService.Initialize(Camera.main);
     }
 
     private void InitializePlayerDisplays() {
@@ -176,6 +178,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     }
 
     private void OnDestroy() {
+        DireDodgingCameraZoomService.Cleanup();
         Instance = null;
     }
 
