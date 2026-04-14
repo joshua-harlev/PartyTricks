@@ -49,6 +49,7 @@ namespace Minigames.CoinTilt {
         private float magnetRadius = 3f;
         private float magnetPullSpeed = 5f;
         private float timeSinceGrounded;
+        private Collider[] nearbyColliders;
 
         public int PlayerIndex => playerIndex;
         public Vector3 Position => transform.position;
@@ -59,6 +60,8 @@ namespace Minigames.CoinTilt {
             if (characterController == null) {
                 Debug.LogError("CoinTiltPlayer could not find CharacterController component.");
             }
+            // use max coins from coin spawner; 20 is okay in all likelihood
+            nearbyColliders = new Collider[20];
         }
 
         public void SetPlatform(TiltingPlatform platform) {
@@ -168,8 +171,9 @@ namespace Minigames.CoinTilt {
         }
 
         private void PullNearbyCoins() {
-            Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, magnetRadius);
-            foreach (Collider nearbyCollider in nearbyColliders) {
+            int foundCoins = Physics.OverlapSphereNonAlloc(transform.position, magnetRadius, nearbyColliders);
+            for (var i = 0; i < foundCoins; i++) {
+                var nearbyCollider = nearbyColliders[i];
                 if (nearbyCollider.CompareTag("Coin")) {
                     Coin coin = nearbyCollider.GetComponent<Coin>();
                     if (coin) {
@@ -244,7 +248,7 @@ namespace Minigames.CoinTilt {
             ApplyMomentumCancellationForJump();
             currentVelocity.y = jumpForce;
             isGrounded = false;
-            DebugLogger.Log(LogChannel.Systems, $"P{playerIndex + 1} jumped.", LogLevel.Verbose);
+            DebugLogger.Log(LogChannel.Systems, $"P{(playerIndex + 1).ToString()} jumped.", LogLevel.Verbose);
         }
 
         private void ApplyMomentumCancellationForJump() {
@@ -335,7 +339,7 @@ namespace Minigames.CoinTilt {
             magnetOutline?.SetActive(false);
             inputEnabled = false;
             OnFallOff?.Invoke(playerIndex);
-            DebugLogger.Log(LogChannel.Systems, $"P{playerIndex + 1} falling.", LogLevel.Verbose);
+            DebugLogger.Log(LogChannel.Systems, $"P{(playerIndex + 1).ToString()} falling.", LogLevel.Verbose);
             respawnCoroutine = StartCoroutine(RespawnAfterDelay());
         }
 

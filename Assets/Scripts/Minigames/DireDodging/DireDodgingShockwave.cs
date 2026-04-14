@@ -27,6 +27,10 @@ namespace Minigames.DireDodging {
         private const float zoomWarningStartPercent = 0.3f;
         private const float zoomReverseDelay = 0.15f;
         private const float zoomReverseDurationInSeconds = 0.08f;
+        private Collider2D[] circleHits;
+        private RaycastHit2D[] raycastHits;
+        private const int circleMaxHits = 25;
+        private const int raycastMaxHits = 25;
 
         public void Initialize(DireDodgingPlayer playerInstance, int stackCount) {
             player = playerInstance;
@@ -37,6 +41,8 @@ namespace Minigames.DireDodging {
             UpdateChargeParticleColor();
             UpdateBurstParticleColor();
             UpdateRingColor();
+            circleHits = new Collider2D[circleMaxHits];
+            raycastHits = new RaycastHit2D[raycastMaxHits];
         }
 
         private void UpdateChargeParticleColor() {
@@ -155,9 +161,10 @@ namespace Minigames.DireDodging {
         private void PerformHitDetection() {
             Vector2 origin = transform.position;
             float hitRadius = GetScreenRadius();
-            Collider2D[] hits =  Physics2D.OverlapCircleAll(origin, hitRadius);
+            var numberOfHits = Physics2D.OverlapCircle(origin, hitRadius, ContactFilter2D.noFilter, circleHits);
 
-            foreach (var hit in hits) {
+            for (var i = 0; i < numberOfHits; i++) {
+                var hit = circleHits[i];
                 DireDodgingPlayer target = hit.GetComponent<DireDodgingPlayer>();
                 if (!target) continue;
                 if (target == player) continue;
@@ -167,10 +174,11 @@ namespace Minigames.DireDodging {
                 Vector2 targetPosition = target.transform.position;
                 Vector2 direction = targetPosition - origin;
                 float distance = direction.magnitude;
-                
-                RaycastHit2D[] rayHits = Physics2D.RaycastAll(origin, direction.normalized, distance);
+
+                var raycastHitCount = Physics2D.Raycast(origin, direction.normalized, ContactFilter2D.noFilter, raycastHits, distance);
                 bool hitBlocked = false;
-                foreach (var rayHit in rayHits) {
+                for (var j = 0; j < raycastHitCount; j++) {
+                    var rayHit = raycastHits[j];
                     if (rayHit.collider.CompareTag("Wall")) {
                         hitBlocked = true;
                         break;

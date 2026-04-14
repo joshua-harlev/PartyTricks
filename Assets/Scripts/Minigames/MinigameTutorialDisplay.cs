@@ -32,7 +32,7 @@ public class MinigameTutorialDisplay : MonoBehaviour
         foreach (var playerSlot in playerService.PlayerSlots) {
             if (playerSlot.IsAI) continue;
             if (playerSlot.InputHandler.SelectIsPressed() || playerSlot.InputHandler.CancelIsPressed()) {
-                Debug.Log($"Tutorial skip triggered by player {playerSlot.SlotIndex}");
+                Debug.Log($"Tutorial skip triggered by player {playerSlot.SlotIndex.ToString()}");
                 Dismiss();
             }
         }

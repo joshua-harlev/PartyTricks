@@ -172,6 +172,7 @@ namespace Minigames.CoinTilt {
         }
 
         private GameObject CreateCoinInstance(CoinTypeSO coinType, Vector3 spawnPosition) {
+            // Can consider adding object pooling IF noticing performance issues.
             GameObject coinObject = Instantiate(coinType.CoinPrefab, spawnPosition, Quaternion.identity);
             coinObject.transform.SetParent(platformTransform, true);
             coinObject.transform.rotation = Quaternion.identity;
