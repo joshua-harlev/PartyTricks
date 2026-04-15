@@ -20,8 +20,6 @@ namespace Minigames.DireDodging {
         private float chargeStartTime;
         private EventInstance chargeLoopInstance;
         
-        private bool toggleChargeMode;
-
         private float chargeTimeRequired;
         private float chargedProjectileScale;
         private float chargedProjectileSpeed;
@@ -68,8 +66,6 @@ namespace Minigames.DireDodging {
             ghostChargeTimeOriginal = stats.GhostChargeTime;
             originalBaseHP = stats.BaseHealth;
             
-            toggleChargeMode = GameSettings.Accessibility.ToggleCharge;
-
             if (chargeIndicator != null) {
                 chargeRingMaterial = chargeIndicator.material;
                 chargeRingMaterial.SetFloat(FillStartAngleProperty, Mathf.PI/2f);
@@ -117,7 +113,7 @@ namespace Minigames.DireDodging {
             if (!player.InputEnabled) return;
             if (player.Navigator == null) return;
 
-            if (toggleChargeMode) {
+            if (GameSettings.Accessibility.ToggleCharge) {
                 bool chargePressed = player.Navigator.ChargeIsPressed();
 
                 if (chargePressed && !isCharging) {
