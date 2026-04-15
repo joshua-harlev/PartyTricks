@@ -16,7 +16,7 @@ MonoBehaviour:
   ProjectileScale: 1.3
   ProjectileSpeed: 20
   ProjectileShootRate: 0.33
-  BaseDamage: 0.5
+  BaseDamage: 1
   BaseHealth: 3
   DamageAnimationTimeInSeconds: 0.2
   DeathAnimationTimeInSeconds: 0.25
