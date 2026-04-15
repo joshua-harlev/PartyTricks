@@ -15,10 +15,9 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 2cabd9a17b68d4855a310b9f964477d2, type: 3}
   Id: increasedSpecialCoinRate
   DisplayName: Better Coins
-  Cost: 50
+  Cost: 75
   Category: 0
   Description: Spawn more of special coins.\nOnly affects you.
   IsTemporary: 0
   NumberOfUsesIfApplicable: 0
-  PowerUpEffectId: increasedSpecialCoinRate
   IsImplemented: 1

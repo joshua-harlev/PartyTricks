@@ -15,7 +15,7 @@ MonoBehaviour:
   Icon: {fileID: 1535325516486818496, guid: 1d3d7e208cae546e9894ad8bb53b48b2, type: 3}
   Id: magnet
   DisplayName: Magnet
-  Cost: 200
+  Cost: 150
   Category: 0
   Description: Wield the power of magnetism. Attracts coins.
   IsTemporary: 0
