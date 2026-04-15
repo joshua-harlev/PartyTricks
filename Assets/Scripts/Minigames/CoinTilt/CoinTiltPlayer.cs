@@ -14,6 +14,7 @@ namespace Minigames.CoinTilt {
         [SerializeField] private ParticleSystem magnetParticles;
         [SerializeField] private GameObject magnetOutline;
         [SerializeField] private GameObject coinCollectEffectPrefab;
+        [SerializeField] private ParticleSystem landingDustEffect;
 
         private TiltingPlatform platform;
         private float moveSpeed = 15f;
@@ -49,6 +50,7 @@ namespace Minigames.CoinTilt {
         private float magnetRadius = 3f;
         private float magnetPullSpeed = 5f;
         private float timeSinceGrounded;
+        private bool wasGroundedLastFrame;
 
         public int PlayerIndex => playerIndex;
         public Vector3 Position => transform.position;
@@ -291,6 +293,11 @@ namespace Minigames.CoinTilt {
             }
 
             UpdateGroundedTime();
+            
+            if (isGrounded && !wasGroundedLastFrame) {
+                OnLanded();
+            }
+            wasGroundedLastFrame = isGrounded;
 
             if (isGrounded && currentVelocity.y < 0) {
                 currentVelocity.y = -2f;
@@ -364,6 +371,15 @@ namespace Minigames.CoinTilt {
             }
 
             DebugLogger.Log(LogChannel.Systems, $"P{playerIndex + 1} respawned.", LogLevel.Verbose);
+        }
+        
+        private void OnLanded() {
+            Debug.Log("Player landed!");
+            if (landingDustEffect != null) {
+                landingDustEffect.Play();
+            } else {
+                Debug.Log("landingDustEffect is null!");
+            }
         }
     }
 }

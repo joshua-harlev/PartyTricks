@@ -985,6 +985,7 @@ MonoBehaviour:
   magnetParticles: {fileID: 28267787}
   magnetOutline: {fileID: 624646193}
   coinCollectEffectPrefab: {fileID: 4393467995600519701, guid: 30ccdb4446ce44d2682dde50b6153b9a, type: 3}
+  landingDustEffect: {fileID: 8656568486955277141, guid: 6e74054809d064038840000e154aaa52, type: 3}
 --- !u!65 &165266143
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1321,6 +1322,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 629062074}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &336108758
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1547170139}
+    m_Modifications:
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5785181758711605953, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: m_Name
+      value: LandingParticleEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8656568486955277141, guid: 6e74054809d064038840000e154aaa52, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6e74054809d064038840000e154aaa52, type: 3}
+--- !u!198 &336108759 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8656568486955277141, guid: 6e74054809d064038840000e154aaa52, type: 3}
+  m_PrefabInstance: {fileID: 336108758}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &336108760 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2408897298036115337, guid: 6e74054809d064038840000e154aaa52, type: 3}
+  m_PrefabInstance: {fileID: 336108758}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &353406490
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,6 +2228,7 @@ MonoBehaviour:
   magnetParticles: {fileID: 58021828}
   magnetOutline: {fileID: 312447934}
   coinCollectEffectPrefab: {fileID: 4393467995600519701, guid: 30ccdb4446ce44d2682dde50b6153b9a, type: 3}
+  landingDustEffect: {fileID: 8656568486955277141, guid: 6e74054809d064038840000e154aaa52, type: 3}
 --- !u!65 &629062080
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5020,6 +5093,7 @@ Transform:
   m_Children:
   - {fileID: 701807074}
   - {fileID: 1416930832}
+  - {fileID: 336108760}
   m_Father: {fileID: 1174443927}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!143 &1547170140
@@ -5120,6 +5194,7 @@ MonoBehaviour:
   magnetParticles: {fileID: 1517621506}
   magnetOutline: {fileID: 1416930829}
   coinCollectEffectPrefab: {fileID: 4393467995600519701, guid: 30ccdb4446ce44d2682dde50b6153b9a, type: 3}
+  landingDustEffect: {fileID: 336108759}
 --- !u!64 &1547170145
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5651,6 +5726,7 @@ MonoBehaviour:
   magnetParticles: {fileID: 962479105}
   magnetOutline: {fileID: 1702877794}
   coinCollectEffectPrefab: {fileID: 4393467995600519701, guid: 30ccdb4446ce44d2682dde50b6153b9a, type: 3}
+  landingDustEffect: {fileID: 8656568486955277141, guid: 6e74054809d064038840000e154aaa52, type: 3}
 --- !u!65 &1683248332
 BoxCollider:
   m_ObjectHideFlags: 0
