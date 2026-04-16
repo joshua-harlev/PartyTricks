@@ -14,7 +14,7 @@ namespace Minigames.CoinTilt {
         [SerializeField] private ParticleSystem magnetParticles;
         [SerializeField] private GameObject magnetOutline;
         [SerializeField] private GameObject coinCollectEffectPrefab;
-        [SerializeField] private ParticleSystem landingDustEffect;
+        [SerializeField] private ParticleSystem trailParticles;
 
         private TiltingPlatform platform;
         private float moveSpeed = 15f;
@@ -46,6 +46,7 @@ namespace Minigames.CoinTilt {
         private bool isGrounded;
         private bool isFalling;
         private bool inputEnabled;
+        private bool shouldShowMoveBoostParticles;
         private bool magnetEnabled = false;
         private float magnetRadius = 3f;
         private float magnetPullSpeed = 5f;
@@ -97,7 +98,6 @@ namespace Minigames.CoinTilt {
             }
 
             respawnPosition = transform.position;
-
             DebugLogger.Log(LogChannel.Systems, $"P{playerIndex + 1} initialized. IsAI: {isAI}");
         }
 
@@ -105,6 +105,12 @@ namespace Minigames.CoinTilt {
             for (int i = 0; i < numberOfMoveBoosts; i++) {
                 slipFactor += 1.3f;
                 airControlMultiplier = Mathf.Clamp01(airControlMultiplier + 0.3f);
+            }
+
+            if (numberOfMoveBoosts >= 1) {
+                shouldShowMoveBoostParticles = true;
+                trailParticles?.Play();
+                Debug.Log("Showing particles");
             }
         }
 
@@ -338,6 +344,7 @@ namespace Minigames.CoinTilt {
         private void TriggerFall() {
             if (isFalling) return;
             isFalling = true;
+            if(shouldShowMoveBoostParticles) trailParticles?.Stop();
             magnetParticles?.Stop();
             magnetOutline?.SetActive(false);
             inputEnabled = false;
@@ -349,6 +356,7 @@ namespace Minigames.CoinTilt {
         private IEnumerator RespawnAfterDelay() {
             characterController.enabled = false;
             meshRenderer.enabled = false;
+            if(shouldShowMoveBoostParticles) trailParticles?.Play();
             yield return new WaitForSeconds(respawnDelayInSeconds);
             Respawn();
             respawnCoroutine = null;
@@ -374,12 +382,7 @@ namespace Minigames.CoinTilt {
         }
         
         private void OnLanded() {
-            Debug.Log("Player landed!");
-            if (landingDustEffect != null) {
-                landingDustEffect.Play();
-            } else {
-                Debug.Log("landingDustEffect is null!");
-            }
+            // useful for future effect on landing
         }
     }
 }
