@@ -19,7 +19,7 @@ namespace Minigames.DireDodging {
         private bool showTrail;
         private float chargeStartTime;
         private EventInstance chargeLoopInstance;
-
+        
         private float chargeTimeRequired;
         private float chargedProjectileScale;
         private float chargedProjectileSpeed;
@@ -65,7 +65,7 @@ namespace Minigames.DireDodging {
             chargeCompleteEvent = stats.ChargeCompleteEvent;
             ghostChargeTimeOriginal = stats.GhostChargeTime;
             originalBaseHP = stats.BaseHealth;
-
+            
             if (chargeIndicator != null) {
                 chargeRingMaterial = chargeIndicator.material;
                 chargeRingMaterial.SetFloat(FillStartAngleProperty, Mathf.PI/2f);
@@ -113,16 +113,27 @@ namespace Minigames.DireDodging {
             if (!player.InputEnabled) return;
             if (player.Navigator == null) return;
 
-            bool chargeIsHeld = player.Navigator.ChargeIsHeld();
+            if (GameSettings.Accessibility.ToggleCharge) {
+                bool chargePressed = player.Navigator.ChargeIsPressed();
 
-            if (chargeIsHeld && !isCharging) {
-                StartCharging();
-            }
+                if (chargePressed && !isCharging) {
+                    StartCharging();
+                } else if (chargePressed && isCharging) {
+                    ReleaseCharge();
+                }
+            } else {
+                bool chargeIsHeld = player.Navigator.ChargeIsHeld();
 
-            if (isCharging && !chargeIsHeld) {
-                ReleaseCharge();
+                if (chargeIsHeld && !isCharging) {
+                    StartCharging();
+                }
+
+                if (isCharging && !chargeIsHeld) {
+                    ReleaseCharge();
+                }
             }
         }
+
 
         private void StartCharging() {
             isCharging = true;

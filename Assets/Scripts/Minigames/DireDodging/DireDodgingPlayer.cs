@@ -226,6 +226,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private void UpdateScreenBounds() {
+        if(mainCamera == null) mainCamera = Camera.main;
         screenBottom = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 0)).y;
         screenTop = mainCamera.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y;
         screenLeft = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 0)).x;
