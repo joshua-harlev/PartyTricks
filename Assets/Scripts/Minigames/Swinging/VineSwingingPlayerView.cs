@@ -22,6 +22,7 @@ namespace Minigames.Swinging {
         private bool showTrail;
         private float trailOffsetX;
         private bool hasMagnet;
+        private bool hasGrabbedOnce;
         private const float SnapSpeed = 80f;
         private RaycastHit2D[] magnetHits;
 
@@ -75,7 +76,10 @@ namespace Minigames.Swinging {
             foreach (var pendingEvent in currentPlayerContext.PendingEvents) {
                 switch (pendingEvent) {
                     case PlayerEvent.GrabbedVine:
-                        RuntimeManager.PlayOneShot(grabEvent, transform.position);
+                        if (hasGrabbedOnce) { 
+                            RuntimeManager.PlayOneShot(grabEvent, transform.position);
+                        }
+                        hasGrabbedOnce = true;
                         spriteRenderer.sprite = defaultSprite;
                         transform.localPosition =
                             new Vector3(currentPlayerContext.PositionX, currentPlayerContext.PositionY);

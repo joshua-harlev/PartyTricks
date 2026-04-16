@@ -1,15 +1,17 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
+using FMODUnity;
 using ResultsScreen.Core;
 using Services;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
-using FMODUnity;
 using Image = UnityEngine.UI.Image;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 namespace ResultsScreen {
     public class ResultsScreen : MonoBehaviour {
@@ -18,7 +20,10 @@ namespace ResultsScreen {
         [SerializeField] private TMP_Text WinnerNumberLabel;
         [SerializeField] private Image BackgroundImage;
         [SerializeField] private PlacesScreenPanel PlacesScreenPanel;
-        [SerializeField] private EventReference returnSound;
+        [FormerlySerializedAs("returnSound")] 
+        [SerializeField] private EventReference ReturnSound;
+        [SerializeField] private EventReference ResultsMusic;
+
         private int playerWinnerIndex;
         private int[] playerFunds;
         private Button mainMenuButton;
@@ -26,14 +31,19 @@ namespace ResultsScreen {
         private bool canReturnToMainMenu = false;
         private bool isTie;
         private readonly List<InputAction> subscribedActions = new();
+        private EventInstance musicInstance;
+        private EventDescription musicDescription;
 
         private void Awake() {
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+            musicInstance = RuntimeManager.CreateInstance(ResultsMusic);
+            musicDescription = RuntimeManager.GetEventDescription(ResultsMusic);
+            musicDescription.loadSampleData();
         }
 
         public void ReturnToMainMenu() {
             if (canReturnToMainMenu) {
-                RuntimeManager.PlayOneShot(returnSound);
+                RuntimeManager.PlayOneShot(ReturnSound);
                 ResetProfiles();
                 SceneManager.LoadScene("MainMenu");
             }
@@ -68,16 +78,32 @@ namespace ResultsScreen {
             }
         }
 
+        private IEnumerator WaitForTimelinePosition(int targetTimeInMs) {
+            int currentTime;
+            do {
+                musicInstance.getTimelinePosition(out currentTime);
+                yield return null;
+            } while (currentTime < targetTimeInMs);
+        }
+
         private IEnumerator WaitAndDisplayWinner() {
-            yield return new WaitForSeconds(0.5f);
+            LOADING_STATE loadingState;
+            do {
+                musicDescription.getSampleLoadingState(out loadingState);
+                yield return null;
+            } while(loadingState != LOADING_STATE.LOADED);
+
+            musicInstance.start();
+
+            yield return WaitForTimelinePosition(1990);
             WinnerLabel.text = "The winner is.";
-            yield return new WaitForSeconds(1.3f);
+            yield return WaitForTimelinePosition(3980);
             WinnerLabel.text = "The winner is..";
-            yield return new WaitForSeconds(1.5f);
+            yield return WaitForTimelinePosition(6000);
             WinnerLabel.text = "The winner is...";
-            yield return new WaitForSeconds(2.5f);
+            yield return WaitForTimelinePosition(7980);
             DisplayWinner();
-            yield return new WaitForSeconds(3.5f);
+            yield return WaitForTimelinePosition(11300);
             HideSuspensePanel();
             PlacesScreenPanel.ShowStatic(playerFunds);
             canReturnToMainMenu = true;
@@ -128,6 +154,11 @@ namespace ResultsScreen {
             }
             WinnerNumberLabel.color = Color.white;
             WinnerLabel.color = Color.white;
+        }
+        
+        private void OnDisable() {
+            musicInstance.stop(STOP_MODE.IMMEDIATE);
+            musicDescription.unloadSampleData();
         }
     }
 }

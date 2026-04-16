@@ -491,6 +491,7 @@ MonoBehaviour:
   Banks:
   - CoinTilt
   - DireDodging
+  - Results
   - Shop
   - Swinging
   - VineSwinging
