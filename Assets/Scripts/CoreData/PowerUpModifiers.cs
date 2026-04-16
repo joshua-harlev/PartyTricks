@@ -22,7 +22,7 @@ namespace CoreData {
 
     public struct ShopModifiers {
         public readonly int ShopDiscountCount;
-        private const int DISCOUNT_PER_ITEM = 50;
+        private const int DISCOUNT_PER_ITEM = 75;
 
         public ShopModifiers(int shopDiscountCount) {
             ShopDiscountCount = shopDiscountCount;
