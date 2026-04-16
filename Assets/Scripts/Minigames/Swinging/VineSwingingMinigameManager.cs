@@ -52,8 +52,7 @@ namespace Minigames.Swinging {
         private IVineSwingingGameState currentState;
         private IPowerUpService powerUpService;
         private bool hasBeenInitialized;
-
-        private float targetIntensityCompletionTime;
+        
         private bool isInGameplay;
         
         private float baseGameDurationInSeconds => TimerLengths.GetMinigameTimerLengthInSeconds();
@@ -89,13 +88,7 @@ namespace Minigames.Swinging {
             IsDoubleRound = isDoubleRound;
             countdownDurationInSeconds = TimerLengths.GetCountdownTimerLengthInSeconds();
             hasBeenInitialized = true;
-            GameTimer.OnTimerTick += OnTimerTick;
             DebugLogger.Log(LogChannel.Systems, $"VineSwinging initiated. Double round: {isDoubleRound}");
-        }
-
-        private void OnTimerTick(float elapsedTimeInSeconds, float remainingTimeInSeconds) {
-            float musicIntensity = Mathf.Lerp(0f, 2f, elapsedTimeInSeconds / targetIntensityCompletionTime);
-            SetMusicIntensity(musicIntensity);
         }
         
         private void SetUpVariables() {
@@ -103,8 +96,6 @@ namespace Minigames.Swinging {
                 effectiveGameDurationInSeconds *= 2;
                 vineCount *= 2;
             }
-
-            targetIntensityCompletionTime = effectiveGameDurationInSeconds * 0.6f;
 
             InitializePlayerDisplays(); 
             placesDisplay.Hide();
@@ -193,8 +184,6 @@ namespace Minigames.Swinging {
         }
 
         public void StartMusic() => musicInstance.start();
-        
-        public void SetMusicIntensity(float intensity) => musicInstance.setParameterByName("Intensity", intensity);
 
         private void OnDisable() {
             musicInstance.stop(STOP_MODE.IMMEDIATE);
@@ -207,10 +196,6 @@ namespace Minigames.Swinging {
         private IEnumerator WaitAndEndMinigame(PlayerMinigameResult[] results) {
             yield return new WaitForSeconds(resultsDisplayDurationInSeconds);
             OnMinigameFinished?.Invoke(results);
-        }
-
-        private void OnDestroy() {
-            GameTimer.OnTimerTick -= OnTimerTick;
         }
     }
 }
