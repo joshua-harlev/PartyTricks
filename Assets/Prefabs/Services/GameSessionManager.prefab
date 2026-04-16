@@ -71,13 +71,37 @@ MonoBehaviour:
   m_JoinAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Join
       m_Type: 0
       m_ExpectedControlType: 
       m_Id: 304ed322-741a-442e-9b9b-9bd14113c4ad
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings: []
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: b99e8985-2f64-46a1-b0e3-6644cda43098
+        m_Path: Gamepad/*
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 6b1ccf0d-c992-4ed8-b3dd-d51c099d59a5
+        m_Path: <Keyboard>/anyKey
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 94978506-4c8e-4955-9327-e45b1fc74d04
+        m_Path: Joystick/*
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 0}
   m_PlayerPrefab: {fileID: 7554955843715273295, guid: 375ab44500ebe4b19a16a935071e95e5, type: 3}
@@ -115,3 +139,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d053e0e4924b10b5d5929cb293c108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::Game.GameSessionManager
+  PointerActionAsset: {fileID: -944628639613478452, guid: 9b86c121e8a1247249617d139205f980, type: 3}

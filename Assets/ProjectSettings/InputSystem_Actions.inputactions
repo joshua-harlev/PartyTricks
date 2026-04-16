@@ -864,6 +864,116 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "f15726b8-12a4-4a34-84c8-7209c0f77610",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "b65bc0ea-1e5c-47ad-8d0b-a066f483d61b",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "58b01341-7d9b-4cf9-b343-33e4d8ae6219",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "78a4e406-aab5-42ed-921f-84adcc35df31",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "142a808f-3208-4f45-8777-379e5436025e",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/hat/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "4538f086-3404-4f72-9768-09dbfb505fba",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "a6f34367-28cd-4029-9b12-e6aec8437577",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "837f5509-714b-4eb3-a914-85c71cec5dc8",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "96bbabe2-502e-49eb-823d-81c34ff52cc4",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "3cccd7e9-683b-42b6-86bb-d68b67dffa16",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc",
                     "path": "*/{Submit}",
@@ -887,11 +997,33 @@
                 },
                 {
                     "name": "",
+                    "id": "8841142e-d28f-4000-a969-8b32be16778a",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "82627dcc-3b13-4ba9-841d-e4b746d6553e",
                     "path": "*/{Cancel}",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "033cd69c-b6e1-400f-87ff-a204046d795f",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad;Joystick",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1074,6 +1206,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0f794579-2290-4662-9789-9647fe4508c1",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/button11",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "ToggleDebugMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "5c8f672e-c05c-4535-8639-7504f9914e3b",
                     "path": "<Keyboard>/p",
                     "interactions": "",
@@ -1090,6 +1233,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "14a1f4e3-dc0d-4e74-8c50-e67b1a712fa1",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/button12",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Joystick;Gamepad",
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1123,6 +1277,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
+                    "action": "Charge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d7cf477-a2cb-4645-ba08-4ef09dfd1ee1",
+                    "path": "<HID::8BitDo Ultimate 2 Wireless>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad;Joystick",
                     "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false

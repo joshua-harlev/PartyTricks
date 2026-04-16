@@ -86,6 +86,8 @@ namespace Minigames.DireDodging {
             }
             player.EnableInput();
 
+            player.PlayerRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+            
             Color ghostColor = player.BaseColor;
             ghostColor.a = 0.3f;
             player.PlayerSpriteRenderer.color = ghostColor;

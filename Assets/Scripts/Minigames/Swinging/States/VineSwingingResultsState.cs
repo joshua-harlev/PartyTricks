@@ -11,7 +11,6 @@ namespace Minigames.Swinging.States {
         
         public void Enter() {
             DebugLogger.Log(LogChannel.Systems, $"VineSwinging: Entered Results State.");
-            minigameManager.SetMusicIntensity(0f);
             PlayerMinigameResult[] results = CalculateResults();
             ShowResultsDisplay(results);
             minigameManager.OnGameEnd(results);

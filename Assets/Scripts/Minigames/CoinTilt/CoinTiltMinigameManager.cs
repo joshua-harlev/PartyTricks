@@ -67,13 +67,6 @@ namespace Minigames.CoinTilt {
             DebugLogger.Log(LogChannel.Systems, $"CoinTiltMinigame initialized. Double round: {isDoubleRound}");
         }
 
-        private void OnTimerTick(float elapsedTimeInSeconds, float remainingTimeInSeconds) {
-            float musicIntensity = Mathf.Lerp(0f, 2f, elapsedTimeInSeconds / targetIntensityCompletionTime);
-            SetMusicIntensity(musicIntensity);
-        }
-
-        private void SetMusicIntensity(float intensity) => musicInstance.setParameterByName("Intensity", intensity);
-
         private void InitializeVariables() {
             InitializePlayerScores();
             InitializeCountdown();
@@ -89,7 +82,6 @@ namespace Minigames.CoinTilt {
                 gameTimer.Initialize(effectiveGameDurationInSeconds);
                 gameTimer.OnTimerEnd += EndGame;
                 targetIntensityCompletionTime = effectiveGameDurationInSeconds * 0.6f;
-                gameTimer.OnTimerTick += OnTimerTick;
             }
         }
 
@@ -252,7 +244,6 @@ namespace Minigames.CoinTilt {
         }
 
         private void EndGame() {
-            SetMusicIntensity(0f);
             gameTimer.OnTimerEnd -= EndGame;
             DisablePlayerControlsAndMovement();
             FinalizeCoinSpawnerOperations();
@@ -354,7 +345,6 @@ namespace Minigames.CoinTilt {
 
         private void OnDestroy() {
             musicInstance.stop(STOP_MODE.IMMEDIATE);
-            gameTimer.OnTimerTick -= OnTimerTick;
             foreach (var player in players) {
                 player.OnCoinCollected -= HandleCoinCollected;
                 player.OnFallOff -= HandlePlayerFall;

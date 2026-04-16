@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Services;
 using UnityEngine;
@@ -11,6 +10,8 @@ namespace Game {
         private IPlayerService playerService;
         private UnityEngine.InputSystem.PlayerInputManager unityInputManager;
         private bool isQuitting = false;
+        [SerializeField] private InputActionAsset PointerActionAsset;
+        private InputActionReference pointReference, clickReference, rightClickReference, middleClickReference, scrollWheelReference;
     
         private void Awake() {
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
@@ -34,6 +35,10 @@ namespace Game {
         private void ConfigureInputManager() {
             unityInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenButtonIsPressed;
             unityInputManager.notificationBehavior = PlayerNotifications.InvokeCSharpEvents;
+            var joinAction = new InputAction(binding: "<Gamepad>/*", type: InputActionType.Button);
+            joinAction.AddBinding("<Keyboard>/anyKey");
+            joinAction.Enable();
+            unityInputManager.joinAction = new InputActionProperty(joinAction);
         }
 
         private void OnEnable() {
@@ -48,6 +53,8 @@ namespace Game {
             unityInputManager.onPlayerLeft -= HandlePlayerLeft;
             SceneManager.sceneLoaded -= SetUIModuleOnSceneLoaded;
             SceneManager.sceneLoaded -= SceneObserver.OnSceneLoaded;
+            PointerActionAsset?.Disable();
+            PointerActionAsset = null;
         }
         
         public void HandlePlayerJoined(PlayerInput playerInput) {
@@ -57,39 +64,42 @@ namespace Game {
                 Debug.LogWarning("[GameSessionManager] Failed to join player");
             }
 
-            if (playerJoined && KeyboardOrMouseIsConnected(playerInput)) {
-                var uiModule = GetInputSystemUIInputModule();
-                if (uiModule != null) {
-                    playerInput.uiInputModule = uiModule;
-                }
-            }
+            ConfigureUIModuleAsPointerOnly();
         }
+        
+        private void ConfigureUIModuleAsPointerOnly() {
+            var uiModule = GetInputSystemUIInputModule();
+            if (uiModule == null) return;
 
-        private static bool KeyboardOrMouseIsConnected(PlayerInput playerInput) {
-            return playerInput.devices.Any(device => device is Keyboard || device is Mouse);
+            uiModule.move = null;
+            uiModule.submit = null;
+            uiModule.cancel = null;
+
+            if (pointReference == null) {
+                PointerActionAsset.Enable();
+                var map = PointerActionAsset.FindActionMap("Pointer");
+                pointReference = InputActionReference.Create(map.FindAction("Point"));
+                clickReference = InputActionReference.Create(map.FindAction("Click"));
+                rightClickReference = InputActionReference.Create(map.FindAction("RightClick"));
+                middleClickReference = InputActionReference.Create(map.FindAction("MiddleClick"));
+                scrollWheelReference = InputActionReference.Create(map.FindAction("ScrollWheel"));
+            }
+
+            uiModule.point = pointReference;
+            uiModule.leftClick = clickReference;
+            uiModule.rightClick = rightClickReference;
+            uiModule.middleClick = middleClickReference;
+            uiModule.scrollWheel = scrollWheelReference;
         }
 
         public void HandlePlayerLeft(PlayerInput playerInput) {
             if (isQuitting) return;
             Debug.Log($"[GameSessionManager] Unity PlayerInput left: {playerInput.playerIndex}");
-            
-            var uiModule = GetInputSystemUIInputModule();
-            if (uiModule != null && playerInput.uiInputModule == uiModule && KeyboardOrMouseIsConnected(playerInput)) {
-                playerInput.uiInputModule = null;
-            }
-            
             RemovePlayerFromSlot(playerInput);
         }
 
         public void SetUIModuleOnSceneLoaded(Scene scene, LoadSceneMode mode) {
-            var uiModule = GetInputSystemUIInputModule();
-            if (uiModule == null) return;
-
-            foreach (var playerSlot in playerService.PlayerSlots) {
-                if (playerSlot.IsOccupied && playerSlot.PlayerInput != null && KeyboardOrMouseIsConnected(playerSlot.PlayerInput)) {
-                    playerSlot.PlayerInput.uiInputModule = uiModule;
-                }
-            }
+            ConfigureUIModuleAsPointerOnly();
         }
 
         private static InputSystemUIInputModule GetInputSystemUIInputModule() {
