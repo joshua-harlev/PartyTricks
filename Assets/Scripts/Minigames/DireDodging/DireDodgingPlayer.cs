@@ -107,11 +107,11 @@ public class DireDodgingPlayer : MonoBehaviour {
     private void Start() {
         originalScreenWidth = Screen.width;
         originalScreenHeight = Screen.height;
-        UpdateScreenBounds();
     }
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool initializeAsAI, CombatModifiers modifiers, bool isDoubleRound) {
         mainCamera = Camera.main;
+        UpdateScreenBounds();
         ApplyBaseStats();
         if (isDoubleRound) {
             this.maxHealth *= 2;
