@@ -346,9 +346,9 @@ namespace Minigames.CoinTilt {
         }
 
         private void TriggerFall() {
+            if(shouldShowMoveBoostParticles) trailParticles?.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             if (isFalling) return;
             isFalling = true;
-            if(shouldShowMoveBoostParticles) trailParticles?.Stop();
             magnetParticles?.Stop();
             magnetOutline?.SetActive(false);
             inputEnabled = false;
@@ -360,9 +360,9 @@ namespace Minigames.CoinTilt {
         private IEnumerator RespawnAfterDelay() {
             characterController.enabled = false;
             meshRenderer.enabled = false;
-            if(shouldShowMoveBoostParticles) trailParticles?.Play();
             yield return new WaitForSeconds(respawnDelayInSeconds);
             Respawn();
+            if(shouldShowMoveBoostParticles) trailParticles?.Play();
             respawnCoroutine = null;
         }
 
