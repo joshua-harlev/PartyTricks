@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1029035818673718531}
+  - component: {fileID: 8144497821394580389}
   m_Layer: 0
   m_Name: Clouds
   m_TagString: Untagged
@@ -33,6 +34,19 @@ Transform:
   - {fileID: 6883550354476804184}
   m_Father: {fileID: 209935298235818421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8144497821394580389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328157006703296389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa0fcae78e5484db211b1bc390880ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Shop::Shop.CloudSettings
+  cloudRenderer: {fileID: 6825019430729048918}
 --- !u!1 &3158455766200487506
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,6 +150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::GameBoardDisplay
   uiDocument: {fileID: 4474054950900697909}
   iconMapping: {fileID: 11400000, guid: bcb253fa901274e48a61f78e91aed5ec, type: 2}
+  darkenedImage: {fileID: 21300000, guid: bc77d3db1529c42b3a5e580f306aaa4b, type: 3}
+  spotlightImage: {fileID: 21300000, guid: ae0568aaa4bd94a84a1f8a56f4be4b4d, type: 3}
+  brightImage: {fileID: 21300000, guid: d09768dbeda644a848d24a862b2e388c, type: 3}
 --- !u!1 &7037926461032769282
 GameObject:
   m_ObjectHideFlags: 0
