@@ -15,7 +15,7 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: c8ba6126cfafd41b081d61b484a423a5, type: 3}
   Id: increasedCoinSpawns
   DisplayName: More Coins
-  Cost: 75
+  Cost: 50
   Category: 0
   Description: Spawn more coins.\nMake more money!
   IsTemporary: 0

@@ -15,7 +15,7 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: cdd991b88df554de1bf027f66a7b36f6, type: 3}
   Id: multishot
   DisplayName: Multishot
-  Cost: 150
+  Cost: 100
   Category: 2
   Description: Overwhelm your opponents.\nShoot more shots at once!
   IsTemporary: 0
