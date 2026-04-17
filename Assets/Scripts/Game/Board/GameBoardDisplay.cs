@@ -12,19 +12,41 @@ public class GameBoardDisplay : MonoBehaviour {
 
     private VisualElement root;
     private VisualElement iconRow;
+    private Image boardImage;
 
+    [SerializeField] private Sprite darkenedImage;
+    [SerializeField] private Sprite spotlightImage;
+    [SerializeField] private Sprite brightImage;
+    
     public event Action OnContinue;
 
     private void Awake() {
         root = uiDocument.rootVisualElement;
         iconRow = root.Q<VisualElement>("IconRow");
+        boardImage = root.Q<Image>("IEEEBoardImage");
         root.style.display = DisplayStyle.None;
     }
 
     public void ShowBoard(List<(MinigameType minigameType, bool IsDouble)> gameBoard) {
         root.style.display = DisplayStyle.Flex;
-        DrawIcons(gameBoard);
-        StartCoroutine(WaitAndThenContinue());
+        if (GameSettings.Gameplay.UsePresetBoard) {
+            boardImage.style.display = DisplayStyle.Flex;
+            StartCoroutine(IEEEBoardCoroutine());
+            return;
+        } else {
+            DrawIcons(gameBoard);
+            StartCoroutine(WaitAndThenContinue());
+        }
+    }
+
+    private IEnumerator IEEEBoardCoroutine() {
+        boardImage.image = brightImage.texture;
+        yield return new WaitForSeconds(2.5f);
+        boardImage.image = darkenedImage.texture;
+        yield return new WaitForSeconds(2.5f);
+        boardImage.image = spotlightImage.texture;
+        yield return new WaitForSeconds(4f);
+        OnContinue?.Invoke();
     }
 
     private void DrawIcons(List<(MinigameType minigameType, bool IsDouble)> gameBoard) {
