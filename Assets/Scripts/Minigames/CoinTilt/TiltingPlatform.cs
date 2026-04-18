@@ -36,7 +36,7 @@ namespace Minigames.CoinTilt {
             Vector3 relativePosition = playerPosition - platformCenter;
             FlattenToXYPlane(ref relativePosition);
             float distanceFromCenter = relativePosition.magnitude;
-            if (distanceFromCenter < centerDeadzone) {
+            if (distanceFromCenter < centerDeadzone || assignedPlayer.IsFalling) {
                 targetRotation = Quaternion.identity;
                 return;
             }

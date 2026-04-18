@@ -56,6 +56,7 @@ namespace Minigames.CoinTilt {
 
         public int PlayerIndex => playerIndex;
         public Vector3 Position => transform.position;
+        public bool IsFalling => isFalling;
 
         private void Awake() {
             initialRotation = transform.rotation;
@@ -348,6 +349,7 @@ namespace Minigames.CoinTilt {
         private void TriggerFall() {
             if(shouldShowMoveBoostParticles) trailParticles?.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             if (isFalling) return;
+            isGrounded = false;
             isFalling = true;
             magnetParticles?.Stop();
             magnetOutline?.SetActive(false);
