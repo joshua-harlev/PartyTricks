@@ -1,17 +1,21 @@
 using System.Collections.Generic;
+using CoreData;
+using Services;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace Minigames.DireDodging {
     public class DireDodgingProjectilePool : MonoBehaviour {
-        [SerializeField] private Color PlayerColor;
+        private Color playerColor;
         [SerializeField] private GameObject ProjectilePrefab;
         [SerializeField] private Transform PoolParent;
         
         private ObjectPool<DireDodgingProjectile>[] pools;
         private List<DireDodgingProjectile> activeProjectiles = new();
 
-        public void Initialize() {
+        public void Initialize(int playerIndex) {
+            PlayerColorConfig colorConfig = ServiceLocatorAccessor.GetService<PlayerColorConfig>();
+            playerColor = colorConfig.GetLightColor(playerIndex);
             pools = new ObjectPool<DireDodgingProjectile>[2];
             pools[0] = new ObjectPool<DireDodgingProjectile>(
                 () => CreateProjectile(pools[0]),
@@ -48,7 +52,7 @@ namespace Minigames.DireDodging {
             projectileObject.SetActive(false);
             DireDodgingProjectile projectile = projectileObject.GetComponent<DireDodgingProjectile>();
             projectile.SetPool(projectilePool);
-            projectile.SetColor(PlayerColor);
+            projectile.SetColor(playerColor);
             return projectile;
         }
         

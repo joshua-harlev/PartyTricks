@@ -4,6 +4,7 @@ using CoreData;
 using DG.Tweening;
 using FMODUnity;
 using Minigames.DireDodging;
+using Services;
 using UnityEngine;
 
 public class DireDodgingPlayer : MonoBehaviour {
@@ -25,7 +26,6 @@ public class DireDodgingPlayer : MonoBehaviour {
     public Color BaseColor => baseColor;
     public Camera MainCamera => mainCamera;
     public Vector2 LastMoveDirection => lastMoveDirection;
-    public Color PlayerEffectColor => playerEffectColor;
 
     private float maxMoveSpeed;
     private float projectileScale;
@@ -51,7 +51,9 @@ public class DireDodgingPlayer : MonoBehaviour {
     [SerializeField] private DireDodgingShockwave Shockwave;
     [SerializeField] private ParticleSystem stunParticles;
     [SerializeField] private ParticleSystem deathParticles;
-    [SerializeField] private Color playerEffectColor = Color.white;
+    
+    private Color playerEffectColor = Color.white;
+    public Color PlayerEffectColor => playerEffectColor;
 
     private Coroutine shootingCoroutineInstance = null;
     private Vector2 lastMoveDirection = Vector2.right;
@@ -91,8 +93,11 @@ public class DireDodgingPlayer : MonoBehaviour {
     private float ghostMoveSpeedMultiplier;
     private float defaultStunDuration;
     private float stunNudgeMultiplier;
+    
+    private PlayerColorConfig playerColorConfig;
 
     private void Awake() {
+        playerColorConfig = ServiceLocatorAccessor.GetService<PlayerColorConfig>();
         baseColor = SpriteRenderer.color;
         DireDodgingCameraZoomService.OnShockwaveZoomStatusChange += OnShockwaveZoomStatusChange;
     }
@@ -110,6 +115,8 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     public void Initialize(int index, IDirectionalTwoButtonInputHandler inputHandler, bool initializeAsAI, CombatModifiers modifiers, bool isDoubleRound) {
+        this.playerIndex = index;
+        playerEffectColor = playerColorConfig.GetEffectColor(playerIndex);
         mainCamera = Camera.main;
         UpdateScreenBounds();
         ApplyBaseStats();
@@ -124,7 +131,6 @@ public class DireDodgingPlayer : MonoBehaviour {
             HealthBar.UpdateDisplay(currentHealth, maxHealth);
         }
         this.multishotCount = modifiers.MultishotCount;
-        this.playerIndex = index;
         this.navigator = inputHandler;
         this.isAI = initializeAsAI;
         this.inputEnabled = false;
@@ -135,7 +141,7 @@ public class DireDodgingPlayer : MonoBehaviour {
 
         shootEventExists = !PlayerStatsSO.BasicShootEvent.IsNull;
         
-        ProjectilePool.Initialize();
+        ProjectilePool.Initialize(index);
         ChargeAttack.Initialize(this, ProjectilePool, PlayerStatsSO, modifiers);
         DeathHandler.Initialize(this, ChargeAttack, ProjectilePool, PlayerStatsSO, deathParticles);
         if(modifiers.ShockwaveCount > 0) Shockwave.Initialize(this, modifiers.ShockwaveCount);

@@ -5327,6 +5327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::MinigameTimer
   TimerPanel: {fileID: 2028322999}
   TimerText: {fileID: 765321209}
+  TimerCanvasGroup: {fileID: 2028323003}
 --- !u!1001 &1632172864
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6141,6 +6142,7 @@ GameObject:
   - component: {fileID: 2028323000}
   - component: {fileID: 2028323002}
   - component: {fileID: 2028323001}
+  - component: {fileID: 2028323003}
   m_Layer: 5
   m_Name: TimerPanel
   m_TagString: Untagged
@@ -6206,6 +6208,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028322999}
   m_CullTransparentMesh: 1
+--- !u!225 &2028323003
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028322999}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

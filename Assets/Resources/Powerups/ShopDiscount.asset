@@ -17,7 +17,7 @@ MonoBehaviour:
   DisplayName: Discount
   Cost: 100
   Category: 4
-  Description: Get to know the shopkeeper. <b>-50</b> cost on shop items.
+  Description: Get to know the shopkeeper. <b>-75</b> cost on shop items.
   IsTemporary: 0
   NumberOfUsesIfApplicable: 0
   IsImplemented: 1

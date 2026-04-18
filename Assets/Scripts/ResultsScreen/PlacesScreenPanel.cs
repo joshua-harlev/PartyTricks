@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CoreData;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -16,9 +17,7 @@ namespace ResultsScreen {
         [Header("Panel")] [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private RectTransform panelRoot;
 
-        [Header("Player Visuals")] [SerializeField]
-        private Color[] playerColors;
-
+        [Header("Player Visuals")]
         [SerializeField] private Sprite[] playerIcons;
 
         [Header("Animation Config")] [SerializeField]
@@ -40,9 +39,11 @@ namespace ResultsScreen {
         private Sequence currentSequence;
         private float[] slotXPositions;
         private int[] barToPlayerMap;
+        private PlayerColorConfig playerColorConfig;
 
         private void Awake() {
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+            playerColorConfig = ServiceLocatorAccessor.GetService<PlayerColorConfig>();
             slotXPositions = new float[barViews.Length];
             for (int i = 0; i < barViews.Length; i++) {
                 slotXPositions[i] = barViews[i].GetComponent<RectTransform>().anchoredPosition.x;
@@ -135,7 +136,7 @@ namespace ResultsScreen {
             for (int i = 0; i < sourceEntries.Length; i++) {
                 barToPlayerMap[i] = sourceEntries[i].PlayerIndex;
                 int playerIndex = sourceEntries[i].PlayerIndex;
-                barViews[i].SetColor(playerColors[playerIndex]);
+                barViews[i].SetColor(playerColorConfig.GetLightColor(playerIndex));
                 barViews[i].SetCharacterIcon(playerIcons[playerIndex]);
                 barViews[i].SetCrownVisibility(sourceEntries[i].Rank == 0);
                 barViews[i].SetFundsText(sourceEntries[i].Funds + " Funds");

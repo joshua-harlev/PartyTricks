@@ -85,7 +85,21 @@ public class ShopPlayerManager {
         for (int i = 0; i < shopItemUIElements.Length; i++) {
             bool isSelected = (i == newIndex);
             shopItemUIElements[i].OnPointedTo(selector.PlayerIndex, isSelected, selector.IsLocked);
+
+            var discountInfo = GetDiscountInfoForPlayer(selector.PlayerIndex, shopItemUIElements[i].GetItemCost());
+            shopItemUIElements[i].SetPlayerHoverDiscount(selector.PlayerIndex, isSelected, discountInfo);
         }
+    }
+
+    private PlayerDiscountInfo GetDiscountInfoForPlayer(int playerIndex, int baseItemCost) {
+        var slot = playerService.PlayerSlots[playerIndex];
+        var modifiers = powerUpService.GetShopModifiers(slot.Profile);
+
+        if (modifiers.ShopDiscountCount <= 0 || baseItemCost == 0) {
+            return new PlayerDiscountInfo(-1, slot.PlayerColor);
+        }
+        
+        return new PlayerDiscountInfo(modifiers.ApplyDiscount(baseItemCost), slot.PlayerColor);
     }
 
     public void EnableAllSelectors() {

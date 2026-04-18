@@ -1,7 +1,18 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+
+public struct PlayerDiscountInfo {
+    public int DiscountedCost; // -1 if no discount
+    public Color PlayerColor;
+
+    public PlayerDiscountInfo(int discountedCost, Color playerColor) {
+        DiscountedCost = discountedCost;
+        PlayerColor = playerColor;
+    }
+}
 
 public class ShopItemUI : MonoBehaviour {
     [SerializeField] private Image icon;
@@ -11,6 +22,7 @@ public class ShopItemUI : MonoBehaviour {
     [SerializeField] private TMP_Text description;
     [SerializeField] private ShopPointers pointers;
     private ShopItem item;
+    private readonly List<(int playerIndex, PlayerDiscountInfo discountInfo)> activeHoverDiscounts = new();
     
     public void SetItem(ShopItem item) {
         this.item = item;
@@ -56,5 +68,25 @@ public class ShopItemUI : MonoBehaviour {
 
     public void SetPointerBonusStatus(int playerIndex, bool showBonus) {
         pointers.SetPointerBonusStatus(playerIndex, showBonus);
+    }
+
+    public void SetPlayerHoverDiscount(int playerIndex, bool isHovering, PlayerDiscountInfo discountInfo) {
+        activeHoverDiscounts.RemoveAll(x => x.playerIndex == playerIndex);
+        if (isHovering && discountInfo.DiscountedCost >= 0) {
+            activeHoverDiscounts.Add((playerIndex, discountInfo));
+        }
+
+        UpdateCostText();
+    }
+
+    private void UpdateCostText() {
+        if (item == null) return;
+        var text = "Cost: " + item.Cost;
+        foreach (var (_, discountInfo) in activeHoverDiscounts) {
+            string hexColor = ColorUtility.ToHtmlStringRGB(discountInfo.PlayerColor);
+            text += $" <color=#{hexColor}>({discountInfo.DiscountedCost})</color>";
+        }
+
+        cost.text = text;
     }
 }

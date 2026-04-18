@@ -20,9 +20,9 @@ public class ShopPointer : MonoBehaviour {
     private bool isLocked = false;
     private bool showBonus = false;
 
-    public void SetBonusStatus(bool enabled) {
-        showBonus = enabled;
-        bonusIcon.enabled = enabled;
+    public void SetBonusStatus(bool bonusEnabled) {
+        showBonus = bonusEnabled;
+        bonusIcon.enabled = bonusEnabled;
     }
 
     public void SetLocked() {
@@ -44,7 +44,7 @@ public class ShopPointer : MonoBehaviour {
         rectTransform.DOShakeAnchorPos(shakeDurationInSeconds, new Vector2(shakeStrength, 0), shakeVibrato, 0)
             .OnComplete(() =>
             {
-                if(isLocked) imageComponent.sprite = lockedIcon;
+                if (isLocked) imageComponent.sprite = lockedIcon;
                 else imageComponent.sprite = pointerIcon;
                 if (showBonus) bonusIcon.enabled = true;
             });

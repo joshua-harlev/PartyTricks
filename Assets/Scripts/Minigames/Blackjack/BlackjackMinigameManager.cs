@@ -6,14 +6,7 @@ using Services;
 using UnityEngine;
 
 public class BlackjackMinigameManager : MonoBehaviour, IGamblingMinigame {
-    private static readonly Color[] PlayerColors =
-    {
-        Color.darkRed,
-        Color.darkBlue,
-        Color.rebeccaPurple,
-        Color.darkGreen
-    };
-
+    
     private static readonly Color InactiveColor = new(0.3f, 0.3f, 0.3f);
 
     [SerializeField] private bool isDoubleRound;
@@ -54,6 +47,7 @@ public class BlackjackMinigameManager : MonoBehaviour, IGamblingMinigame {
 
     private BlackjackShoe shoe;
     private bool hasBeenInitialized;
+    private PlayerColorConfig playerColorConfig;
 
     private void Awake() {
         InitializeVariables();
@@ -86,6 +80,7 @@ public class BlackjackMinigameManager : MonoBehaviour, IGamblingMinigame {
     }
 
     private void InitializeVariables() {
+        playerColorConfig = ServiceLocatorAccessor.GetService<PlayerColorConfig>();
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
         powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
         shoe = new BlackjackShoe();
@@ -316,7 +311,7 @@ public class BlackjackMinigameManager : MonoBehaviour, IGamblingMinigame {
             return;
         }
 
-        playerDisplays[currentPlayerIndex].ChangeToPlayerColor(PlayerColors[currentPlayerIndex]);
+        playerDisplays[currentPlayerIndex].ChangeToPlayerColor(playerColorConfig.GetMainColor(currentPlayerIndex));
         playerDisplays[currentPlayerIndex].ShowControls();
 
         var controller = playerControllers.Find(c => c.PlayerIndex == currentPlayerIndex);
