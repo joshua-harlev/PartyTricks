@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CoreData;
 using FMOD.Studio;
 using FMODUnity;
 using ResultsScreen.Core;
@@ -33,9 +34,11 @@ namespace ResultsScreen {
         private readonly List<InputAction> subscribedActions = new();
         private EventInstance musicInstance;
         private EventDescription musicDescription;
+        private PlayerColorConfig playerColorConfig;
 
         private void Awake() {
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+            playerColorConfig = ServiceLocatorAccessor.GetService<PlayerColorConfig>();
             musicInstance = RuntimeManager.CreateInstance(ResultsMusic);
             musicDescription = RuntimeManager.GetEventDescription(ResultsMusic);
             musicDescription.loadSampleData();
@@ -142,14 +145,7 @@ namespace ResultsScreen {
                 BackgroundImage.color = Color.black;
             } else {
                 WinnerNumberLabel.text = "Player " + (playerWinnerIndex + 1) + "!";
-                Color backgroundColor = playerWinnerIndex switch
-                {
-                    0 => new Color(153 / 256f, 0, 0, 1),
-                    1 => new Color(66 / 256f, 99 / 256f, 217 / 256f, 1),
-                    2 => new Color(140 / 256f, 25 / 256f, 212 / 256f, 1),
-                    3 => new Color(10 / 256f, 121 / 256f, 41 / 256f, 1),
-                    _ => default
-                };
+                Color backgroundColor = playerColorConfig.GetMainColor(playerWinnerIndex);
             BackgroundImage.color = backgroundColor;
             }
             WinnerNumberLabel.color = Color.white;
