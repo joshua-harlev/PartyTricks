@@ -77,6 +77,10 @@ public class PlayerSlot : MonoBehaviour {
         InitializePlayerProfileIfNull();
     }
 
+    public void SetPlayerColor(Color color) {
+        playerColor = color;
+    }
+
     private void ClearCurrentInput() {
         if (inputHandler != null) {
             if (inputHandler is Component component) {

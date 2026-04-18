@@ -1,3 +1,4 @@
+using CoreData;
 using Game;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Services {
         private void Initialize() {
             LoadConfig();
             // order matters for dependency reasons
+            RegisterPlayerColorConfig();
             CreatePlayerService();
             CreateEconomyService();
             CreatePauseService();
@@ -153,6 +155,15 @@ namespace Services {
             tinnitusFilterServiceObject.transform.SetParent(transform);
             var service = tinnitusFilterServiceObject.AddComponent<TinnitusFilterService>();
             ServiceLocatorAccessor.RegisterGlobal<ITinnitusFilterService>(service);
+        }
+
+        private void RegisterPlayerColorConfig() {
+            if (config != null && config.PlayerColorConfig != null) {
+                ServiceLocatorAccessor.RegisterGlobal<PlayerColorConfig>(config.PlayerColorConfig);
+            }
+            else {
+                DebugLogger.Log(LogChannel.Systems, "Missing PlayerColorConfig in MainBootstrapper!", LogLevel.Error);
+            }
         }
     }
 }

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoreData;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 
 namespace Services {
    public class PlayerService : MonoBehaviour, IPlayerService {
@@ -35,6 +35,7 @@ namespace Services {
       }
 
       private void InitializeSlots() {
+         var colorConfig = ServiceLocatorAccessor.GetService<PlayerColorConfig>();
          if (playerSlotsContainer == null) {
             playerSlotsContainer = transform;
          }
@@ -51,6 +52,10 @@ namespace Services {
             }
 
             playerSlot.Initialize(i);
+            
+            if (colorConfig != null) {
+               playerSlot.SetPlayerColor(colorConfig.GetMainColor(i));
+            }
 
             var profile = new PlayerProfile(startingFunds);
             playerSlot.AssignProfile(profile);
