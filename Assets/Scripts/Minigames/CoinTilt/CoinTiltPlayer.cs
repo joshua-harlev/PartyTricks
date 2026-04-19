@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using CoreData;
+using FMODUnity;
 using UnityEngine;
 
 namespace Minigames.CoinTilt {
@@ -349,6 +350,7 @@ namespace Minigames.CoinTilt {
         private void TriggerFall() {
             if(shouldShowMoveBoostParticles) trailParticles?.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             if (isFalling) return;
+            RuntimeManager.PlayOneShot(baseStats.FallSound);
             isGrounded = false;
             isFalling = true;
             magnetParticles?.Stop();
@@ -361,8 +363,23 @@ namespace Minigames.CoinTilt {
 
         private IEnumerator RespawnAfterDelay() {
             characterController.enabled = false;
+            
+            Vector3 originalScale = transform.localScale;
+            float shrinkDurationInSeconds = 0.5f;
+            float elapsedTime = 0f;
+            while (elapsedTime < shrinkDurationInSeconds) {
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / shrinkDurationInSeconds;
+                transform.localScale = Vector3.Lerp(originalScale, Vector3.zero, t*t);
+                // keep falling until disappeared:
+                currentVelocity.y += Physics.gravity.y * gravityScale * Time.deltaTime;
+                transform.position += currentVelocity * Time.deltaTime;
+                yield return null;
+            }
+            
             meshRenderer.enabled = false;
-            yield return new WaitForSeconds(respawnDelayInSeconds);
+            transform.localScale = originalScale;
+            yield return new WaitForSeconds(respawnDelayInSeconds - shrinkDurationInSeconds);
             Respawn();
             if(shouldShowMoveBoostParticles) trailParticles?.Play();
             respawnCoroutine = null;

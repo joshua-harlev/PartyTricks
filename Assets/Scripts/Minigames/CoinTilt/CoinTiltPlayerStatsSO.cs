@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CoinTiltPlayerStatsSO", menuName = "Scriptable Objects/Coin Tilt Player Stats")]
@@ -19,4 +20,7 @@ public class CoinTiltPlayerStatsSO : ScriptableObject {
     [Header("Fall Settings")] 
     public float FallThresholdY = -10f;
     public float RespawnDelayInSeconds = 0.75f;
+
+    [Header("SFX")] 
+    public EventReference FallSound;
 }
