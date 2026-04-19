@@ -22,5 +22,12 @@ MonoBehaviour:
   CoyoteTimeInSeconds: 0.15
   MomentumCancelPercentageRegular: 0.5
   MomentumCancelPercentageBoosted: 0.75
-  FallThresholdY: -10
-  RespawnDelayInSeconds: 0.75
+  FallThresholdY: -7
+  RespawnDelayInSeconds: 1
+  FallSound:
+    Guid:
+      Data1: 285882649
+      Data2: 1173817262
+      Data3: 1648349861
+      Data4: 914410089
+    Path: event:/CoinTilt/Fall

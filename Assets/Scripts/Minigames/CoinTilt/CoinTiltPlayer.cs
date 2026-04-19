@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using CoreData;
+using FMODUnity;
 using UnityEngine;
 
 namespace Minigames.CoinTilt {
@@ -349,6 +350,7 @@ namespace Minigames.CoinTilt {
         private void TriggerFall() {
             if(shouldShowMoveBoostParticles) trailParticles?.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             if (isFalling) return;
+            RuntimeManager.PlayOneShot(baseStats.FallSound);
             isGrounded = false;
             isFalling = true;
             magnetParticles?.Stop();
