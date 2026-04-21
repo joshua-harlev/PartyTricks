@@ -19,6 +19,7 @@ public class DebugMenu : MonoBehaviour {
     private IPlayerService playerService;
     private DireDodgingMinigameManager direDodgingManager;
     public static Action<IPlayerService> PowerupPanelDraw;
+    public static float DebugTimerSpeedUpMultiplier = 1f;
     
     private void Awake() {
         windowRect = new Rect(20, 20, 400, 600);
@@ -50,6 +51,18 @@ public class DebugMenu : MonoBehaviour {
         
         if (direDodgingManager != null && SceneManager.GetActiveScene().name != "DireDodging") {
             direDodgingManager = null;
+        }
+
+        var keyboard = Keyboard.current;
+        
+        DebugTimerSpeedUpMultiplier = keyboard[Key.Equals].isPressed ? 3f : 1f;
+        if (keyboard[Key.T].wasPressedThisFrame) {
+            GameSettings.Accessibility.DisableParallax = !GameSettings.Accessibility.DisableParallax;
+        }
+
+        if (keyboard[Key.B].wasPressedThisFrame) {
+            GameSettings.Accessibility.IncreaseBackgroundVisibility = !GameSettings.Accessibility.IncreaseBackgroundVisibility;
+            GameSettings.Apply();
         }
     }
 

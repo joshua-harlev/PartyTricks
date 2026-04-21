@@ -8,6 +8,7 @@ namespace Minigames.Swinging {
 
         private float startCamX;
         private float startLocalX;
+        private bool wasDisabled;
 
         private void Start() {
             startCamX = cameraTransform.localPosition.x;
@@ -15,8 +16,18 @@ namespace Minigames.Swinging {
         }
 
         private void LateUpdate() {
-            if (GameSettings.Accessibility.DisableParallax) return;
+            if (GameSettings.Accessibility.DisableParallax) {
+                wasDisabled = true;
+                return;
+            }
             if (cameraTransform == null) return;
+
+            if (wasDisabled) {
+                startCamX = cameraTransform.localPosition.x;
+                startLocalX = transform.localPosition.x;
+                wasDisabled = false;
+            }
+            
             float camDelta = cameraTransform.localPosition.x - startCamX;
             transform.localPosition = new Vector3(
                 startLocalX + camDelta * parallaxFactor,
