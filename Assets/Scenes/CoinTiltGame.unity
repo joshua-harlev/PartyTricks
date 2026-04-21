@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 20623861}
   - component: {fileID: 20623860}
   - component: {fileID: 20623862}
+  - component: {fileID: 20623863}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -246,6 +247,27 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &20623863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20623859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422a001cfa17843bb8d8b38cb0d5a27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Minigames.CoinTilt.LightingVariant
+  directionalLight: {fileID: 20623860}
+  daytimeFilter: {r: 1, g: 0.957, b: 0.839, a: 1}
+  daytimeTemperature: 8000
+  daytimeIntensity: 2.27
+  daytimeRotation: {x: 50, y: -30, z: 0}
+  sunsetFilter: {r: 1, g: 0.957, b: 0.839, a: 1}
+  sunsetTemperature: 2500
+  sunsetIntensity: 1.8
+  sunsetRotation: {x: 10, y: -30, z: 0}
 --- !u!1001 &28267785
 PrefabInstance:
   m_ObjectHideFlags: 0
