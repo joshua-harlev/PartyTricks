@@ -7,7 +7,6 @@ public class DireDodgingCountdownState : IDireDodgingState {
     
     public void Enter() {
         DebugLogger.Log(LogChannel.Systems, "Dire Dodging: Entered Countdown State.", LogLevel.Verbose);
-        DireDodgingMinigameManager.Instance.SetMusicIntensity(0);
         minigameStartCountdown.StartTimer();
         minigameStartCountdown.OnTimerEnd += OnTimerEnd;
     }

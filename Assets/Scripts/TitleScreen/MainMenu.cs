@@ -30,7 +30,6 @@ public class MainMenu : MonoBehaviour {
     private IPlayerService playerService;
     private readonly List<InputAction> subscribedSubmitActions = new();
     private readonly List<InputAction> gamepadNavigateActions = new();
-    private Coroutine intensityCoroutine;
     private InputSystemUIInputModule inputModule;
     private InputActionReference cachedMoveAction;
     private InputActionReference cachedSubmitAction;
@@ -46,7 +45,6 @@ public class MainMenu : MonoBehaviour {
     {
         if (!musicEvent.IsNull) {
             musicInstance.start();
-            intensityCoroutine = StartCoroutine(IncreaseIntensityOverTime());
         }
 
         startGameButton.onClick.AddListener(StartGame);
@@ -75,19 +73,6 @@ public class MainMenu : MonoBehaviour {
 
         StartCoroutine(FocusFirstButtonAfterOneFrame());
         SubscribeToGamepadActions();
-    }
-
-    private IEnumerator IncreaseIntensityOverTime() {
-        int amountOfTimeToTakeInSeconds = 10;
-        int elapsedTimeInSeconds = 0;
-        float targetIntensity = 1f;
-        while (elapsedTimeInSeconds < amountOfTimeToTakeInSeconds) {
-            elapsedTimeInSeconds++;
-            float intensity = Mathf.Lerp(0f, targetIntensity, (float)elapsedTimeInSeconds / amountOfTimeToTakeInSeconds);
-            musicInstance.setParameterByName("Intensity", intensity);
-            yield return new WaitForSeconds(1);
-        }
-        intensityCoroutine = null;
     }
 
     private void SubscribeToGamepadActions() {
@@ -179,8 +164,6 @@ public class MainMenu : MonoBehaviour {
         if (gameFlowService != null) {
             gameFlowService.StartGame();
             gameStarted = true;
-            if(intensityCoroutine != null) StopCoroutine(intensityCoroutine);
-            musicInstance.setParameterByName("Intensity", 2f);
         }
         else {
             Debug.LogError("MainMenu: GameFlowManager not found.");

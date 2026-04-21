@@ -54,7 +54,7 @@ public class MinigameTimer : MonoBehaviour {
                 halfwayPointEventTriggered = true;
             }
             DebugLogger.Log(LogChannel.Systems, "Game timer ticked: " + RemainingTimeInSeconds  + " seconds remaining.");
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f / DebugMenu.DebugTimerSpeedUpMultiplier);
             RemainingTimeInSeconds--;
         }
         OnTimeUp();
