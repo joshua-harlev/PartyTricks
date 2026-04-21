@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game;
 using Services;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -89,7 +90,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
     }
 
     private void TransitionToShop() {
-        SceneManager.LoadScene("Shop");
+        SceneTransition.LoadScene("Shop");
     }
 
     private void TransitionToMinigame() {
@@ -109,7 +110,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
         }
 
         currentMinigameSceneName = sceneName;
-        SceneManager.LoadScene(sceneName);
+        SceneTransition.LoadScene(sceneName);
         DebugLogger.Log(LogChannel.Systems, $"Loading minigame: {minigameType} (Scene: {sceneName}). Double Round: {nextRound.IsDouble}");
         SceneManager.sceneLoaded += OnMinigameSceneLoaded;
     }
@@ -186,7 +187,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
 
     private void EndGame() {
         DebugLogger.Log(LogChannel.Systems, "Ending game.");
-        SceneManager.LoadScene("Results");
+        SceneTransition.LoadScene("Results");
     }
 
     public (MinigameType minigameType, bool IsDouble) GetCurrentRoundDefinition() {

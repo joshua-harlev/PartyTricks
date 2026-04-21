@@ -153,6 +153,13 @@ MonoBehaviour:
   darkenedImage: {fileID: 21300000, guid: bc77d3db1529c42b3a5e580f306aaa4b, type: 3}
   spotlightImage: {fileID: 21300000, guid: ae0568aaa4bd94a84a1f8a56f4be4b4d, type: 3}
   brightImage: {fileID: 21300000, guid: d09768dbeda644a848d24a862b2e388c, type: 3}
+  spotlightSound:
+    Guid:
+      Data1: -278148902
+      Data2: 1172931517
+      Data3: -1330622036
+      Data4: -756003069
+    Path: event:/Board/SpotlightOn
 --- !u!1 &7037926461032769282
 GameObject:
   m_ObjectHideFlags: 0
