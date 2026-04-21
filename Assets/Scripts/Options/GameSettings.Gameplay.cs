@@ -23,7 +23,7 @@ public partial class GameSettings {
         }
 
         public static void Save() {
-            PlayerPrefs.SetInt(KEY_SHOW_TUTORIALS, 1);
+            PlayerPrefs.SetInt(KEY_SHOW_TUTORIALS, ShowTutorials ? 1 : 0);
             PlayerPrefs.SetInt(KEY_AUTO_DISMISS_TUTORIALS, AutoDismissTutorials ? 1 : 0);
             PlayerPrefs.SetInt(KEY_LONGER_MINIGAME_COUNTDOWNS, LongerMinigameCountdowns ? 1 : 0);
             PlayerPrefs.SetInt(KEY_USE_PRESET_BOARD, UsePresetBoard ? 1 : 0);
