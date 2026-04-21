@@ -9,6 +9,7 @@ namespace Shop {
         [SerializeField] private EventReference allReadySound;
         [SerializeField] private EventReference timeUpSound;
         [SerializeField] private EventReference cannotAffordSound;
+        [SerializeField] private EventReference purchaseSound;
 
         private bool allHumansWereLocked = false;
         private int previousLockedCount = 0;
@@ -53,6 +54,10 @@ namespace Shop {
 
         public void PlayCannotAffordSound() {
             PlaySound(cannotAffordSound);
+        }
+
+        public void PlayPurchaseSound() {
+            PlaySound(purchaseSound);
         }
     }
 }

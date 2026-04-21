@@ -90,6 +90,7 @@ namespace Shop {
             playerManager = new ShopPlayerManager(shopNavigationService, ShopItemUIElements, PlayerCornerDisplays);
             playerManager.OnLockCountChanged += AdjustSpeedByLockCount;
             CountdownTimer.OnTimerEnd += OnShopTimerEnd;
+            playerManager.OnLockAccepted += ShopFeedback.PlayPurchaseSound;
             playerManager.OnLockRejected += ShopFeedback.PlayCannotAffordSound;
         }
 
@@ -153,6 +154,7 @@ namespace Shop {
             }
             currentSequence?.Kill();
             playerManager!.OnLockRejected -= ShopFeedback.PlayCannotAffordSound;
+            playerManager!.OnLockAccepted -= ShopFeedback.PlayPurchaseSound;
         }
 
         private void AdjustSpeedByLockCount(int lockedCount, int lockedAICount, int humanCount) {
