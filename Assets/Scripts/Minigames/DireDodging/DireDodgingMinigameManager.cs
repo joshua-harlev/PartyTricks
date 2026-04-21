@@ -150,10 +150,6 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
         musicInstance.start();
     }
 
-    public void SetMusicIntensity(float intensity) {
-        musicInstance.setParameterByName("Intensity", intensity);
-    }
-
     public void RegisterDeath(int killerID, int killedID) {
         DebugLogger.Log(LogChannel.Systems, $"P{killerID+1} eliminated P{killedID+1}!");
         if (currentState is DireDodgingGameplayState gameplayState) {

@@ -23,7 +23,6 @@ public class DireDodgingGameplayState : IDireDodgingState {
     private void OnHalfwayPointReached(float remainingTimeInSeconds) {
         timer.OnHalfwayPointReached -= OnHalfwayPointReached;
         DireDodgingMinigameManager.Instance.StartIncreasingIntensity(remainingTimeInSeconds);
-        DireDodgingMinigameManager.Instance.SetMusicIntensity(2);
     }
     
 
@@ -31,7 +30,6 @@ public class DireDodgingGameplayState : IDireDodgingState {
         DebugLogger.Log(LogChannel.Systems, "Dire Dodging: Entered Gameplay State.", LogLevel.Verbose);
         DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
         DireDodgingMinigameManager.Instance.StartPlayerShooting();
-        DireDodgingMinigameManager.Instance.SetMusicIntensity(1);
         timer.StartTimer();
         playerPlaces = new[] { 1, 1, 1, 1 };
         playerKills = new[] { 0, 0, 0, 0 };
