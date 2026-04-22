@@ -7,6 +7,9 @@ public class MinigameTimer : MonoBehaviour {
     [SerializeField] private GameObject TimerPanel;
     [SerializeField] private TMP_Text TimerText;
     [SerializeField] private CanvasGroup TimerCanvasGroup;
+    [SerializeField] private float lowTimeThreshold = 10f;
+    
+    private Color originalTimerTextColor;
     public event Action OnTimerEnd;
     public event Action<float> OnHalfwayPointReached;
     
@@ -18,6 +21,9 @@ public class MinigameTimer : MonoBehaviour {
     private bool halfwayPointEventTriggered;
     private bool isPaused;
     private Coroutine timerCoroutine = null;
+    private Coroutine blinkCoroutine = null;
+    
+
 
     public void Initialize(float gameLengthInSeconds, string endOfGameText = "Game!") {
         RemainingTimeInSeconds = Mathf.Ceil(gameLengthInSeconds);
@@ -63,6 +69,11 @@ public class MinigameTimer : MonoBehaviour {
     }
 
     private void OnTimeUp() {
+        if (blinkCoroutine != null) {
+            StopCoroutine(blinkCoroutine);
+            blinkCoroutine = null;
+            TimerText.color = originalTimerTextColor;
+        }
         TimerText.text = "Time!";
     }
 
@@ -72,9 +83,32 @@ public class MinigameTimer : MonoBehaviour {
         string timeInMinutes = timeSpan.Minutes.ToString("00");
         string timeInSeconds = timeSpan.Seconds.ToString("00");
         TimerText.text = timeInMinutes + ":" + timeInSeconds;
+        if (remainingTimeInSeconds <= lowTimeThreshold && blinkCoroutine == null) {
+            originalTimerTextColor = TimerText.color;
+            blinkCoroutine = StartCoroutine(BlinkTimerText());
+        }
+    }
+
+    private IEnumerator BlinkTimerText() {
+        bool showRed = false;
+        while (true) {
+            if (showRed) {
+                TimerText.color = originalTimerTextColor;
+            }
+            else {
+                TimerText.color = Color.red;
+            }
+            showRed = !showRed;
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     public void StopIfRunning() {
+        if (blinkCoroutine != null) {
+            StopCoroutine(blinkCoroutine);
+            blinkCoroutine = null;
+            TimerText.color = originalTimerTextColor;
+        }
         if (timerCoroutine != null) {
             StopCoroutine(this.timerCoroutine);
             if (!string.IsNullOrEmpty(endOfGameText)) {

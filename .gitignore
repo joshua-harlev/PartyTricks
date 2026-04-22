@@ -124,3 +124,8 @@ Tests/**/obj/
 
 ## Allow test project file
 !Tests/**/*.csproj
+
+.claude/
+.claude/*
+
+*.fobj

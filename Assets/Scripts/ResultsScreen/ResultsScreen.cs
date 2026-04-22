@@ -6,6 +6,7 @@ using FMODUnity;
 using ResultsScreen.Core;
 using Services;
 using TMPro;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -98,13 +99,14 @@ namespace ResultsScreen {
 
             musicInstance.start();
 
-            yield return WaitForTimelinePosition(1990);
+            // Currently at 4 seconds, if you want to change, you must change the music itself to match in FMOD
+            yield return WaitForTimelinePosition(1000);
             WinnerLabel.text = "The winner is.";
-            yield return WaitForTimelinePosition(3980);
+            yield return WaitForTimelinePosition(2000);
             WinnerLabel.text = "The winner is..";
-            yield return WaitForTimelinePosition(6000);
+            yield return WaitForTimelinePosition(3000);
             WinnerLabel.text = "The winner is...";
-            yield return WaitForTimelinePosition(7980);
+            yield return WaitForTimelinePosition(4000);
             DisplayWinner();
             yield return WaitForTimelinePosition(11300);
             HideSuspensePanel();
@@ -146,11 +148,21 @@ namespace ResultsScreen {
             } else {
                 WinnerNumberLabel.text = "Player " + (playerWinnerIndex + 1) + "!";
                 Color backgroundColor = playerColorConfig.GetMainColor(playerWinnerIndex);
-            BackgroundImage.color = backgroundColor;
+                BackgroundImage.color = backgroundColor;
             }
             WinnerNumberLabel.color = Color.white;
             WinnerLabel.color = Color.white;
+
+            WinnerNumberLabel.transform.localScale = Vector3.zero;
+            WinnerNumberLabel.transform.DOScale(Vector3.one, 0.4f)
+                .SetEase(Ease.OutBack)
+                .OnComplete(() => {
+                    WinnerNumberLabel.transform.DOPunchScale(Vector3.one * 0.3f, 0.4f, 8, 0.5f);
+                });
+
+            WinnerLabel.transform.DOPunchScale(Vector3.one * 0.15f, 0.3f, 4, 0.5f);
         }
+
         
         private void OnDisable() {
             musicInstance.stop(STOP_MODE.IMMEDIATE);

@@ -489,6 +489,7 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
+  - Board
   - CoinTilt
   - DireDodging
   - Results

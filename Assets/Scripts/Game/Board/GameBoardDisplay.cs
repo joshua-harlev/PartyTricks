@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using FMODUnity;
 
 public class GameBoardDisplay : MonoBehaviour {
     [SerializeField]
@@ -17,6 +18,8 @@ public class GameBoardDisplay : MonoBehaviour {
     [SerializeField] private Sprite darkenedImage;
     [SerializeField] private Sprite spotlightImage;
     [SerializeField] private Sprite brightImage;
+    
+    [SerializeField] private EventReference spotlightSound;
     
     public event Action OnContinue;
 
@@ -45,6 +48,9 @@ public class GameBoardDisplay : MonoBehaviour {
         boardImage.image = darkenedImage.texture;
         yield return new WaitForSeconds(2.5f);
         boardImage.image = spotlightImage.texture;
+        if (!spotlightSound.IsNull) {
+            RuntimeManager.PlayOneShot(spotlightSound);
+        }
         yield return new WaitForSeconds(4f);
         OnContinue?.Invoke();
     }
