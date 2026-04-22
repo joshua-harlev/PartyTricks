@@ -1,4 +1,5 @@
 using TMPro;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -81,6 +82,8 @@ public class PlayerCornerDisplay : MonoBehaviour {
 
     public void UpdateScore(int score) {
         FundsLabel.text = "score: " + score;
+        FundsLabel.transform.localScale = Vector3.one;
+        FundsLabel.transform.DOPunchScale(Vector3.one * 0.3f, 0.3f, 6, 0.5f);
     }
 
     private void AddItem(ItemDefinition item) {
