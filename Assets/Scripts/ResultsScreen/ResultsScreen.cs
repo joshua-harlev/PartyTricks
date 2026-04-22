@@ -99,7 +99,7 @@ namespace ResultsScreen {
 
             musicInstance.start();
 
-            // Want to modify this, but currently it is tied to the music
+            // Currently at 4 seconds, if you want to change, you must change the music itself to match in FMOD
             yield return WaitForTimelinePosition(1000);
             WinnerLabel.text = "The winner is.";
             yield return WaitForTimelinePosition(2000);
