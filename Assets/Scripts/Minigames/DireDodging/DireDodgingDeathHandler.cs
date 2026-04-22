@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Minigames.DireDodging {
     public class DireDodgingDeathHandler : MonoBehaviour {
-        private const float cameraFreezeDuration = 1f;
-        private const float cameraZoomAmount = 0.7f;
+        private const float cameraFreezeDuration = 0.75f;
+        private const float cameraZoomAmount = 0.5f;
 
-        private DireDodgingPlayer player;
+        private DireDodgingPlayer player; 
         private DireDodgingChargeAttack chargeAttack;
         private DireDodgingProjectilePool projectilePool;
         
@@ -73,7 +73,7 @@ namespace Minigames.DireDodging {
             DireDodgingCameraZoomService.StartDeathZoom(transform.position, cameraZoomAmount, cameraFreezeDuration * 0.5f);
             cameraZoomTween = DOVirtual.DelayedCall(cameraFreezeDuration, () =>
             {
-                DireDodgingCameraZoomService.ReturnFromDeathZoom();
+                DireDodgingCameraZoomService.ReturnFromDeathZoom(0.3f);
                 Time.timeScale = 1f;
                 DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
             }, false).SetUpdate(true);

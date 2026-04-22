@@ -110,8 +110,8 @@ namespace Minigames.DireDodging {
             if(shockwaveZoomActive) baseSize = shockwaveTargetSize;
             Vector3 targetPosition = new Vector3(deathPosition.x, deathPosition.y, originalPosition.z);
 
-            camera.DOOrthoSize(baseSize * zoomAmount, durationInSeconds).SetUpdate(true);
-            camera.transform.DOMove(targetPosition, durationInSeconds).SetUpdate(true);
+            camera.DOOrthoSize(baseSize * zoomAmount, durationInSeconds).SetUpdate(true).SetEase(Ease.InOutQuad);
+            camera.transform.DOMove(targetPosition, durationInSeconds).SetUpdate(true).SetEase(Ease.InOutQuad);
         }
 
         public static void ReturnFromDeathZoom(float duration = 0.3f) {
@@ -123,7 +123,7 @@ namespace Minigames.DireDodging {
                 returnPosition = shockwaveInterruptPosition;
             }
             
-            camera.DOOrthoSize(returnSize, duration).SetUpdate(true);
+            camera.DOOrthoSize(returnSize, duration).SetUpdate(true).SetEase(Ease.InOutQuad);
             camera.transform.DOMove(returnPosition, duration).SetUpdate(true).OnComplete(() =>
             {
                 deathZoomActive = false;
@@ -136,7 +136,7 @@ namespace Minigames.DireDodging {
                     pendingReverseToOriginal = false;
                     AnimateToOriginal(0.15f);
                 }
-            });
+            }).SetEase(Ease.InOutQuad);
         }
 
         public static void CancelDeathZoom(float returnDurationInSeconds = 0.3f) {
