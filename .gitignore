@@ -127,3 +127,5 @@ Tests/**/obj/
 
 .claude/
 .claude/*
+
+*.fobj

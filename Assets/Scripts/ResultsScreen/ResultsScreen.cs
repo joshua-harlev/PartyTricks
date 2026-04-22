@@ -100,13 +100,13 @@ namespace ResultsScreen {
             musicInstance.start();
 
             // Want to modify this, but currently it is tied to the music
-            yield return WaitForTimelinePosition(1990);
+            yield return WaitForTimelinePosition(1000);
             WinnerLabel.text = "The winner is.";
-            yield return WaitForTimelinePosition(3980);
+            yield return WaitForTimelinePosition(2000);
             WinnerLabel.text = "The winner is..";
-            yield return WaitForTimelinePosition(6000);
+            yield return WaitForTimelinePosition(3000);
             WinnerLabel.text = "The winner is...";
-            yield return WaitForTimelinePosition(7980);
+            yield return WaitForTimelinePosition(4000);
             DisplayWinner();
             yield return WaitForTimelinePosition(11300);
             HideSuspensePanel();
