@@ -18,9 +18,10 @@
           [SerializeField] private Vector3 sunsetRotation = new(10f, -30f, 0f);
 
           private bool isSunset;
+          private static readonly System.Random rng = new();
 
           private void Awake() {
-              isSunset = Random.value < 0.5f;
+              isSunset = rng.NextDouble() < 0.5;
               ApplyLighting(isSunset);
           }
 
