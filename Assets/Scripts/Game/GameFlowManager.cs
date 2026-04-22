@@ -76,7 +76,13 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
             currentBoardDisplay.OnContinue -= HandleBoardDisplayFinished;
             currentBoardDisplay = null;
         }
-        TransitionToShop();
+
+        if (GameSettings.Gameplay.ShowFirstShop) {
+            TransitionToShop();
+        }
+        else {
+            TransitionToMinigame();
+        }
     }
 
     public void OnShopEnd() {
