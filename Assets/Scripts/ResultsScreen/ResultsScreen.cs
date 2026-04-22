@@ -99,6 +99,7 @@ namespace ResultsScreen {
 
             musicInstance.start();
 
+            // Want to modify this, but currently it is tied to the music
             yield return WaitForTimelinePosition(1990);
             WinnerLabel.text = "The winner is.";
             yield return WaitForTimelinePosition(3980);
