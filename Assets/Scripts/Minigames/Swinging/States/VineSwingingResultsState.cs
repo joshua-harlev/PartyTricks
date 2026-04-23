@@ -58,7 +58,7 @@ namespace Minigames.Swinging.States {
                 int fundsEarned = results[i].BaseFundsEarned;
                 int currentFunds = playerService.PlayerSlots[i].Profile.Wallet.GetCurrentFunds();
                 int newFunds = currentFunds + fundsEarned;
-                resultsText[i] = GetPlaceAsText(results[i].PlayerPlace)
+                resultsText[i] = "<size=80>" + GetPlaceAsText(results[i].PlayerPlace) + "</size>"
                     + "\n<size=50>+" + fundsEarned + " funds </size>"
                     + "\n<size=30>New funds: " + newFunds + "</size>";
             }
