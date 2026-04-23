@@ -355,6 +355,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::Game.SceneTransition
   transitionDuration: 0.4
+  transitionSound:
+    Guid:
+      Data1: 47607419
+      Data2: 1307433479
+      Data3: -626911330
+      Data4: -878935682
+    Path: event:/Transitions/Whoosh
 --- !u!4 &342658962
 Transform:
   m_ObjectHideFlags: 0
