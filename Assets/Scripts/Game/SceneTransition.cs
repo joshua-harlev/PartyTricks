@@ -23,6 +23,10 @@ using System;
 
               instance = this;
               DontDestroyOnLoad(gameObject);
+          }
+
+          private void Start()
+          {
               CreateTransitionUI();
           }
 
@@ -31,7 +35,9 @@ using System;
               canvas.renderMode = RenderMode.ScreenSpaceOverlay;
               canvas.sortingOrder = 999;
 
-              gameObject.AddComponent<CanvasScaler>();
+              var canvasScaler = gameObject.AddComponent<CanvasScaler>();
+              canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+              canvasScaler.referenceResolution = new Vector2(1920, 1080);
 
               var panelObject = new GameObject("TransitionPanel");
               panelObject.transform.SetParent(canvas.transform, false);
@@ -40,12 +46,17 @@ using System;
               image.color = Color.black;
 
               panel = panelObject.GetComponent<RectTransform>();
+              ResizePanel();
+          }
+          private void ResizePanel()
+          {
+
               panel.anchorMin = Vector2.zero;
               panel.anchorMax = Vector2.one;
               panel.offsetMin = Vector2.zero;
               panel.offsetMax = Vector2.zero;
 
-              panel.anchoredPosition = new Vector2(-Screen.width, 0);
+              panel.anchoredPosition = new Vector2(-1920, 0);
           }
 
           public static void LoadScene(string sceneName) {
@@ -60,7 +71,7 @@ using System;
           private IEnumerator TransitionCoroutine(string sceneName) {
               isTransitioning = true;
 
-              panel.anchoredPosition = new Vector2(-Screen.width, 0);
+              panel.anchoredPosition = new Vector2(-1920, 0);
               yield return panel.DOAnchorPosX(0, transitionDuration)
                   .SetEase(Ease.InQuad)
                   .SetUpdate(true)
@@ -70,12 +81,12 @@ using System;
 
               yield return null;
 
-              yield return panel.DOAnchorPosX(Screen.width, transitionDuration)
+              yield return panel.DOAnchorPosX(1920, transitionDuration)
                   .SetEase(Ease.OutQuad)
                   .SetUpdate(true)
                   .WaitForCompletion();
 
-              panel.anchoredPosition = new Vector2(-Screen.width, 0);
+              panel.anchoredPosition = new Vector2(-1920, 0);
               isTransitioning = false;
           }
       }
