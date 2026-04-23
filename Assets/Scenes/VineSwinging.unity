@@ -10982,6 +10982,9 @@ MonoBehaviour:
   TimerPanel: {fileID: 2124561514}
   TimerText: {fileID: 460143788}
   TimerCanvasGroup: {fileID: 2124561519}
+  lowTimeThreshold: 5
+  enableTimerBlink: 1
+  blinkColor: {r: 1, g: 0.7058824, b: 0.7058824, a: 1}
 --- !u!225 &2124561519
 CanvasGroup:
   m_ObjectHideFlags: 0
