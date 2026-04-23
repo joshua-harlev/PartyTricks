@@ -4115,6 +4115,7 @@ MonoBehaviour:
   TimerPanel: {fileID: 1235123283}
   TimerText: {fileID: 949397460}
   TimerCanvasGroup: {fileID: 1235123288}
+  lowTimeThreshold: 10
 --- !u!225 &1235123288
 CanvasGroup:
   m_ObjectHideFlags: 0
