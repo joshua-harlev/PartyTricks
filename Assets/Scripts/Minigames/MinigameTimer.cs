@@ -60,7 +60,7 @@ public class MinigameTimer : MonoBehaviour {
                 halfwayPointEventTriggered = true;
             }
             DebugLogger.Log(LogChannel.Systems, "Game timer ticked: " + RemainingTimeInSeconds  + " seconds remaining.");
-            yield return new WaitForSeconds(1f / DebugMenu.DebugTimerSpeedUpMultiplier);
+            yield return new WaitForSecondsRealtime(1f / DebugMenu.DebugTimerSpeedUpMultiplier);
             RemainingTimeInSeconds--;
         }
         OnTimeUp();

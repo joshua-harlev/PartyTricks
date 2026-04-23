@@ -98,15 +98,15 @@ namespace ResultsScreen {
             musicInstance.start();
 
             // Currently at 4 seconds, if you want to change, you must change the music itself to match in FMOD
-            yield return WaitForTimelinePosition(1000);
+            yield return WaitForTimelinePosition(1500);
             WinnerLabel.text = "The winner is.";
-            yield return WaitForTimelinePosition(2000);
+            yield return WaitForTimelinePosition(2500);
             WinnerLabel.text = "The winner is..";
-            yield return WaitForTimelinePosition(3000);
+            yield return WaitForTimelinePosition(3500);
             WinnerLabel.text = "The winner is...";
-            yield return WaitForTimelinePosition(4000);
+            yield return WaitForTimelinePosition(4500);
             DisplayWinner();
-            yield return WaitForTimelinePosition(11300);
+            yield return WaitForTimelinePosition(8000);
             HideSuspensePanel();
             PlacesScreenPanel.ShowStatic(playerFunds);
             canReturnToMainMenu = true;
