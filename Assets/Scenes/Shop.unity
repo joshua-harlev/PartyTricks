@@ -2606,6 +2606,8 @@ MonoBehaviour:
   PlacesScreenPanel: {fileID: 520823333}
   ShopCanvasGroup: {fileID: 2072044062}
   FadeInTimeInSeconds: 0.4
+  PurchaseRevealDelayInSeconds: 0.75
+  PostShopDelayInSeconds: 2
   GridRows: 2
   GridColumns: 2
 --- !u!1001 &1018559460
@@ -3078,7 +3080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed9b0a86cdfc43439f09e349f2d994b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::BoardProgressDisplay
-  IconMapping: {fileID: 11400000, guid: bcb253fa901274e48a61f78e91aed5ec, type: 2}
+  IconMapping: {fileID: 11400000, guid: 226a77e1d148748a0a349c967ce7eb8a, type: 2}
   ProgressBoardIconPrefab: {fileID: 7006965512077806779, guid: e614aab613f92430ebc7b58608648930, type: 3}
   DoubleProgressBoardIconPrefab: {fileID: 8927321813111932806, guid: c6e939c5d0d474058b7b68b93888718f, type: 3}
 --- !u!1 &1056318800

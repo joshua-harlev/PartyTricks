@@ -21,6 +21,8 @@ namespace Shop {
         [SerializeField] private PlacesScreenPanel PlacesScreenPanel;
         [SerializeField] private CanvasGroup ShopCanvasGroup;
         [SerializeField] private float FadeInTimeInSeconds = 0.5f;
+        [SerializeField] private float PurchaseRevealDelayInSeconds = 0.75f;
+        [SerializeField] private float PostShopDelayInSeconds = 2f;
         private ShopPlayerManager playerManager;
         private ShopNavigationService shopNavigationService;
         private ShopPurchaseService shopPurchaseService;
@@ -90,7 +92,6 @@ namespace Shop {
             playerManager = new ShopPlayerManager(shopNavigationService, ShopItemUIElements, PlayerCornerDisplays);
             playerManager.OnLockCountChanged += AdjustSpeedByLockCount;
             CountdownTimer.OnTimerEnd += OnShopTimerEnd;
-            playerManager.OnLockAccepted += ShopFeedback.PlayPurchaseSound;
             playerManager.OnLockRejected += ShopFeedback.PlayCannotAffordSound;
         }
 
@@ -104,11 +105,6 @@ namespace Shop {
         private void OnShopTimerEnd() {
             musicInstance.stop(STOP_MODE.IMMEDIATE);
             ShopFeedback?.OnTimerEnd();
-            var failedSelectors = shopPurchaseService.ResolvePurchases(playerManager.GetSelectors(), ShopItemUIElements);
-
-            foreach (var failedSelector in failedSelectors) {
-                ShopItemUIElements[failedSelector.CurrentShopItemIndex].OnCannotAffordPermanent(failedSelector.PlayerIndex);
-            }
             
             if (gameFlowService != null) {
                 StartCoroutine(WaitAndThenMoveToNextMinigame());
@@ -119,8 +115,18 @@ namespace Shop {
         }
 
         private IEnumerator WaitAndThenMoveToNextMinigame() {
-            int numberOfSecondsToWait = 5;
-            yield return new WaitForSeconds(numberOfSecondsToWait);
+            foreach (var selector in playerManager.GetSelectors()) {
+                bool purchaseSuccess = shopPurchaseService.ResolveSinglePurchase(selector, ShopItemUIElements);
+                if (!purchaseSuccess) {
+                    ShopItemUIElements[selector.CurrentShopItemIndex].OnCannotAffordPermanent(selector.PlayerIndex);
+                    continue;
+                }
+                
+                ShopFeedback.PlayPurchaseSound();
+                yield return new WaitForSeconds(PurchaseRevealDelayInSeconds);
+            }
+            
+            yield return new WaitForSeconds(PostShopDelayInSeconds);
             gameFlowService.OnShopEnd();
         }
 
@@ -154,7 +160,6 @@ namespace Shop {
             }
             currentSequence?.Kill();
             playerManager!.OnLockRejected -= ShopFeedback.PlayCannotAffordSound;
-            playerManager!.OnLockAccepted -= ShopFeedback.PlayPurchaseSound;
         }
 
         private void AdjustSpeedByLockCount(int lockedCount, int lockedAICount, int humanCount) {

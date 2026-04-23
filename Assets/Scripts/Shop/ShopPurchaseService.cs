@@ -37,4 +37,8 @@ public class ShopPurchaseService {
         }
         return purchaseSuccess;
     }
+
+    public bool ResolveSinglePurchase(ShopSlotSelector selector, ShopItemUI[] shopItems) {
+        return ProcessPurchase(shopItems, selector);
+    }
 }

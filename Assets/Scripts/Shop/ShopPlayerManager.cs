@@ -15,7 +15,6 @@ public class ShopPlayerManager {
     // locked count, locked AI count, total human count
     public event Action<int, int, int> OnLockCountChanged;
     public event Action OnLockRejected;
-    public event Action OnLockAccepted;
 
     public ShopPlayerManager(ShopNavigationService navigationService, ShopItemUI[] shopItemUIElements, PlayerCornerDisplay[] playerCornerDisplays) {
         this.navigationService = navigationService;
@@ -80,9 +79,6 @@ public class ShopPlayerManager {
         ShopSlotSelector selector = (ShopSlotSelector)controller;
         shopItemUIElements[selector.CurrentShopItemIndex].OnPointedTo(selector.PlayerIndex, true, locked);
         OnLockCountChanged?.Invoke(GetLockedCount(), GetLockedAICount(), GetHumanCount());
-        if (locked) {
-            OnLockAccepted?.Invoke();
-        }
     }
 
     private void HandleSelectionChanged(SelectionController selector, int newIndex) {
