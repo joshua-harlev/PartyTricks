@@ -5,6 +5,8 @@ namespace Minigames.Swinging.States {
     public class VineSwingingGameplayState : IVineSwingingGameState {
         private readonly VineSwingingMinigameManager minigameManager;
         private VineSwingingAIController aiController;
+        
+        private int[] previousScores = new int[4];
 
         public VineSwingingGameplayState(VineSwingingMinigameManager minigameManager) {
             this.minigameManager = minigameManager;
@@ -54,7 +56,10 @@ namespace Minigames.Swinging.States {
                 var playerContext = minigameManager.PlayerStateMachines[i].PlayerContext;
                 var swingConfig = minigameManager.PlayerStateMachines[i].SwingConfig;
                 int score = playerContext.FurthestVineIndex * swingConfig.VineScoreValue + playerContext.TotalCoinValue;
-                minigameManager.PlayerCornerDisplays[i].UpdateScore(score);
+                if (score != previousScores[i]) {
+                    previousScores[i] = score;
+                    minigameManager.PlayerCornerDisplays[i].UpdateScore(score);
+                }
             }
         }
 
