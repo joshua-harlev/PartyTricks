@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using CoreData;
+using DG.Tweening;
 using FMOD.Studio;
 using FMODUnity;
 using ResultsScreen.Core;
 using Services;
 using TMPro;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
@@ -22,9 +21,6 @@ namespace ResultsScreen {
         [SerializeField] private TMP_Text WinnerNumberLabel;
         [SerializeField] private Image BackgroundImage;
         [SerializeField] private PlacesScreenPanel PlacesScreenPanel;
-        [FormerlySerializedAs("returnSound")] 
-        [SerializeField] private EventReference ReturnSound;
-        [SerializeField] private EventReference ResultsMusic;
 
         private int playerWinnerIndex;
         private int[] playerFunds;
@@ -36,18 +32,20 @@ namespace ResultsScreen {
         private EventInstance musicInstance;
         private EventDescription musicDescription;
         private PlayerColorConfig playerColorConfig;
+        private ResultsSoundConfigSO resultsSoundConfig;
 
         private void Awake() {
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
             playerColorConfig = ServiceLocatorAccessor.GetService<PlayerColorConfig>();
-            musicInstance = RuntimeManager.CreateInstance(ResultsMusic);
-            musicDescription = RuntimeManager.GetEventDescription(ResultsMusic);
+            resultsSoundConfig = Resources.Load<ResultsSoundConfigSO>("Config/Results Sounds");
+            musicInstance = RuntimeManager.CreateInstance(resultsSoundConfig.ResultsMusic);
+            musicDescription = RuntimeManager.GetEventDescription(resultsSoundConfig.ResultsMusic);
             musicDescription.loadSampleData();
         }
 
         public void ReturnToMainMenu() {
             if (canReturnToMainMenu) {
-                RuntimeManager.PlayOneShot(ReturnSound);
+                RuntimeManager.PlayOneShot(resultsSoundConfig.ReturnSound);
                 ResetProfiles();
                 SceneManager.LoadScene("MainMenu");
             }
