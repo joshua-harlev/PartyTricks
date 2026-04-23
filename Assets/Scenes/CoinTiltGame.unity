@@ -2588,6 +2588,50 @@ MonoBehaviour:
   tiltSpeed: 2
   centerDeadzone: 2
   platformRadius: 8.5
+--- !u!1 &737837214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 737837216}
+  - component: {fileID: 737837215}
+  m_Layer: 0
+  m_Name: DebugMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &737837215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737837214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08027d5f0051443f8efd8fa38705eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::DebugMenu
+--- !u!4 &737837216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737837214}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1654.2067, y: 925.02966, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &807312469
 GameObject:
   m_ObjectHideFlags: 0
@@ -4115,6 +4159,9 @@ MonoBehaviour:
   TimerPanel: {fileID: 1235123283}
   TimerText: {fileID: 949397460}
   TimerCanvasGroup: {fileID: 1235123288}
+  lowTimeThreshold: 5
+  enableTimerBlink: 1
+  blinkColor: {r: 1, g: 0.4764151, b: 0.4764151, a: 1}
 --- !u!225 &1235123288
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -7182,3 +7229,4 @@ SceneRoots:
   - {fileID: 1909462329}
   - {fileID: 1454158347}
   - {fileID: 353406492}
+  - {fileID: 737837216}

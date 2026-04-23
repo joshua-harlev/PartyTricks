@@ -4,6 +4,7 @@ using CoreData;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using FMODUnity;
 using ResultsScreen.Core;
 using Services;
 using UnityEngine;
@@ -40,10 +41,12 @@ namespace ResultsScreen {
         private float[] slotXPositions;
         private int[] barToPlayerMap;
         private PlayerColorConfig playerColorConfig;
+        private ResultsSoundConfigSO resultsSoundConfig;
 
         private void Awake() {
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
             playerColorConfig = ServiceLocatorAccessor.GetService<PlayerColorConfig>();
+            resultsSoundConfig = Resources.Load<ResultsSoundConfigSO>("Config/Results Sounds");
             slotXPositions = new float[barViews.Length];
             for (int i = 0; i < barViews.Length; i++) {
                 slotXPositions[i] = barViews[i].GetComponent<RectTransform>().anchoredPosition.x;
@@ -163,6 +166,7 @@ namespace ResultsScreen {
 
         private void PlayExitAnimation() {
             canDismissEarly = false;
+            RuntimeManager.PlayOneShot(resultsSoundConfig.WhooshSound);
             currentSequence = DOTween.Sequence();
             currentSequence.Append(panelRoot.DOAnchorPosX(-Screen.width, exitDurationInSeconds).SetEase(Ease.InCubic));
             currentSequence.Join(canvasGroup.DOFade(0f, exitDurationInSeconds));
@@ -181,8 +185,8 @@ namespace ResultsScreen {
                 barViews[i].SetBarHeight(previousHeights[i]);
             }
 
+            bool hasPlayed = false;
             currentSequence = DOTween.Sequence();
-
             for (int barIndex = 0; barIndex < barViews.Length; barIndex++) {
                 int playerIndex = barToPlayerMap[barIndex];
                 float targetHeight = 0;
@@ -197,9 +201,14 @@ namespace ResultsScreen {
                 currentSequence.Join(
                     CreateBarHeightTween(capturedBarIndex, capturedTargetHeight)
                 );
+                if(!hasPlayed) {
+                    // RuntimeManager.PlayOneShot(resultsSoundConfig.SwapSound);
+                    hasPlayed = true;
+                }
             }
 
             bool firstSwap = true;
+            hasPlayed = false;
             for (int targetSlot = 0; targetSlot < entries.Length; targetSlot++) {
                 int targetPlayer = entries[targetSlot].PlayerIndex;
                 int barIndex = FindBarForPlayer(targetPlayer);
@@ -214,6 +223,10 @@ namespace ResultsScreen {
                         firstSwap = false; 
                     } else {
                         currentSequence.Join(tween);
+                    }
+                    if (!hasPlayed) {
+                        RuntimeManager.PlayOneShot(resultsSoundConfig.GrowSound);
+                        hasPlayed = true;
                     }
                 }
             }

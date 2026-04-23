@@ -10,7 +10,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
 
-// TODO configure to userankfallback with economyservice
 namespace Minigames.CoinTilt {
     public class CoinTiltMinigameManager : MonoBehaviour, IMinigameManager {
         public event Action<PlayerMinigameResult[]> OnMinigameFinished;

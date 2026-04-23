@@ -7,7 +7,7 @@ public class MinigameTimer : MonoBehaviour {
     [SerializeField] private GameObject TimerPanel;
     [SerializeField] private TMP_Text TimerText;
     [SerializeField] private CanvasGroup TimerCanvasGroup;
-    [SerializeField] private float lowTimeThreshold = 10f;
+    [SerializeField] private float lowTimeThreshold = 5f;
     
     private Color originalTimerTextColor;
     public event Action OnTimerEnd;
@@ -21,12 +21,12 @@ public class MinigameTimer : MonoBehaviour {
     private bool halfwayPointEventTriggered;
     private bool isPaused;
     private Coroutine timerCoroutine = null;
-    private Coroutine blinkCoroutine = null;
-    
-
+    [SerializeField] private Boolean enableTimerBlink = false;
+    [SerializeField] private Color blinkColor = Color.red; 
 
     public void Initialize(float gameLengthInSeconds, string endOfGameText = "Game!") {
         RemainingTimeInSeconds = Mathf.Ceil(gameLengthInSeconds);
+        originalTimerTextColor = TimerText.color;
         originalTimerDuration = RemainingTimeInSeconds;
         this.endOfGameText = endOfGameText;
         HidePanel();
@@ -60,7 +60,7 @@ public class MinigameTimer : MonoBehaviour {
                 halfwayPointEventTriggered = true;
             }
             DebugLogger.Log(LogChannel.Systems, "Game timer ticked: " + RemainingTimeInSeconds  + " seconds remaining.");
-            yield return new WaitForSeconds(1f / DebugMenu.DebugTimerSpeedUpMultiplier);
+            yield return new WaitForSecondsRealtime(1f / DebugMenu.DebugTimerSpeedUpMultiplier);
             RemainingTimeInSeconds--;
         }
         OnTimeUp();
@@ -69,11 +69,7 @@ public class MinigameTimer : MonoBehaviour {
     }
 
     private void OnTimeUp() {
-        if (blinkCoroutine != null) {
-            StopCoroutine(blinkCoroutine);
-            blinkCoroutine = null;
-            TimerText.color = originalTimerTextColor;
-        }
+        TimerText.color = originalTimerTextColor;
         TimerText.text = "Time!";
     }
 
@@ -83,32 +79,19 @@ public class MinigameTimer : MonoBehaviour {
         string timeInMinutes = timeSpan.Minutes.ToString("00");
         string timeInSeconds = timeSpan.Seconds.ToString("00");
         TimerText.text = timeInMinutes + ":" + timeInSeconds;
-        if (remainingTimeInSeconds <= lowTimeThreshold && blinkCoroutine == null) {
-            originalTimerTextColor = TimerText.color;
-            blinkCoroutine = StartCoroutine(BlinkTimerText());
+        if (remainingTimeInSeconds <= lowTimeThreshold && remainingTimeInSeconds >= 1 && enableTimerBlink) {
+            StartCoroutine(CountdownFlash());
         }
     }
 
-    private IEnumerator BlinkTimerText() {
-        bool showRed = false;
-        while (true) {
-            if (showRed) {
-                TimerText.color = originalTimerTextColor;
-            }
-            else {
-                TimerText.color = Color.red;
-            }
-            showRed = !showRed;
-            yield return new WaitForSeconds(0.5f);
-        }
+    private IEnumerator CountdownFlash() {
+        TimerText.color = blinkColor;
+        yield return new WaitForSeconds(0.5f);
+        TimerText.color = originalTimerTextColor;
     }
 
     public void StopIfRunning() {
-        if (blinkCoroutine != null) {
-            StopCoroutine(blinkCoroutine);
-            blinkCoroutine = null;
-            TimerText.color = originalTimerTextColor;
-        }
+        TimerText.color = originalTimerTextColor;
         if (timerCoroutine != null) {
             StopCoroutine(this.timerCoroutine);
             if (!string.IsNullOrEmpty(endOfGameText)) {
