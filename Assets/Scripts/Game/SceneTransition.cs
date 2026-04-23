@@ -73,13 +73,27 @@ namespace Game {
           isTransitioning = true;
           RuntimeManager.PlayOneShot(transitionSound);
           panel.anchoredPosition = new Vector2(-1920, 0);
+          
           yield return panel.DOAnchorPosX(0, transitionDuration)
               .SetEase(Ease.InQuad)
               .SetUpdate(true)
               .WaitForCompletion();
 
-          SceneManager.LoadScene(sceneName);
+          AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName);
+          if (loadOperation == null) {
+              DebugLogger.Log(LogChannel.Systems, "Error loading scene in SceneTransition.cs!", LogLevel.Error);
+              yield break;
+          }
+          loadOperation.allowSceneActivation = false;
+          
+          while (loadOperation.progress < 0.9f) {
+              yield return null;
+          }
 
+          loadOperation.allowSceneActivation = true;
+          yield return loadOperation;
+
+          panel.DOKill();
           yield return null;
 
           yield return panel.DOAnchorPosX(1920, transitionDuration)
