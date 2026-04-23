@@ -1,5 +1,5 @@
-using TMPro;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +12,7 @@ public class PlayerCornerDisplay : MonoBehaviour {
     private Inventory inventory;
     private bool isInitialized = false;
     private DisplayMode displayMode;
+    private Tween activeTween;
 
     public void Initialize(PlayerProfile profile, DisplayMode mode = DisplayMode.Funds) {
         CleanupSubscriptions();
@@ -83,7 +84,16 @@ public class PlayerCornerDisplay : MonoBehaviour {
     public void UpdateScore(int score) {
         FundsLabel.text = "score: " + score;
         FundsLabel.transform.localScale = Vector3.one;
-        FundsLabel.transform.DOPunchScale(Vector3.one * 0.3f, 0.3f, 6, 0.5f);
+        if (activeTween != null) {
+            activeTween.Kill();
+        }
+        activeTween = FundsLabel.transform.DOPunchScale(Vector3.one * 0.3f, 0.3f, 6, 0.5f).OnComplete(() =>
+        {
+            activeTween = null;
+        }).OnKill(() =>
+        {
+            activeTween = null;
+        });
     }
 
     private void AddItem(ItemDefinition item) {
