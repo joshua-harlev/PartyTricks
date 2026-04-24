@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using Minigames.DireDodging;
 using Services;
 using UnityEngine;
 
@@ -44,8 +45,11 @@ public class DireDodgingGameplayState : IDireDodgingState {
 
     public void OnPlayerDeath(int playerIndex) {
         UpdateEliminations(playerIndex);
-        gameCamera.transform.DOKill();
-        gameCamera.DOShakePosition(duration: 0.1f, strength: 0.4f, vibrato: 1, randomness: 90f, fadeOut: false).SetUpdate(true);
+        if (!DireDodgingCameraZoomService.DeathZoomActive) {
+            gameCamera.transform.DOKill();
+            gameCamera.DOShakePosition(duration: 0.1f, strength: 0.4f, vibrato: 1, randomness: 90f, fadeOut: false)
+                .SetUpdate(true);
+        }
     }
 
     private void UpdateEliminations(int playerIndex) {

@@ -46,7 +46,6 @@ namespace Minigames.DireDodging {
             rigidbody.angularVelocity = 0f;
             rigidbody.bodyType = RigidbodyType2D.Kinematic;
             
-            Time.timeScale = 0f;
             deathParticles.Play();
 
             ZoomCameraOnDeath();
@@ -65,11 +64,14 @@ namespace Minigames.DireDodging {
         }
         
         private void ZoomCameraOnDeath() {
+            if (DireDodgingCameraZoomService.DeathZoomActive) return;
+            
             var mainCamera = player.MainCamera;
             if (mainCamera == null) {
                 throw new MissingComponentException("Main Camera is missing.");
             }
 
+            Time.timeScale = 0f;
             DireDodgingCameraZoomService.StartDeathZoom(transform.position, cameraZoomAmount, cameraFreezeDuration * 0.5f);
             cameraZoomTween = DOVirtual.DelayedCall(cameraFreezeDuration, () =>
             {
