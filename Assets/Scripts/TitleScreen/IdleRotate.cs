@@ -1,5 +1,4 @@
 using UnityEngine;
-  using UnityEngine.UI;
 
   public class IdleRotate : MonoBehaviour
   {
@@ -11,8 +10,7 @@ using UnityEngine;
       {
           float z = Mathf.Sin(Time.time * speed) * angle;
           Quaternion rotation = Quaternion.Euler(0, 0, z);
-          foreach (var target in targets)
-          {
+          foreach (var target in targets) {
               target.localRotation = rotation;
           }
       }
