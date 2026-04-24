@@ -1,9 +1,13 @@
   using UnityEngine;
+  using Random = System.Random;
 
   namespace Minigames.CoinTilt {
       public class LightingVariant : MonoBehaviour {
           [Header("References")]
           [SerializeField] private Light directionalLight;
+
+          [Header("General Settings")] [SerializeField]
+          private bool IsEnabled = false;
 
           [Header("Daytime Settings")]
           [SerializeField] private Color daytimeFilter = new Color(1f, 0.957f, 0.839f);
@@ -18,10 +22,11 @@
           [SerializeField] private Vector3 sunsetRotation = new(10f, -30f, 0f);
 
           private bool isSunset;
-          private static readonly System.Random rng = new();
+          private static readonly Random rng = new();
 
           private void Awake() {
-              isSunset = rng.NextDouble() < 0.5;
+              if (IsEnabled) isSunset = rng.NextDouble() < 0.5;
+              else isSunset = false;
               ApplyLighting(isSunset);
           }
 
