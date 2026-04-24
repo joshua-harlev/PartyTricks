@@ -115,15 +115,19 @@ namespace Shop {
         }
 
         private IEnumerator WaitAndThenMoveToNextMinigame() {
+            playerManager.LockAndDisableAllSelectors();
+            
             foreach (var selector in playerManager.GetSelectors()) {
-                bool purchaseSuccess = shopPurchaseService.ResolveSinglePurchase(selector, ShopItemUIElements);
-                if (!purchaseSuccess) {
+                int purchaseCost = shopPurchaseService.ResolveSinglePurchase(selector, ShopItemUIElements);
+                if (purchaseCost < 0) {
                     ShopItemUIElements[selector.CurrentShopItemIndex].OnCannotAffordPermanent(selector.PlayerIndex);
                     continue;
                 }
-                
-                ShopFeedback.PlayPurchaseSound();
-                yield return new WaitForSeconds(PurchaseRevealDelayInSeconds);
+
+                if (purchaseCost > 0) {
+                    ShopFeedback.PlayPurchaseSound();
+                    yield return new WaitForSeconds(PurchaseRevealDelayInSeconds);
+                }
             }
             
             yield return new WaitForSeconds(PostShopDelayInSeconds);

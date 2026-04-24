@@ -134,6 +134,13 @@ public class ShopPlayerManager {
 
     public List<ShopSlotSelector> GetSelectors() => activeSelectors;
 
+    public void LockAndDisableAllSelectors() {
+        foreach (var selector in activeSelectors) {
+            if(!selector.IsLocked) selector.Lock();
+            selector.CanAct = false;
+        }
+    }
+
     public void Cleanup() {
         foreach (var selector in activeSelectors) {
             selector.OnSelectionChanged -= HandleSelectionChanged;
