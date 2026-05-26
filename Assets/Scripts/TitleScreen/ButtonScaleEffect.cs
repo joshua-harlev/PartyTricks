@@ -8,6 +8,11 @@ public class ButtonScaleEffect : MonoBehaviour, ISelectHandler, IDeselectHandler
     private Vector3 originalScale;
     private Tween activeTween;
 
+    [RuntimeInitializeOnLoadMethod]
+    private static void ResetActiveButton() {
+        activeButton = null;
+    }
+
     private void Awake() {
         originalScale = transform.localScale;
     }
