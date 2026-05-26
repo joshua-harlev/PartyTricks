@@ -142,7 +142,7 @@ Planned: IEEE trailer outline and V1, final art for Dire Dodging, initial music 
 ## Development Guide
 ### Requirements
 
-**Unity Version**: 6000.2.7f2
+**Unity Version**: 6000.3.16f1
 
 **FMOD Studio (installed separately)**: Version 2.03
 
