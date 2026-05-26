@@ -1,12 +1,13 @@
 ﻿// Author: Daniele Giardini - http://www.demigiant.com
 // Created: 2018/07/13
 
-#if true // MODULE_MARKER
-using System;
+#if !DOTWEEN_NOAUDIO // MODULE_MARKER
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
-using UnityEngine.Audio; // Required for AudioMixer
+using UnityEngine.Audio;
+
+// Required for AudioMixer
 
 #pragma warning disable 1591
 namespace DG.Tweening

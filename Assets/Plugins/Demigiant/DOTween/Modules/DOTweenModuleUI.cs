@@ -1,16 +1,15 @@
 ﻿// Author: Daniele Giardini - http://www.demigiant.com
 // Created: 2018/07/13
 
-#if true // MODULE_MARKER
+#if !DOTWEEN_NOUI // MODULE_MARKER
 
-using System;
 using System.Globalization;
-using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening.Core;
 using DG.Tweening.Core.Enums;
 using DG.Tweening.Plugins;
 using DG.Tweening.Plugins.Options;
+using UnityEngine;
+using UnityEngine.UI;
 using Outline = UnityEngine.UI.Outline;
 using Text = UnityEngine.UI.Text;
 

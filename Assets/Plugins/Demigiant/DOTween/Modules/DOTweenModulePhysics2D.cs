@@ -1,8 +1,7 @@
 ﻿// Author: Daniele Giardini - http://www.demigiant.com
 // Created: 2018/07/13
 
-#if true // MODULE_MARKER
-using System;
+#if !DOTWEEN_NOPHYSICS2D // MODULE_MARKER
 using DG.Tweening.Core;
 using DG.Tweening.Plugins;
 using DG.Tweening.Plugins.Core.PathCore;
