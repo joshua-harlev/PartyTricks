@@ -115,6 +115,9 @@ namespace Minigames.DireDodging {
         }
 
         public static void ReturnFromDeathZoom(float duration = 0.3f) {
+            if (!deathZoomActive) return;
+            KillCameraTweens();
+            
             float returnSize = originalSize;
             Vector3 returnPosition = originalPosition;
 
