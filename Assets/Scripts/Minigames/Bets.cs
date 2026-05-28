@@ -27,11 +27,7 @@ public class Bets : MonoBehaviour {
     }
 
     private void Start() {
-        StartCoroutine(WaitForManagerAndStart());
-    }
-
-    private IEnumerator WaitForManagerAndStart() {
-        yield return new WaitUntil(() => gamblingMinigameManager != null);
+        if (gamblingMinigameManager == null) return;
         InitializeComponents();
         StartBets();
     }
