@@ -197,5 +197,10 @@ namespace Minigames.Swinging {
             yield return new WaitForSeconds(resultsDisplayDurationInSeconds);
             OnMinigameFinished?.Invoke(results);
         }
+
+        private void OnDestroy() {
+            musicInstance.stop(STOP_MODE.IMMEDIATE);
+            musicInstance.release();
+        }
     }
 }
