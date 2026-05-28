@@ -4,6 +4,11 @@ using VineSwinging.Core;
 namespace Minigames.Swinging.States {
     public class VineSwingingGameplayState : IVineSwingingGameState {
         private readonly VineSwingingMinigameManager minigameManager;
+        private const int MaxMagnetHits = 16;
+        private readonly Collider2D[] magnetHits = new Collider2D[MaxMagnetHits];
+        private readonly ContactFilter2D magnetFilter = new ContactFilter2D
+            { useTriggers = true, useLayerMask = false };
+        
         private VineSwingingAIController aiController;
         
         private int[] previousScores = new int[4];
@@ -46,10 +51,13 @@ namespace Minigames.Swinging.States {
                 
                 minigameManager.PlayerViews[i].Pull(minigameManager.PlayerStateMachines[i].PlayerContext);
                 if (minigameManager.PlayerHasMagnet[i]) {
-                    var collisions = Physics2D.OverlapCircleAll(minigameManager.PlayerViews[i].transform.position, minigameManager.PlayerMagnetRadii[i]);
-                    foreach (var collision in collisions) {
+                    Vector2 center = minigameManager.PlayerViews[i].transform.position;
+                    int hitCount = Physics2D.OverlapCircle(center, minigameManager.PlayerMagnetRadii[i], magnetFilter, magnetHits);
+                    for (var hitIndex = 0; hitIndex < hitCount; hitIndex++) {
+                        var collision = magnetHits[hitIndex];
                         var coin = collision.GetComponent<SwingingCoinView>();
-                        coin?.StartPull(minigameManager.PlayerViews[i].transform, minigameManager.PlayerMagnetPullSpeed[i]);
+                        coin?.StartPull(minigameManager.PlayerViews[i].transform,
+                            minigameManager.PlayerMagnetPullSpeed[i]);
                     }
                 }
 
