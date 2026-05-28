@@ -56,7 +56,7 @@ public class PlayerUITwoButtonInputHandler : MonoBehaviour, IDirectionalTwoButto
     }
     
     public bool ChargeIsPressed() {
-        return chargeAction.WasPressedThisFrame();
+        return chargeIsPressed;
     }
 
     public bool ChargeIsHeld() {
