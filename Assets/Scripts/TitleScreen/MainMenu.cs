@@ -5,13 +5,16 @@ using FMOD.Studio;
 using FMODUnity;
 using Services;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MainMenu : MonoBehaviour {
     [SerializeField] private EventReference musicEvent;
