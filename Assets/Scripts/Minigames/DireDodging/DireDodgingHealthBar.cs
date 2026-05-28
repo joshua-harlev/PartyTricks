@@ -15,7 +15,6 @@ public class DireDodgingHealthBar : MonoBehaviour {
             shieldBaseScale = ShieldBar.localScale;
             ShieldBar.gameObject.SetActive(false);
         }
-        this.baseScale = transform.localScale;
     }
 
     public void UpdateDisplay(float currentHealth, float maxHealth) {
