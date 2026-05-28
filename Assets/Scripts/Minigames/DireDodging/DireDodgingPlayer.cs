@@ -341,6 +341,8 @@ public class DireDodgingPlayer : MonoBehaviour {
         ChargeAttack.ForceStop();
         Shockwave.ForceStop();
     }
+    
+    public void TakeProjectileDamage(DireDodgingProjectile projectile) => HandleProjectileCollision(projectile);
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (PlayerIsDead) return;

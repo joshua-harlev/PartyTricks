@@ -36,15 +36,19 @@ public class DireDodgingProjectile : MonoBehaviour {
             SpriteRenderer.color = ghostColor;
         }
         
-        TrailRenderer.emitting = showTrail;
-        TrailRenderer.Clear();
+        if (TrailRenderer != null) {
+            TrailRenderer.emitting = showTrail;
+            TrailRenderer.Clear();
+        }
     }
 
     public void SetColor(Color playerColor) {
         SpriteRenderer.color = playerColor;
-        TrailRenderer.startColor = playerColor;
         var fadedColor = playerColor;
         fadedColor.a = 0f;
+        
+        if (TrailRenderer == null) return;
+        TrailRenderer.startColor = playerColor;
         TrailRenderer.endColor = fadedColor;
     }
 
@@ -57,8 +61,10 @@ public class DireDodgingProjectile : MonoBehaviour {
     public void ReturnToPool() {
         if (hasBeenReturned) return;
         hasBeenReturned = true;
-        TrailRenderer.emitting = false;
-        TrailRenderer.Clear();
+        if (TrailRenderer != null) {
+            TrailRenderer.emitting = false;
+            TrailRenderer.Clear();
+        }
         if (projectilePool != null) {
             projectilePool.Release(this);
         }
