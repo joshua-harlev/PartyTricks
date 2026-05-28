@@ -19,6 +19,10 @@ namespace Minigames.DireDodging {
         private bool isInitialized;
         private EventInstance chargeSoundInstance;
         private static int activeShockwaveCount = 0;
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStaticState() => activeShockwaveCount = 0;
+        
         private bool isZooming;
         private Color playerEffectColor;
         private const bool ZoomEnabled = true;
