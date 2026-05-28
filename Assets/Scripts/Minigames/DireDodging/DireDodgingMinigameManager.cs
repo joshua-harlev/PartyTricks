@@ -215,10 +215,8 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     
         var dummyProjectile = new GameObject("DummyProjectile").AddComponent<DireDodgingProjectile>();
         dummyProjectile.Initialize(playerIndex, 9999f, 0f, Vector2.zero, false);
-    
-        var method = typeof(DireDodgingPlayer).GetMethod("HandleProjectileCollision", 
-            BindingFlags.NonPublic | BindingFlags.Instance);
-        method?.Invoke(player, new object[] { dummyProjectile });
+        
+        player.TakeProjectileDamage(dummyProjectile);
     
         Destroy(dummyProjectile.gameObject);
     }
