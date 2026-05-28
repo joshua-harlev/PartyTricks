@@ -78,7 +78,7 @@ public class BetCard : MonoBehaviour {
             yield return new WaitForSeconds(0.15f);
             
             Color originalColor = Color.white;
-            arrow.color = Color.yellow;
+            originalColor.a = currentAlpha;
             arrow.color = originalColor;
         }
         if (betIsAnIncrease) {
