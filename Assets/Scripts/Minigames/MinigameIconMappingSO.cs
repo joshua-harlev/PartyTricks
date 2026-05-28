@@ -16,11 +16,11 @@ public class MinigameIconMappingSO : ScriptableObject {
 
     public Texture2D GetIcon(MinigameType type, bool isDouble, bool isComplete = false) {
         var entry = icons.Find(x => x.Type == type);
-        if (type == MinigameType.Final) return entry.NormalIcon;
         if (entry == null) {
             Debug.LogError($"Icon missing for type {type}");
             return null;
         }
+        if (type == MinigameType.Final) return entry.NormalIcon;
 
         if (isComplete) {
             if (isDouble) return entry.CompleteDoubleIcon;
