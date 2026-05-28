@@ -131,6 +131,8 @@ namespace ResultsScreen {
             foreach (var action in subscribedActions) {
                 action.performed -= OnSubmitPerformed;
             }
+            musicInstance.stop(STOP_MODE.IMMEDIATE);
+            musicInstance.release();
         }
 
         private void HideSuspensePanel() {

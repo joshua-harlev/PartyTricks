@@ -174,6 +174,8 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     }
 
     private void OnDestroy() {
+        musicInstance.stop(STOP_MODE.IMMEDIATE);
+        musicInstance.release();
         DireDodgingCameraZoomService.Cleanup();
         Instance = null;
     }

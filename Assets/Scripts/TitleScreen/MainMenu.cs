@@ -182,17 +182,23 @@ public class MainMenu : MonoBehaviour {
         startGameButton.onClick.RemoveAllListeners();
         optionsButton.onClick.RemoveAllListeners();
         quitButton.onClick.RemoveAllListeners();
+        
         foreach (var action in subscribedSubmitActions) {
             action.performed -= OnGamepadSubmitPerformed;
         }
+        
         subscribedSubmitActions.Clear();
         gamepadNavigateActions.Clear();
+        
         if (inputModule != null) {
             inputModule.move = cachedMoveAction;
             inputModule.submit = cachedSubmitAction;
         }
+        
         if (musicInstance.isValid()) {
             musicInstance.stop(STOP_MODE.IMMEDIATE);
         }
+        
+        musicInstance.release();
     }
 }
