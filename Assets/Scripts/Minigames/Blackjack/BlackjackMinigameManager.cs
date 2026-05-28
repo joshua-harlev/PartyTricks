@@ -175,7 +175,7 @@ public class BlackjackMinigameManager : MonoBehaviour, IGamblingMinigame {
     }
 
     private void SetUpBlackjackPlayerControllerObject(int playerIndex, PlayerSlot slot) {
-        var controllerObject = new GameObject("Player_{i}_BlackjackController");
+        var controllerObject = new GameObject($"Player_{playerIndex}_BlackjackController");
         controllerObject.transform.SetParent(transform);
 
         var controller = SetUpBlackjackPlayerController(playerIndex, slot, controllerObject);
