@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Minigames.CoinTilt {
@@ -62,13 +63,19 @@ namespace Minigames.CoinTilt {
 
         private void Awake() {
             InitializeCoinValue();
-            StartCoroutine(SpawnInAnimation());
+            AnimateCoinScale();
             RandomizePhases();
             
             jitter = Random.Range(0.8f, 1.2f);
             if(GameSettings.Misc.RandomizeCoinSpinDirection) RandomizeSpinDirection();
             maxHeight = coinAnimationConfig.BobMultiplier;
             initialModelEulerAngles = modelTransform.localEulerAngles;
+        }
+
+        private void AnimateCoinScale() {
+            Vector3 idealScale = this.modelTransform.localScale;
+            modelTransform.localScale = Vector3.zero;
+            modelTransform.DOScale(idealScale, coinAnimationConfig.AnimateInTimeInSeconds);
         }
 
         private void InitializeCoinValue() {
@@ -89,18 +96,6 @@ namespace Minigames.CoinTilt {
             if (Random.value >= 0.5f) {
                 spinSign = 1;
             } else spinSign = -1;
-        }
-
-        private IEnumerator SpawnInAnimation() {
-            Vector3 idealScale = this.modelTransform.localScale;
-            modelTransform.localScale = Vector3.zero;
-            float currentTime = 0f;
-            while (currentTime < coinAnimationConfig.AnimateInTimeInSeconds) {
-                currentTime += Time.deltaTime;
-                float t = currentTime / coinAnimationConfig.AnimateInTimeInSeconds;
-                modelTransform.localScale = Vector3.Lerp(Vector3.zero, idealScale, t);
-                yield return null;
-            }
         }
 
         public int Collect() {
