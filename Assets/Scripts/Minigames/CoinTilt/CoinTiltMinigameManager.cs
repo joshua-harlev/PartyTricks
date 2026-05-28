@@ -17,7 +17,6 @@ namespace Minigames.CoinTilt {
 
         [Header("Minigame Settings")] 
         private int countdownDurationInSeconds;
-        private int[] fundsPerRank => MinigamePayouts.GetBaseFundsPerRank();
         [SerializeField] private float resultsDisplayDurationInSeconds = 5f;
         [SerializeField] private EventReference MusicEvent;
         [SerializeField] private EventReference CoinCollectSoundEvent;
@@ -329,14 +328,10 @@ namespace Minigames.CoinTilt {
 
             }
 
-            if (IsDoubleRound) {
-                for (int i = 0; i < fundsPerRank.Length; i++) {
-                    fundsPerRank[i] = fundsPerRank[i] * 2;
-                }
-            }
-
+            int multiplier = IsDoubleRound ? 2 : 1;
+            int[] sourceFunds = MinigamePayouts.GetBaseFundsPerRank();
             for (int i = 0; i < 4; i++) {
-                results[i] = new PlayerMinigameResult(i, ranks[i], fundsPerRank[ranks[i]]);
+                results[i] = new PlayerMinigameResult(i, ranks[i], sourceFunds[ranks[i]]*multiplier);
             }
 
             return results;
