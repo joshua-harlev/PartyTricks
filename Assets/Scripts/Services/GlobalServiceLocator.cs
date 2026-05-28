@@ -37,8 +37,9 @@ namespace Services {
             DebugLogger.Log(LogChannel.Systems, "Service registered: " + type.Name);
         }
 
-        public void UnregisterService<T>(T service) where T : class {
-            var type = typeof(T);
+        public void UnregisterService<T>(T service) where T : class => UnregisterService(typeof(T));
+
+        public void UnregisterService(Type type) {
             services.Remove(type);
             DebugLogger.Log(LogChannel.Systems, "Service unregistered: " + type.Name);
         }
