@@ -6,12 +6,11 @@ public class GameBoardGenerator {
     private readonly int numberOfMinigames;
     public List<(MinigameType minigameType, bool IsDouble)> GameBoard { get; private set; }
 
-    private readonly MinigameType[] availableTypes = new[]
-    {
-        MinigameType.Combat,
-        // MinigameType.Gambling,
-        MinigameType.Movement
-    };
+    private const bool IncludeGamblingMinigames = false;
+    
+    private readonly MinigameType[] availableTypes = IncludeGamblingMinigames 
+        ? new[] { MinigameType.Combat, MinigameType.Gambling, MinigameType.Movement } 
+        : new[] { MinigameType.Combat, MinigameType.Movement };
 
     public GameBoardGenerator(int gameLength = 5) {
         this.numberOfMinigames = gameLength;
