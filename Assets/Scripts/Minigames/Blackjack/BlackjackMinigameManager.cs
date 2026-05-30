@@ -528,7 +528,7 @@ public class BlackjackMinigameManager : MonoBehaviour, IGamblingMinigame {
         List<(int index, OutcomeType outcome, int playerValue)> sortedPlayers) {
         sortedPlayers.Sort((a, b) =>
         {
-            var outcomeCompare = a.playerValue.CompareTo(b.playerValue);
+            var outcomeCompare = a.outcome.CompareTo(b.outcome);
             if (outcomeCompare != 0) return outcomeCompare;
             return b.playerValue.CompareTo(a.playerValue);
         });
