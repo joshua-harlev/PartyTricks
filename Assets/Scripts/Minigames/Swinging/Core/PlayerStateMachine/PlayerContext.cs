@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 
 namespace Minigames.Swinging.Core.PlayerStateMachine {
-    public enum PlayerStateType { Swinging, Airborne, Falling }
-    public enum PlayerEvent { GrabbedVine, Fell, Launched, CollectedCoin }
     public class PlayerContext {
         public float PositionX;
         public float PositionY;

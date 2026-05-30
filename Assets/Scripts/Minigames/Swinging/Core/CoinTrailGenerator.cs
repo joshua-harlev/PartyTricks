@@ -1,10 +1,6 @@
 using System;
 
 namespace Minigames.Swinging.Core {
-    public struct CoinPosition {
-        public float RelativeXPosition; // 0.0 when releasing, 1.0 at next vine
-        public float RelativeYPosition;
-    }
     public class CoinTrailGenerator {
         public static CoinPosition[][] GenerateAllTrails(int vineCount, SwingConfig config, int seed) {
             float swingReach = config.RopeLength * (float)(Math.Sin(config.Amplitude));

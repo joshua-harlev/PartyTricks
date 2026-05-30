@@ -5,26 +5,6 @@ using UnityEngine;
 
 namespace Debug {
     // add to this if you want additional channels
-    public enum LogChannel
-    {
-        Global,
-        Gameplay,
-        AI,
-        UI,
-        Audio,
-        Network,
-        Persistence, 
-        Analytics,
-        Systems      
-    }
-
-    public enum LogLevel
-    {
-        Verbose = 0,
-        Info    = 1,
-        Warning = 2,
-        Error   = 3
-    }
 
     public static class DebugLogger
     {
