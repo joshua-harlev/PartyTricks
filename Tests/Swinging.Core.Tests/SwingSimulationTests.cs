@@ -1,5 +1,6 @@
 using System;
-using VineSwinging.Core;
+using Minigames.Swinging.Core;
+using Minigames.Swinging.Core.PlayerStateMachine;
 using Xunit;
 
 namespace Swinging.Core.Tests {
