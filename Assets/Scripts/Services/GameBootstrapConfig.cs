@@ -1,17 +1,20 @@
 using CoreData;
+using Minigames;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameBootstrapConfig", menuName = "Scriptable Objects/GameBootstrapConfig")]
-public class GameBootstrapConfig : ScriptableObject {
-    public GameObject PlayerServicePrefab;
-    public GameObject GameSessionManagerPrefab;
-    public GameObject PauseServicePrefab;
-    public GameObject GameFlowManagerPrefab;
-    public GameObject EconomyServicePrefab;
-    public MenuSoundConfigSO MenuSoundConfig;
-    public MinigameConfigSO MinigameConfig;
-    public PlayerColorConfig PlayerColorConfig;
+namespace Services {
+    [CreateAssetMenu(fileName = "GameBootstrapConfig", menuName = "Scriptable Objects/GameBootstrapConfig")]
+    public class GameBootstrapConfig : ScriptableObject {
+        public GameObject PlayerServicePrefab;
+        public GameObject GameSessionManagerPrefab;
+        public GameObject PauseServicePrefab;
+        public GameObject GameFlowManagerPrefab;
+        public GameObject EconomyServicePrefab;
+        public MenuSoundConfigSO MenuSoundConfig;
+        public MinigameConfigSO MinigameConfig;
+        public PlayerColorConfig PlayerColorConfig;
     
-    // Where is this file stored? (within the Resources/ folder)
-    public static readonly string ResourcePath = "Config/GameBootstrapConfig";
+        // Where is this file stored? (within the Resources/ folder)
+        public static readonly string ResourcePath = "Config/GameBootstrapConfig";
+    }
 }

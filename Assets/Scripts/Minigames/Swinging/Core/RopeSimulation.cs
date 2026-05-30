@@ -1,6 +1,6 @@
 using System;
 
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core {
     public class RopeSimulation {
         public readonly int PointCount;
         public readonly float RopeLength;

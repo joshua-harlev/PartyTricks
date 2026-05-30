@@ -1,6 +1,7 @@
+using Options;
 using UnityEngine;
 
-namespace Minigames.Swinging {
+namespace Minigames.Swinging.Background {
     public class ParallaxLayer : MonoBehaviour {
         [SerializeField] private Transform cameraTransform;
         [Range(0f, 1f)]

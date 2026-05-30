@@ -5,10 +5,13 @@ using Debug;
 using FMOD.Studio;
 using FMODUnity;
 using Game;
+using Input;
+using Minigames.Swinging.Core;
+using Minigames.Swinging.Core.PlayerStateMachine;
 using Minigames.Swinging.States;
+using Player;
 using Services;
 using UnityEngine;
-using VineSwinging.Core;
 using Random = UnityEngine.Random;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
 

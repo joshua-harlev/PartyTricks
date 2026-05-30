@@ -1,3 +1,4 @@
+using Options;
 using UnityEngine;
 
 namespace Shop {

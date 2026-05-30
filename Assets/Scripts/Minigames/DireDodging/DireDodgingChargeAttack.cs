@@ -2,6 +2,7 @@ using CoreData;
 using DG.Tweening;
 using FMOD.Studio;
 using FMODUnity;
+using Options;
 using UnityEngine;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
 using Time = UnityEngine.Time;

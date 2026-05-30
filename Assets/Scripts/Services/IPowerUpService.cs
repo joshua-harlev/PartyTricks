@@ -1,4 +1,5 @@
 using CoreData;
+using Player;
 
 namespace Services {
     public interface IPowerUpService {

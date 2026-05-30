@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Minigames.Swinging {
+namespace Minigames.Swinging.Background {
     public class ParallaxPropSpawner : MonoBehaviour {
         [SerializeField] private Transform cameraTransform;
         [SerializeField] private float minGap = 10f;

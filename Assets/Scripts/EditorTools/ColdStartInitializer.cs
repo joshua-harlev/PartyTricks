@@ -1,6 +1,8 @@
 // Lets you initialize a game without running from the main menu
 
 using Debug;
+using Game;
+using Minigames;
 using Services;
 using UnityEngine;
 using UnityEngine.SceneManagement;

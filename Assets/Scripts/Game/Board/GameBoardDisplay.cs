@@ -1,101 +1,105 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
+using Minigames;
+using Options;
 using UnityEngine;
 using UnityEngine.UIElements;
-using FMODUnity;
 
-public class GameBoardDisplay : MonoBehaviour {
-    [SerializeField]
-    private UIDocument uiDocument;
-    [SerializeField]
-    private MinigameIconMappingSO iconMapping;
+namespace Game.Board {
+    public class GameBoardDisplay : MonoBehaviour {
+        [SerializeField]
+        private UIDocument uiDocument;
+        [SerializeField]
+        private MinigameIconMappingSO iconMapping;
 
-    private VisualElement root;
-    private VisualElement iconRow;
-    private Image boardImage;
+        private VisualElement root;
+        private VisualElement iconRow;
+        private Image boardImage;
 
-    [SerializeField] private Sprite darkenedImage;
-    [SerializeField] private Sprite spotlightImage;
-    [SerializeField] private Sprite brightImage;
+        [SerializeField] private Sprite darkenedImage;
+        [SerializeField] private Sprite spotlightImage;
+        [SerializeField] private Sprite brightImage;
     
-    [SerializeField] private EventReference spotlightSound;
+        [SerializeField] private EventReference spotlightSound;
     
-    public event Action OnContinue;
+        public event Action OnContinue;
 
-    private void Awake() {
-        root = uiDocument.rootVisualElement;
-        iconRow = root.Q<VisualElement>("IconRow");
-        boardImage = root.Q<Image>("IEEEBoardImage");
-        root.style.display = DisplayStyle.None;
-    }
-
-    public void ShowBoard(List<(MinigameType minigameType, bool IsDouble)> gameBoard) {
-        root.style.display = DisplayStyle.Flex;
-        if (GameSettings.Gameplay.UsePresetBoard) {
-            boardImage.style.display = DisplayStyle.Flex;
-            StartCoroutine(IEEEBoardCoroutine());
-            return;
-        } else {
-            DrawIcons(gameBoard);
-            StartCoroutine(WaitAndThenContinue());
+        private void Awake() {
+            root = uiDocument.rootVisualElement;
+            iconRow = root.Q<VisualElement>("IconRow");
+            boardImage = root.Q<Image>("IEEEBoardImage");
+            root.style.display = DisplayStyle.None;
         }
-    }
 
-    private IEnumerator IEEEBoardCoroutine() {
-        boardImage.image = brightImage.texture;
-        yield return new WaitForSeconds(2.5f);
-        boardImage.image = darkenedImage.texture;
-        yield return new WaitForSeconds(2.5f);
-        boardImage.image = spotlightImage.texture;
-        if (!spotlightSound.IsNull) {
-            RuntimeManager.PlayOneShot(spotlightSound);
-        }
-        yield return new WaitForSeconds(4f);
-        OnContinue?.Invoke();
-    }
-
-    private void DrawIcons(List<(MinigameType minigameType, bool IsDouble)> gameBoard) {
-        iconRow.Clear();
-        List<VisualElement> iconElements = new();
-        foreach (var round in gameBoard) {
-            Texture2D iconTexture = iconMapping.GetIcon(round.minigameType, round.IsDouble);
-            if (iconTexture == null) {
-                UnityEngine.Debug.LogError($"Missing icon for {round.minigameType} (Double: {round.IsDouble})");
-                continue;
+        public void ShowBoard(List<(MinigameType minigameType, bool IsDouble)> gameBoard) {
+            root.style.display = DisplayStyle.Flex;
+            if (GameSettings.Gameplay.UsePresetBoard) {
+                boardImage.style.display = DisplayStyle.Flex;
+                StartCoroutine(IEEEBoardCoroutine());
+                return;
+            } else {
+                DrawIcons(gameBoard);
+                StartCoroutine(WaitAndThenContinue());
             }
-
-            VisualElement iconElement = new VisualElement();
-            iconElement.AddToClassList("minigame-icon");
-            iconElement.style.opacity = 0f;
-            Image iconImage = new Image
-            {
-                image = iconTexture,
-                scaleMode = ScaleMode.ScaleToFit
-            };
-            iconElement.Add(iconImage);
-            iconRow.Add(iconElement);
-            iconElements.Add(iconElement);
         }
-        StartCoroutine(FadeGameIconsIn(iconElements));
-    }
 
-    private IEnumerator FadeGameIconsIn(List<VisualElement> icons) {
-        foreach (var icon in icons) {
-            float animationDuration = 0.2f;
-            float elapsed = 0f;
-            while (elapsed < animationDuration) {
-                elapsed += Time.deltaTime;
-                icon.style.opacity = Mathf.Clamp01(elapsed / animationDuration);
-                yield return null;
+        private IEnumerator IEEEBoardCoroutine() {
+            boardImage.image = brightImage.texture;
+            yield return new WaitForSeconds(2.5f);
+            boardImage.image = darkenedImage.texture;
+            yield return new WaitForSeconds(2.5f);
+            boardImage.image = spotlightImage.texture;
+            if (!spotlightSound.IsNull) {
+                RuntimeManager.PlayOneShot(spotlightSound);
             }
-            icon.style.opacity = 1f;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(4f);
+            OnContinue?.Invoke();
         }
-    }
 
-    private IEnumerator WaitAndThenContinue() {
-        yield return new WaitForSeconds(10);
-        OnContinue?.Invoke();
+        private void DrawIcons(List<(MinigameType minigameType, bool IsDouble)> gameBoard) {
+            iconRow.Clear();
+            List<VisualElement> iconElements = new();
+            foreach (var round in gameBoard) {
+                Texture2D iconTexture = iconMapping.GetIcon(round.minigameType, round.IsDouble);
+                if (iconTexture == null) {
+                    UnityEngine.Debug.LogError($"Missing icon for {round.minigameType} (Double: {round.IsDouble})");
+                    continue;
+                }
+
+                VisualElement iconElement = new VisualElement();
+                iconElement.AddToClassList("minigame-icon");
+                iconElement.style.opacity = 0f;
+                Image iconImage = new Image
+                {
+                    image = iconTexture,
+                    scaleMode = ScaleMode.ScaleToFit
+                };
+                iconElement.Add(iconImage);
+                iconRow.Add(iconElement);
+                iconElements.Add(iconElement);
+            }
+            StartCoroutine(FadeGameIconsIn(iconElements));
+        }
+
+        private IEnumerator FadeGameIconsIn(List<VisualElement> icons) {
+            foreach (var icon in icons) {
+                float animationDuration = 0.2f;
+                float elapsed = 0f;
+                while (elapsed < animationDuration) {
+                    elapsed += Time.deltaTime;
+                    icon.style.opacity = Mathf.Clamp01(elapsed / animationDuration);
+                    yield return null;
+                }
+                icon.style.opacity = 1f;
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        private IEnumerator WaitAndThenContinue() {
+            yield return new WaitForSeconds(10);
+            OnContinue?.Invoke();
+        }
     }
 }

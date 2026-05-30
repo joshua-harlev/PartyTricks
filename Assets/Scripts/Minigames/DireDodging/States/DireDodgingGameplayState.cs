@@ -1,123 +1,125 @@
 using System;
 using Debug;
 using DG.Tweening;
-using Minigames.DireDodging;
+using Player;
 using Services;
 using UnityEngine;
 
-public class DireDodgingGameplayState : IDireDodgingState {
-    private int[] playerPlaces;
-    private int[] playerKills;
-    private MinigameTimer timer;
-    private PlayerCornerDisplay[] playerCornerDisplays;
-    private Camera gameCamera;
-    private IPauseService pauseService;
+namespace Minigames.DireDodging.States {
+    public class DireDodgingGameplayState : IDireDodgingState {
+        private int[] playerPlaces;
+        private int[] playerKills;
+        private MinigameTimer timer;
+        private PlayerCornerDisplay[] playerCornerDisplays;
+        private Camera gameCamera;
+        private IPauseService pauseService;
     
-    public DireDodgingGameplayState(MinigameTimer timer, PlayerCornerDisplay[] playerCornerDisplays, Camera camera) {
-        this.timer = timer;
-        gameCamera = camera;
-        timer.OnTimerEnd += OnGameplayEnd;
-        timer.OnHalfwayPointReached += OnHalfwayPointReached;
-        this.playerCornerDisplays = playerCornerDisplays;
-        pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
-    }
-
-    private void OnHalfwayPointReached(float remainingTimeInSeconds) {
-        timer.OnHalfwayPointReached -= OnHalfwayPointReached;
-        DireDodgingMinigameManager.Instance.StartIncreasingIntensity(remainingTimeInSeconds);
-    }
-    
-
-    public void Enter() {
-        DebugLogger.Log(LogChannel.Systems, "Dire Dodging: Entered Gameplay State.", LogLevel.Verbose);
-        DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
-        DireDodgingMinigameManager.Instance.StartPlayerShooting();
-        timer.StartTimer();
-        playerPlaces = new[] { 1, 1, 1, 1 };
-        playerKills = new[] { 0, 0, 0, 0 };
-    }
-
-    public void OnUpdate() { }
-
-    public void HandlePlayerKill(int playerIndex) {
-        playerKills[playerIndex]++;
-        playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex]);
-    }
-
-    public void OnPlayerDeath(int playerIndex) {
-        UpdateEliminations(playerIndex);
-        if (!DireDodgingCameraZoomService.DeathZoomActive) {
-            gameCamera.transform.DOKill();
-            gameCamera.DOShakePosition(duration: 0.1f, strength: 0.4f, vibrato: 1, randomness: 90f, fadeOut: false)
-                .SetUpdate(true);
+        public DireDodgingGameplayState(MinigameTimer timer, PlayerCornerDisplay[] playerCornerDisplays, Camera camera) {
+            this.timer = timer;
+            gameCamera = camera;
+            timer.OnTimerEnd += OnGameplayEnd;
+            timer.OnHalfwayPointReached += OnHalfwayPointReached;
+            this.playerCornerDisplays = playerCornerDisplays;
+            pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
         }
-    }
 
-    private void UpdateEliminations(int playerIndex) {
-        playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex]);
-    }
+        private void OnHalfwayPointReached(float remainingTimeInSeconds) {
+            timer.OnHalfwayPointReached -= OnHalfwayPointReached;
+            DireDodgingMinigameManager.Instance.StartIncreasingIntensity(remainingTimeInSeconds);
+        }
     
 
-    private void OnGameplayEnd() {
-        DeactivateGameplayTimer();
-        playerPlaces = CalculatePlacesByKills(playerKills);
-        UpdateAllDisplays();
-        DireDodgingMinigameManager.Instance.FreezeAllPlayers();
-        DireDodgingMinigameManager.Instance.ReturnAllProjectiles();
-        TransitionToResultsAfterDelay();
-    }
+        public void Enter() {
+            DebugLogger.Log(LogChannel.Systems, "Dire Dodging: Entered Gameplay State.", LogLevel.Verbose);
+            DireDodgingMinigameManager.Instance.EnableAllPlayerInput();
+            DireDodgingMinigameManager.Instance.StartPlayerShooting();
+            timer.StartTimer();
+            playerPlaces = new[] { 1, 1, 1, 1 };
+            playerKills = new[] { 0, 0, 0, 0 };
+        }
 
-    private void TransitionToResultsAfterDelay() {
-        pauseService.DoTimedPause(1f, () =>
-        {
-            DireDodgingMinigameManager.Instance.TransitionToResults(playerPlaces, playerKills); 
-        });
-    }
+        public void OnUpdate() { }
 
-    private void DeactivateGameplayTimer() {
-        timer.OnTimerEnd -= OnGameplayEnd;
-        timer.StopIfRunning();
-    }
+        public void HandlePlayerKill(int playerIndex) {
+            playerKills[playerIndex]++;
+            playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex]);
+        }
 
-    private int[] CalculatePlacesByKills(int[] kills) {
-        int[] places = new int[4];
-        var rankData = CreateRankDataArray(kills);
-        SortRankDataByKills(rankData);
-        AssignPlayerPlaces(places, rankData);
-        return places;
-    }
-
-    private static void AssignPlayerPlaces(int[] places, (int playerIndex, int playerKills)[] rankData) {
-        places[rankData[0].playerIndex] = 1;
-        for (int i = 1; i < 4; i++) {
-            if (rankData[i].playerKills == rankData[i - 1].playerKills) {
-                places[rankData[i].playerIndex] = places[rankData[i - 1].playerIndex];
-            } else {
-                places[rankData[i].playerIndex] = i + 1;
+        public void OnPlayerDeath(int playerIndex) {
+            UpdateEliminations(playerIndex);
+            if (!DireDodgingCameraZoomService.DeathZoomActive) {
+                gameCamera.transform.DOKill();
+                gameCamera.DOShakePosition(duration: 0.1f, strength: 0.4f, vibrato: 1, randomness: 90f, fadeOut: false)
+                    .SetUpdate(true);
             }
         }
-    }
 
-    private static void SortRankDataByKills((int playerIndex, int playerKills)[] rankData) {
-        Array.Sort(rankData, (a, b) => b.playerKills.CompareTo(a.playerKills));
-    }
+        private void UpdateEliminations(int playerIndex) {
+            playerCornerDisplays[playerIndex].UpdateEliminations(playerKills[playerIndex]);
+        }
+    
 
-    private static (int playerIndex, int playerKills)[] CreateRankDataArray(int[] kills) {
-        var rankData = new (int playerIndex, int playerKills)[4];
-        for (int i = 0; i < 4; i++) {
-            rankData[i] = (i, kills[i]);
+        private void OnGameplayEnd() {
+            DeactivateGameplayTimer();
+            playerPlaces = CalculatePlacesByKills(playerKills);
+            UpdateAllDisplays();
+            DireDodgingMinigameManager.Instance.FreezeAllPlayers();
+            DireDodgingMinigameManager.Instance.ReturnAllProjectiles();
+            TransitionToResultsAfterDelay();
         }
 
-        return rankData;
-    }
-
-    private void UpdateAllDisplays() {
-        for (int i = 0; i < 4; i++) {
-            playerCornerDisplays[i].UpdateEliminations(playerKills[i], playerPlaces[i]);
+        private void TransitionToResultsAfterDelay() {
+            pauseService.DoTimedPause(1f, () =>
+            {
+                DireDodgingMinigameManager.Instance.TransitionToResults(playerPlaces, playerKills); 
+            });
         }
-    }
 
-    public void Exit() {
-        DebugLogger.Log(LogChannel.Systems, "Dire Dodging: Exited Gameplay State.", LogLevel.Verbose);
+        private void DeactivateGameplayTimer() {
+            timer.OnTimerEnd -= OnGameplayEnd;
+            timer.StopIfRunning();
+        }
+
+        private int[] CalculatePlacesByKills(int[] kills) {
+            int[] places = new int[4];
+            var rankData = CreateRankDataArray(kills);
+            SortRankDataByKills(rankData);
+            AssignPlayerPlaces(places, rankData);
+            return places;
+        }
+
+        private static void AssignPlayerPlaces(int[] places, (int playerIndex, int playerKills)[] rankData) {
+            places[rankData[0].playerIndex] = 1;
+            for (int i = 1; i < 4; i++) {
+                if (rankData[i].playerKills == rankData[i - 1].playerKills) {
+                    places[rankData[i].playerIndex] = places[rankData[i - 1].playerIndex];
+                } else {
+                    places[rankData[i].playerIndex] = i + 1;
+                }
+            }
+        }
+
+        private static void SortRankDataByKills((int playerIndex, int playerKills)[] rankData) {
+            Array.Sort(rankData, (a, b) => b.playerKills.CompareTo(a.playerKills));
+        }
+
+        private static (int playerIndex, int playerKills)[] CreateRankDataArray(int[] kills) {
+            var rankData = new (int playerIndex, int playerKills)[4];
+            for (int i = 0; i < 4; i++) {
+                rankData[i] = (i, kills[i]);
+            }
+
+            return rankData;
+        }
+
+        private void UpdateAllDisplays() {
+            for (int i = 0; i < 4; i++) {
+                playerCornerDisplays[i].UpdateEliminations(playerKills[i], playerPlaces[i]);
+            }
+        }
+
+        public void Exit() {
+            DebugLogger.Log(LogChannel.Systems, "Dire Dodging: Exited Gameplay State.", LogLevel.Verbose);
+        }
     }
 }

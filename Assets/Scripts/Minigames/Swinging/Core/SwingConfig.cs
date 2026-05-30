@@ -1,4 +1,4 @@
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core {
     public readonly struct SwingConfig {
         public readonly float Amplitude;
         public readonly float RopeLength;

@@ -1,7 +1,7 @@
 using System;
 
 // We need this since the asmdef has no engine references.
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core {
     public readonly struct Vec2 {
         public readonly float X;
         public readonly float Y;

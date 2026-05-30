@@ -1,6 +1,7 @@
 using System.Collections;
 using CoreData;
 using DG.Tweening;
+using Options;
 using UnityEngine;
 
 namespace Minigames.CoinTilt {

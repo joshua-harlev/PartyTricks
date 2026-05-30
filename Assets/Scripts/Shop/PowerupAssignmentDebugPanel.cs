@@ -1,9 +1,10 @@
 using System.Linq;
 using CoreData;
+using Game;
 using Services;
 using UnityEngine;
 
-namespace Game {
+namespace Shop {
     public class PowerupAssignmentDebugPanel {
         private ShopItem[] allItems;
         private int selectedCategoryIndex;

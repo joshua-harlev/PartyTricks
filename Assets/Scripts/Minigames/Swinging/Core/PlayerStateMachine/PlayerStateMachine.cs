@@ -1,4 +1,4 @@
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core.PlayerStateMachine {
     public class PlayerStateMachine {
         public PlayerContext PlayerContext { get; }
         public SwingConfig SwingConfig { get; }

@@ -1,32 +1,34 @@
 using UnityEngine;
 
-public class ShopPointers : MonoBehaviour {
-    [SerializeField] private ShopPointer[] pointers;
+namespace Shop {
+    public class ShopPointers : MonoBehaviour {
+        [SerializeField] private ShopPointer[] pointers;
 
-    public void OnPointedTo(int playerIndex, bool shouldShow, bool shouldBeLocked) {
-        var pointer = pointers[playerIndex];
-        if(!shouldShow) {
-            pointer.gameObject.SetActive(false);
-            return;
+        public void OnPointedTo(int playerIndex, bool shouldShow, bool shouldBeLocked) {
+            var pointer = pointers[playerIndex];
+            if(!shouldShow) {
+                pointer.gameObject.SetActive(false);
+                return;
+            }
+        
+            pointer.gameObject.SetActive(true);
+        
+            if (shouldBeLocked) {
+                pointer.SetLocked();
+            } else pointer.SetUnlocked();
         }
-        
-        pointer.gameObject.SetActive(true);
-        
-        if (shouldBeLocked) {
-            pointer.SetLocked();
-        } else pointer.SetUnlocked();
-    }
 
-    public void OnCannotAfford(int playerIndex) {
-        pointers[playerIndex].PlayCannotAffordFeedback();
-    }
+        public void OnCannotAfford(int playerIndex) {
+            pointers[playerIndex].PlayCannotAffordFeedback();
+        }
 
-    public void OnCannotAffordPermanent(int playerIndex) {
-        pointers[playerIndex].SetCannotAffordPermanent();
-    }
+        public void OnCannotAffordPermanent(int playerIndex) {
+            pointers[playerIndex].SetCannotAffordPermanent();
+        }
 
-    public void SetPointerBonusStatus(int playerIndex, bool showBonus) {
-        var pointer = pointers[playerIndex];
-        pointer.SetBonusStatus(showBonus);
+        public void SetPointerBonusStatus(int playerIndex, bool showBonus) {
+            var pointer = pointers[playerIndex];
+            pointer.SetBonusStatus(showBonus);
+        }
     }
 }

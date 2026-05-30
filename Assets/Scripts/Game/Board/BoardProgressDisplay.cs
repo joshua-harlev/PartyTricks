@@ -1,58 +1,61 @@
 using System.Collections.Generic;
+using Minigames;
 using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoardProgressDisplay : MonoBehaviour {
-    [SerializeField] private MinigameIconMappingSO IconMapping;
-    private List<(Texture2D texture, bool isDouble)> minigameList = new();
-    [SerializeField] private GameObject ProgressBoardIconPrefab;
-    [SerializeField] private GameObject DoubleProgressBoardIconPrefab;
-    private IGameFlowService gameFlowService;
+namespace Game.Board {
+    public class BoardProgressDisplay : MonoBehaviour {
+        [SerializeField] private MinigameIconMappingSO IconMapping;
+        private List<(Texture2D texture, bool isDouble)> minigameList = new();
+        [SerializeField] private GameObject ProgressBoardIconPrefab;
+        [SerializeField] private GameObject DoubleProgressBoardIconPrefab;
+        private IGameFlowService gameFlowService;
 
-    private void Awake() {
-        gameFlowService = ServiceLocatorAccessor.GetService<IGameFlowService>();
-    }
-
-    private void Start() {
-        if (gameFlowService == null) {
-            UnityEngine.Debug.LogWarning("GameFlowManager not instantiated!");
+        private void Awake() {
+            gameFlowService = ServiceLocatorAccessor.GetService<IGameFlowService>();
         }
 
-        PopulateMinigameList();
-        UpdateDisplay();
-    }
-
-    private void PopulateMinigameList() {
-        AddCompletedMinigames();
-        AddUpcomingMinigames();
-    }
-
-    private void AddUpcomingMinigames() {
-        List<(MinigameType minigameType, bool isDouble)> upcomingMinigames = gameFlowService.GetUpcomingMinigameList();
-        foreach (var minigame in upcomingMinigames) {
-            minigameList.Add((IconMapping.GetIcon(minigame.minigameType, minigame.isDouble, false), minigame.isDouble));
-        }
-    }
-
-    private void AddCompletedMinigames() {
-        List<(MinigameType minigameType, bool isDouble)> completedMinigames = gameFlowService.GetCompletedMinigameList();
-        foreach (var minigame in completedMinigames) {
-            minigameList.Add((IconMapping.GetIcon(minigame.minigameType, minigame.isDouble, true), minigame.isDouble));
-        }
-    }
-
-    private void UpdateDisplay() {
-        foreach (var minigame in minigameList) {
-            Texture2D texture = minigame.texture;
-            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-            GameObject prefab = ProgressBoardIconPrefab;
-            if (minigame.isDouble) {
-                prefab = DoubleProgressBoardIconPrefab;
+        private void Start() {
+            if (gameFlowService == null) {
+                UnityEngine.Debug.LogWarning("GameFlowManager not instantiated!");
             }
 
-            GameObject instantiatedIcon = Instantiate(prefab, transform);
-            instantiatedIcon.GetComponent<Image>().sprite = sprite;
+            PopulateMinigameList();
+            UpdateDisplay();
+        }
+
+        private void PopulateMinigameList() {
+            AddCompletedMinigames();
+            AddUpcomingMinigames();
+        }
+
+        private void AddUpcomingMinigames() {
+            List<(MinigameType minigameType, bool isDouble)> upcomingMinigames = gameFlowService.GetUpcomingMinigameList();
+            foreach (var minigame in upcomingMinigames) {
+                minigameList.Add((IconMapping.GetIcon(minigame.minigameType, minigame.isDouble, false), minigame.isDouble));
+            }
+        }
+
+        private void AddCompletedMinigames() {
+            List<(MinigameType minigameType, bool isDouble)> completedMinigames = gameFlowService.GetCompletedMinigameList();
+            foreach (var minigame in completedMinigames) {
+                minigameList.Add((IconMapping.GetIcon(minigame.minigameType, minigame.isDouble, true), minigame.isDouble));
+            }
+        }
+
+        private void UpdateDisplay() {
+            foreach (var minigame in minigameList) {
+                Texture2D texture = minigame.texture;
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                GameObject prefab = ProgressBoardIconPrefab;
+                if (minigame.isDouble) {
+                    prefab = DoubleProgressBoardIconPrefab;
+                }
+
+                GameObject instantiatedIcon = Instantiate(prefab, transform);
+                instantiatedIcon.GetComponent<Image>().sprite = sprite;
+            }
         }
     }
 }

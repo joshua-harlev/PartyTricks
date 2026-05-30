@@ -1,6 +1,7 @@
 using Debug;
+using Game;
+using Minigames.Swinging.Core;
 using Services;
-using VineSwinging.Core;
 
 namespace Minigames.Swinging.States {
     public class VineSwingingResultsState : IVineSwingingGameState {

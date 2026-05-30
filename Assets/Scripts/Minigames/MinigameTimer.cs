@@ -1,117 +1,120 @@
 using System;
 using System.Collections;
 using Debug;
+using Game;
 using TMPro;
 using UnityEngine;
 
-public class MinigameTimer : MonoBehaviour {
-    [SerializeField] private GameObject TimerPanel;
-    [SerializeField] private TMP_Text TimerText;
-    [SerializeField] private CanvasGroup TimerCanvasGroup;
-    [SerializeField] private float lowTimeThreshold = 5f;
+namespace Minigames {
+    public class MinigameTimer : MonoBehaviour {
+        [SerializeField] private GameObject TimerPanel;
+        [SerializeField] private TMP_Text TimerText;
+        [SerializeField] private CanvasGroup TimerCanvasGroup;
+        [SerializeField] private float lowTimeThreshold = 5f;
     
-    private Color originalTimerTextColor;
-    public event Action OnTimerEnd;
-    public event Action<float> OnHalfwayPointReached;
+        private Color originalTimerTextColor;
+        public event Action OnTimerEnd;
+        public event Action<float> OnHalfwayPointReached;
     
-    // Elapsed time, Remaining Time
-    public event Action<float, float> OnTimerTick;
-    private string endOfGameText;
-    private float RemainingTimeInSeconds { get; set; }
-    private float originalTimerDuration;
-    private bool halfwayPointEventTriggered;
-    private bool isPaused;
-    private Coroutine timerCoroutine = null;
-    [SerializeField] private Boolean enableTimerBlink = false;
-    [SerializeField] private Color blinkColor = Color.red; 
+        // Elapsed time, Remaining Time
+        public event Action<float, float> OnTimerTick;
+        private string endOfGameText;
+        private float RemainingTimeInSeconds { get; set; }
+        private float originalTimerDuration;
+        private bool halfwayPointEventTriggered;
+        private bool isPaused;
+        private Coroutine timerCoroutine = null;
+        [SerializeField] private Boolean enableTimerBlink = false;
+        [SerializeField] private Color blinkColor = Color.red; 
 
-    public void Initialize(float gameLengthInSeconds, string endOfGameText = "Game!") {
-        RemainingTimeInSeconds = Mathf.Ceil(gameLengthInSeconds);
-        originalTimerTextColor = TimerText.color;
-        originalTimerDuration = RemainingTimeInSeconds;
-        this.endOfGameText = endOfGameText;
-        HidePanel();
-    }
-
-    public void OverrideText(string text) {
-        TimerText.text = text;
-    }
-
-    private void ShowPanel() {
-        TimerCanvasGroup.alpha = 1;
-        TimerCanvasGroup.blocksRaycasts = true;
-    }
-
-    private void HidePanel() {
-        TimerCanvasGroup.alpha = 0;
-        TimerCanvasGroup.blocksRaycasts = false;
-    }
-
-    public void StartTimer() {
-        ShowPanel();
-        timerCoroutine = StartCoroutine(Timer());
-    }
-
-    private IEnumerator Timer() {
-        while (RemainingTimeInSeconds > 0) {
-            while(isPaused) yield return null;
-            OnTick(RemainingTimeInSeconds);
-            if (!halfwayPointEventTriggered && RemainingTimeInSeconds <= (originalTimerDuration / 2f)) {
-                OnHalfwayPointReached?.Invoke(RemainingTimeInSeconds);
-                halfwayPointEventTriggered = true;
-            }
-            DebugLogger.Log(LogChannel.Systems, "Game timer ticked: " + RemainingTimeInSeconds  + " seconds remaining.");
-            yield return new WaitForSecondsRealtime(1f / DebugMenu.DebugTimerSpeedUpMultiplier);
-            RemainingTimeInSeconds--;
+        public void Initialize(float gameLengthInSeconds, string endOfGameText = "Game!") {
+            RemainingTimeInSeconds = Mathf.Ceil(gameLengthInSeconds);
+            originalTimerTextColor = TimerText.color;
+            originalTimerDuration = RemainingTimeInSeconds;
+            this.endOfGameText = endOfGameText;
+            HidePanel();
         }
-        OnTimeUp();
-        OnTimerEnd?.Invoke();
-        timerCoroutine = null;
-    }
 
-    private void OnTimeUp() {
-        TimerText.color = originalTimerTextColor;
-        TimerText.text = "Time!";
-    }
-
-    private void OnTick(float remainingTimeInSeconds) {
-        OnTimerTick?.Invoke(originalTimerDuration-remainingTimeInSeconds, remainingTimeInSeconds);
-        TimeSpan timeSpan = TimeSpan.FromSeconds(remainingTimeInSeconds);
-        string timeInMinutes = timeSpan.Minutes.ToString("00");
-        string timeInSeconds = timeSpan.Seconds.ToString("00");
-        TimerText.text = timeInMinutes + ":" + timeInSeconds;
-        if (remainingTimeInSeconds <= lowTimeThreshold && remainingTimeInSeconds >= 1 && enableTimerBlink) {
-            StartCoroutine(CountdownFlash());
+        public void OverrideText(string text) {
+            TimerText.text = text;
         }
-    }
 
-    private IEnumerator CountdownFlash() {
-        TimerText.color = blinkColor;
-        yield return new WaitForSeconds(0.5f);
-        TimerText.color = originalTimerTextColor;
-    }
+        private void ShowPanel() {
+            TimerCanvasGroup.alpha = 1;
+            TimerCanvasGroup.blocksRaycasts = true;
+        }
 
-    public void StopIfRunning() {
-        TimerText.color = originalTimerTextColor;
-        if (timerCoroutine != null) {
-            StopCoroutine(this.timerCoroutine);
-            if (!string.IsNullOrEmpty(endOfGameText)) {
-                TimerText.text = endOfGameText;
+        private void HidePanel() {
+            TimerCanvasGroup.alpha = 0;
+            TimerCanvasGroup.blocksRaycasts = false;
+        }
+
+        public void StartTimer() {
+            ShowPanel();
+            timerCoroutine = StartCoroutine(Timer());
+        }
+
+        private IEnumerator Timer() {
+            while (RemainingTimeInSeconds > 0) {
+                while(isPaused) yield return null;
+                OnTick(RemainingTimeInSeconds);
+                if (!halfwayPointEventTriggered && RemainingTimeInSeconds <= (originalTimerDuration / 2f)) {
+                    OnHalfwayPointReached?.Invoke(RemainingTimeInSeconds);
+                    halfwayPointEventTriggered = true;
+                }
+                DebugLogger.Log(LogChannel.Systems, "Game timer ticked: " + RemainingTimeInSeconds  + " seconds remaining.");
+                yield return new WaitForSecondsRealtime(1f / DebugMenu.DebugTimerSpeedUpMultiplier);
+                RemainingTimeInSeconds--;
             }
+            OnTimeUp();
+            OnTimerEnd?.Invoke();
             timerCoroutine = null;
         }
-    }
 
-    public void Resume() {
-        isPaused = false;
-    }
+        private void OnTimeUp() {
+            TimerText.color = originalTimerTextColor;
+            TimerText.text = "Time!";
+        }
 
-    public void Pause() {
-        isPaused = true;
-    }
+        private void OnTick(float remainingTimeInSeconds) {
+            OnTimerTick?.Invoke(originalTimerDuration-remainingTimeInSeconds, remainingTimeInSeconds);
+            TimeSpan timeSpan = TimeSpan.FromSeconds(remainingTimeInSeconds);
+            string timeInMinutes = timeSpan.Minutes.ToString("00");
+            string timeInSeconds = timeSpan.Seconds.ToString("00");
+            TimerText.text = timeInMinutes + ":" + timeInSeconds;
+            if (remainingTimeInSeconds <= lowTimeThreshold && remainingTimeInSeconds >= 1 && enableTimerBlink) {
+                StartCoroutine(CountdownFlash());
+            }
+        }
+
+        private IEnumerator CountdownFlash() {
+            TimerText.color = blinkColor;
+            yield return new WaitForSeconds(0.5f);
+            TimerText.color = originalTimerTextColor;
+        }
+
+        public void StopIfRunning() {
+            TimerText.color = originalTimerTextColor;
+            if (timerCoroutine != null) {
+                StopCoroutine(this.timerCoroutine);
+                if (!string.IsNullOrEmpty(endOfGameText)) {
+                    TimerText.text = endOfGameText;
+                }
+                timerCoroutine = null;
+            }
+        }
+
+        public void Resume() {
+            isPaused = false;
+        }
+
+        public void Pause() {
+            isPaused = true;
+        }
     
-    public void SetVisible(bool visible) {
-        if (visible) ShowPanel();
-        else HidePanel();
+        public void SetVisible(bool visible) {
+            if (visible) ShowPanel();
+            else HidePanel();
+        }
     }
 }

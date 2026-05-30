@@ -1,4 +1,4 @@
-namespace VineSwinging.Core
+namespace Minigames.Swinging.Core.PlayerStateMachine
 {
     public interface IPlayerState {
         void Enter(PlayerContext playerContext, SwingConfig swingConfig);
