@@ -231,6 +231,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
         return upcomingMinigames;
     }
 
+    #if UNITY_EDITOR
     public void StartGameForColdStart(MinigameType type, bool isShop, bool isResults) {
         if (isResults) return;
         
@@ -254,4 +255,5 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
         minigameManager.OnMinigameFinished += ProcessMinigameResults;
         minigameManager.Initialize(false);
     }
+    #endif
 }
