@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using CoreData;
+using Debug;
 using FMODUnity;
 using UnityEngine;
 
@@ -63,7 +64,7 @@ namespace Minigames.CoinTilt {
             initialRotation = transform.rotation;
             characterController = GetComponent<CharacterController>();
             if (characterController == null) {
-                Debug.LogError("CoinTiltPlayer could not find CharacterController component.");
+                UnityEngine.Debug.LogError("CoinTiltPlayer could not find CharacterController component.");
             }
             // use max coins from coin spawner; 20 is okay in all likelihood
             nearbyColliders = new Collider[20];
@@ -115,7 +116,7 @@ namespace Minigames.CoinTilt {
             if (numberOfMoveBoosts >= 1) {
                 shouldShowMoveBoostParticles = true;
                 trailParticles?.Play();
-                Debug.Log("Showing particles");
+                UnityEngine.Debug.Log("Showing particles");
             }
         }
 

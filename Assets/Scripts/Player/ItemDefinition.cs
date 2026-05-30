@@ -1,3 +1,4 @@
+using CoreData;
 using UnityEngine;
 
 public class ItemDefinition {

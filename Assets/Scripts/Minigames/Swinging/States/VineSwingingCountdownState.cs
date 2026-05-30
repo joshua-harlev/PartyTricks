@@ -1,3 +1,5 @@
+using Debug;
+
 namespace Minigames.Swinging.States {
     public class VineSwingingCountdownState : IVineSwingingGameState {
         private readonly VineSwingingMinigameManager minigameManager;

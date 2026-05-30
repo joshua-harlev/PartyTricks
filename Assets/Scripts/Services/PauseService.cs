@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Debug;
 using Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,7 +37,7 @@ public class PauseService : MonoBehaviour, IPauseService
     private void SetUpInputActions() {
         var uiMap = InputSystem.actions.FindActionMap("UI");
         if (uiMap == null) {
-            Debug.LogWarning("PauseService: uiMap is null.");
+            UnityEngine.Debug.LogWarning("PauseService: uiMap is null.");
         }
     }
 

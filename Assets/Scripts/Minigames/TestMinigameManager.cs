@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using Debug;
 using UnityEngine;
 
 public class TestMinigameManager : MonoBehaviour, IMinigameManager {

@@ -69,7 +69,7 @@ public class DireDodgingProjectile : MonoBehaviour {
             projectilePool.Release(this);
         }
         else {
-            Debug.LogWarning("Projectile pool not set up in DireDodgingProjectile.");
+            UnityEngine.Debug.LogWarning("Projectile pool not set up in DireDodgingProjectile.");
         }
     }
 

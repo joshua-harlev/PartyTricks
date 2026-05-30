@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoreData;
+using Debug;
 using FMOD.Studio;
 using FMODUnity;
 using Game;
@@ -74,7 +75,7 @@ namespace Minigames.CoinTilt {
 
         private void InitializeGameTimer() {
             if (gameTimer == null) {
-                Debug.LogError("CoinTiltMinigameManager does not have a Coin Tilt Minigame Timer assigned!");
+                UnityEngine.Debug.LogError("CoinTiltMinigameManager does not have a Coin Tilt Minigame Timer assigned!");
             }
             else {
                 gameTimer.Initialize(effectiveGameDurationInSeconds);
@@ -85,7 +86,7 @@ namespace Minigames.CoinTilt {
 
         private void InitializeCountdown() {
             if (StartCountdown == null) {
-                Debug.LogError("CoinTiltMinigameManager does not have a Coin Tilt Minigame Countdown assigned!");
+                UnityEngine.Debug.LogError("CoinTiltMinigameManager does not have a Coin Tilt Minigame Countdown assigned!");
             }
             else {
                 StartCountdown.Initialize(countdownDurationInSeconds);
@@ -94,7 +95,7 @@ namespace Minigames.CoinTilt {
 
         private void InitializePlacesDisplay() {
             if (placesDisplay == null) {
-                Debug.LogError("CoinTiltMinigameManager does not have a Coin Tilt Places Display assigned!");
+                UnityEngine.Debug.LogError("CoinTiltMinigameManager does not have a Coin Tilt Places Display assigned!");
             }
             else {
                 placesDisplay.Hide();
@@ -121,19 +122,19 @@ namespace Minigames.CoinTilt {
 
         private void CheckForCoinSpawnerAssignments() {
             if (coinSpawners == null || coinSpawners.Length != 4) {
-                Debug.LogError("CoinTiltMinigameManager does not have 4 Coin Spawners assigned!");
+                UnityEngine.Debug.LogError("CoinTiltMinigameManager does not have 4 Coin Spawners assigned!");
             }
         }
 
         private void CheckForTiltingPlatformAssignments() {
             if (tiltingPlatforms == null || tiltingPlatforms.Length != 4) {
-                Debug.LogError("CoinTiltMinigameManager does not have 4 Tilting Platforms assigned!");
+                UnityEngine.Debug.LogError("CoinTiltMinigameManager does not have 4 Tilting Platforms assigned!");
             }
         }
 
         private void CheckForPlayerAssignments() {
             if (players == null || players.Length != 4) {
-                Debug.LogError("CoinTiltMinigameManager does not have 4 players assigned!");
+                UnityEngine.Debug.LogError("CoinTiltMinigameManager does not have 4 players assigned!");
             }
         }
 
@@ -157,13 +158,13 @@ namespace Minigames.CoinTilt {
         private void InitializePlayers() {
             for (int i = 0; i < players.Length; i++) {
                 if (!players[i]) {
-                    Debug.LogError($"CoinTiltMinigameManager does not have a player in slot {i}!");
+                    UnityEngine.Debug.LogError($"CoinTiltMinigameManager does not have a player in slot {i}!");
                     continue;
                 }
 
                 var slot = playerService.PlayerSlots[i];
                 if (!slot) {
-                    Debug.LogError($"PlayerSlot {i} not found!");
+                    UnityEngine.Debug.LogError($"PlayerSlot {i} not found!");
                     continue;
                 }
 
@@ -190,7 +191,7 @@ namespace Minigames.CoinTilt {
         private void InitializePlayerDisplays() {
             for (int i = 0; i < playerCornerDisplays.Length; i++) {
                 if (!playerCornerDisplays[i]) {
-                    Debug.LogWarning($"PlayerCornerDisplay {i} not found!");
+                    UnityEngine.Debug.LogWarning($"PlayerCornerDisplay {i} not found!");
                     continue;
                 }
 

@@ -70,10 +70,10 @@ public class BlackjackPlayer {
         }
 
         if (Random.Range(1, 11) <= 5) {
-            Debug.Log("Odds powerup activated and saved player.");
+            UnityEngine.Debug.Log("Odds powerup activated and saved player.");
             return true;
         }
-        Debug.Log("Odds powerup did not activate.");
+        UnityEngine.Debug.Log("Odds powerup did not activate.");
         return false;
     }
 }

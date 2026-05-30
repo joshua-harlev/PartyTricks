@@ -61,7 +61,7 @@ public class GameBoardDisplay : MonoBehaviour {
         foreach (var round in gameBoard) {
             Texture2D iconTexture = iconMapping.GetIcon(round.minigameType, round.IsDouble);
             if (iconTexture == null) {
-                Debug.LogError($"Missing icon for {round.minigameType} (Double: {round.IsDouble})");
+                UnityEngine.Debug.LogError($"Missing icon for {round.minigameType} (Double: {round.IsDouble})");
                 continue;
             }
 

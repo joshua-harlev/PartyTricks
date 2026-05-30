@@ -1,4 +1,5 @@
 using CoreData;
+using Debug;
 using Game;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ namespace Services {
         private void LoadConfig() {
             config = Resources.Load<GameBootstrapConfig>(GameBootstrapConfig.ResourcePath);
             if (config == null) {
-                Debug.LogError($"Missing Game Bootstrap Config at Resources/{GameBootstrapConfig.ResourcePath}");
+                UnityEngine.Debug.LogError($"Missing Game Bootstrap Config at Resources/{GameBootstrapConfig.ResourcePath}");
             }
         }
 
@@ -54,7 +55,7 @@ namespace Services {
                 ServiceLocatorAccessor.RegisterGlobal<IPlayerService>(service);
             }
             else {
-                Debug.LogError($"Missing IPlayerService component!");
+                UnityEngine.Debug.LogError($"Missing IPlayerService component!");
             }
         }
 
@@ -73,7 +74,7 @@ namespace Services {
                 ServiceLocatorAccessor.RegisterGlobal<IEconomyService>(service);
             }
             else {
-                Debug.LogError($"Missing IEconomyService component!");
+                UnityEngine.Debug.LogError($"Missing IEconomyService component!");
             }
         }
 
@@ -92,7 +93,7 @@ namespace Services {
                 ServiceLocatorAccessor.RegisterGlobal<IPauseService>(service);
             }
             else {
-                Debug.LogError($"Missing IPauseService component!");
+                UnityEngine.Debug.LogError($"Missing IPauseService component!");
             }
         }
         
@@ -120,7 +121,7 @@ namespace Services {
                 ServiceLocatorAccessor.RegisterGlobal<IGameFlowService>(service);
             }
             else {
-                Debug.LogError($"Missing IGameFlowService component!");
+                UnityEngine.Debug.LogError($"Missing IGameFlowService component!");
             }
         }
 
@@ -134,7 +135,7 @@ namespace Services {
                 gameSessionManagerObject.transform.SetParent(transform);
                 gameSessionManagerObject.AddComponent<UnityEngine.InputSystem.PlayerInputManager>();
                 gameSessionManagerObject.AddComponent<GameSessionManager>();
-                Debug.LogWarning($"Missing GameSessionManager prefab!");
+                UnityEngine.Debug.LogWarning($"Missing GameSessionManager prefab!");
             }
         }
         

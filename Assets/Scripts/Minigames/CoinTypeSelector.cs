@@ -1,4 +1,5 @@
 using System;
+using CoreData;
 
 namespace Minigames {
     public class CoinTypeSelector {

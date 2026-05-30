@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoreData;
+using Debug;
 using Services;
 using UnityEngine;
 
@@ -113,7 +114,7 @@ public class BlackjackMinigameManager : MonoBehaviour, IGamblingMinigame {
             OnBetTimerEnd += OnBettingComplete;
         }
         else {
-            Debug.LogError("BlackjackMinigameManager: bettingSystem has not been assigned.");
+            UnityEngine.Debug.LogError("BlackjackMinigameManager: bettingSystem has not been assigned.");
             return;
         }
 
@@ -252,7 +253,7 @@ public class BlackjackMinigameManager : MonoBehaviour, IGamblingMinigame {
         bool willBust = player.GetLowValue() + cardValue > 21;
         if (willBust) {
             if (player.TryToProtect() == true) {
-                Debug.Log("Drew a " + cardValue + ", which would've caused a bust. Protection succeeded.");
+                UnityEngine.Debug.Log("Drew a " + cardValue + ", which would've caused a bust. Protection succeeded.");
                 DrawAndDisplayCard(player, playerDisplay, playerIndex);
                 return;
             }

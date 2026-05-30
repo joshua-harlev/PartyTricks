@@ -1,3 +1,4 @@
+using CoreData;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ShopItem", menuName = "Scriptable Objects/ShopItem")]

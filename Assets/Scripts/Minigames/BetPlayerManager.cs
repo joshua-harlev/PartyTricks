@@ -28,7 +28,7 @@ public class BetPlayerManager {
 
     private void InitializePlayerCornerDisplays() {
         if (playerCornerDisplays == null || playerCornerDisplays.Length == 0) {
-            Debug.LogWarning("No PlayerCornerDisplays assigned in BetPlayerManager.");
+            UnityEngine.Debug.LogWarning("No PlayerCornerDisplays assigned in BetPlayerManager.");
             return;
         }
 
