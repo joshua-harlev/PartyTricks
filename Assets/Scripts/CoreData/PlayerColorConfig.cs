@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace CoreData {
@@ -10,12 +9,5 @@ namespace CoreData {
         public Color GetMainColor(int playerIndex) => playerColors[playerIndex].MainColor;
         public Color GetLightColor(int playerIndex) => playerColors[playerIndex].LightColor;
         public Color GetEffectColor(int playerIndex) => playerColors[playerIndex].EffectColor;
-    }
-
-    [Serializable]
-    public struct PlayerColorSet {
-        public Color MainColor;
-        public Color LightColor;
-        public Color EffectColor;
     }
 }
