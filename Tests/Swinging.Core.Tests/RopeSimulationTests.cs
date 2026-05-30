@@ -1,4 +1,4 @@
-using VineSwinging.Core;
+using Minigames.Swinging.Core;
 using Xunit;
 
 namespace Swinging.Core.Tests {

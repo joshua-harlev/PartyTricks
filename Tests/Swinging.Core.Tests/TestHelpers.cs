@@ -1,4 +1,4 @@
-using VineSwinging.Core;
+using Minigames.Swinging.Core;
 
 namespace Swinging.Core.Tests {
     public static class TestHelpers {
