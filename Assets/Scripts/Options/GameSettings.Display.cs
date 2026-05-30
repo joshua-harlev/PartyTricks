@@ -1,7 +1,9 @@
+using System;
 using System.ComponentModel;
 using Debug;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Object = UnityEngine.Object;
 
 namespace Options {
     public static partial class GameSettings {
@@ -46,18 +48,11 @@ namespace Options {
         
             private static void LoadDisplayMode() {
                 string mode = PlayerPrefs.GetString(KEY_DISPLAY_MODE, nameof(FullScreenMode.ExclusiveFullScreen));
-                switch (mode)
-                {
-                    case nameof(FullScreenMode.ExclusiveFullScreen):
-                        DisplayMode = FullScreenMode.ExclusiveFullScreen;
-                        break;
-                    case nameof(FullScreenMode.Windowed):
-                        DisplayMode = FullScreenMode.Windowed;
-                        break;
-                    default:
-                        DebugLogger.LogException(LogChannel.Systems, new InvalidEnumArgumentException("Invalid display mode in GameSettings!"));
-                        break;
-
+                if (Enum.TryParse<FullScreenMode>(mode, out var parsedMode)) {
+                    DisplayMode = parsedMode;
+                } else {
+                    DebugLogger.LogException(LogChannel.Systems,
+                        new InvalidEnumArgumentException("Invalid display mode in GameSettings!"));
                 }
             }
         
