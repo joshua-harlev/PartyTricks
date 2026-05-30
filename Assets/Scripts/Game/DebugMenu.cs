@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Debug;
 using Game;
 using Minigames.CoinTilt;
 using Services;
@@ -33,7 +34,7 @@ public class DebugMenu : MonoBehaviour {
         toggleDebugMenuAction = InputSystem.actions.FindAction("UI/ToggleDebugMenu");
         
         if (toggleDebugMenuAction == null) {
-            Debug.LogWarning("DebugMenu: ToggleDebugMenu action not found. Debug menu will not be toggleable.");
+            UnityEngine.Debug.LogWarning("DebugMenu: ToggleDebugMenu action not found. Debug menu will not be toggleable.");
         }
         playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
 
@@ -199,7 +200,7 @@ public class DebugMenu : MonoBehaviour {
             
     private void KillDireDodgingPlayer(int playerIndex) {
         if (direDodgingManager == null) {
-            Debug.LogWarning("Debug Menu: Not in Dire Dodging scene.");
+            UnityEngine.Debug.LogWarning("Debug Menu: Not in Dire Dodging scene.");
             return;
         }
         
@@ -209,7 +210,7 @@ public class DebugMenu : MonoBehaviour {
 
     private void RandomizeAllPlayerFunds() {
         if (playerService == null) {
-            Debug.LogWarning("Debug Menu: PlayerService not found.");
+            UnityEngine.Debug.LogWarning("Debug Menu: PlayerService not found.");
             return;
         }
 
@@ -266,7 +267,7 @@ public class DebugMenu : MonoBehaviour {
             manager.Initialize(isDoubleRound);
             DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Blackjack manager initialized. Double: {isDoubleRound}");
         } else {
-            Debug.LogError("Debug Menu: Could not find BlackjackMinigameManager in scene!");
+            UnityEngine.Debug.LogError("Debug Menu: Could not find BlackjackMinigameManager in scene!");
         }
     }
 
@@ -286,7 +287,7 @@ public class DebugMenu : MonoBehaviour {
             manager.Initialize(isDoubleRound);
             DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Coin tilt minigame manager initialized. Double: {isDoubleRound}");
         } else {
-            Debug.LogError("Debug Menu: Could not find CoinTiltMinigameManager in scene!");
+            UnityEngine.Debug.LogError("Debug Menu: Could not find CoinTiltMinigameManager in scene!");
         }
     }
     
@@ -301,7 +302,7 @@ public class DebugMenu : MonoBehaviour {
             direDodgingManager.Initialize(isDoubleRound);
             DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Dire Dodging manager initialized. Double: {isDoubleRound}");
         } else {
-            Debug.LogError("Debug Menu: Could not find DireDodgingMinigameManager in scene!");
+            UnityEngine.Debug.LogError("Debug Menu: Could not find DireDodgingMinigameManager in scene!");
         }
     }
     
@@ -317,13 +318,13 @@ public class DebugMenu : MonoBehaviour {
             minigameManager.Initialize(isDoubleRound);
             DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Vine Swinging manager initialized. Double: {isDoubleRound}");
         } else {
-            Debug.LogError("Debug Menu: Could not find Minigame Manager in scene!");
+            UnityEngine.Debug.LogError("Debug Menu: Could not find Minigame Manager in scene!");
         }
     }
 
     private void AddFundsToAllPlayers(int amount) {
         if (playerService == null) {
-            Debug.LogWarning("Debug Menu: PlayerService not found.");
+            UnityEngine.Debug.LogWarning("Debug Menu: PlayerService not found.");
             return;
         }
 
@@ -338,7 +339,7 @@ public class DebugMenu : MonoBehaviour {
     
     private void RemoveFundsFromAllPlayers(int amount) {
         if (playerService == null) {
-            Debug.LogWarning("Debug Menu: PlayerService not found.");
+            UnityEngine.Debug.LogWarning("Debug Menu: PlayerService not found.");
             return;
         }
 
@@ -353,7 +354,7 @@ public class DebugMenu : MonoBehaviour {
 
     private void ResetAllPlayerFunds() {
         if (playerService == null) {
-            Debug.LogWarning("Debug Menu: PlayerService not found.");
+            UnityEngine.Debug.LogWarning("Debug Menu: PlayerService not found.");
             return;
         }
 

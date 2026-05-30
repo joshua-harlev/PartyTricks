@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Debug;
 using Game;
 using Services;
 using UnityEngine;
@@ -58,7 +59,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
 
     private void ShowGameBoardDisplay() {
         if (gameBoardDisplayPrefab == null) {
-            Debug.LogError("No game board display prefab assigned");
+            UnityEngine.Debug.LogError("No game board display prefab assigned");
             return;
         }
         GameObject displayObject = Instantiate(gameBoardDisplayPrefab);
@@ -68,7 +69,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
             currentBoardDisplay.ShowBoard(gameBoard);
         }
         else {
-            Debug.LogError("GameBoardDisplay component missing from prefab.");
+            UnityEngine.Debug.LogError("GameBoardDisplay component missing from prefab.");
         }
     }
 
@@ -111,7 +112,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
         if(sceneName == null) sceneName = config.GetRandomSceneName(minigameType);
         
         if (string.IsNullOrEmpty(sceneName)) {
-            Debug.LogError($"Failed to load scene for type {minigameType}. Stopping.");
+            UnityEngine.Debug.LogError($"Failed to load scene for type {minigameType}. Stopping.");
             return;
         }
 
@@ -125,7 +126,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
         SceneManager.sceneLoaded -= OnMinigameSceneLoaded;
         var minigameManager = FindMinigameManager();
         if(minigameManager == null) {
-            Debug.LogError($"GameFlowManager: Couldn't find minigame manager for scene {scene.name}");
+            UnityEngine.Debug.LogError($"GameFlowManager: Couldn't find minigame manager for scene {scene.name}");
             return;
         }
         
@@ -248,7 +249,7 @@ public class GameFlowManager : MonoBehaviour, IGameFlowService {
 
         var minigameManager = FindMinigameManager();
         if(minigameManager == null) {
-            Debug.LogError($"GameFlowManager: Couldn't find minigame manager");
+            UnityEngine.Debug.LogError($"GameFlowManager: Couldn't find minigame manager");
             return;
         }
         

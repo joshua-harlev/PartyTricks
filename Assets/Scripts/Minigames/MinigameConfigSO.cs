@@ -28,7 +28,7 @@ public class MinigameConfigSO : ScriptableObject
     public string GetRandomSceneName(MinigameType type) {
         var minigameMapping = configurations.Find(c => c.Type == type);
         if (minigameMapping == null || minigameMapping.SceneNames.Count == 0) {
-            Debug.LogError($"MinigameConfigSO: No scene names were found for minigame type {type}.");
+            UnityEngine.Debug.LogError($"MinigameConfigSO: No scene names were found for minigame type {type}.");
             return null;
         }
         return minigameMapping.SceneNames[Random.Range(0, minigameMapping.SceneNames.Count)];

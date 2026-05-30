@@ -17,11 +17,11 @@ public class Bets : MonoBehaviour {
     private void Awake() {
         gamblingMinigameManager = GetComponent<IGamblingMinigame>();
         if (gamblingMinigameManager == null) {
-            Debug.LogError("Error: IGamblingMinigame not found on Bets GameObject");
+            UnityEngine.Debug.LogError("Error: IGamblingMinigame not found on Bets GameObject");
         }
 
         if (MinigameTimer == null) {
-            Debug.LogError("Error: MinigameTimer not found on Bets GameObject");
+            UnityEngine.Debug.LogError("Error: MinigameTimer not found on Bets GameObject");
         }
         MinigameTimer.Initialize(AllowedBettingDurationInSeconds);
     }
@@ -43,7 +43,7 @@ public class Bets : MonoBehaviour {
     }
 
     private void OnBetTimerEnd() {
-        Debug.Log("Timer over!");
+        UnityEngine.Debug.Log("Timer over!");
         playerManager.LockAllSelectors();
 
         Dictionary<int, int> bets = playerManager.GetPlayerBets();
@@ -57,7 +57,7 @@ public class Bets : MonoBehaviour {
             gamblingMinigameManager.OnBetTimerEnd?.Invoke(bets);
         }
         else {
-            Debug.LogError("OnBetTimerEnd event is not set up correctly.");
+            UnityEngine.Debug.LogError("OnBetTimerEnd event is not set up correctly.");
         }
     }
 

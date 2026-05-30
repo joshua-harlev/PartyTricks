@@ -1,4 +1,5 @@
 using System.Collections;
+using CoreData;
 using DG.Tweening;
 using UnityEngine;
 
@@ -83,7 +84,7 @@ namespace Minigames.CoinTilt {
                 pointValue = coinType.PointValue;
             }
             else {
-                Debug.LogError("No coin type specified");
+                UnityEngine.Debug.LogError("No coin type specified");
             }
         }
 

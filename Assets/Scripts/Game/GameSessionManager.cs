@@ -1,4 +1,5 @@
 using System.Linq;
+using Debug;
 using Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -58,10 +59,10 @@ namespace Game {
         }
         
         public void HandlePlayerJoined(PlayerInput playerInput) {
-            Debug.Log($"[GameSessionManager] Unity PlayerInput detected: {playerInput.playerIndex}");
+            UnityEngine.Debug.Log($"[GameSessionManager] Unity PlayerInput detected: {playerInput.playerIndex}");
             bool playerJoined = playerService.TryJoinPlayer(playerInput);
             if (!playerJoined) {
-                Debug.LogWarning("[GameSessionManager] Failed to join player");
+                UnityEngine.Debug.LogWarning("[GameSessionManager] Failed to join player");
             }
 
             ConfigureUIModuleAsPointerOnly();
@@ -94,7 +95,7 @@ namespace Game {
 
         public void HandlePlayerLeft(PlayerInput playerInput) {
             if (isQuitting) return;
-            Debug.Log($"[GameSessionManager] Unity PlayerInput left: {playerInput.playerIndex}");
+            UnityEngine.Debug.Log($"[GameSessionManager] Unity PlayerInput left: {playerInput.playerIndex}");
             RemovePlayerFromSlot(playerInput);
         }
 

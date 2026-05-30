@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using CoreData;
+using Debug;
 using DG.Tweening;
 using FMODUnity;
 using Minigames.DireDodging;
@@ -463,7 +464,7 @@ public class DireDodgingPlayer : MonoBehaviour {
     }
 
     private IEnumerator DamageCoroutine() {
-        Debug.Log($"P{playerIndex+1} took damage!");
+        UnityEngine.Debug.Log($"P{playerIndex+1} took damage!");
         var fadeInTween = SpriteRenderer.DOColor(Color.red * baseColor, damageAnimationTimeInSeconds / 2f);
         var fadeOutTween = SpriteRenderer.DOColor(baseColor, damageAnimationTimeInSeconds / 2f);
         colorChangeSequence = DOTween.Sequence();

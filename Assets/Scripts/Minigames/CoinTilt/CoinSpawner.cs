@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CoreData;
+using Debug;
 using Services;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -131,14 +132,14 @@ namespace Minigames.CoinTilt {
             CoinTypeSO coinType = coinTypeSelector.SelectCoinType(random);
 
             if (!coinType || !coinType.CoinPrefab) {
-                Debug.LogWarning("No valid coin type/prefab available.");
+                UnityEngine.Debug.LogWarning("No valid coin type/prefab available.");
                 return;
             }
 
             var spawnPosition = TryToFindValidSpawnLocation(out var maxAttempts, out var attempts);
 
             if (attempts >= maxAttempts) {
-                Debug.LogWarning("Could not find valid coin spawn location.");
+                UnityEngine.Debug.LogWarning("Could not find valid coin spawn location.");
                 return;
             }
 

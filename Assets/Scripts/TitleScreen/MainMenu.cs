@@ -169,7 +169,7 @@ public class MainMenu : MonoBehaviour {
             gameStarted = true;
         }
         else {
-            Debug.LogError("MainMenu: GameFlowManager not found.");
+            UnityEngine.Debug.LogError("MainMenu: GameFlowManager not found.");
         }
     }
 

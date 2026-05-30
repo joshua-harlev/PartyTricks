@@ -155,7 +155,7 @@ namespace Minigames.DireDodging {
             }
 
             chargeLoopInstance = RuntimeManager.CreateInstance(chargeLoopEvent);
-            Debug.Log($"Created charge instance, valid: {chargeLoopInstance.isValid().ToString()}");
+            UnityEngine.Debug.Log($"Created charge instance, valid: {chargeLoopInstance.isValid().ToString()}");
             float baseTime = player.IsGhostMode ? ghostChargeTime : chargeTimeRequired;
             float originalTime = player.IsGhostMode ? ghostChargeTimeOriginal : chargeTimeRequiredOriginal;
             float speedRatio = originalTime / baseTime;

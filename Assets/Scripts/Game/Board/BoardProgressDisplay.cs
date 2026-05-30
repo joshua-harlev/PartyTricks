@@ -16,7 +16,7 @@ public class BoardProgressDisplay : MonoBehaviour {
 
     private void Start() {
         if (gameFlowService == null) {
-            Debug.LogWarning("GameFlowManager not instantiated!");
+            UnityEngine.Debug.LogWarning("GameFlowManager not instantiated!");
         }
 
         PopulateMinigameList();

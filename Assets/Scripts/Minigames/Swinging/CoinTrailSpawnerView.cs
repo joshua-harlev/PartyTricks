@@ -1,3 +1,4 @@
+using CoreData;
 using UnityEngine;
 using VineSwinging.Core;
 using Random = System.Random;

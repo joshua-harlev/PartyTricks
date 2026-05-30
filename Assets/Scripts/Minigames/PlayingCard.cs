@@ -52,12 +52,12 @@ public class PlayingCard : MonoBehaviour {
 
     public void SetCard(Card card) {
         if (!suitMap.TryGetValue(card.Suit, out SuitCards suit)) {
-            Debug.LogError($"Error: invalid card suit {card.Suit}");
+            UnityEngine.Debug.LogError($"Error: invalid card suit {card.Suit}");
             return;
         }
 
         if (!valueSpriteMap.TryGetValue(card.Value, out Func<SuitCards, Sprite> getSprite)) {
-            Debug.LogError($"Error: invalid card value {card.Value}");
+            UnityEngine.Debug.LogError($"Error: invalid card value {card.Value}");
             return;
         }
         CardImage.sprite = getSprite(suit);

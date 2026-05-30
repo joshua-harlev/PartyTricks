@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using CoreData;
+using Debug;
 using FMOD.Studio;
 using FMODUnity;
 using Game;
@@ -127,7 +128,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     }
 
     public void TransitionToResults(int[] playerPlaces, int[] playerKills) {
-        Debug.Log("Game ended. Places: " + string.Join(", ", playerPlaces) + ", kills: " + string.Join(", ", playerKills));
+        UnityEngine.Debug.Log("Game ended. Places: " + string.Join(", ", playerPlaces) + ", kills: " + string.Join(", ", playerKills));
         DireDodgingResultsState resultsState = new DireDodgingResultsState(playerPlaces, playerKills, BaseFundsPerRank, PlacesDisplay, MinigameTimer);
         ChangeState(resultsState);
     }
@@ -157,7 +158,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
             gameplayState.OnPlayerDeath(killedID);
         }
         else {
-            Debug.Log("Wrong state! See DireDodgingMinigameManager, RegisterDeath");
+            UnityEngine.Debug.Log("Wrong state! See DireDodgingMinigameManager, RegisterDeath");
         }
     }
 
@@ -211,7 +212,7 @@ public class DireDodgingMinigameManager : MonoBehaviour, IMinigameManager {
     
         DireDodgingPlayer player = Players[playerIndex];
         if (player == null) {
-            Debug.LogWarning($"Player {playerIndex} is null");
+            UnityEngine.Debug.LogWarning($"Player {playerIndex} is null");
             return;
         }
     
