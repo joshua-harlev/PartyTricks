@@ -1,73 +1,74 @@
 using System.Collections.Generic;
-using Options;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class OptionsMenu : MonoBehaviour
-  {
-      [SerializeField] private UIDocument optionsDocument;
+namespace Options {
+    public class OptionsMenu : MonoBehaviour
+    {
+        [SerializeField] private UIDocument optionsDocument;
 
-      private VisualElement root;
-      private Button okayButton;
+        private VisualElement root;
+        private Button okayButton;
       
-      private DisplayTabHandler displayTab;
-      private List<IOptionsTab> tabs;
+        private DisplayTabHandler displayTab;
+        private List<IOptionsTab> tabs;
       
-      private void Awake()
-      {
-          root = optionsDocument.rootVisualElement;
-          root.style.display = DisplayStyle.None;
-          GameSettings.Load();
-          GameSettings.Gameplay.Apply();
-      }
+        private void Awake()
+        {
+            root = optionsDocument.rootVisualElement;
+            root.style.display = DisplayStyle.None;
+            GameSettings.Load();
+            GameSettings.Gameplay.Apply();
+        }
 
-      private void Start()
-      {
-          okayButton = root.Q<Button>("Okay_Button");
+        private void Start()
+        {
+            okayButton = root.Q<Button>("Okay_Button");
 
-          displayTab = new DisplayTabHandler();
-          tabs = new List<IOptionsTab>
-          {
-              displayTab,
-              new SoundTabHandler(),
-              new MiscTabHandler(),
-              new AccessibilityTabHandler(),
-              new GameplayTabHandler()
-          };
+            displayTab = new DisplayTabHandler();
+            tabs = new List<IOptionsTab>
+            {
+                displayTab,
+                new SoundTabHandler(),
+                new MiscTabHandler(),
+                new AccessibilityTabHandler(),
+                new GameplayTabHandler()
+            };
 
-          foreach (var tab in tabs) {
-              tab.Initialize(root);
-              tab.SyncToSettings();
-              tab.RegisterCallbacks();
-          }
+            foreach (var tab in tabs) {
+                tab.Initialize(root);
+                tab.SyncToSettings();
+                tab.RegisterCallbacks();
+            }
           
-          okayButton.clicked += OnOkay;
-      }
+            okayButton.clicked += OnOkay;
+        }
       
-      private void OnOkay()
-      {
-          GameSettings.Save();
-          GameSettings.Apply(displayTab.DisplayOptionChanged);
-          root.style.display = DisplayStyle.None;
-      }
+        private void OnOkay()
+        {
+            GameSettings.Save();
+            GameSettings.Apply(displayTab.DisplayOptionChanged);
+            root.style.display = DisplayStyle.None;
+        }
 
-      public void Show()
-      {
-          foreach (var tab in tabs) {
-              tab.SyncToSettings();
-          }
-          root.style.display = DisplayStyle.Flex;
-      }
+        public void Show()
+        {
+            foreach (var tab in tabs) {
+                tab.SyncToSettings();
+            }
+            root.style.display = DisplayStyle.Flex;
+        }
 
-      private void OnDestroy()
-      {
-          if (okayButton != null) okayButton.clicked -= OnOkay;
-          foreach (var tab in tabs) {
-              tab.Cleanup();
-          }
-      }
+        private void OnDestroy()
+        {
+            if (okayButton != null) okayButton.clicked -= OnOkay;
+            foreach (var tab in tabs) {
+                tab.Cleanup();
+            }
+        }
 
-      public void Hide() {
-          root.style.display = DisplayStyle.None;
-      }
-  }
+        public void Hide() {
+            root.style.display = DisplayStyle.None;
+        }
+    }
+}

@@ -1,16 +1,18 @@
-public struct Card {
-    private CardSuits suit { get; }
-    // 1 is ace, 13 is king
-    public int Value { get; private set; }
+namespace Minigames.Blackjack {
+    public struct Card {
+        private CardSuits suit { get; }
+        // 1 is ace, 13 is king
+        public int Value { get; private set; }
 
-    public bool IsReal => suit != CardSuits.Undefined;
+        public bool IsReal => suit != CardSuits.Undefined;
 
-    public bool IsFaceCard => (Value >= 11);
+        public bool IsFaceCard => (Value >= 11);
     
-    public CardSuits Suit => suit;
+        public CardSuits Suit => suit;
 
-    public Card(CardSuits suit, int value) {
-        this.suit = suit;
-        this.Value = value;
+        public Card(CardSuits suit, int value) {
+            this.suit = suit;
+            this.Value = value;
+        }
     }
 }

@@ -1,6 +1,4 @@
-using System;
-
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core.PlayerStateMachine {
     public class AirborneState : IPlayerState {
         private readonly PlayerStateMachine playerStateMachine;
 

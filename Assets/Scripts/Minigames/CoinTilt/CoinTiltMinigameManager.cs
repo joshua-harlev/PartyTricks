@@ -6,6 +6,8 @@ using Debug;
 using FMOD.Studio;
 using FMODUnity;
 using Game;
+using Input;
+using Player;
 using Services;
 using UnityEngine;
 using UnityEngine.Serialization;

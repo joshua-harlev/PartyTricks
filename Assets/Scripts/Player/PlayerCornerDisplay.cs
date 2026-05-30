@@ -3,122 +3,124 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerCornerDisplay : MonoBehaviour {
-    [SerializeField] private GameObject PowerupLayoutGroup;
-    [SerializeField] private TMP_Text FundsLabel;
-    [SerializeField] private GameObject MiniPowerupPrefab;
+namespace Player {
+    public class PlayerCornerDisplay : MonoBehaviour {
+        [SerializeField] private GameObject PowerupLayoutGroup;
+        [SerializeField] private TMP_Text FundsLabel;
+        [SerializeField] private GameObject MiniPowerupPrefab;
 
-    private Wallet wallet;
-    private Inventory inventory;
-    private bool isInitialized = false;
-    private DisplayMode displayMode;
-    private Tween activeTween;
+        private Wallet wallet;
+        private Inventory inventory;
+        private bool isInitialized = false;
+        private DisplayMode displayMode;
+        private Tween activeTween;
 
-    public void Initialize(PlayerProfile profile, DisplayMode mode = DisplayMode.Funds) {
-        CleanupSubscriptions();
-        wallet = profile.Wallet;
-        inventory = profile.Inventory;
+        public void Initialize(PlayerProfile profile, DisplayMode mode = DisplayMode.Funds) {
+            CleanupSubscriptions();
+            wallet = profile.Wallet;
+            inventory = profile.Inventory;
 
-        displayMode = mode;
+            displayMode = mode;
         
-        switch (mode) {
-            case DisplayMode.Funds:
-                wallet.OnFundsChanged += UpdateFunds;
-                break;
-            case DisplayMode.Score:
-                UpdateScore(0);
-                break;
-            case DisplayMode.Eliminations:
-                UpdateEliminations(0);
-                break;
-        }
-        inventory.OnItemAdded += AddItem;
-        inventory.OnInventoryClear += ClearItemsDisplay;
-        isInitialized = true;
+            switch (mode) {
+                case DisplayMode.Funds:
+                    wallet.OnFundsChanged += UpdateFunds;
+                    break;
+                case DisplayMode.Score:
+                    UpdateScore(0);
+                    break;
+                case DisplayMode.Eliminations:
+                    UpdateEliminations(0);
+                    break;
+            }
+            inventory.OnItemAdded += AddItem;
+            inventory.OnInventoryClear += ClearItemsDisplay;
+            isInitialized = true;
 
-        RefreshDisplay();
-    }
-
-    public void UpdateEliminations(int eliminations, int outPlace = -1) {
-        if (outPlace == -1) {
-            FundsLabel.text = "eliminations: " + eliminations;
-        }
-        else {
-            FundsLabel.text = GetPlaceString(outPlace) + " | eliminations: " + eliminations;
-        }
-    }
-
-    private string GetPlaceString(int outPlace) {
-        return outPlace switch
-        {
-            1 => "1st place",
-            2 => "2nd place",
-            3 => "3rd place",
-            4 => "4th place",
-            _ => "ERR place"
-        };
-    }
-
-    private void RefreshDisplay() {
-        if (!isInitialized) {
-            return;
+            RefreshDisplay();
         }
 
-        ClearItemsDisplay();
-        foreach (var item in inventory.Items) {
-            AddItem(item);
+        public void UpdateEliminations(int eliminations, int outPlace = -1) {
+            if (outPlace == -1) {
+                FundsLabel.text = "eliminations: " + eliminations;
+            }
+            else {
+                FundsLabel.text = GetPlaceString(outPlace) + " | eliminations: " + eliminations;
+            }
         }
-        if(displayMode == DisplayMode.Funds) UpdateFunds(wallet.GetCurrentFunds());
-    }
 
-    private void ClearItemsDisplay() {
-        for (int i = PowerupLayoutGroup.transform.childCount - 1; i >= 0; i--) {
-            Destroy(PowerupLayoutGroup.transform.GetChild(i).gameObject);
+        private string GetPlaceString(int outPlace) {
+            return outPlace switch
+            {
+                1 => "1st place",
+                2 => "2nd place",
+                3 => "3rd place",
+                4 => "4th place",
+                _ => "ERR place"
+            };
         }
-    }
 
-    private void UpdateFunds(int funds) {
-        FundsLabel.text = "funds: " + funds;
-    }
+        private void RefreshDisplay() {
+            if (!isInitialized) {
+                return;
+            }
 
-    public void UpdateScore(int score) {
-        FundsLabel.text = "score: " + score;
-        FundsLabel.transform.localScale = Vector3.one;
-        if (activeTween != null) {
-            activeTween.Kill();
+            ClearItemsDisplay();
+            foreach (var item in inventory.Items) {
+                AddItem(item);
+            }
+            if(displayMode == DisplayMode.Funds) UpdateFunds(wallet.GetCurrentFunds());
         }
-        activeTween = FundsLabel.transform.DOPunchScale(Vector3.one * 0.3f, 0.3f, 6, 0.5f).OnComplete(() =>
-        {
-            activeTween = null;
-        }).OnKill(() =>
-        {
-            activeTween = null;
-        });
-    }
 
-    private void AddItem(ItemDefinition item) {
-        if (item.Id == "emptyItem") return;
-        GameObject newItem = Instantiate(MiniPowerupPrefab, PowerupLayoutGroup.transform, true);
-        newItem.transform.localScale = Vector3.one;
-        Image imageComponent = newItem.GetComponent<Image>();
-        imageComponent.sprite = item.Image;
-    }
-
-    private void CleanupSubscriptions() {
-        if (wallet != null && displayMode == DisplayMode.Funds) wallet.OnFundsChanged -= UpdateFunds;
-        if (inventory != null) {
-            inventory.OnItemAdded -= AddItem;
-            inventory.OnInventoryClear -= ClearItemsDisplay;
+        private void ClearItemsDisplay() {
+            for (int i = PowerupLayoutGroup.transform.childCount - 1; i >= 0; i--) {
+                Destroy(PowerupLayoutGroup.transform.GetChild(i).gameObject);
+            }
         }
-    }
 
-    private void OnDestroy() {
-        CleanupSubscriptions();
-    }
+        private void UpdateFunds(int funds) {
+            FundsLabel.text = "funds: " + funds;
+        }
 
-    public enum DisplayMode {
-        Funds,
-        Score,
-        Eliminations
+        public void UpdateScore(int score) {
+            FundsLabel.text = "score: " + score;
+            FundsLabel.transform.localScale = Vector3.one;
+            if (activeTween != null) {
+                activeTween.Kill();
+            }
+            activeTween = FundsLabel.transform.DOPunchScale(Vector3.one * 0.3f, 0.3f, 6, 0.5f).OnComplete(() =>
+            {
+                activeTween = null;
+            }).OnKill(() =>
+            {
+                activeTween = null;
+            });
+        }
+
+        private void AddItem(ItemDefinition item) {
+            if (item.Id == "emptyItem") return;
+            GameObject newItem = Instantiate(MiniPowerupPrefab, PowerupLayoutGroup.transform, true);
+            newItem.transform.localScale = Vector3.one;
+            Image imageComponent = newItem.GetComponent<Image>();
+            imageComponent.sprite = item.Image;
+        }
+
+        private void CleanupSubscriptions() {
+            if (wallet != null && displayMode == DisplayMode.Funds) wallet.OnFundsChanged -= UpdateFunds;
+            if (inventory != null) {
+                inventory.OnItemAdded -= AddItem;
+                inventory.OnInventoryClear -= ClearItemsDisplay;
+            }
+        }
+
+        private void OnDestroy() {
+            CleanupSubscriptions();
+        }
+
+        public enum DisplayMode {
+            Funds,
+            Score,
+            Eliminations
+        }
     }
 }

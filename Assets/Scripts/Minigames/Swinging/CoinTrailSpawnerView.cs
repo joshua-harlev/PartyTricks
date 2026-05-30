@@ -1,6 +1,6 @@
 using CoreData;
+using Minigames.Swinging.Core;
 using UnityEngine;
-using VineSwinging.Core;
 using Random = System.Random;
 
 namespace Minigames.Swinging {

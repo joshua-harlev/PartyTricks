@@ -1,7 +1,7 @@
 using System;
 using FMODUnity;
+using Minigames.Swinging.Core.PlayerStateMachine;
 using UnityEngine;
-using VineSwinging.Core;
 
 namespace Minigames.Swinging {
     public class VineSwingingPlayerView : MonoBehaviour {

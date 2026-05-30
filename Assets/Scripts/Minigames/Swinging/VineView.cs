@@ -1,5 +1,5 @@
+using Minigames.Swinging.Core;
 using UnityEngine;
-using VineSwinging.Core;
 
 namespace Minigames.Swinging {
     public class VineView : MonoBehaviour {

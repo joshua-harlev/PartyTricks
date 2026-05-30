@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core {
     public static class ResultsCalculator {
         public static int[] CalculateRanks(int[] scores) {
             var playerRankings = new List<(int index, int score)>();

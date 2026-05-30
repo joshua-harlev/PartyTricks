@@ -1,21 +1,23 @@
 using TMPro;
 using UnityEngine;
 
-public class PlacesDisplay : MonoBehaviour {
-    [SerializeField] private TMP_Text[] playerPlaceTextObjects;
-    [SerializeField] private GameObject placesPanel;
+namespace Minigames {
+    public class PlacesDisplay : MonoBehaviour {
+        [SerializeField] private TMP_Text[] playerPlaceTextObjects;
+        [SerializeField] private GameObject placesPanel;
 
-    public void Show() {
-        placesPanel.SetActive(true);
-    }
+        public void Show() {
+            placesPanel.SetActive(true);
+        }
 
-    public void Hide() {
-        placesPanel.SetActive(false);
-    }
+        public void Hide() {
+            placesPanel.SetActive(false);
+        }
 
-    public void UpdateTextObjects(string[] newText) {
-        for (int i = 0; i < playerPlaceTextObjects.Length; i++) {
-            playerPlaceTextObjects[i].text = newText[i];
+        public void UpdateTextObjects(string[] newText) {
+            for (int i = 0; i < playerPlaceTextObjects.Length; i++) {
+                playerPlaceTextObjects[i].text = newText[i];
+            }
         }
     }
 }

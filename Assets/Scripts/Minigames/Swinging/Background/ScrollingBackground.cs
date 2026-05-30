@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Minigames.Swinging {
+namespace Minigames.Swinging.Background {
     public class ScrollingBackground : MonoBehaviour {
         [SerializeField] private Transform cameraTransform;
         [SerializeField] private int tilesAhead = 3;

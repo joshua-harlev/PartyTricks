@@ -1,3 +1,5 @@
+using Game;
+
 namespace Services {
     public interface IEconomyService {
         public void ApplyRewards(PlayerMinigameResult[] results);

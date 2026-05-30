@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core.PlayerStateMachine {
     public enum PlayerStateType { Swinging, Airborne, Falling }
     public enum PlayerEvent { GrabbedVine, Fell, Launched, CollectedCoin }
     public class PlayerContext {

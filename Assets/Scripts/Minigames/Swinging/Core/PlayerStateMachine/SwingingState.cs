@@ -1,6 +1,6 @@
 using System;
 
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core.PlayerStateMachine {
     public class SwingingState : IPlayerState {
         private readonly PlayerStateMachine playerStateMachine;
         private const float FrameDuration = 1f / 60f;

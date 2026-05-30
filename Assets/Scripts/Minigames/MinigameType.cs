@@ -1,7 +1,9 @@
-public enum MinigameType {
-    Combat,
-    Gambling,
-    Movement,
-    Final,
-    Unknown
+namespace Minigames {
+    public enum MinigameType {
+        Combat,
+        Gambling,
+        Movement,
+        Final,
+        Unknown
+    }
 }

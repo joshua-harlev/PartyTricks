@@ -2,41 +2,43 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class ShopDebugMenu : MonoBehaviour
-{
-    public ShopItemsDisplay Display;
-    public GameObject DebugMenu;
-    public Shop.Shop Shop;
-    private InputAction toggleDebugMenuAction;
-    private bool lastDebugMenuActiveState = false;
+namespace Shop {
+    public class ShopDebugMenu : MonoBehaviour
+    {
+        public ShopItemsDisplay Display;
+        public GameObject DebugMenu;
+        public Shop Shop;
+        private InputAction toggleDebugMenuAction;
+        private bool lastDebugMenuActiveState = false;
 
-    private void Awake() {
-        toggleDebugMenuAction = InputSystem.actions.FindAction("UI/ToggleDebugMenu");
-    }
-
-    private void Update() {
-        if (toggleDebugMenuAction.WasPressedThisFrame()) {
-            lastDebugMenuActiveState = !lastDebugMenuActiveState;
-            DebugMenu.SetActive(lastDebugMenuActiveState);
+        private void Awake() {
+            toggleDebugMenuAction = InputSystem.actions.FindAction("UI/ToggleDebugMenu");
         }
-    }
 
-    public void RefreshShop() {
-        Display.Reset();
-        Display.SetUpItems();
-    }
+        private void Update() {
+            if (toggleDebugMenuAction.WasPressedThisFrame()) {
+                lastDebugMenuActiveState = !lastDebugMenuActiveState;
+                DebugMenu.SetActive(lastDebugMenuActiveState);
+            }
+        }
 
-    public void ResetTimer() {
-        Shop.Reset();
-    }
+        public void RefreshShop() {
+            Display.Reset();
+            Display.SetUpItems();
+        }
 
-    public void UnlockAI() {
-        Shop.UnlockAISelectors();
-    }
+        public void ResetTimer() {
+            Shop.Reset();
+        }
 
-    public void ReturnToMainMenu() {
-        Destroy(GameObject.Find("PlayerService"));
-        Destroy(GameObject.Find("PlayerInputManager"));
-        SceneManager.LoadScene("MainMenu");
+        public void UnlockAI() {
+            Shop.UnlockAISelectors();
+        }
+
+        public void ReturnToMainMenu() {
+            Destroy(GameObject.Find("PlayerService"));
+            Destroy(GameObject.Find("PlayerInputManager"));
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }

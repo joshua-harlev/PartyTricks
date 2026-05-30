@@ -1,6 +1,6 @@
 using System;
 
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core {
     public class SwingSimulation {
         public static (float offsetX, float offsetY) GetSwingPosition(float phase, float amplitude, float ropeLength) {
             double theta = amplitude * Math.Sin(phase);

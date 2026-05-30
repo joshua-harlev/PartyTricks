@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Minigames;
 using Minigames.CoinTilt;
+using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;

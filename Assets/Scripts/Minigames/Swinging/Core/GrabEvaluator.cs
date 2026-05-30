@@ -1,6 +1,6 @@
 using System;
 
-namespace VineSwinging.Core {
+namespace Minigames.Swinging.Core {
     public static class GrabEvaluator {
         // used for lookahead
         private const float FrameDuration = 1f / 60f;

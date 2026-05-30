@@ -3,6 +3,7 @@ using System.Collections;
 using CoreData;
 using Debug;
 using FMODUnity;
+using Input;
 using UnityEngine;
 
 namespace Minigames.CoinTilt {
