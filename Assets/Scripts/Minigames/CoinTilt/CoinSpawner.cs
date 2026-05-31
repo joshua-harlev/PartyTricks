@@ -9,27 +9,31 @@ using Random = UnityEngine.Random;
 namespace Minigames.CoinTilt {
     public class CoinSpawner : MonoBehaviour {
         [Header("Coin Types")] [SerializeField]
-        private CoinTypeSO[] availableCoinTypes;
+        private CoinTypeSO[] AvailableCoinTypes;
 
-        [Header("Spawn Settings")] [Tooltip("Coins per second")] [SerializeField]
-        private float initialSpawnRate = 0.45f;
-
-        [SerializeField] private float finalSpawnRate = 1f;
-        [SerializeField] private float lateGamePhaseStartTimeFromEndInSeconds = 7f;
-        [SerializeField] private int maxCoinsOnPlatform = 10;
-        [SerializeField] private float coinLifetimeInSeconds = 15f;
+        [Header("Spawn Settings")] 
+        [Tooltip("Coins per second")]
+        [SerializeField] private float InitialSpawnRate = 0.45f;
+        [SerializeField] private float FinalSpawnRate = 1.3f;
+        [SerializeField] private float LateGamePhaseStartTimeFromEndInSeconds = 7f;
+        [SerializeField] private int MaxCoinsOnPlatform = 10;
+        [SerializeField] private float CoinLifetimeInSeconds = 15f;
+        [SerializeField] private float SpecialCoinRateBoostPerStack = 3f;
+        [SerializeField] private float SpawnRateMultiplierPerStack = 1.50f;
+        [SerializeField] private int MaxSpawnAttempts = 10;
+        [SerializeField] private float MinCoinDistance = 1f;
 
         [Header("Spawn Area")] [SerializeField]
-        private float spawnRadiusMin = 2f;
+        private float SpawnRadiusMin = 2f;
 
-        [SerializeField] private float spawnRadiusMax = 7.5f;
-        [SerializeField] private float playerAvoidanceRadius = 3.5f;
-        [SerializeField] private float spawnHeight = 3.5f;
+        [SerializeField] private float SpawnRadiusMax = 7.5f;
+        [SerializeField] private float PlayerAvoidanceRadius = 3.5f;
+        [SerializeField] private float SpawnHeight = 0.0025f;
 
-        [Header("References")] [SerializeField]
-        private Transform platformTransform;
+        [Header("References")] 
+        [SerializeField] private Transform PlatformTransform;
 
-        [SerializeField] private CoinTiltPlayer assignedPlayer;
+        [SerializeField] private CoinTiltPlayer AssignedPlayer;
 
         private bool isSpawning;
         private float spawnTimer;
@@ -65,18 +69,18 @@ namespace Minigames.CoinTilt {
             PlayerProfile playerProfile) {
             MovementModifiers modifiers = powerUpService.GetMovementModifiers(playerProfile);
             
-            float specialCoinRateBoostModifier = 1 + (modifiers.SpecialCoinRateBoostCount * 3f);
-            coinTypeSelector = new CoinTypeSelector(availableCoinTypes, specialCoinRateBoostModifier);
+            float specialCoinRateBoostModifier = 1 + (modifiers.SpecialCoinRateBoostCount * SpecialCoinRateBoostPerStack);
+            coinTypeSelector = new CoinTypeSelector(AvailableCoinTypes, specialCoinRateBoostModifier);
             random = new System.Random();
             
             if (!powerupsHaveBeenApplied) {
                 float spawnRateMultiplier = 1;
                 for (int i = 0; i < modifiers.CoinSpawnRateBoostCount; i++) {
-                    spawnRateMultiplier *= 1.50f;
+                    spawnRateMultiplier *= SpawnRateMultiplierPerStack;
                 }
 
-                initialSpawnRate *= spawnRateMultiplier;
-                finalSpawnRate *= spawnRateMultiplier;
+                InitialSpawnRate *= spawnRateMultiplier;
+                FinalSpawnRate *= spawnRateMultiplier;
                 powerupsHaveBeenApplied = true;
             }
 
@@ -105,10 +109,10 @@ namespace Minigames.CoinTilt {
         private void UpdateSpawnRate() {
             float timeRemaining = gameDuration - elapsedTime;
             float spawnRate;
-            bool endGameTimeThresholdReached = timeRemaining <= lateGamePhaseStartTimeFromEndInSeconds;
+            bool endGameTimeThresholdReached = timeRemaining <= LateGamePhaseStartTimeFromEndInSeconds;
 
             if (endGameTimeThresholdReached) {
-                spawnRate = finalSpawnRate;
+                spawnRate = FinalSpawnRate;
             }
             else {
                 spawnRate = GetSpawnRateBasedOnTime();
@@ -118,14 +122,14 @@ namespace Minigames.CoinTilt {
         }
 
         private float GetSpawnRateBasedOnTime() {
-            float progress = elapsedTime / (gameDuration - lateGamePhaseStartTimeFromEndInSeconds);
-            float midGameRate = (initialSpawnRate + finalSpawnRate) / 2f;
-            var spawnRate = Mathf.Lerp(initialSpawnRate, midGameRate, progress);
+            float progress = elapsedTime / (gameDuration - LateGamePhaseStartTimeFromEndInSeconds);
+            float midGameRate = (InitialSpawnRate + FinalSpawnRate) / 2f;
+            var spawnRate = Mathf.Lerp(InitialSpawnRate, midGameRate, progress);
             return spawnRate;
         }
 
         private void TryToSpawnCoin() {
-            bool tooManyCoinsAlreadyExist = maxCoinsOnPlatform > 0 && activeCoins.Count >= maxCoinsOnPlatform;
+            bool tooManyCoinsAlreadyExist = MaxCoinsOnPlatform > 0 && activeCoins.Count >= MaxCoinsOnPlatform;
             if (tooManyCoinsAlreadyExist) {
                 return;
             }
@@ -137,9 +141,9 @@ namespace Minigames.CoinTilt {
                 return;
             }
 
-            var spawnPosition = TryToFindValidSpawnLocation(out var maxAttempts, out var attempts);
+            var spawnPosition = TryToFindValidSpawnLocation(out var attempts);
 
-            if (attempts >= maxAttempts) {
+            if (attempts >= MaxSpawnAttempts) {
                 UnityEngine.Debug.LogWarning("Could not find valid coin spawn location.");
                 return;
             }
@@ -152,23 +156,22 @@ namespace Minigames.CoinTilt {
             Coin coin = coinObject.GetComponent<Coin>();
             if (coin) {
                 coin.InitializeWithType(coinType);
-                coin.SetSpawnHeight(spawnHeight);
+                coin.SetSpawnHeight(SpawnHeight);
             }
             activeCoins.Add(coinObject);
 
-            if (coinLifetimeInSeconds > 0) {
-                coin.PrepareForDestruction(coinLifetimeInSeconds);
+            if (CoinLifetimeInSeconds > 0) {
+                coin.PrepareForDestruction(CoinLifetimeInSeconds);
             }
         }
 
-        private Vector3 TryToFindValidSpawnLocation(out int maxAttempts, out int attempts) {
+        private Vector3 TryToFindValidSpawnLocation(out int attempts) {
             Vector3 spawnPosition;
-            maxAttempts = 10;
             attempts = 0;
             do {
                 spawnPosition = GetRandomSpawnPosition();
                 attempts++;
-            } while (attempts < maxAttempts && !IsValidSpawnPosition(spawnPosition));
+            } while (attempts < MaxSpawnAttempts && !IsValidSpawnPosition(spawnPosition));
 
             return spawnPosition;
         }
@@ -176,16 +179,16 @@ namespace Minigames.CoinTilt {
         private GameObject CreateCoinInstance(CoinTypeSO coinType, Vector3 spawnPosition) {
             // Can consider adding object pooling IF noticing performance issues.
             GameObject coinObject = Instantiate(coinType.CoinPrefab, spawnPosition, Quaternion.identity);
-            coinObject.transform.SetParent(platformTransform, true);
+            coinObject.transform.SetParent(PlatformTransform, true);
             coinObject.transform.rotation = Quaternion.identity;
 
-            Vector3 localPosition = platformTransform.InverseTransformPoint(spawnPosition);
-            localPosition.y = spawnHeight;
+            Vector3 localPosition = PlatformTransform.InverseTransformPoint(spawnPosition);
+            localPosition.y = SpawnHeight;
             coinObject.transform.localPosition = localPosition;
             coinObject.transform.localRotation = Quaternion.identity;
 
             Vector3 desiredWorldScale = new Vector3(0.5f, 0.5f, 0.5f);
-            Vector3 parentScale = platformTransform.lossyScale;
+            Vector3 parentScale = PlatformTransform.lossyScale;
             coinObject.transform.localScale = new Vector3(
                 desiredWorldScale.x / parentScale.x,
                 desiredWorldScale.y / parentScale.y,
@@ -196,20 +199,20 @@ namespace Minigames.CoinTilt {
         private Vector3 GetRandomSpawnPosition() {
             float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
 
-            float radius = Random.Range(spawnRadiusMin, spawnRadiusMax);
+            float radius = Random.Range(SpawnRadiusMin, SpawnRadiusMax);
 
-            Vector3 offset = new Vector3(Mathf.Cos(angle) * radius, spawnHeight, Mathf.Sin(angle) * radius);
-            return platformTransform.position + offset;
+            Vector3 offset = new Vector3(Mathf.Cos(angle) * radius, SpawnHeight, Mathf.Sin(angle) * radius);
+            return PlatformTransform.position + offset;
         }
 
         private bool IsValidSpawnPosition(Vector3 worldPosition) {
-            Vector3 localPosition = platformTransform.InverseTransformPoint(worldPosition);
-            localPosition.y = spawnHeight;
-            Vector3 finalWorldPosition = platformTransform.TransformPoint(localPosition);
+            Vector3 localPosition = PlatformTransform.InverseTransformPoint(worldPosition);
+            localPosition.y = SpawnHeight;
+            Vector3 finalWorldPosition = PlatformTransform.TransformPoint(localPosition);
 
-            if (assignedPlayer) {
-                float distanceToPlayer = Vector3.Distance(finalWorldPosition, assignedPlayer.Position);
-                if (distanceToPlayer < playerAvoidanceRadius) {
+            if (AssignedPlayer) {
+                float distanceToPlayer = Vector3.Distance(finalWorldPosition, AssignedPlayer.Position);
+                if (distanceToPlayer < PlayerAvoidanceRadius) {
                     return false;
                 }
             }
@@ -217,7 +220,7 @@ namespace Minigames.CoinTilt {
             foreach (var coin in activeCoins) {
                 if (coin) {
                     float distanceToCoin = Vector3.Distance(finalWorldPosition, coin.transform.position);
-                    if (distanceToCoin < 1f) {
+                    if (distanceToCoin < MinCoinDistance) {
                         return false;
                     }
                 }

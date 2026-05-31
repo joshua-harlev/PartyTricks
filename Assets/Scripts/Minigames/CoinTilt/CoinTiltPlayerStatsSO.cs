@@ -9,7 +9,7 @@ namespace Minigames.CoinTilt {
         public float Acceleration = 7f;
         public float SlipFactor = 1.7f;
         public float TurnSpeed = 10f;
-    
+        
         [Header("Jump Settings")]
         public float JumpForce = 8f;
         public float AirControlMultiplier = 1;
@@ -21,6 +21,15 @@ namespace Minigames.CoinTilt {
         [Header("Fall Settings")] 
         public float FallThresholdY = -10f;
         public float RespawnDelayInSeconds = 0.75f;
+        public float ShrinkAnimationDurationInSeconds = 0.5f;
+
+        [Header("Magnet Settings")] 
+        public float MagnetRadiusBoostFactor = 0.4f;
+        public float MagnetPullSpeedBoostFactor = 0.5f;
+
+        [Header("Move Boost Settings")] 
+        public float AirControlIncreasePerMoveBoost = 0.3f;
+        public float SlipFactorIncreasePerMoveBoost = 1.3f;
 
         [Header("SFX")] 
         public EventReference FallSound;
