@@ -20,6 +20,7 @@ namespace Minigames.CoinTilt {
         [SerializeField] private ParticleSystem trailParticles;
 
         private TiltingPlatform platform;
+        private const int NearbyCollidersBufferSize = 20;
         private float moveSpeed = 15f;
         private float acceleration = 7f;
         private float slipFactor = 1.7f;
@@ -68,7 +69,7 @@ namespace Minigames.CoinTilt {
                 UnityEngine.Debug.LogError("CoinTiltPlayer could not find CharacterController component.");
             }
             // use max coins from coin spawner; 20 is okay in all likelihood
-            nearbyColliders = new Collider[20];
+            nearbyColliders = new Collider[NearbyCollidersBufferSize];
         }
 
         public void SetPlatform(TiltingPlatform platform) {
@@ -89,8 +90,8 @@ namespace Minigames.CoinTilt {
             if (numberOfMagnetPowerups > 0) {
                 this.magnetEnabled = true;
                 if (numberOfMagnetPowerups > 1) {
-                    magnetRadius += numberOfMagnetPowerups * 0.4f;
-                    magnetPullSpeed += numberOfMagnetPowerups * 0.5f;
+                    magnetRadius += numberOfMagnetPowerups * baseStats.MagnetRadiusBoostFactor;
+                    magnetPullSpeed += numberOfMagnetPowerups * baseStats.MagnetPullSpeedBoostFactor;
                 }
 
                 if (magnetParticles != null) {
@@ -110,8 +111,8 @@ namespace Minigames.CoinTilt {
 
         private void ApplyMoveBoosts(int numberOfMoveBoosts) {
             for (int i = 0; i < numberOfMoveBoosts; i++) {
-                slipFactor += 1.3f;
-                airControlMultiplier = Mathf.Clamp01(airControlMultiplier + 0.3f);
+                slipFactor += baseStats.SlipFactorIncreasePerMoveBoost;
+                airControlMultiplier = Mathf.Clamp01(airControlMultiplier + baseStats.AirControlIncreasePerMoveBoost);
             }
 
             if (numberOfMoveBoosts >= 1) {
@@ -367,7 +368,7 @@ namespace Minigames.CoinTilt {
             characterController.enabled = false;
             
             Vector3 originalScale = transform.localScale;
-            float shrinkDurationInSeconds = 0.5f;
+            float shrinkDurationInSeconds = baseStats.ShrinkAnimationDurationInSeconds;
             float elapsedTime = 0f;
             while (elapsedTime < shrinkDurationInSeconds) {
                 elapsedTime += Time.deltaTime;

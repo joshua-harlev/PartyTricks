@@ -10,5 +10,7 @@ namespace Minigames.CoinTilt {
         public float SpinMultiplier = 30f;
 
         public float AnimateInTimeInSeconds = 0.3f;
+
+        public float BobFrequency = 2f;
     }
 }

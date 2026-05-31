@@ -146,14 +146,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 20623859}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 2.27
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::Minigames.CoinTilt.LightingVariant
   directionalLight: {fileID: 20623860}
+  IsEnabled: 0
   daytimeFilter: {r: 1, g: 0.957, b: 0.839, a: 1}
   daytimeTemperature: 8000
   daytimeIntensity: 2.27
@@ -644,6 +645,7 @@ MonoBehaviour:
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -740,6 +742,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 42.922, y: 0, z: 0}
 --- !u!212 &130258286
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -785,6 +788,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 0faedbd73819b48dab2a0a2857d4b596, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -794,7 +798,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &130258287
 MonoBehaviour:
@@ -919,6 +922,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &165266141
 MeshFilter:
@@ -1002,6 +1006,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 42.922, y: 0, z: 0}
 --- !u!212 &206689319
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1047,6 +1052,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: fb3939e9c0fba487da80c557aed4829c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1056,7 +1062,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &206689320
 MonoBehaviour:
@@ -1258,6 +1263,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &312447936
 MeshFilter:
@@ -1513,6 +1519,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &374814114
 MeshFilter:
@@ -1856,6 +1863,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1962,6 +1970,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &624646195
 MeshFilter:
@@ -2096,6 +2105,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &629062078
 MeshFilter:
@@ -2245,6 +2255,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &669229580
 MeshFilter:
@@ -2425,6 +2436,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2771,6 +2783,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &827537769
 MeshFilter:
@@ -3464,6 +3477,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -3628,20 +3642,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3ecc8ebdea458f9f126dd7e238db24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::CoinSpawner
-  availableCoinTypes:
+  AvailableCoinTypes:
   - {fileID: 11400000, guid: 342bc063dfc26413fb08b9623fe8e152, type: 2}
   - {fileID: 11400000, guid: 9b44c30e4263948c58bda4eaf19f7970, type: 2}
-  initialSpawnRate: 0.45
-  finalSpawnRate: 1.3
-  lateGamePhaseStartTimeFromEndInSeconds: 7
-  maxCoinsOnPlatform: 10
-  coinLifetimeInSeconds: 15
-  spawnRadiusMin: 2
-  spawnRadiusMax: 7.5
-  playerAvoidanceRadius: 3.5
-  spawnHeight: 0.0025
-  platformTransform: {fileID: 51662739}
-  assignedPlayer: {fileID: 629062079}
+  InitialSpawnRate: 0.45
+  FinalSpawnRate: 1.3
+  LateGamePhaseStartTimeFromEndInSeconds: 7
+  MaxCoinsOnPlatform: 10
+  CoinLifetimeInSeconds: 15
+  SpecialCoinRateBoostPerStack: 3
+  SpawnRateMultiplierPerStack: 1.5
+  MaxSpawnAttempts: 10
+  MinCoinDistance: 1
+  SpawnRadiusMin: 2
+  SpawnRadiusMax: 7.5
+  PlayerAvoidanceRadius: 3.5
+  SpawnHeight: 0.0025
+  PlatformTransform: {fileID: 51662739}
+  AssignedPlayer: {fileID: 629062079}
 --- !u!1 &995733717
 GameObject:
   m_ObjectHideFlags: 0
@@ -3854,6 +3872,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -3939,20 +3958,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3ecc8ebdea458f9f126dd7e238db24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::CoinSpawner
-  availableCoinTypes:
+  AvailableCoinTypes:
   - {fileID: 11400000, guid: 342bc063dfc26413fb08b9623fe8e152, type: 2}
   - {fileID: 11400000, guid: 9b44c30e4263948c58bda4eaf19f7970, type: 2}
-  initialSpawnRate: 0.45
-  finalSpawnRate: 1.3
-  lateGamePhaseStartTimeFromEndInSeconds: 7
-  maxCoinsOnPlatform: 10
-  coinLifetimeInSeconds: 15
-  spawnRadiusMin: 2
-  spawnRadiusMax: 7.5
-  playerAvoidanceRadius: 3.5
-  spawnHeight: 0.0025
-  platformTransform: {fileID: 475094059}
-  assignedPlayer: {fileID: 165266142}
+  InitialSpawnRate: 0.45
+  FinalSpawnRate: 1.3
+  LateGamePhaseStartTimeFromEndInSeconds: 7
+  MaxCoinsOnPlatform: 10
+  CoinLifetimeInSeconds: 15
+  SpecialCoinRateBoostPerStack: 3
+  SpawnRateMultiplierPerStack: 1.5
+  MaxSpawnAttempts: 10
+  MinCoinDistance: 1
+  SpawnRadiusMin: 2
+  SpawnRadiusMax: 7.5
+  PlayerAvoidanceRadius: 3.5
+  SpawnHeight: 0.0025
+  PlatformTransform: {fileID: 475094059}
+  AssignedPlayer: {fileID: 165266142}
 --- !u!1 &1130235402
 GameObject:
   m_ObjectHideFlags: 0
@@ -4209,6 +4232,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 42.922, y: 0, z: 0}
 --- !u!212 &1265523578
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4254,6 +4278,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 06b72b9e4cc6c48beb8d7cef4ed7c98d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4263,7 +4288,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1265523579
 MonoBehaviour:
@@ -4465,6 +4489,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 42.922, y: 0, z: 0}
 --- !u!212 &1325775223
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4510,6 +4535,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: a241e2239f9534a4fad42987d216ffdc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4519,7 +4545,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1325775224
 MonoBehaviour:
@@ -4761,6 +4786,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1358527216
 MeshFilter:
@@ -4835,6 +4861,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1416930831
 MeshFilter:
@@ -5190,6 +5217,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1547170143
 MeshFilter:
@@ -5283,20 +5311,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3ecc8ebdea458f9f126dd7e238db24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::CoinSpawner
-  availableCoinTypes:
+  AvailableCoinTypes:
   - {fileID: 11400000, guid: 342bc063dfc26413fb08b9623fe8e152, type: 2}
   - {fileID: 11400000, guid: 9b44c30e4263948c58bda4eaf19f7970, type: 2}
-  initialSpawnRate: 0.45
-  finalSpawnRate: 1.3
-  lateGamePhaseStartTimeFromEndInSeconds: 7
-  maxCoinsOnPlatform: 10
-  coinLifetimeInSeconds: 15
-  spawnRadiusMin: 2
-  spawnRadiusMax: 7.5
-  playerAvoidanceRadius: 3.5
-  spawnHeight: 0.0025
-  platformTransform: {fileID: 310726476}
-  assignedPlayer: {fileID: 1683248331}
+  InitialSpawnRate: 0.45
+  FinalSpawnRate: 1.3
+  LateGamePhaseStartTimeFromEndInSeconds: 7
+  MaxCoinsOnPlatform: 10
+  CoinLifetimeInSeconds: 15
+  SpecialCoinRateBoostPerStack: 3
+  SpawnRateMultiplierPerStack: 1.5
+  MaxSpawnAttempts: 10
+  MinCoinDistance: 1
+  SpawnRadiusMin: 2
+  SpawnRadiusMax: 7.5
+  PlayerAvoidanceRadius: 3.5
+  SpawnHeight: 0.0025
+  PlatformTransform: {fileID: 310726476}
+  AssignedPlayer: {fileID: 1683248331}
 --- !u!114 &1617611594 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 387416800125152548, guid: 3087c8b7f08cc4fcd9f196fe2ed80af6, type: 3}
@@ -5722,6 +5754,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1683248330
 MeshFilter:
@@ -5835,6 +5868,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1702877796
 MeshFilter:
@@ -6131,6 +6165,7 @@ MonoBehaviour:
   StartCountdown: {fileID: 126632952}
   gameTimer: {fileID: 1235123287}
   placesDisplay: {fileID: 1351585871}
+  PreResultsDelayInSeconds: 0.75
 --- !u!1 &1909462326
 GameObject:
   m_ObjectHideFlags: 0
@@ -6330,20 +6365,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3ecc8ebdea458f9f126dd7e238db24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game::CoinSpawner
-  availableCoinTypes:
+  AvailableCoinTypes:
   - {fileID: 11400000, guid: 342bc063dfc26413fb08b9623fe8e152, type: 2}
   - {fileID: 11400000, guid: 9b44c30e4263948c58bda4eaf19f7970, type: 2}
-  initialSpawnRate: 0.45
-  finalSpawnRate: 1.3
-  lateGamePhaseStartTimeFromEndInSeconds: 7
-  maxCoinsOnPlatform: 10
-  coinLifetimeInSeconds: 15
-  spawnRadiusMin: 2
-  spawnRadiusMax: 7.5
-  playerAvoidanceRadius: 3.5
-  spawnHeight: 0.0025
-  platformTransform: {fileID: 737268767}
-  assignedPlayer: {fileID: 1547170144}
+  InitialSpawnRate: 0.45
+  FinalSpawnRate: 1.3
+  LateGamePhaseStartTimeFromEndInSeconds: 7
+  MaxCoinsOnPlatform: 10
+  CoinLifetimeInSeconds: 15
+  SpecialCoinRateBoostPerStack: 3
+  SpawnRateMultiplierPerStack: 1.5
+  MaxSpawnAttempts: 10
+  MinCoinDistance: 1
+  SpawnRadiusMin: 2
+  SpawnRadiusMax: 7.5
+  PlayerAvoidanceRadius: 3.5
+  SpawnHeight: 0.0025
+  PlatformTransform: {fileID: 737268767}
+  AssignedPlayer: {fileID: 1547170144}
 --- !u!1001 &1989869099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6660,6 +6699,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

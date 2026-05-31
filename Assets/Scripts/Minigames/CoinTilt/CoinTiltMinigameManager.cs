@@ -39,12 +39,13 @@ namespace Minigames.CoinTilt {
 
         private float baseGameDurationInSeconds => TimerLengths.GetMinigameTimerLengthInSeconds();
         private float effectiveGameDurationInSeconds;
-        private float targetIntensityCompletionTime;
         private bool hasBeenInitialized;
         private EventInstance musicInstance;
         private readonly int[] playerScores = new int[4];
         private IPlayerService playerService;
         private IPowerUpService powerUpService;
+        
+        [SerializeField] private float PreResultsDelayInSeconds = 0.75f;
 
         private void Start() {
             StartCoroutine(WaitForInitialization());
@@ -82,7 +83,6 @@ namespace Minigames.CoinTilt {
             else {
                 gameTimer.Initialize(effectiveGameDurationInSeconds);
                 gameTimer.OnTimerEnd += EndGame;
-                targetIntensityCompletionTime = effectiveGameDurationInSeconds * 0.6f;
             }
         }
 
@@ -275,7 +275,7 @@ namespace Minigames.CoinTilt {
             var results = CalculateResults();
 
             // short delay so that the players have a moment to breathe
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(PreResultsDelayInSeconds);
 
             string[] resultsText = new string[4];
             for (int i = 0; i < results.Length; i++) {

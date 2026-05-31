@@ -90,7 +90,7 @@ namespace Minigames.CoinTilt {
         }
 
         private void RandomizePhases() {
-            bobPhase = Random.Range(0f, Mathf.PI * 2f);
+            bobPhase = Random.Range(0f, Mathf.PI * coinAnimationConfig.BobFrequency);
             spinPhase = Random.Range(0f, 360f);
         }
 
