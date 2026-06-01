@@ -2,7 +2,7 @@ namespace Player {
     public class PlayerProfile {
         public Inventory Inventory;
         public Wallet Wallet;
-        public PlayerProfile(int startingFunds) {
+        public PlayerProfile(int startingFunds = 300) {
             this.Wallet = new Wallet(startingFunds);
             this.Inventory = new Inventory();
         }

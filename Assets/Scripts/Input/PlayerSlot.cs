@@ -42,15 +42,6 @@ namespace Input {
                 inputHandlerProxy.SetTarget(inputHandler);
             }
             isAI = true;
-
-            InitializePlayerProfileIfNull();
-        }
-
-        private void InitializePlayerProfileIfNull() {
-            // TODO make 300 a const somewhere 
-            if (profile == null) {
-                profile = new PlayerProfile(300);
-            }
         }
 
         public void SetUpAsHuman(PlayerInput playerInput) {
@@ -74,8 +65,6 @@ namespace Input {
             }
         
             isAI = false;
-
-            InitializePlayerProfileIfNull();
         }
 
         public void SetPlayerColor(Color color) {
