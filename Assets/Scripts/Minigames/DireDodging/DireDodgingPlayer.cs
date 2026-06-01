@@ -140,7 +140,7 @@ namespace Minigames.DireDodging {
             spriteHalfWidth = SpriteRenderer.bounds.size.x / 2f;
 
             // TODO calculate this more effectively
-            spriteHalfHeight = SpriteRenderer.bounds.extents.y + 0.4f; // offset added for health bar
+            spriteHalfHeight = SpriteRenderer.bounds.extents.y + PlayerStatsSO.HealthBarYOffset; // offset added for health bar
 
             shootEventExists = !PlayerStatsSO.BasicShootEvent.IsNull;
         
@@ -297,7 +297,7 @@ namespace Minigames.DireDodging {
             List<(Vector2 directions, float angle)> directions = new();
             directions.Add((baseDirection, 0f));
             for (int i = 0; i < multishotCount; i++) {
-                float angle = 10f * (i + 1);
+                float angle = PlayerStatsSO.MultishotSpreadAngle * (i + 1);
                 directions.Add((Quaternion.Euler(0f, 0f, angle) * baseDirection, angle));
                 directions.Add((Quaternion.Euler(0f, 0f, -angle) * baseDirection, -angle));
             }
@@ -507,8 +507,7 @@ namespace Minigames.DireDodging {
 
         private IEnumerator IntensityCoroutine(float remainingTimeInSeconds) {
             float startTime = Time.time;
-            float timeAtFullyRampedUpSpeed = 5f;
-            float duration = remainingTimeInSeconds - timeAtFullyRampedUpSpeed;
+            float duration = remainingTimeInSeconds - PlayerStatsSO.TimeAtMaxIntensityInSeconds;
             float initialProjectileSpeed = projectileSpeed;
             float initialShootRate = projectileShootRate;
             float initialProjectileScale = projectileScale;
