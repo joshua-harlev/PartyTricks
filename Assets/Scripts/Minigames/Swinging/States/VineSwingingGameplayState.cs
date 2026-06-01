@@ -75,7 +75,7 @@ namespace Minigames.Swinging.States {
 
         private void OnTimerEnd() {
             minigameManager.GameTimer.OnTimerEnd -= OnTimerEnd;
-            minigameManager.ChangeState(new VineSwingingResultsState(minigameManager));
+            minigameManager.ChangeState(minigameManager.VineSwingingResultsState);
         }
 
         public void Exit() {

@@ -18,7 +18,7 @@ namespace Minigames.Swinging.States {
 
         private void OnCountdownEnd() {
             countdown.OnTimerEnd -= OnCountdownEnd;
-            minigameManager.ChangeState(new VineSwingingGameplayState(minigameManager));
+            minigameManager.ChangeState(minigameManager.VineSwingingGameplayState);
         }
 
         public void OnUpdate() {

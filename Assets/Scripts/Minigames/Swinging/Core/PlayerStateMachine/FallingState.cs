@@ -18,7 +18,7 @@ namespace Minigames.Swinging.Core.PlayerStateMachine {
                 playerContext.CurrentVineIndex = playerContext.FurthestVineIndex;
                 playerContext.PositionX = playerStateMachine.VineXPositions[playerContext.FurthestVineIndex];
                 playerContext.PositionY = playerStateMachine.VineAnchorY;
-                playerStateMachine.TransitionTo(new SwingingState(playerStateMachine));
+                playerStateMachine.TransitionTo(playerStateMachine.SwingingState);
             }
         }
 

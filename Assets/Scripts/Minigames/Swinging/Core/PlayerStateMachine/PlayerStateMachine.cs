@@ -8,6 +8,10 @@ namespace Minigames.Swinging.Core.PlayerStateMachine {
         public float ElapsedTime { get; private set; }
         public float[] VinePeriods { get; }
         
+        public SwingingState SwingingState { get; private set; }
+        public FallingState FallingState { get; private set; }
+        public AirborneState AirborneState { get; private set; }
+        
         private IPlayerState currentState;
 
         public PlayerStateMachine(SwingConfig swingConfig, float[] vineXPositions, float vineAnchorY, float[] vinePhaseOffsets, float[] vinePeriods) {
@@ -17,6 +21,9 @@ namespace Minigames.Swinging.Core.PlayerStateMachine {
             VinePhaseOffsets = vinePhaseOffsets;
             VinePeriods = vinePeriods;
             PlayerContext = new PlayerContext();
+            SwingingState = new SwingingState(this);
+            FallingState = new FallingState(this);
+            AirborneState = new AirborneState(this);
         }
 
         public void Start(int initialVineIndex) {
@@ -24,7 +31,7 @@ namespace Minigames.Swinging.Core.PlayerStateMachine {
             PlayerContext.FurthestVineIndex = initialVineIndex;
             PlayerContext.PositionX = VineXPositions[initialVineIndex];
             PlayerContext.PositionY = VineAnchorY;
-            TransitionTo(new SwingingState(this));
+            TransitionTo(SwingingState);
         }
 
         public void Update(float deltaTime, bool releasePressed) {
