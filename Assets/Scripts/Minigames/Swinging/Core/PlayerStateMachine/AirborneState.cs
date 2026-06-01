@@ -24,11 +24,11 @@ namespace Minigames.Swinging.Core.PlayerStateMachine {
                     playerContext.FurthestVineIndex = grabPosition;
                 }
                 playerContext.PendingEvents.Add(PlayerEvent.GrabbedVine);
-                playerStateMachine.TransitionTo(new SwingingState(playerStateMachine));
+                playerStateMachine.TransitionTo(playerStateMachine.SwingingState);
             }
 
             if (playerContext.PositionY < swingConfig.FallThresholdY) {
-                playerStateMachine.TransitionTo(new FallingState(playerStateMachine));
+                playerStateMachine.TransitionTo(playerStateMachine.FallingState);
             }
         }
 

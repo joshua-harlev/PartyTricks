@@ -19,6 +19,10 @@ namespace Minigames.Swinging {
     public class VineSwingingMinigameManager : MonoBehaviour, IMinigameManager {
         public event Action<PlayerMinigameResult[]> OnMinigameFinished;
         public bool IsDoubleRound { get; set; }
+        
+        public VineSwingingCountdownState VineSwingingCountdownState { get; private set; }
+        public VineSwingingGameplayState VineSwingingGameplayState { get; private set; }
+        public VineSwingingResultsState VineSwingingResultsState { get; private set; }
 
         [Header("Minigame Settings")] 
         private int countdownDurationInSeconds;
@@ -77,6 +81,9 @@ namespace Minigames.Swinging {
             powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
             musicInstance = RuntimeManager.CreateInstance(musicEvent);
             effectiveGameDurationInSeconds = baseGameDurationInSeconds;
+            VineSwingingCountdownState = new(this, startCountdown);
+            VineSwingingGameplayState = new(this);
+            VineSwingingResultsState = new(this);
         }
 
         private IEnumerator Start() {
@@ -158,7 +165,7 @@ namespace Minigames.Swinging {
         }
 
         private void StartGameFlow() {
-            ChangeState(new VineSwingingCountdownState(this, startCountdown));
+            ChangeState(VineSwingingCountdownState);
         }
 
         public void ChangeState(IVineSwingingGameState newState) {

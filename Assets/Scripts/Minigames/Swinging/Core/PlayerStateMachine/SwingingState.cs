@@ -68,7 +68,7 @@ namespace Minigames.Swinging.Core.PlayerStateMachine {
             
             playerContext.VelocityY = bestVy;
             playerContext.PendingEvents.Add(PlayerEvent.Launched);
-            playerStateMachine.TransitionTo(new AirborneState(playerStateMachine));
+            playerStateMachine.TransitionTo(playerStateMachine.AirborneState);
         }
 
         public static float EstimateHorizontalDistance(float xVelocity, float yVelocity, float releaseOffsetY, float gravity) {
