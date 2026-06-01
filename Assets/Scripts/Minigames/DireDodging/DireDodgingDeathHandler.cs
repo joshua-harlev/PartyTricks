@@ -11,10 +11,9 @@ namespace Minigames.DireDodging {
         private DireDodgingPlayer player; 
         private DireDodgingChargeAttack chargeAttack;
         private DireDodgingProjectilePool projectilePool;
+        private DireDodgingPlayerStatsSO playerStatsSO;
         
         private Tween cameraZoomTween;
-        private float respawnDelay;
-        private float invincibilityDuration;
         private float deathAnimationTimeInSeconds;
         private bool isInvincible;
         private EventReference deathEvent;
@@ -29,9 +28,8 @@ namespace Minigames.DireDodging {
             this.chargeAttack = chargeAttack;
             this.projectilePool = pool;
             this.deathAnimationTimeInSeconds = stats.DeathAnimationTimeInSeconds;
-            this.respawnDelay = 3f;
-            this.invincibilityDuration = 2f;
             this.deathEvent = stats.DeathEvent;
+            this.playerStatsSO = stats;
             this.deathParticles = deathParticles;
             var main = deathParticles.main;
             main.startColor = player.PlayerEffectColor;
@@ -101,7 +99,7 @@ namespace Minigames.DireDodging {
                 player.PlayerHealthBar.SetVisible(false);
             }
             
-            yield return new WaitForSeconds(respawnDelay);
+            yield return new WaitForSeconds(playerStatsSO.RespawnDelayInSeconds);
 
             Respawn();
         }
@@ -113,7 +111,7 @@ namespace Minigames.DireDodging {
             float elapsed = 0f;
             var SpriteRenderer = player.PlayerSpriteRenderer;
     
-            while (elapsed < invincibilityDuration) {
+            while (elapsed < playerStatsSO.InvincibilityDurationInSeconds) {
                 SpriteRenderer.enabled = !SpriteRenderer.enabled;
                 yield return new WaitForSeconds(flashInterval);
                 elapsed += flashInterval;

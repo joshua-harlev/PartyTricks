@@ -13,14 +13,22 @@ namespace Minigames.DireDodging {
         public float BaseHealth = 15f;
         public float DamageAnimationTimeInSeconds = 0.2f;
         public float DeathAnimationTimeInSeconds = 0.05f;
+        
+        [Header("Display Settings")]
+        public float HealthBarYOffset = 0.4f;
     
         [Header("Charge Attack Settings")]
         public float ChargeTimeRequired = 2f;
         public float ChargedProjectileScale = 2f;
         public float ChargedProjectileSpeed = 2f;
         public float ChargedProjectileSpeedReductionPerPowerup = 0.75f;
-    
-        [Header("Ghost Mode Settings")]
+
+        [Header("Multishot Settings")] 
+        public float MultishotSpreadAngle = 10f;
+
+        [Header("Death / Ghost Mode Settings")]
+        public float RespawnDelayInSeconds = 3f;
+        public float InvincibilityDurationInSeconds = 2f;
         public float GhostChargeTime = 1f;
         public float GhostProjectileSpeed = 1.2f;
         public float GhostMoveSpeedMultiplier = 0.3f;
@@ -28,7 +36,8 @@ namespace Minigames.DireDodging {
         [Header("Stun Settings")]
         public float StunDuration = 1f;
 
-        [Header("Intensity Multipliers")]
+        [Header("Intensity")] 
+        public float TimeAtMaxIntensityInSeconds = 5f;
         public float ProjectileSpeedIncrease = 2.5f;
         public float ProjectileScaleIncrease = 2f;
         public float ShootRateDivisor = 0.3f; //TODO make this easier to deal with
