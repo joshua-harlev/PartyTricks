@@ -24,7 +24,7 @@ namespace Services {
         
         public static void Unregister<T>(T service) where T : class {
             if (currentSceneLocator != null) {
-                SceneServiceLocator.Instance.UnregisterService(typeof(T));
+                SceneServiceLocator.Instance.UnregisterService(service);
             }
         }
 
