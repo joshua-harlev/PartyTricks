@@ -55,8 +55,8 @@ namespace Minigames {
 
         private IEnumerator WaitAndContinue(Dictionary<int, int> bets) {
             yield return new WaitForSeconds(3);
-            if (gamblingMinigameManager != null && gamblingMinigameManager.OnBetTimerEnd != null) {
-                gamblingMinigameManager.OnBetTimerEnd?.Invoke(bets);
+            if (gamblingMinigameManager.OnBetTimerEnd != null) {
+                gamblingMinigameManager.OnBetTimerEnd.Invoke(bets);
             }
             else {
                 UnityEngine.Debug.LogError("OnBetTimerEnd event is not set up correctly.");
