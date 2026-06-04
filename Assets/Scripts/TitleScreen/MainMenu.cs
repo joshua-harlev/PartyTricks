@@ -7,13 +7,16 @@ using Options;
 using Player;
 using Services;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace TitleScreen {
     public class MainMenu : MonoBehaviour {
@@ -143,11 +146,11 @@ namespace TitleScreen {
         }
 
         private void QuitGame() {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+            #else
+            Application.Quit();
+            #endif
         }
 
         private IEnumerator FocusFirstButtonAfterOneFrame() {
