@@ -51,7 +51,7 @@ namespace Minigames.CoinTilt {
         }
 
         private void AnimateCoinMovement() {
-            float bobHeight = Mathf.Sin(Time.time * 2f + bobPhase) * coinAnimationConfig.BobMultiplier;
+            float bobHeight = Mathf.Sin(Time.time * coinAnimationConfig.BobFrequency + bobPhase) * coinAnimationConfig.BobMultiplier;
             modelTransform.localPosition = new Vector3(0f, bobHeight + maxHeight/2f, 0f);
             modelTransform.localRotation = Quaternion.Euler(initialModelEulerAngles.x, Time.time *
                 (coinAnimationConfig.SpinMultiplier * spinSign * jitter) + spinPhase, initialModelEulerAngles.z);
