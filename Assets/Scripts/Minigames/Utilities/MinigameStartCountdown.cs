@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Minigames {
+namespace Minigames.Utilities {
     public class MinigameStartCountdown : MonoBehaviour
     {
         [FormerlySerializedAs("countdownText")] [SerializeField] private TMP_Text CountdownText;

@@ -1,4 +1,5 @@
 using Debug;
+using Minigames.Utilities;
 
 namespace Minigames.DireDodging.States {
     public class DireDodgingCountdownState : IDireDodgingState {

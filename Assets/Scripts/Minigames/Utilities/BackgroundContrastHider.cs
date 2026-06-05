@@ -1,7 +1,7 @@
 using Options;
 using UnityEngine;
 
-namespace Minigames {
+namespace Minigames.Utilities {
     // Use to hide background objects for increased contrast
     public class BackgroundContrastHider : MonoBehaviour {
         [SerializeField] private Renderer backgroundRenderer;

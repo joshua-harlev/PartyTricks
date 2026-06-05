@@ -1,5 +1,6 @@
 using Debug;
 using Game;
+using Minigames.Debug;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

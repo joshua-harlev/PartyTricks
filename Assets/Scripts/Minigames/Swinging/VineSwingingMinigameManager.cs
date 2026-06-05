@@ -9,6 +9,7 @@ using Input;
 using Minigames.Swinging.Core;
 using Minigames.Swinging.Core.PlayerStateMachine;
 using Minigames.Swinging.States;
+using Minigames.Utilities;
 using Player;
 using Services;
 using UnityEngine;

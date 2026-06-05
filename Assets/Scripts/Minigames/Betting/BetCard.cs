@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Minigames {
+namespace Minigames.Betting {
     public class BetCard : MonoBehaviour {
         [SerializeField] 
         private Image cardBackground;

@@ -5,7 +5,7 @@ using Player;
 using Services;
 using UnityEngine;
 
-namespace Minigames {
+namespace Minigames.Betting {
     public class BetPlayerManager {
         private BetCard[] betCards;
         private List<BetSelector> activeSelectors = new();
