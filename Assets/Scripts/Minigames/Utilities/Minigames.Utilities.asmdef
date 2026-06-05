@@ -1,16 +1,11 @@
 {
-    "name": "DireDodging",
+    "name": "Minigames.Utilities",
     "rootNamespace": "",
     "references": [
         "GUID:c4ee63b75e61b4f318b9801d0a999f69",
-        "GUID:976052858674e42a9ba4fcc09b52d299",
-        "GUID:0c752da273b17c547ae705acf0f2adf2",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
         "GUID:9c2e25a91fd9740a7a4ac8646759e267",
-        "GUID:57c1395ed337141c4bb205a2dbe71e2e",
-        "GUID:6d65ccba677f04471b4e45b01cb10fba",
-        "GUID:31ccf352433ae447c86fce87efc92842",
-        "GUID:38a6053483c2c40399ac807f6968bbdb",
-        "GUID:afd836ed846744742bf71d34411b2fa6"
+        "GUID:0c752da273b17c547ae705acf0f2adf2"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
