@@ -28,8 +28,7 @@ namespace Minigames.CoinTilt {
         private float airControlMultiplier = 1;
         private float gravityScale = 3f;
         private float coyoteTime = 0.15f;
-        private float momentumCancelPercentageRegular = 0.5f;
-        private float momentumCancelPercentageBoosted = 0.75f;
+        private float momentumCancelPercentage = 0.5f;
         private Quaternion initialRotation;
         private Quaternion facingRotation = Quaternion.identity;
         private float turnSpeed = 10f;
@@ -130,8 +129,7 @@ namespace Minigames.CoinTilt {
             airControlMultiplier = baseStats.AirControlMultiplier;
             gravityScale = baseStats.GravityScale;
             coyoteTime = baseStats.CoyoteTimeInSeconds;
-            momentumCancelPercentageRegular = baseStats.MomentumCancelPercentageRegular;
-            momentumCancelPercentageBoosted = baseStats.MomentumCancelPercentageBoosted;
+            momentumCancelPercentage = baseStats.MomentumCancelPercentage;
             fallThresholdY = baseStats.FallThresholdY;
             respawnDelayInSeconds = baseStats.RespawnDelayInSeconds;
             turnSpeed = baseStats.TurnSpeed;
@@ -265,35 +263,9 @@ namespace Minigames.CoinTilt {
         }
 
         private void ApplyMomentumCancellationForJump() {
-            var momentumCancelPercentage = CalculateMomentumCancellation();
             float retainedMomentum = Mathf.Max(1f - momentumCancelPercentage, 0.1f);
             currentVelocity.x *= retainedMomentum;
             currentVelocity.z *= retainedMomentum;
-        }
-
-        private float CalculateMomentumCancellation() {
-            float momentumCancelPercentage = momentumCancelPercentageRegular;
-
-            if (inputEnabled && navigator != null && navigator.IsActive()) {
-                Vector2 input = navigator.GetNavigate();
-                Vector3 inputDirection = new Vector3(input.x, 0, input.y);
-
-                CancelMoreMomentumWhenMovingOppositeDirection(inputDirection, ref momentumCancelPercentage);
-            }
-
-            return momentumCancelPercentage;
-        }
-
-        // TODO fix logic
-        private void CancelMoreMomentumWhenMovingOppositeDirection(Vector3 inputDirection,
-            ref float momentumCancelPercentage) {
-            if (inputDirection.magnitude > 0.1f) {
-                Vector3 nonverticalVelocity = new Vector3(inputDirection.x, 0, inputDirection.z);
-                float dotProduct = Vector3.Dot(inputDirection.normalized, nonverticalVelocity.normalized);
-                if (dotProduct < 0) {
-                    momentumCancelPercentage = momentumCancelPercentageBoosted;
-                }
-            }
         }
 
         private void ApplyMovement() {
