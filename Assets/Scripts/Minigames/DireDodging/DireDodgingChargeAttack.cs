@@ -34,7 +34,6 @@ namespace Minigames.DireDodging {
         private float chargedProjectileSpeedReductionPerPowerup;
 
         private EventReference chargeLoopEvent;
-        private EventReference chargeReleaseEvent;
         private EventReference chargeShootEvent;
         private EventReference chargeCompleteEvent;
 
@@ -61,7 +60,6 @@ namespace Minigames.DireDodging {
             ghostChargeTime = stats.GhostChargeTime;
             ghostProjectileSpeed = stats.GhostProjectileSpeed;
             chargeLoopEvent = stats.ChargeLoopEvent;
-            chargeReleaseEvent = stats.ChargeReleaseEvent;
             chargeShootEvent = stats.ChargeShootEvent;
             chargeCompleteEvent = stats.ChargeCompleteEvent;
             ghostChargeTimeOriginal = stats.GhostChargeTime;
@@ -180,8 +178,6 @@ namespace Minigames.DireDodging {
             if (chargeTime >= requiredTime) {
                 ShootChargedProjectile();
                 RuntimeManager.PlayOneShot(chargeShootEvent);
-            } else {
-                // RuntimeManager.PlayOneShot(chargeReleaseEvent);
             }
     
             isCharging = false;
