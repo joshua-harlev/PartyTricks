@@ -513,7 +513,7 @@ namespace Minigames.DireDodging {
             float initialProjectileScale = projectileScale;
 
             float targetProjectileSpeed = initialProjectileSpeed * intensityStats.ProjectileSpeedIncrease;
-            float targetShootRate = initialShootRate * intensityStats.ShootRateDivisor;
+            float targetShootRate = initialShootRate / intensityStats.ShootRateMultiplierAtMaxIntensity;
             float targetProjectileScale = projectileScale * intensityStats.ProjectileScaleIncrease;
 
             while (Time.time - startTime < duration) {

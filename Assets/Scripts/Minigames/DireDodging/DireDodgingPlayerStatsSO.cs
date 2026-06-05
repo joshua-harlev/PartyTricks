@@ -40,7 +40,7 @@ namespace Minigames.DireDodging {
         public float TimeAtMaxIntensityInSeconds = 5f;
         public float ProjectileSpeedIncrease = 2.5f;
         public float ProjectileScaleIncrease = 2f;
-        public float ShootRateDivisor = 0.7f; //TODO make this easier to deal with
+        public float ShootRateMultiplierAtMaxIntensity = 1.428f;
         [Tooltip("Not directly scaled; see code.")]
         public float ChargeTimeDecrease = 1.5f; 
 
@@ -53,7 +53,7 @@ namespace Minigames.DireDodging {
         public EventReference BasicShootEvent;
 
         public DireDodgingIntensityStats GetIntensityStats() {
-            return new DireDodgingIntensityStats(ProjectileSpeedIncrease, ProjectileScaleIncrease, ShootRateDivisor,
+            return new DireDodgingIntensityStats(ProjectileSpeedIncrease, ProjectileScaleIncrease, ShootRateMultiplierAtMaxIntensity,
                 ChargeTimeDecrease);
         }
     }
