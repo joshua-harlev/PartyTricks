@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Minigames;
-using Minigames.CoinTilt;
 using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,7 +14,6 @@ namespace Game {
         private Camera[] cachedPlayerCameras;
         private PlayerCornerDisplay[] cachedCornerDisplays;
         private MinigameTimer cachedTimer;
-        private LightingVariant cachedLightingVariant;
         private Rect[] originalViewpointRects;
 
         private static readonly HashSet<string> SplitScreenScenes = new()
@@ -48,7 +46,6 @@ namespace Game {
             originalViewpointRects = null;
             cachedCornerDisplays = null;
             cachedTimer = null;
-            cachedLightingVariant = null;
         }
 
         public void Draw() {
@@ -64,9 +61,6 @@ namespace Game {
                 DrawCameraSection();
             }
             
-            if (sceneName == "CoinTiltGame") {
-                DrawLightingToggle();
-            }
             DrawUIToggles();
         }
         
@@ -178,13 +172,6 @@ namespace Game {
                 if (cachedTimer == null) return;
                 if (timerPaused) cachedTimer.Pause();
                 else cachedTimer.Resume();
-            }
-        }
-        
-        private void DrawLightingToggle() {
-            if (GUILayout.Button("Toggle Lighting", GUILayout.Height(30))) {
-                cachedLightingVariant ??= Object.FindAnyObjectByType<LightingVariant>();
-                cachedLightingVariant?.ToggleLighting();
             }
         }
         

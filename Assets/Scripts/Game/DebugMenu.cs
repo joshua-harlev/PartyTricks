@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Debug;
 using Minigames;
-using Minigames.CoinTilt;
 using Minigames.DireDodging;
 using Options;
 using Player;
@@ -24,6 +24,9 @@ namespace Game {
         private IPlayerService playerService;
         private DireDodgingMinigameManager direDodgingManager;
         public static Action<IPlayerService> PowerupPanelDraw;
+        private static readonly List<(int order, Action<bool> draw)> sceneLoadButtons = new();
+        private static readonly List<(int order, Action draw)> activeSceneControls = new();
+        
         public static float DebugTimerSpeedUpMultiplier = 1f;
     
         private void Awake() {
@@ -82,21 +85,19 @@ namespace Game {
 
             GUILayout.Label("Scene Testing", GUI.skin.box);
             GUILayout.Space(10);
-        
+            
+            foreach (var (_, draw) in activeSceneControls) {
+                draw();
+            }
+            
+            GUILayout.Space(10);
+            
             isDoubleRound = GUILayout.Toggle(isDoubleRound, "Double Round");
-            GUILayout.Space(10);
-        
-            if (GUILayout.Button("Load Blackjack", GUILayout.Height(40))) {
-                LoadBlackjackScene();
+            
+            foreach(var (_, draw) in sceneLoadButtons) {
+                draw(isDoubleRound);
+                GUILayout.Space(10);
             }
-
-            GUILayout.Space(10);
-        
-            if (GUILayout.Button("Load Coin Tilt Minigame", GUILayout.Height(40))) {
-                LoadCoinTiltMinigame();
-            }
-        
-            GUILayout.Space(10);
         
             if (GUILayout.Button("Load Dire Dodging", GUILayout.Height(40))) {
                 LoadDireDodging();
@@ -253,46 +254,6 @@ namespace Game {
                 }
             }
         }
-
-        private void LoadBlackjackScene() {
-            DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Loading Blackjack scene. Double: {isDoubleRound}");
-            SceneManager.LoadScene("Blackjack");
-            SceneManager.sceneLoaded += OnBlackjackSceneLoaded;
-        }
-
-        private void OnBlackjackSceneLoaded(Scene scene, LoadSceneMode mode) {
-            if (scene.name != "Blackjack") return;
-        
-            SceneManager.sceneLoaded -= OnBlackjackSceneLoaded;
-            
-            IMinigameManager minigameManager = GameObject.FindGameObjectsWithTag("MinigameManager").FirstOrDefault()?.GetComponent<IMinigameManager>();
-            if (minigameManager != null) {
-                minigameManager.Initialize(isDoubleRound);
-                DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Blackjack manager initialized. Double: {isDoubleRound}");
-            } else {
-                UnityEngine.Debug.LogError("Debug Menu: Could not find BlackjackMinigameManager in scene!");
-            }
-        }
-
-        private void LoadCoinTiltMinigame() {
-            DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Loading Coin Tilt Minigame. Double: {isDoubleRound}");
-            SceneManager.LoadScene("CoinTiltGame");
-            SceneManager.sceneLoaded += OnCoinTiltMinigameSceneLoaded;
-        }
-
-        private void OnCoinTiltMinigameSceneLoaded(Scene scene, LoadSceneMode mode) {
-            if (scene.name != "CoinTiltGame") return;
-        
-            SceneManager.sceneLoaded -= OnCoinTiltMinigameSceneLoaded;
-        
-            CoinTiltMinigameManager manager = FindAnyObjectByType<CoinTiltMinigameManager>();
-            if (manager != null) {
-                manager.Initialize(isDoubleRound);
-                DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Coin tilt minigame manager initialized. Double: {isDoubleRound}");
-            } else {
-                UnityEngine.Debug.LogError("Debug Menu: Could not find CoinTiltMinigameManager in scene!");
-            }
-        }
     
         private void OnDireDodgingSceneLoaded(Scene scene, LoadSceneMode mode) {
             if (scene.name != "DireDodging") return;
@@ -372,6 +333,16 @@ namespace Game {
 
         private void OnDestroy() {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        public static void RegisterSceneLoadButton(int order, Action<bool> draw) {
+            sceneLoadButtons.Add((order, draw));
+            sceneLoadButtons.Sort((a, b) => a.order.CompareTo(b.order));
+        }
+
+        public static void RegisterActiveSceneControl(int order, Action draw) {
+            activeSceneControls.Add((order, draw));
+            activeSceneControls.Sort((a, b) => a.order.CompareTo(b.order));
         }
     }
 }

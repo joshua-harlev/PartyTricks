@@ -11,6 +11,7 @@ using Player;
 using Services;
 using UnityEngine;
 using UnityEngine.Serialization;
+using EventReference = FMODUnity.EventReference;
 using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 namespace Minigames.CoinTilt {
