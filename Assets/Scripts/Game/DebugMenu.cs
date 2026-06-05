@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Debug;
-using Minigames;
 using Options;
 using Player;
 using Services;
@@ -165,12 +163,6 @@ namespace Game {
                 }
             }
         }
-    
-        private void LoadVineSwinging() {
-            DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Loading Vine Swinging scene. Double: {isDoubleRound}");
-            SceneManager.LoadScene("VineSwinging");
-            SceneManager.sceneLoaded += OnVineSwingingSceneLoaded;
-        }
 
         private void DisplayPlayerFunds() {
             if (playerService != null) {
@@ -183,22 +175,6 @@ namespace Game {
                         GUILayout.Label($"P{i + 1}: {funds} coins{aiLabel}");
                     }
                 }
-            }
-        }
-    
-        private void OnVineSwingingSceneLoaded(Scene scene, LoadSceneMode mode) {
-            if (scene.name != "VineSwinging") return;
-        
-            SceneManager.sceneLoaded -= OnVineSwingingSceneLoaded;
-        
-            // Find and initialize the dire dodging manager
-            IMinigameManager minigameManager = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
-                .OfType<IMinigameManager>().FirstOrDefault();
-            if (minigameManager != null) {
-                minigameManager.Initialize(isDoubleRound);
-                DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Vine Swinging manager initialized. Double: {isDoubleRound}");
-            } else {
-                UnityEngine.Debug.LogError("Debug Menu: Could not find Minigame Manager in scene!");
             }
         }
 
