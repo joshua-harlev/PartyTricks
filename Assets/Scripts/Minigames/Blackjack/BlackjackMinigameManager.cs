@@ -5,6 +5,7 @@ using CoreData;
 using Debug;
 using Game;
 using Input;
+using Minigames.CardGames;
 using Player;
 using Services;
 using UnityEngine;

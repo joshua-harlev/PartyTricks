@@ -1,0 +1,23 @@
+{
+    "name": "Blackjack",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c4ee63b75e61b4f318b9801d0a999f69",
+        "GUID:976052858674e42a9ba4fcc09b52d299",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:eff4a4a3247914324bbc8cd38cc70fcf",
+        "GUID:57c1395ed337141c4bb205a2dbe71e2e",
+        "GUID:9c2e25a91fd9740a7a4ac8646759e267",
+        "GUID:6d65ccba677f04471b4e45b01cb10fba",
+        "GUID:cdc3e1e61b10d4cc78e3b4b5f51fe826"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

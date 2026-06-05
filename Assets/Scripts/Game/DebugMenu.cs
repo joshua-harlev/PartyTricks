@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Debug;
 using Minigames;
-using Minigames.Blackjack;
 using Minigames.CoinTilt;
 using Minigames.DireDodging;
 using Options;
@@ -265,11 +264,10 @@ namespace Game {
             if (scene.name != "Blackjack") return;
         
             SceneManager.sceneLoaded -= OnBlackjackSceneLoaded;
-        
-            // Find and initialize the blackjack manager
-            BlackjackMinigameManager manager = FindAnyObjectByType<BlackjackMinigameManager>();
-            if (manager != null) {
-                manager.Initialize(isDoubleRound);
+            
+            IMinigameManager minigameManager = GameObject.FindGameObjectsWithTag("MinigameManager").FirstOrDefault()?.GetComponent<IMinigameManager>();
+            if (minigameManager != null) {
+                minigameManager.Initialize(isDoubleRound);
                 DebugLogger.Log(LogChannel.Systems, $"Debug Menu: Blackjack manager initialized. Double: {isDoubleRound}");
             } else {
                 UnityEngine.Debug.LogError("Debug Menu: Could not find BlackjackMinigameManager in scene!");

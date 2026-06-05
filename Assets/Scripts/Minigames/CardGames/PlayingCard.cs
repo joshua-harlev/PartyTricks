@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Minigames.Blackjack;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Minigames {
+namespace Minigames.CardGames {
     public class PlayingCard : MonoBehaviour {
         [SerializeField] 
         private Image CardImage;
@@ -54,12 +53,12 @@ namespace Minigames {
 
         public void SetCard(Card card) {
             if (!suitMap.TryGetValue(card.Suit, out SuitCards suit)) {
-                UnityEngine.Debug.LogError($"Error: invalid card suit {card.Suit}");
+                Debug.LogError($"Error: invalid card suit {card.Suit}");
                 return;
             }
 
             if (!valueSpriteMap.TryGetValue(card.Value, out Func<SuitCards, Sprite> getSprite)) {
-                UnityEngine.Debug.LogError($"Error: invalid card value {card.Value}");
+                Debug.LogError($"Error: invalid card value {card.Value}");
                 return;
             }
             CardImage.sprite = getSprite(suit);

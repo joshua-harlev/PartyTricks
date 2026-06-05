@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Minigames.Blackjack {
+namespace Minigames.CardGames {
     public class CardDeck {
     
 

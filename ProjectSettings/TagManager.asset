@@ -13,6 +13,7 @@ TagManager:
   - Puck
   - PlayerCamera
   - Divider
+  - MinigameManager
   layers:
   - Default
   - TransparentFX

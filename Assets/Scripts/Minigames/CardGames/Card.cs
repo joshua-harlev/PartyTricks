@@ -1,4 +1,4 @@
-namespace Minigames.Blackjack {
+namespace Minigames.CardGames {
     public struct Card {
         private CardSuits suit { get; }
         // 1 is ace, 13 is king
