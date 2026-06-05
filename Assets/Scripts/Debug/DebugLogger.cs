@@ -26,7 +26,7 @@ namespace Debug {
         public static bool EchoToUnityConsole = true;
 
         // Timestamp used for this process session, looks like:
-        // 2025-09-16_10-42-03.</summary>
+        // 2025-09-16_10-42-03.
         public static string SessionStamp => sessionStamp;
 
         // Absolute path to this session's log directory
@@ -87,7 +87,7 @@ namespace Debug {
             LogInternal(channel, message, level, null);
         }
 
-        // If you want to log exceptions: includes message + stack trace.</summary>
+        // If you want to log exceptions: includes message + stack trace.
         public static void LogException(LogChannel channel, Exception ex, string contextMessage = null)
         {
             string msg = contextMessage == null
