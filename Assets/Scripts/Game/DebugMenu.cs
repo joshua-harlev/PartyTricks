@@ -80,24 +80,12 @@ namespace Game {
             GUILayout.Label("Scene Testing", GUI.skin.box);
             GUILayout.Space(10);
             
-            foreach (var (_, draw) in activeSceneControls) {
-                draw();
-            }
-            
-            GUILayout.Space(10);
-            
             isDoubleRound = GUILayout.Toggle(isDoubleRound, "Double Round");
             
             foreach(var (_, draw) in sceneLoadButtons) {
                 draw(isDoubleRound);
                 GUILayout.Space(10);
             }
-        
-            if (GUILayout.Button("Load Vine Swinging", GUILayout.Height(40))) {
-                LoadVineSwinging();
-            }
-
-            GUILayout.Space(10);
         
             if (GUILayout.Button("Load Shop", GUILayout.Height(40))) {
                 SceneManager.LoadScene("Shop");
@@ -115,6 +103,12 @@ namespace Game {
                 SceneManager.LoadScene("Results");
             }
 
+            GUILayout.Space(10);
+            
+            foreach (var (_, draw) in activeSceneControls) {
+                draw();
+            }
+            
             GUILayout.Space(20);
 
             GUILayout.Label("Game State", GUI.skin.box);
