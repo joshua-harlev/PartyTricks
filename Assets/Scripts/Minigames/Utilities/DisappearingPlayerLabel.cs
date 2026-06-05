@@ -2,7 +2,7 @@ using Game;
 using Options;
 using UnityEngine;
 
-namespace Minigames {
+namespace Minigames.Utilities {
     public class DisappearingPlayerLabel : MonoBehaviour {
         [Tooltip("Should the label automatically disappear?")]
         [SerializeField] private bool LabelShouldDisappear = false;

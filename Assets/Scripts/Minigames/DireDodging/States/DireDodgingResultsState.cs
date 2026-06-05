@@ -1,6 +1,7 @@
 using System;
 using Debug;
 using Game;
+using Minigames.Utilities;
 
 namespace Minigames.DireDodging.States {
     public class DireDodgingResultsState : IDireDodgingState {

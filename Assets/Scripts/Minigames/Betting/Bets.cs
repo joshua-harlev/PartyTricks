@@ -4,7 +4,7 @@ using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Minigames {
+namespace Minigames.Betting {
     public class Bets : MonoBehaviour {
         [SerializeField] 
         private BetCard[] betCards;

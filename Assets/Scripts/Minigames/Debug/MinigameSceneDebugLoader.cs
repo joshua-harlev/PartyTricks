@@ -3,7 +3,7 @@ using Debug;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Minigames {
+namespace Minigames.Debug {
     public class MinigameSceneDebugLoader {
         private readonly string buttonLabel;
 		private readonly string sceneName;
