@@ -15,8 +15,7 @@ namespace Minigames.CoinTilt {
         public float AirControlMultiplier = 1;
         public float GravityScale = 3f;
         public float CoyoteTimeInSeconds = 0.15f;
-        public float MomentumCancelPercentageRegular = 0.5f;
-        public float MomentumCancelPercentageBoosted = 0.75f;
+        public float MomentumCancelPercentage = 0.5f;
     
         [Header("Fall Settings")] 
         public float FallThresholdY = -10f;
