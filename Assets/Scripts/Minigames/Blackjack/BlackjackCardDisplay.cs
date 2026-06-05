@@ -1,3 +1,4 @@
+using Minigames.CardGames;
 using UnityEngine;
 
 namespace Minigames.Blackjack {

@@ -30,7 +30,7 @@ namespace Minigames {
 
         private void InitializePlayerCornerDisplays() {
             if (playerCornerDisplays == null || playerCornerDisplays.Length == 0) {
-                UnityEngine.Debug.LogWarning("No PlayerCornerDisplays assigned in BetPlayerManager.");
+                Debug.LogWarning("No PlayerCornerDisplays assigned in BetPlayerManager.");
                 return;
             }
 

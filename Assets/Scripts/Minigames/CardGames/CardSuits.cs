@@ -1,4 +1,4 @@
-namespace Minigames.Blackjack {
+namespace Minigames.CardGames {
     public enum CardSuits
     {
         Spades,

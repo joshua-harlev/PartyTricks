@@ -19,11 +19,11 @@ namespace Minigames {
         private void Awake() {
             gamblingMinigameManager = GetComponent<IGamblingMinigame>();
             if (gamblingMinigameManager == null) {
-                UnityEngine.Debug.LogError("Error: IGamblingMinigame not found on Bets GameObject");
+                Debug.LogError("Error: IGamblingMinigame not found on Bets GameObject");
             }
 
             if (MinigameTimer == null) {
-                UnityEngine.Debug.LogError("Error: MinigameTimer not found on Bets GameObject");
+                Debug.LogError("Error: MinigameTimer not found on Bets GameObject");
             }
             MinigameTimer.Initialize(AllowedBettingDurationInSeconds);
         }
@@ -45,7 +45,7 @@ namespace Minigames {
         }
 
         private void OnBetTimerEnd() {
-            UnityEngine.Debug.Log("Timer over!");
+            Debug.Log("Timer over!");
             playerManager.LockAllSelectors();
 
             Dictionary<int, int> bets = playerManager.GetPlayerBets();
@@ -59,7 +59,7 @@ namespace Minigames {
                 gamblingMinigameManager.OnBetTimerEnd.Invoke(bets);
             }
             else {
-                UnityEngine.Debug.LogError("OnBetTimerEnd event is not set up correctly.");
+                Debug.LogError("OnBetTimerEnd event is not set up correctly.");
             }
         }
 

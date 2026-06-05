@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Minigames.Blackjack {
+namespace Minigames.CardGames {
     [CreateAssetMenu(fileName = "CardDeckSO", menuName = "Scriptable Objects/CardDeck")]
     public class CardDeckSO : ScriptableObject {
         public SuitCards ClubCards;
