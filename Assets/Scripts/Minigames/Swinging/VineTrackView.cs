@@ -1,15 +1,17 @@
 using Minigames.Swinging.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = System.Random;
 
 namespace Minigames.Swinging {
     public class VineTrackView : MonoBehaviour {
-        [SerializeField] private GameObject vineAnchorPrefab;
+        [FormerlySerializedAs("vineAnchorPrefab")] [SerializeField] private GameObject VineAnchorPrefab;
         private VineView[] vineViews;
         
-        // change this to enable/disable jitter (makes phases slightly more random)
-        private const bool JitterOn = true;
+        [SerializeField] [Tooltip("Make phases slightly more random")]
+        private bool JitterOn = true;
 
-        public (float[] positions, float[] phaseOffsets, float[] periods) SpawnVines(int count, float spacing, float anchorY, SwingConfig config, System.Random randomNumberGenerator, float countdownDuration = 0f) {
+        public (float[] positions, float[] phaseOffsets, float[] periods) SpawnVines(int count, float spacing, float anchorY, SwingConfig config, Random randomNumberGenerator, float countdownDuration = 0f) {
             float[] xPositions = new float[count];
             float[] phaseOffsets = new float[count];
             float[] periods = new float[count];
@@ -36,7 +38,7 @@ namespace Minigames.Swinging {
                 }
                 periods[i] = config.Period;
                 
-                var anchor = Instantiate(vineAnchorPrefab, transform);
+                var anchor = Instantiate(VineAnchorPrefab, transform);
                 anchor.transform.localPosition = new Vector3(xPositions[i], anchorY);
                 
                 var vineView = anchor.GetComponent<VineView>();
