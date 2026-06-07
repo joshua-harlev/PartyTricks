@@ -1,46 +1,47 @@
 using System.Collections;
 using Services;
-using TitleScreen;
 using UnityEngine;
 
-public class TitleScreenOrchestrator : MonoBehaviour
-{
-    [SerializeField] private SplashScreen SplashScreen;
-    [SerializeField] private IntroDisplay IntroDisplay;
-    [SerializeField] private MainMenu MainMenu;
-    [SerializeField] private bool ShowIntro;
-    [SerializeField] private bool ShowSplashScreen;
+namespace TitleScreen {
+    public class TitleScreenOrchestrator : MonoBehaviour
+    {
+        [SerializeField] private SplashScreen SplashScreen;
+        [SerializeField] private IntroDisplay IntroDisplay;
+        [SerializeField] private MainMenu MainMenu;
+        [SerializeField] private bool ShowIntro;
+        [SerializeField] private bool ShowSplashScreen;
 
-    private IGameFlowService gameFlowService;
+        private IGameFlowService gameFlowService;
     
-    private void Awake() {
-        gameFlowService = ServiceLocatorAccessor.GetService<IGameFlowService>();
-        SplashScreen.gameObject.SetActive(false);
-        IntroDisplay.gameObject.SetActive(false);
-        MainMenu.gameObject.SetActive(false);
-    }
-
-    private IEnumerator Start() {
-        if(gameFlowService.ShouldShowSplashScreen() && ShowSplashScreen) {
-            yield return RunPhase(SplashScreen);
-            gameFlowService.MarkSplashScreenShown();
+        private void Awake() {
+            gameFlowService = ServiceLocatorAccessor.GetService<IGameFlowService>();
+            SplashScreen.gameObject.SetActive(false);
+            IntroDisplay.gameObject.SetActive(false);
+            MainMenu.gameObject.SetActive(false);
         }
-        
-        if (ShowIntro) yield return RunPhase(IntroDisplay);
-        
-        yield return RunPhase(MainMenu);
-        gameFlowService.StartGame();
-    }
 
-    private IEnumerator RunPhase(ITitleScreenPhase phase) {
-        bool complete = false;
-        void OnComplete() => complete = true;
-        phase.OnPhaseComplete += OnComplete;
+        private IEnumerator Start() {
+            if(gameFlowService.ShouldShowSplashScreen() && ShowSplashScreen) {
+                yield return RunPhase(SplashScreen);
+                gameFlowService.MarkSplashScreenShown();
+            }
         
-        ((MonoBehaviour)phase).gameObject.SetActive(true);
-        yield return new WaitUntil(() => complete);
+            if (ShowIntro) yield return RunPhase(IntroDisplay);
         
-        phase.OnPhaseComplete -= OnComplete;
-        ((MonoBehaviour)phase).gameObject.SetActive(false);
+            yield return RunPhase(MainMenu);
+            gameFlowService.StartGame();
+        }
+
+        private IEnumerator RunPhase(ITitleScreenPhase phase) {
+            bool complete = false;
+            void OnComplete() => complete = true;
+            phase.OnPhaseComplete += OnComplete;
+        
+            ((MonoBehaviour)phase).gameObject.SetActive(true);
+            yield return new WaitUntil(() => complete);
+        
+            phase.OnPhaseComplete -= OnComplete;
+            ((MonoBehaviour)phase).gameObject.SetActive(false);
+        }
     }
 }
