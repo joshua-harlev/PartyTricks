@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ using UnityEditor;
 #endif
 
 namespace TitleScreen {
-    public class MainMenu : MonoBehaviour {
+    public class MainMenu : MonoBehaviour, ITitleScreenPhase {
         [SerializeField] private EventReference musicEvent;
         [SerializeField] private Button startGameButton;
         [SerializeField] private Button optionsButton;
@@ -32,17 +33,16 @@ namespace TitleScreen {
         private int focusedIndex;
         private float lastNavigateTime;
         private const float NavigationCooldownSeconds = 0.2f;
-        private IGameFlowService gameFlowService;
         private IPlayerService playerService;
         private readonly List<InputAction> subscribedSubmitActions = new();
         private readonly List<InputAction> gamepadNavigateActions = new();
         private InputSystemUIInputModule inputModule;
         private InputActionReference cachedMoveAction;
         private InputActionReference cachedSubmitAction;
-        private bool gameStarted = false;
+        
+        public event Action OnPhaseComplete;
 
         private void Awake() {
-            gameFlowService = ServiceLocatorAccessor.GetService<IGameFlowService>();
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
             musicInstance = RuntimeManager.CreateInstance(musicEvent);
         }
@@ -166,21 +166,14 @@ namespace TitleScreen {
         }
 
         private void StartGame() {
-            if (gameStarted) return;
-            if (gameFlowService != null) {
-                gameFlowService.StartGame();
-                gameStarted = true;
-            }
-            else {
-                UnityEngine.Debug.LogError("MainMenu: GameFlowManager not found.");
-            }
+            OnPhaseComplete?.Invoke();
         }
 
         private void ShowOptions() {
             FindFirstObjectByType<OptionsMenu>()?.Show();
         }
 
-        private void OnDestroy() {
+        private void OnDisable() {
             playerService.OnPlayerJoined -= HandlePlayerJoined;
             startGameButton.onClick.RemoveAllListeners();
             optionsButton.onClick.RemoveAllListeners();

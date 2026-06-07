@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +8,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-namespace IntroDisplay {
-    public class IntroDisplay : MonoBehaviour {
-        [SerializeField]
-        private UIDocument uiDocument;
-        public GameObject MainMenuDocument;
+namespace TitleScreen {
+    public class IntroDisplay : MonoBehaviour, ITitleScreenPhase {
+        [SerializeField] private UIDocument uiDocument;
+        public event Action OnPhaseComplete;
         private Button continueButton;
         private IPlayerService playerService;
         private readonly List<InputAction> subscribedSubmitActions = new();
 
-        private void Awake() {
+        private void OnEnable() {
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
             VisualElement root = uiDocument.rootVisualElement;
-            MainMenuDocument.SetActive(false);
             continueButton = root.Query<Button>("ContinueButton");
             continueButton.clicked += OnContinueClick;
             StartCoroutine(FocusFirstButtonAfterOneFrame());
@@ -55,7 +54,7 @@ namespace IntroDisplay {
             continueButton.SendEvent(navEvent);
         }
 
-        private void OnDestroy() {
+        private void OnDisable() {
             continueButton.clicked -= OnContinueClick;
             playerService.OnPlayerJoined -= HandlePlayerJoined;
             foreach (var action in subscribedSubmitActions) {
@@ -64,8 +63,7 @@ namespace IntroDisplay {
         }
 
         private void OnContinueClick() {
-            MainMenuDocument.SetActive(true);
-            Destroy(gameObject);
+            OnPhaseComplete?.Invoke();
         }
     
         private IEnumerator FocusFirstButtonAfterOneFrame() {
