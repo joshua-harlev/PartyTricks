@@ -31,6 +31,7 @@ namespace Game {
         private IPlayerService playerService;
         private int[] previousRoundFunds;
         private bool shouldShowPlacesScreen;
+        private bool splashScreenShown;
     
         public bool HasActiveSession => gameBoard != null && gameBoard.Count > 0;
     
@@ -94,6 +95,10 @@ namespace Game {
         public void OnShopEnd() {
             DebugLogger.Log(LogChannel.Systems, "Shop phase over. Transitioning to next minigame.");
             StartNextRound();
+        }
+
+        public void MarkSplashScreenShown() {
+            splashScreenShown = true;
         }
 
         private void StartNextRound() {
@@ -221,6 +226,10 @@ namespace Game {
             bool returnValue = shouldShowPlacesScreen;
             shouldShowPlacesScreen = false;
             return returnValue;
+        }
+
+        public bool ShouldShowSplashScreen() {
+            return !splashScreenShown;
         }
 
         public int[] GetPreviousRoundFunds() {

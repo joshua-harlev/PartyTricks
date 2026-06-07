@@ -1,5 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgb(173, 156, 223);">
-        <ui:VisualElement name="GameLogo" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Images/GameLogo.png?fileID=2800000&amp;guid=11c6b6203cbbf422c878192631be8927&amp;type=3#GameLogo&quot;); background-size: 1152px 200px; align-items: stretch;" />
+    <ui:VisualElement name="GameLogoPanel" style="flex-grow: 1; background-color: rgb(173, 156, 223); position: absolute; width: 100%; height: 100%;">
+        <ui:Image source="project://database/Assets/Art/MainMenu/title_shadow.png?fileID=21300000&amp;guid=32e938e059c044e25b36ddb73ff3b89f&amp;type=3#title_shadow" style="flex-grow: 1; width: 75%; height: 75%; align-content: center; align-self: center; justify-content: center; align-items: center;"/>
+    </ui:VisualElement>
+    <ui:VisualElement name="FMODPanel" enabled="true" style="flex-grow: 1; background-color: rgb(0, 0, 0); position: absolute; width: 100%; height: 100%; opacity: 1; display: flex;">
+        <ui:Image enabled="true" style="background-image: url(&quot;project://database/Assets/UI/Images/FMOD%20Logo%20White%20-%20Transparent%20Background.svg?fileID=7388822144124034973&amp;guid=dfb6309a7dcdd499daf2df4943d53eb4&amp;type=3#FMOD Logo White - Transparent Background&quot;); height: 50%; width: 50%; background-position-x: center; -unity-background-scale-mode: scale-to-fit; flex-grow: 1; flex-direction: row; align-items: center; justify-content: center; align-self: center; align-content: center;"/>
     </ui:VisualElement>
 </ui:UXML>
