@@ -47,6 +47,5 @@ MonoBehaviour:
     - Jon Humphreys
     - Tom DuPont
   CreditsToolAssetEntries:
-  - Name: FMOD
-    Usage: Audio Engine
+  - Name: FMOD (Audio Engine)
     Author: Firelight Technologies Pty Ltd.

@@ -18,7 +18,6 @@ namespace TitleScreen {
     [Serializable]
     public class CreditsToolAssetEntry {
         public string Name;
-        public string Usage;
         public string Author;
     }
 }
