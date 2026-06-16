@@ -25,10 +25,22 @@ Toggle .unity-toggle__input {
 Toggle #unity-checkmark {
     width: 70px;
     height: 70px;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-image: url("project://database/Assets/UI/Images/CheckboxUnchecked.svg?fileID=7388822144124034973&guid=c210a44da692c4cd59cb7bfeddd7930d&type=3#CheckboxUnchecked");
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+
+Toggle:checked > .unity-toggle__input > #unity-checkmark {
+    background-image: url("project://database/Assets/UI/Images/CheckboxChecked.svg?fileID=7388822144124034973&guid=3048ecfb587ca4299bcd210c3d2280fd&type=3#CheckboxChecked");
 }
 
 DropdownField {
@@ -314,13 +326,3 @@ Tab > ScrollView {
     border-bottom-left-radius: 10px;
     scale: 1 1;
 }
-
-
-
-
-
-
-
-
-
-
