@@ -1,0 +1,83 @@
+:root {
+}
+
+.CreditsRowText {
+    -unity-font-definition: url("project://database/Assets/Fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf?fileID=12800000&guid=621a05a21302949faae6799298818d73&type=3#DMSans-VariableFont_opsz,wght");
+    font-size: 30px;
+}
+
+.CreditsRow {
+    flex-grow: 1;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.unity-list-view {
+    -unity-font-definition: url("project://database/Assets/Fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf?fileID=12800000&guid=621a05a21302949faae6799298818d73&type=3#DMSans-VariableFont_opsz,wght");
+    font-size: 28px;
+    -unity-text-align: upper-center;
+}
+
+.unity-multi-column-view__header-container {
+    font-size: 29px;
+    background-color: rgba(255, 255, 255, 0);
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Inter-4.1/extras/ttf/InterDisplay-Bold.ttf?fileID=12800000&guid=e7511af2fcda0491d8d94c94bad1eb28&type=3#InterDisplay-Bold");
+    -unity-font-style: normal;
+    margin-bottom: 10px;
+}
+
+#Background > #Buttons > #Credits_TabView > #TeamMembersTab > #CreditsList > .unity-collection-view__scroll-view > #unity-multi-column-view__header-container > .unity-multi-column-header > .unity-multi-column-header__column-container > * {
+    background-color: rgb(255, 255, 255);
+    -unity-text-align: upper-center;
+    align-items: center;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -unity-font-style: normal;
+    -unity-font-definition: url("project://database/Assets/Fonts/DM_Sans/static/DMSans-Bold.ttf?fileID=12800000&guid=612c4a868c3d84f8194a29de218f5b14&type=3#DMSans-Bold");
+}
+
+#Background > #Buttons > #Credits_TabView > #AssetsTab > #AssetsList > .unity-collection-view__scroll-view > #unity-multi-column-view__header-container > .unity-multi-column-header > .unity-multi-column-header__column-container > * {
+    background-color: rgb(255, 255, 255);
+    -unity-text-align: upper-center;
+    align-items: center;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -unity-font-style: normal;
+    -unity-font-definition: url("project://database/Assets/Fonts/DM_Sans/static/DMSans-Bold.ttf?fileID=12800000&guid=612c4a868c3d84f8194a29de218f5b14&type=3#DMSans-Bold");
+}
+
+.unity-list-view__item {
+    -unity-font-definition: url("project://database/Assets/Fonts/DM_Sans/static/DMSans-Regular.ttf?fileID=12800000&guid=2e6d6961e7cc04d5a80d5086abe9c4b4&type=3#DMSans-Regular");
+    -unity-text-align: upper-center;
+    width: 100%;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-left-color: rgba(0, 0, 0, 0.133);
+    border-right-color: rgba(0, 0, 0, 0.133);
+    border-top-color: rgba(0, 0, 0, 0.133);
+    border-bottom-color: rgba(0, 0, 0, 0.133);
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.unity-multi-column-view__row-container {
+    -unity-text-align: upper-center;
+    width: 100%;
+}

@@ -24,9 +24,11 @@ namespace TitleScreen {
         [SerializeField] private EventReference musicEvent;
         [SerializeField] private Button startGameButton;
         [SerializeField] private Button optionsButton;
+        [SerializeField] private Button creditsButton;
         [SerializeField] private Button quitButton;
         [SerializeField] private TMP_Text connectedPlayersLabel;
         [SerializeField] private MenuSoundConfigSO menuSoundConfig;
+        [SerializeField] private GameObject creditsScreenPrefab;
 
         private EventInstance musicInstance;
         private Button[] buttons;
@@ -49,17 +51,23 @@ namespace TitleScreen {
 
         private void Start()
         {
+            if (creditsScreenPrefab != null) {
+                Instantiate(creditsScreenPrefab);
+            }
+            
             if (!musicEvent.IsNull) {
                 musicInstance.start();
             }
 
             startGameButton.onClick.AddListener(StartGame);
             optionsButton.onClick.AddListener(ShowOptions);
+            creditsButton.onClick.AddListener(ShowCredits);
             quitButton.onClick.AddListener(QuitGame);
 
             buttons = new [] {
                 startGameButton,
                 optionsButton,
+                creditsButton,
                 quitButton
             };
 
@@ -172,11 +180,16 @@ namespace TitleScreen {
         private void ShowOptions() {
             FindFirstObjectByType<OptionsMenu>()?.Show();
         }
+        
+        private void ShowCredits() {
+            FindFirstObjectByType<CreditsScreen>()?.Show();
+        }
 
         private void OnDisable() {
             playerService.OnPlayerJoined -= HandlePlayerJoined;
             startGameButton.onClick.RemoveAllListeners();
             optionsButton.onClick.RemoveAllListeners();
+            creditsButton.onClick.RemoveAllListeners();
             quitButton.onClick.RemoveAllListeners();
         
             foreach (var action in subscribedSubmitActions) {
