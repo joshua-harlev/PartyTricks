@@ -14,6 +14,7 @@ namespace TitleScreen {
             root.style.display = DisplayStyle.None;
             
             SetUpCreditsList();
+            SetUpAssetsList();
             Hide();
         }
 
@@ -61,6 +62,47 @@ namespace TitleScreen {
             {
                 var names = creditsData.CreditsEntries[rowIndex].Names;
                 ((Label)element).text = names != null ? string.Join(", ", names) : string.Empty;
+            };
+        }
+        
+        private void SetUpAssetsList() {
+            var listView = root.Q<MultiColumnListView>("AssetsList");
+            listView.itemsSource = creditsData.CreditsToolAssetEntries;
+
+            var assetColumn = listView.columns["asset"];
+            var authorColumn = listView.columns["author"];
+
+            assetColumn.makeCell = () => new Label
+            {
+                style =
+                {
+                    height = Length.Percent(100),
+                    whiteSpace = WhiteSpace.Normal,
+                    unityTextAlign = TextAnchor.MiddleCenter,
+                    paddingTop = 3,
+                    paddingBottom = 3,
+                }
+            };
+            authorColumn.makeCell = () => new Label
+            {
+                style =
+                {
+                    height = Length.Percent(100),
+                    whiteSpace = WhiteSpace.Normal,
+                    unityTextAlign = TextAnchor.MiddleLeft,
+                    paddingTop = 3,
+                    paddingBottom = 3,
+                }
+            };
+
+            assetColumn.bindCell = (element, rowIndex) =>
+            {
+                ((Label)element).text = creditsData.CreditsToolAssetEntries[rowIndex].Name;
+            };
+
+            authorColumn.bindCell = (element, rowIndex) =>
+            {
+                ((Label)element).text = creditsData.CreditsToolAssetEntries[rowIndex].Author;
             };
         }
 

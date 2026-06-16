@@ -47,5 +47,17 @@ MonoBehaviour:
     - Jon Humphreys
     - Tom DuPont
   CreditsToolAssetEntries:
+  - Name: Coin Pack
+    Author: Kenney Game Assets
+  - Name: DOTween
+    Author: Demigiant
   - Name: FMOD (Audio Engine)
     Author: Firelight Technologies Pty Ltd.
+  - Name: GDC Game Audio Bundles
+    Author: Sonniss
+  - Name: Laser Charging Sound Effect
+    Author: plasterbrain (Freesound)
+  - Name: Laser Sound Effect
+    Author: Sonoticai (Freesound)
+  - Name: UI Sound Effects
+    Author: Ovani Sound

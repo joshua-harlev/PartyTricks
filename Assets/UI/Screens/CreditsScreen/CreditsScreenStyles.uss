@@ -47,6 +47,18 @@
     -unity-font-definition: url("project://database/Assets/Fonts/DM_Sans/static/DMSans-Bold.ttf?fileID=12800000&guid=612c4a868c3d84f8194a29de218f5b14&type=3#DMSans-Bold");
 }
 
+#Background > #Buttons > #Credits_TabView > #AssetsTab > #AssetsList > .unity-collection-view__scroll-view > #unity-multi-column-view__header-container > .unity-multi-column-header > .unity-multi-column-header__column-container > * {
+    background-color: rgb(255, 255, 255);
+    -unity-text-align: upper-center;
+    align-items: center;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -unity-font-style: normal;
+    -unity-font-definition: url("project://database/Assets/Fonts/DM_Sans/static/DMSans-Bold.ttf?fileID=12800000&guid=612c4a868c3d84f8194a29de218f5b14&type=3#DMSans-Bold");
+}
+
 .unity-list-view__item {
     -unity-font-definition: url("project://database/Assets/Fonts/DM_Sans/static/DMSans-Regular.ttf?fileID=12800000&guid=2e6d6961e7cc04d5a80d5086abe9c4b4&type=3#DMSans-Regular");
     -unity-text-align: upper-center;

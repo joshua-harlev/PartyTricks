@@ -1,9 +1,8 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
-         editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Screens/OptionScreen/OptionScreenStyles.uss?fileID=7433441132597879392&amp;guid=40dad02a0377a49a5b852b57832568d1&amp;type=3#OptionScreenStyles"/>
     <Style src="project://database/Assets/UI/Screens/CreditsScreen/CreditsScreenStyles.uss?fileID=7433441132597879392&amp;guid=600bb41dcd680417fa98f1f3fc985677&amp;type=3#CreditsScreenStyles"/>
     <ui:VisualElement name="Background" style="flex-grow: 1; background-color: rgb(173, 156, 223); justify-content: center; align-items: center; align-self: auto; align-content: center;">
-        <ui:Label text="Credits" name="Options_Label" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Inter-4.1/extras/ttf/Inter-Bold.ttf?fileID=12800000&amp;guid=8c4b76b9068884e43a03f50cb8ad6257&amp;type=3#Inter-Bold&quot;); font-size: 86px; margin-bottom: 30px; margin-top: 30px;"/>
+        <ui:Label text="Credits" name="Options_Label" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Inter-4.1/extras/ttf/Inter-Bold.ttf?fileID=12800000&amp;guid=8c4b76b9068884e43a03f50cb8ad6257&amp;type=3#Inter-Bold&quot;); font-size: 75px; margin-bottom: 30px; margin-top: 30px;"/>
         <ui:VisualElement name="Buttons" style="flex-grow: 1; width: 1266px; height: 852px; flex-direction: column; align-items: center; justify-content: flex-start; position: relative; align-self: center; align-content: center; top: 0; left: 0;">
             <ui:TabView name="Credits_TabView" style="height: 631px;">
                 <ui:Tab label="Team Members" name="TeamMembersTab" style="overflow: hidden;">
@@ -17,7 +16,17 @@
                         </ui:Columns>
                     </ui:MultiColumnListView>
                 </ui:Tab>
-                <ui:Tab label="Assets &amp; Tools" name="AssetsTab" style="overflow: hidden;"/>
+                <ui:Tab label="Assets &amp; Tools" name="AssetsTab" style="overflow: hidden;">
+                    <ui:MultiColumnListView name="AssetsList" selection-type="None" data-source="project://database/Assets/Configs/Credits%20Information.asset?fileID=11400000&amp;guid=c3ca52ae658cf4a1fa7da278d925a5f9&amp;type=2#Credits Information" virtualization-method="DynamicHeight" fixed-item-height="50" show-border="false" show-alternating-row-backgrounds="None" allow-add="false" allow-remove="false" style="width: 95%; height: 100%; align-self: center; align-content: center; justify-content: center;">
+                        <Bindings>
+                            <ui:DataBinding property="itemsSource" data-source-path="CreditsToolAssetEntries" binding-mode="ToTarget"/>
+                        </Bindings>
+                        <ui:Columns resize-preview="true" reorderable="false">
+                            <ui:Column name="asset" title="Asset" width="35%"/>
+                            <ui:Column name="author" title="Author" width="50%"/>
+                        </ui:Columns>
+                    </ui:MultiColumnListView>
+                </ui:Tab>
             </ui:TabView>
         </ui:VisualElement>
         <ui:Button text="OK" name="Okay_Button" style="top: 0; width: 710px; background-image: url(&quot;project://database/Assets/UI/Images/Button.png?fileID=2800000&amp;guid=08179f71f05da4412aa27bdf5eb1b710&amp;type=3#Button&quot;); background-color: rgba(188, 188, 188, 0); margin-bottom: 30px; margin-top: 30px;"/>
