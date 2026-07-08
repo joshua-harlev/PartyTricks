@@ -58,6 +58,9 @@ namespace TitleScreen {
             if (!musicEvent.IsNull) {
                 musicInstance.start();
             }
+            else {
+                Debug.LogWarning("Error: Music is missing");
+            }
 
             startGameButton.onClick.AddListener(StartGame);
             optionsButton.onClick.AddListener(ShowOptions);
@@ -186,6 +189,12 @@ namespace TitleScreen {
         }
 
         private void OnDisable() {
+            if (musicInstance.isValid()) {
+                musicInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            }
+        }
+
+        private void OnDestroy() {
             playerService.OnPlayerJoined -= HandlePlayerJoined;
             startGameButton.onClick.RemoveAllListeners();
             optionsButton.onClick.RemoveAllListeners();
@@ -203,11 +212,7 @@ namespace TitleScreen {
                 inputModule.move = cachedMoveAction;
                 inputModule.submit = cachedSubmitAction;
             }
-        
-            if (musicInstance.isValid()) {
-                musicInstance.stop(STOP_MODE.IMMEDIATE);
-            }
-        
+            
             musicInstance.release();
         }
     }
