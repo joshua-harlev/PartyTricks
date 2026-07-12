@@ -1079,7 +1079,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d54534f5b46abbdb38c5956073187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineTrackView
-  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 6ea1bc05839114e19a9ff6311696503a, type: 3}
+  VineAnchorPrefab: {fileID: 9161010577958729011, guid: 6ea1bc05839114e19a9ff6311696503a, type: 3}
+  JitterOn: 1
 --- !u!1 &343812282
 GameObject:
   m_ObjectHideFlags: 0
@@ -3609,7 +3610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d54534f5b46abbdb38c5956073187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineTrackView
-  vineAnchorPrefab: {fileID: 9161010577958729011, guid: ea9699d9dd2db4ea394ccea121925e15, type: 3}
+  VineAnchorPrefab: {fileID: 9161010577958729011, guid: ea9699d9dd2db4ea394ccea121925e15, type: 3}
+  JitterOn: 1
 --- !u!1 &681427564
 GameObject:
   m_ObjectHideFlags: 0
@@ -3701,7 +3703,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d54534f5b46abbdb38c5956073187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineTrackView
-  vineAnchorPrefab: {fileID: 9161010577958729011, guid: cb4d4525125d64a1a978ebcb8dd9dd1a, type: 3}
+  VineAnchorPrefab: {fileID: 9161010577958729011, guid: cb4d4525125d64a1a978ebcb8dd9dd1a, type: 3}
+  JitterOn: 1
 --- !u!1 &703407583
 GameObject:
   m_ObjectHideFlags: 0
@@ -5654,7 +5657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946d54534f5b46abbdb38c5956073187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineTrackView
-  vineAnchorPrefab: {fileID: 9161010577958729011, guid: 33fb84ec0bffc460ebfc8a57d6ebc1d8, type: 3}
+  VineAnchorPrefab: {fileID: 9161010577958729011, guid: 33fb84ec0bffc460ebfc8a57d6ebc1d8, type: 3}
+  JitterOn: 1
 --- !u!1 &1136707357
 GameObject:
   m_ObjectHideFlags: 0

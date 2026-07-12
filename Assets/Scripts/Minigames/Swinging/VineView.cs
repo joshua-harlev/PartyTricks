@@ -1,9 +1,11 @@
+using System;
 using Minigames.Swinging.Core;
 using UnityEngine;
 
 namespace Minigames.Swinging {
     public class VineView : MonoBehaviour {
         [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] private Boolean DoDebug = false;
 
         private float amplitude;
         private float ropeLength;
@@ -49,6 +51,18 @@ namespace Minigames.Swinging {
             for (int i = 0; i < RopePointCount; i++) {
                 lineRenderer.SetPosition(i, anchorPosition + new Vector3(ropePoints[i].X, ropePoints[i].Y, 0));
             }
+
+            lineRenderer.startColor = Color.white;
+            lineRenderer.endColor = Color.white;
+            
+            if (InSweetSpot(currentPhase)) {
+                lineRenderer.startColor = Color.yellow;
+                lineRenderer.endColor = Color.yellow;
+                if(DoDebug) UnityEngine.Debug.Log(Mathf.Sin(currentPhase) + " " + Mathf.Cos(currentPhase));
+            }
+        }
+        private bool InSweetSpot(float currentPhase) {
+            return Mathf.Sin(currentPhase) > 0.3f && Mathf.Cos(currentPhase) > 0.3f && Mathf.Sin(currentPhase) < 0.71f;
         }
     }
 }
