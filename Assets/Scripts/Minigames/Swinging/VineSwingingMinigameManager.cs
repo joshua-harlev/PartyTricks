@@ -34,6 +34,15 @@ namespace Minigames.Swinging {
         [SerializeField] private VineSwingingPlayerStatsSO playerStats;
         [SerializeField] private VineSwingingAIConfigSO aiConfig;
 
+        [Header("Sweet Spot Hint")] 
+        [SerializeField] private float hintSuccessDecrement = (1f/3f); // 3 advances to hide
+        [SerializeField] private float hintFailureIncrement = 0.5f; // 2 falls to restore
+        [SerializeField] private float hintFadeSpeed = 2.5f;
+        
+        public float HintSuccessDecrement => hintSuccessDecrement;
+        public float HintFailureIncrement => hintFailureIncrement;
+        public float HintFadeSpeed => hintFadeSpeed;
+
         [Header("References")] [SerializeField]
         private MinigameStartCountdown startCountdown;
 
@@ -187,9 +196,9 @@ namespace Minigames.Swinging {
             }
 
             if (PlayerStateMachines != null) {
-                float elapsedTime = PlayerStateMachines[0].ElapsedTime;
-                foreach (var trackView in trackViews) {
-                    trackView.UpdateElapsedTime(elapsedTime);
+                for (int i = 0; i < trackViews.Length; i++) {
+                    trackViews[i].UpdateElapsedTime(PlayerStateMachines[i].ElapsedTime);
+                    trackViews[i].SetSweetSpotHintLevel(PlayerStateMachines[i].PlayerContext.DisplayedHintLevel);
                 }
             }
 

@@ -54,5 +54,11 @@ namespace Minigames.Swinging {
                 vineView.SetElapsedTime(elapsedTime);
             }
         }
+
+        public void SetSweetSpotHintLevel(float hintLevel) {
+            foreach (var vineView in vineViews) {
+                vineView.SetSweetSpotHintLevel(hintLevel);
+            }
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Minigames.Swinging.Core.PlayerStateMachine {
@@ -16,6 +17,25 @@ namespace Minigames.Swinging.Core.PlayerStateMachine {
         public PlayerStateType CurrentStateType;
         public List<PlayerEvent> PendingEvents = new();
 
+        
         public void ClearEvents() => PendingEvents.Clear();
+
+        public float TargetHintLevel = 1f;
+        public float DisplayedHintLevel = 1f;
+
+        public void UpdateSweetSpotHint(bool madeProgress, bool fell, float deltaTime, float successDecrement, float failureIncrement, float fadeSpeed) {
+            if (madeProgress) TargetHintLevel -= successDecrement;
+            if (fell) TargetHintLevel += failureIncrement;
+            TargetHintLevel = Math.Clamp(TargetHintLevel, 0f, 1f);
+            
+            float maxStep = fadeSpeed * deltaTime;
+            float difference = TargetHintLevel - DisplayedHintLevel;
+            if (Math.Abs(difference) <= maxStep) {
+                DisplayedHintLevel = TargetHintLevel;
+            }
+            else {
+                DisplayedHintLevel += Math.Sign(difference) * maxStep;
+            }
+        }
     }
 }

@@ -20,6 +20,8 @@ namespace Minigames.Swinging {
         private const float CurveAmount = 0.6f;
         // lower value = more lag on the rope.
         private const float CurveResponse = 1f;
+        
+        private float sweetSpotHintLevel = 1f;
 
         public void Initialize(float amplitude, float ropeLength, float period, float phaseOffset) {
             this.amplitude = amplitude;
@@ -32,6 +34,10 @@ namespace Minigames.Swinging {
 
         public void SetElapsedTime(float time) {
             elapsedTime = time;
+        }
+        
+        public void SetSweetSpotHintLevel(float level) {
+            this.sweetSpotHintLevel = level;
         }
 
         private void Update() {
@@ -52,15 +58,13 @@ namespace Minigames.Swinging {
                 lineRenderer.SetPosition(i, anchorPosition + new Vector3(ropePoints[i].X, ropePoints[i].Y, 0));
             }
 
-            lineRenderer.startColor = Color.white;
-            lineRenderer.endColor = Color.white;
-            
-            if (InSweetSpot(currentPhase)) {
-                lineRenderer.startColor = Color.yellow;
-                lineRenderer.endColor = Color.yellow;
-                if(DoDebug) UnityEngine.Debug.Log(Mathf.Sin(currentPhase) + " " + Mathf.Cos(currentPhase));
-            }
+            float glowAmount = InSweetSpot(currentPhase) ? sweetSpotHintLevel : 0f;
+            Color vineColor = Color.Lerp(Color.white, Color.yellow, glowAmount);
+            lineRenderer.startColor = vineColor;
+            lineRenderer.endColor = vineColor;
+            if(DoDebug && glowAmount > 0f) UnityEngine.Debug.Log($"{Mathf.Sin(currentPhase)} {Mathf.Cos(currentPhase)}");
         }
+        
         private bool InSweetSpot(float currentPhase) {
             return Mathf.Sin(currentPhase) > 0.3f && Mathf.Cos(currentPhase) > 0.3f && Mathf.Sin(currentPhase) < 0.71f;
         }
