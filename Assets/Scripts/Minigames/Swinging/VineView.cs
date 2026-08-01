@@ -21,7 +21,7 @@ namespace Minigames.Swinging {
         // lower value = more lag on the rope.
         private const float CurveResponse = 1f;
         
-        private float sweetSpotHintLevel = 1f;
+        private float sweetSpotHintLevel = 0f;
 
         public void Initialize(float amplitude, float ropeLength, float period, float phaseOffset) {
             this.amplitude = amplitude;
