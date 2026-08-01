@@ -14,6 +14,7 @@ namespace Minigames.Swinging.States {
         private VineSwingingAIController aiController;
         
         private int[] previousScores = new int[4];
+        private int[] previousFurthestVineIndices = new int[4];
 
         public VineSwingingGameplayState(VineSwingingMinigameManager minigameManager) {
             this.minigameManager = minigameManager;
@@ -22,6 +23,11 @@ namespace Minigames.Swinging.States {
         
         public void Enter() {
             DebugLogger.Log(LogChannel.Systems, $"VineSwinging: Entered Gameplay State.");
+            
+            for (int i = 0; i < minigameManager.PlayerStateMachines.Length; i++) {
+                previousFurthestVineIndices[i] = minigameManager.PlayerStateMachines[i].PlayerContext.FurthestVineIndex;
+            }
+            
             minigameManager.IsInGameplay = true;
             minigameManager.GameTimer.OnTimerEnd += OnTimerEnd;
             minigameManager.GameTimer.StartTimer();
@@ -50,7 +56,12 @@ namespace Minigames.Swinging.States {
                         }
                     }
                 }
-                
+
+                var playerContext = minigameManager.PlayerStateMachines[i].PlayerContext;
+                bool madeProgress = playerContext.FurthestVineIndex > previousFurthestVineIndices[i];
+                previousFurthestVineIndices[i] = playerContext.FurthestVineIndex;
+                bool fell = playerContext.PendingEvents.Contains(PlayerEvent.Fell);
+                playerContext.UpdateSweetSpotHint(madeProgress, fell, deltaTime, minigameManager.HintSuccessDecrement, minigameManager.HintFailureIncrement, minigameManager.HintFadeSpeed);
                 minigameManager.PlayerViews[i].Pull(minigameManager.PlayerStateMachines[i].PlayerContext);
                 if (minigameManager.PlayerHasMagnet[i]) {
                     Vector2 center = minigameManager.PlayerViews[i].transform.position;
@@ -62,8 +73,7 @@ namespace Minigames.Swinging.States {
                             minigameManager.PlayerMagnetPullSpeed[i]);
                     }
                 }
-
-                var playerContext = minigameManager.PlayerStateMachines[i].PlayerContext;
+                
                 var swingConfig = minigameManager.PlayerStateMachines[i].SwingConfig;
                 int score = playerContext.FurthestVineIndex * swingConfig.VineScoreValue + playerContext.TotalCoinValue;
                 if (score != previousScores[i]) {
