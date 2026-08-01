@@ -29,8 +29,8 @@ namespace Minigames.Swinging {
                 else {
                     float idealReleasePhase = 0.55f;
                     var (releaseVelocityX, _) = SwingSimulation.GetShapedReleaseVelocity(
-                        idealReleasePhase, config.Amplitude, config.Period,
-                        config.LaunchForce, config.RopeLength, 0.6f);
+                        SweetSpot.IdealReleasePhase, config.Amplitude, config.Period,
+                        config.LaunchForce, config.RopeLength, config.ReleaseCurveExponent);
                     float flightTimeToNextVine = config.VineSpacing / releaseVelocityX;
                     float phaseAdvanceDuringFlight = radiansPerSecond * flightTimeToNextVine;
                     float jitter = JitterOn ? (float)((randomNumberGenerator.NextDouble() - 0.5) * 0.8) : 0f;

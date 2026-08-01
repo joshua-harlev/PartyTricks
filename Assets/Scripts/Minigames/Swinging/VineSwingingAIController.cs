@@ -1,3 +1,4 @@
+using Minigames.Swinging.Core;
 using Minigames.Swinging.Core.PlayerStateMachine;
 using UnityEngine;
 
@@ -88,9 +89,7 @@ namespace Minigames.Swinging {
 
         private bool EvaluateWindow(PlayerContext context, float offset = 0f) {
             if (context.CurrentStateType != PlayerStateType.Swinging) return false;
-            float phase = context.SwingPhase + offset;
-            float threshold = context.AIReleaseThreshold;
-            return Mathf.Sin(phase) > threshold && Mathf.Cos(phase) > threshold;
+            return SweetSpot.IsInReleaseWindow(context.SwingPhase + offset, context.AIReleaseThreshold);
         }
     }
 }
