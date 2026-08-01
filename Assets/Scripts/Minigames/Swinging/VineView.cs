@@ -66,7 +66,7 @@ namespace Minigames.Swinging {
         }
         
         private bool InSweetSpot(float currentPhase) {
-            return Mathf.Sin(currentPhase) > 0.3f && Mathf.Cos(currentPhase) > 0.3f && Mathf.Sin(currentPhase) < 0.71f;
+            return Mathf.Sin(currentPhase) > 0.25f && Mathf.Cos(currentPhase) > 0.3f && Mathf.Sin(currentPhase) < 0.67f;
         }
     }
 }
