@@ -13,17 +13,20 @@ namespace Minigames.Swinging.States {
             { useTriggers = true, useLayerMask = false };
         
         private VineSwingingAIController aiController;
-        
-        private int[] previousScores = new int[4];
-        private int[] previousFurthestVineIndices = new int[4];
+
+        private int[] previousScores;
+        private int[] previousFurthestVineIndices;
 
         public VineSwingingGameplayState(VineSwingingMinigameManager minigameManager) {
             this.minigameManager = minigameManager;
-            aiController = new VineSwingingAIController(minigameManager.AIConfig);
         }
         
         public void Enter() {
             DebugLogger.Log(LogChannel.Systems, $"VineSwinging: Entered Gameplay State.");
+
+            previousScores = new int[minigameManager.PlayerCount];
+            previousFurthestVineIndices = new int[minigameManager.PlayerCount];
+            aiController = new VineSwingingAIController(minigameManager.AIConfig, minigameManager.PlayerCount);
             
             for (int i = 0; i < minigameManager.PlayerStateMachines.Length; i++) {
                 previousFurthestVineIndices[i] = minigameManager.PlayerStateMachines[i].PlayerContext.FurthestVineIndex;

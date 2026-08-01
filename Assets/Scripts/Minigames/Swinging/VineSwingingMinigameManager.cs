@@ -76,6 +76,8 @@ namespace Minigames.Swinging {
         private float baseGameDurationInSeconds => TimerLengths.GetMinigameTimerLengthInSeconds();
         private float effectiveGameDurationInSeconds;
 
+        public int PlayerCount => PlayerService.GetPlayerCount();
+
         public bool[] PlayerHasMagnet { get; private set; }
         public float[] PlayerMagnetRadii { get; private set; }
         public float[] PlayerMagnetPullSpeed { get; private set; }
@@ -123,15 +125,15 @@ namespace Minigames.Swinging {
             startCountdown.Initialize(countdownDurationInSeconds);
             gameTimer.Initialize(effectiveGameDurationInSeconds);
             
-            PlayerStateMachines = new PlayerStateMachine[4];
-            PlayerHasMagnet = new bool[4];
-            PlayerMagnetRadii = new float[4];
-            PlayerMagnetPullSpeed = new float[4];
-            float[][] allVinePositions = new float[4][];
-            MovementModifiers[] playerModifiers = new MovementModifiers[4];
+            PlayerStateMachines = new PlayerStateMachine[PlayerCount];
+            PlayerHasMagnet = new bool[PlayerCount];
+            PlayerMagnetRadii = new float[PlayerCount];
+            PlayerMagnetPullSpeed = new float[PlayerCount];
+            float[][] allVinePositions = new float[PlayerCount][];
+            MovementModifiers[] playerModifiers = new MovementModifiers[PlayerCount];
             int seed = Random.Range(0, 10000);
             
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < PlayerCount; i++) {
                 PlayerSlot slot = PlayerService.PlayerSlots[i];
                 MovementModifiers movementModifiers = powerUpService.GetMovementModifiers(slot.Profile);
                 bool hasMoveBoost = movementModifiers.MoveBoostCount > 0;
@@ -156,7 +158,7 @@ namespace Minigames.Swinging {
             }
 
             
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < PlayerCount; i++) {
                 var randomNumberGenerator = new System.Random(seed);
                 SwingConfig config = PlayerStateMachines[i].SwingConfig;
                 float specialCoinRateMultiplier = 1f + playerModifiers[i].SpecialCoinRateBoostCount * 3f;
@@ -166,7 +168,7 @@ namespace Minigames.Swinging {
         }
 
         private void InitializePlayerDisplays() {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < PlayerCount; i++) {
                 var slot = PlayerService.PlayerSlots[i];
                 if (slot?.Profile != null) {
                     playerCornerDisplays[i].Initialize(slot.Profile, PlayerCornerDisplay.DisplayMode.Score);
@@ -196,7 +198,7 @@ namespace Minigames.Swinging {
             }
 
             if (PlayerStateMachines != null) {
-                for (int i = 0; i < trackViews.Length; i++) {
+                for (int i = 0; i < PlayerStateMachines.Length; i++) {
                     var context = PlayerStateMachines[i].PlayerContext;
                     trackViews[i].UpdateElapsedTime(PlayerStateMachines[i].ElapsedTime);
 
