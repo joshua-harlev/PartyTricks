@@ -22,7 +22,6 @@ namespace Minigames.Swinging {
         [SerializeField] public int CoinsPerGap = 5;
         [SerializeField] public int VineScoreValue = 5;
         [SerializeField] public CoinTypeSO[] CoinTypes;
-        [SerializeField] public float CoinArcHeight = 2f;
         [Tooltip("How high do the coins spawn? Higher values cause the coins to spawn lower, lower values -> higher spawns.")]
         [Range(0f, 1f)]
         [SerializeField] public float CoinBaseHeightRatio = 0.5f;
@@ -70,7 +69,7 @@ namespace Minigames.Swinging {
             int releaseLookaheadFrames = 4 + movementModifiers.MoveBoostCount * ReleaseLookaheadFramesPerBoost;
 
             return new SwingConfig(Amplitude, RopeLength, modifiedPeriod, modifiedLaunchForce, modifiedGrabRadius, FallThresholdY,
-                modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue, CoinArcHeight,
+                modifiedRespawnDelay, VineSpacing, Gravity, modifiedCoinsPerGap, VineScoreValue,
                 grabLookaheadFrames, MinimumReleaseVelocityX, releaseLookaheadFrames: releaseLookaheadFrames,
                 phaseChainOffset: PhaseChainOffset, coinBaseHeightRatio: CoinBaseHeightRatio, verticalLaunchScale: modifiedVerticalScale);
         }

@@ -13,7 +13,6 @@ namespace Minigames.Swinging.Core {
         public readonly int CoinsPerGap;
         public readonly int VineScoreValue;
         public readonly float CoinBaseHeightRatio;
-        public readonly float CoinArcHeight;
 
         public readonly int GrabLookaheadFrames;
         public readonly float MinimumReleaseVelocityX;
@@ -25,7 +24,7 @@ namespace Minigames.Swinging.Core {
 
         public SwingConfig(float amplitude, float ropeLength, float period, float launchForce, float grabRadius,
             float fallThresholdY, float respawnDelay, float vineSpacing, float gravity, int coinsPerGap,
-            int vineScoreValue, float coinArcHeight, int grabLookaheadFrames, float minimumReleaseVelocityX,
+            int vineScoreValue, int grabLookaheadFrames, float minimumReleaseVelocityX,
             float releaseCurveExponent = 0.6f, float phaseChainOffset = 0f, int releaseLookaheadFrames = 4, float coinBaseHeightRatio = 0.5f, float verticalLaunchScale = 1.0f) {
             Amplitude = amplitude;
             RopeLength = ropeLength;
@@ -38,7 +37,6 @@ namespace Minigames.Swinging.Core {
             Gravity = gravity;
             CoinsPerGap = coinsPerGap;
             VineScoreValue = vineScoreValue;
-            CoinArcHeight = coinArcHeight;
             GrabLookaheadFrames = grabLookaheadFrames;
             MinimumReleaseVelocityX = minimumReleaseVelocityX;
             ReleaseCurveExponent = releaseCurveExponent;

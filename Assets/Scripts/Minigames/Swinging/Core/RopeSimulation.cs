@@ -4,10 +4,8 @@ namespace Minigames.Swinging.Core {
     public class RopeSimulation {
         public readonly int PointCount;
         public readonly float RopeLength;
-
-        private Vec2 previousDriveTarget;
+        
         private Vec2 driveTarget;
-        private float driveStiffness;
         private bool hasDriveTarget;
         
         private Vec2[] positions;
@@ -76,10 +74,8 @@ namespace Minigames.Swinging.Core {
             }
         }
 
-        public void SetDriveTarget(Vec2 target, float stiffness) {
-            previousDriveTarget = driveTarget;
+        public void SetDriveTarget(Vec2 target) {
             driveTarget = target;
-            driveStiffness = stiffness;
             hasDriveTarget = true;
         }
 

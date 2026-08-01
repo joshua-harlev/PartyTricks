@@ -32,8 +32,8 @@ namespace Swinging.Core.Tests {
 
         [Fact]
         public void ReleaseVelocity_LaunchForceScalesOutput() {
-            var (xVelocity1, yVelocity1) = SwingSimulation.GetReleaseVelocity(phase: 0f, amplitude: 0.8f, period: 2f, launchForce: 1f, ropeLength: 5f);
-            var (xVelocity2, yVelocity2) = SwingSimulation.GetReleaseVelocity(phase: 0f, amplitude: 0.8f, period: 2f, launchForce: 2f, ropeLength: 5f);
+            var (xVelocity1, yVelocity1) = SwingSimulation.GetShapedReleaseVelocity(phase: 0f, amplitude: 0.8f, period: 2f, launchForce: 1f, ropeLength: 5f, curveExponent: 1f);
+            var (xVelocity2, yVelocity2) = SwingSimulation.GetShapedReleaseVelocity(phase: 0f, amplitude: 0.8f, period: 2f, launchForce: 2f, ropeLength: 5f, curveExponent: 1f);
             
             Assert.Equal(xVelocity1*2f, xVelocity2, Tolerance);
             Assert.Equal(yVelocity1*2f, yVelocity2, Tolerance);
@@ -41,8 +41,8 @@ namespace Swinging.Core.Tests {
 
         [Fact]
         public void ReleaseVelocity_IsHorizontalAtPhaseZero() {
-            var (xVelocity, yVelocity) = SwingSimulation.GetReleaseVelocity(phase: 0f, amplitude: 0.8f, period: 2f,
-                launchForce: 1f, ropeLength: 5f);
+            var (xVelocity, yVelocity) = SwingSimulation.GetShapedReleaseVelocity(phase: 0f, amplitude: 0.8f, period: 2f,
+                launchForce: 1f, ropeLength: 5f, curveExponent: 1f);
             
             Assert.True(xVelocity > 0f);
             Assert.Equal(0f, yVelocity, Tolerance);
@@ -51,9 +51,9 @@ namespace Swinging.Core.Tests {
         [Fact]
         public void ReleaseVelocity_AtPeakSwing_IsZero() {
             float peakPhase = (float)(Math.PI / 2.0f);
-            var (xVelocity, yVelocity) = SwingSimulation.GetReleaseVelocity(phase: peakPhase, amplitude: 0.8f,
+            var (xVelocity, yVelocity) = SwingSimulation.GetShapedReleaseVelocity(phase: peakPhase, amplitude: 0.8f,
                 period: 2f,
-                launchForce: 1f, ropeLength: 5f);
+                launchForce: 1f, ropeLength: 5f, curveExponent: 1f);
             
             Assert.Equal(0f, xVelocity, Tolerance);
             Assert.Equal(0f, yVelocity, Tolerance);

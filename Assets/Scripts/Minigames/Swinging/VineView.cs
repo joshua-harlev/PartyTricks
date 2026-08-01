@@ -15,7 +15,6 @@ namespace Minigames.Swinging {
         private float smoothedCurveOffset;
         private RopeSimulation ropeSimulation;
         private const int RopePointCount = 6;
-        private const float DriveStiffness = 0.5f;
         private const float Tautness = 0.3f;
         private const float CurveAmount = 0.6f;
         // lower value = more lag on the rope.
@@ -47,7 +46,7 @@ namespace Minigames.Swinging {
             float targetCurveOffset = -angularVelocity * CurveAmount;
             smoothedCurveOffset = Mathf.Lerp(smoothedCurveOffset, targetCurveOffset, 1f-Mathf.Exp(-CurveResponse * Time.deltaTime));
             
-            ropeSimulation.SetDriveTarget(new Vec2(offsetX, offsetY), DriveStiffness);
+            ropeSimulation.SetDriveTarget(new Vec2(offsetX, offsetY));
             ropeSimulation.Simulate(Time.deltaTime);
             ropeSimulation.Constrain();
             ropeSimulation.ApplyTautness(Tautness, smoothedCurveOffset);

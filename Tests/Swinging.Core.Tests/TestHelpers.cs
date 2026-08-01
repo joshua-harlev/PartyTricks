@@ -14,12 +14,11 @@ namespace Swinging.Core.Tests {
             float gravity = 9.81f,
             int coinsPerGap = 3,
             int vineScoreValue = 10,
-            float coinArcHeight = 2f,
             int grabLookaheadFrames = 3,
             float minimumReleaseVelocityX = 1f
         ) {
             return new SwingConfig(amplitude, ropeLength, period, launchForce, grabRadius, fallThresholdY, respawnDelay,
-                vineSpacing, gravity, coinsPerGap, vineScoreValue, coinArcHeight, grabLookaheadFrames,
+                vineSpacing, gravity, coinsPerGap, vineScoreValue, grabLookaheadFrames,
                 minimumReleaseVelocityX);
         }
     }
