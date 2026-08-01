@@ -57,11 +57,11 @@ namespace Minigames.Swinging.States {
                     }
                 }
 
-                var hintContext = minigameManager.PlayerStateMachines[i].PlayerContext;
-                bool madeProgress = hintContext.FurthestVineIndex > previousFurthestVineIndices[i];
-                previousFurthestVineIndices[i] = hintContext.FurthestVineIndex;
-                bool fell = hintContext.PendingEvents.Contains(PlayerEvent.Fell);
-                hintContext.UpdateSweetSpotHint(madeProgress, fell, deltaTime, minigameManager.HintSuccessDecrement, minigameManager.HintFailureIncrement, minigameManager.HintFadeSpeed);
+                var playerContext = minigameManager.PlayerStateMachines[i].PlayerContext;
+                bool madeProgress = playerContext.FurthestVineIndex > previousFurthestVineIndices[i];
+                previousFurthestVineIndices[i] = playerContext.FurthestVineIndex;
+                bool fell = playerContext.PendingEvents.Contains(PlayerEvent.Fell);
+                playerContext.UpdateSweetSpotHint(madeProgress, fell, deltaTime, minigameManager.HintSuccessDecrement, minigameManager.HintFailureIncrement, minigameManager.HintFadeSpeed);
                 minigameManager.PlayerViews[i].Pull(minigameManager.PlayerStateMachines[i].PlayerContext);
                 if (minigameManager.PlayerHasMagnet[i]) {
                     Vector2 center = minigameManager.PlayerViews[i].transform.position;
@@ -73,8 +73,7 @@ namespace Minigames.Swinging.States {
                             minigameManager.PlayerMagnetPullSpeed[i]);
                     }
                 }
-
-                var playerContext = minigameManager.PlayerStateMachines[i].PlayerContext;
+                
                 var swingConfig = minigameManager.PlayerStateMachines[i].SwingConfig;
                 int score = playerContext.FurthestVineIndex * swingConfig.VineScoreValue + playerContext.TotalCoinValue;
                 if (score != previousScores[i]) {
