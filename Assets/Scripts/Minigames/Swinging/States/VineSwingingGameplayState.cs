@@ -1,5 +1,6 @@
 using Debug;
 using Input;
+using Minigames.Swinging.Core;
 using Minigames.Swinging.Core.PlayerStateMachine;
 using UnityEngine;
 
@@ -74,8 +75,8 @@ namespace Minigames.Swinging.States {
                     }
                 }
                 
-                var swingConfig = minigameManager.PlayerStateMachines[i].SwingConfig;
-                int score = playerContext.FurthestVineIndex * swingConfig.VineScoreValue + playerContext.TotalCoinValue;
+                int score = ResultsCalculator.CalculateScore(playerContext,
+                    minigameManager.PlayerStateMachines[i].SwingConfig);
                 if (score != previousScores[i]) {
                     previousScores[i] = score;
                     minigameManager.PlayerCornerDisplays[i].UpdateScore(score);

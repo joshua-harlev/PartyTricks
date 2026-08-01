@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Minigames.Swinging.Core.PlayerStateMachine;
 
 namespace Minigames.Swinging.Core {
     public static class ResultsCalculator {
@@ -18,6 +19,10 @@ namespace Minigames.Swinging.Core {
                 }
             }
             return ranks;
+        }
+
+        public static int CalculateScore(PlayerContext context, SwingConfig config) {
+            return (context.FurthestVineIndex * config.VineScoreValue) + context.TotalCoinValue;
         }
     }
 }
