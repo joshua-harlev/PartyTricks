@@ -1,17 +1,13 @@
 using System;
 using System.Collections;
-using CoreData;
 using Debug;
 using Game;
-using Input;
-using Minigames.Swinging.Core;
 using Minigames.Swinging.Core.PlayerStateMachine;
 using Minigames.Swinging.States;
 using Minigames.Utilities;
 using Player;
 using Services;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Minigames.Swinging {
     public class VineSwingingMinigameManager : MonoBehaviour, IMinigameManager {
@@ -28,7 +24,6 @@ namespace Minigames.Swinging {
         [SerializeField] private float resultsDisplayDurationInSeconds = 5f;
         [SerializeField] private int vineCount = 20;
         [SerializeField] private float vineAnchorY = 4f;
-        [SerializeField] private VineSwingingPlayerStatsSO playerStats;
         [SerializeField] private VineSwingingAIConfigSO aiConfig;
 
         [Header("Sweet Spot Hint")] 
@@ -42,24 +37,23 @@ namespace Minigames.Swinging {
 
         [Header("References")] 
         [SerializeField] private MinigameStartCountdown startCountdown;
-        [SerializeField] private VineSwingingMusic music; 
+        [SerializeField] private VineSwingingMusic music;
+        [SerializeField] private VineSwingingPlayers players;
 
         [SerializeField] private MinigameTimer gameTimer;
         [SerializeField] private PlacesDisplay placesDisplay;
-        [SerializeField] private PlayerCornerDisplay[] playerCornerDisplays = new PlayerCornerDisplay[4];
-        [SerializeField] private VineSwingingPlayerView[] playerViews = new VineSwingingPlayerView[4];
-        [SerializeField] private VineTrackView[] trackViews = new VineTrackView[4];
-        [SerializeField] private VineSwingingCameraFollow[] cameraFollows = new VineSwingingCameraFollow[4];
-        [SerializeField] private CoinTrailSpawnerView[] coinSpawners = new CoinTrailSpawnerView[4];
-
-        public PlayerStateMachine[] PlayerStateMachines { get; private set; }
+        
         public IPlayerService PlayerService { get; private set; }
         public MinigameTimer GameTimer => gameTimer;
         public PlacesDisplay PlacesDisplay => placesDisplay;
-        public PlayerCornerDisplay[] PlayerCornerDisplays => playerCornerDisplays;
-        public VineSwingingPlayerView[] PlayerViews => playerViews;
         public int[] FundsPerRank => fundsPerRank;
         public VineSwingingAIConfigSO AIConfig => aiConfig;
+        public PlayerStateMachine[] PlayerStateMachines => players.PlayerStateMachines;
+        public VineSwingingPlayerView[] PlayerViews => players.PlayerViews;
+        public bool[] PlayerHasMagnet => players.PlayerHasMagnet;
+        public float[] PlayerMagnetPullSpeed => players.PlayerMagnetPullSpeed;
+        public PlayerCornerDisplay[] PlayerCornerDisplays => players.PlayerCornerDisplays;
+        public float[] PlayerMagnetRadii => players.PlayerMagnetRadii;
 
         private IVineSwingingGameState currentState;
         private IPowerUpService powerUpService;
@@ -71,10 +65,6 @@ namespace Minigames.Swinging {
         private float effectiveGameDurationInSeconds;
 
         public int PlayerCount => PlayerService.GetPlayerCount();
-
-        public bool[] PlayerHasMagnet { get; private set; }
-        public float[] PlayerMagnetRadii { get; private set; }
-        public float[] PlayerMagnetPullSpeed { get; private set; }
 
         public bool IsInGameplay
         {
@@ -113,60 +103,10 @@ namespace Minigames.Swinging {
                 vineCount *= 2;
             }
 
-            InitializePlayerDisplays(); 
+            players.SetUp(PlayerService, powerUpService, PlayerCount, vineCount, vineAnchorY, countdownDurationInSeconds); 
             placesDisplay.Hide();
             startCountdown.Initialize(countdownDurationInSeconds);
             gameTimer.Initialize(effectiveGameDurationInSeconds);
-            
-            PlayerStateMachines = new PlayerStateMachine[PlayerCount];
-            PlayerHasMagnet = new bool[PlayerCount];
-            PlayerMagnetRadii = new float[PlayerCount];
-            PlayerMagnetPullSpeed = new float[PlayerCount];
-            float[][] allVinePositions = new float[PlayerCount][];
-            MovementModifiers[] playerModifiers = new MovementModifiers[PlayerCount];
-            int seed = Random.Range(0, 10000);
-            
-            for (int i = 0; i < PlayerCount; i++) {
-                PlayerSlot slot = PlayerService.PlayerSlots[i];
-                MovementModifiers movementModifiers = powerUpService.GetMovementModifiers(slot.Profile);
-                bool hasMoveBoost = movementModifiers.MoveBoostCount > 0;
-                playerModifiers[i] = movementModifiers;
-                PlayerHasMagnet[i] = (movementModifiers.MagnetCount > 0);
-                PlayerMagnetRadii[i] = playerStats.MagnetRadius * movementModifiers.MagnetCount;
-                PlayerMagnetPullSpeed[i] = playerStats.MagnetPullSpeed * movementModifiers.MagnetCount;
-                
-                
-                SwingConfig config = playerStats.CreateConfig(movementModifiers, movementModifiers.CoinSpawnRateBoostCount);
-                
-                playerViews[i].Initialize(hasMoveBoost, PlayerHasMagnet[i], config.CoinsPerGap);
-                
-                var (vinePositions, phaseOffsets, periods) = trackViews[i].SpawnVines(vineCount, config.VineSpacing, vineAnchorY, config, new System.Random(seed), countdownDurationInSeconds);
-                allVinePositions[i] = vinePositions;
-                PlayerStateMachines[i] = new PlayerStateMachine(config, vinePositions, vineAnchorY, phaseOffsets, periods);
-                PlayerStateMachines[i].Start(0);
-                playerViews[i].transform.localPosition = new Vector3(
-                    PlayerStateMachines[i].PlayerContext.PositionX,
-                    PlayerStateMachines[i].PlayerContext.PositionY);
-                cameraFollows[i].Initialize(PlayerStateMachines[i].PlayerContext);
-            }
-
-            
-            for (int i = 0; i < PlayerCount; i++) {
-                var randomNumberGenerator = new System.Random(seed);
-                SwingConfig config = PlayerStateMachines[i].SwingConfig;
-                float specialCoinRateMultiplier = 1f + playerModifiers[i].SpecialCoinRateBoostCount * 3f;
-                var trails = CoinTrailGenerator.GenerateAllTrails(vineCount, config, seed);
-                coinSpawners[i].SpawnCoinsForTrack(trails, allVinePositions[i], vineAnchorY, playerStats.CoinTypes, randomNumberGenerator, specialCoinRateMultiplier);
-            }
-        }
-
-        private void InitializePlayerDisplays() {
-            for (int i = 0; i < PlayerCount; i++) {
-                var slot = PlayerService.PlayerSlots[i];
-                if (slot?.Profile != null) {
-                    playerCornerDisplays[i].Initialize(slot.Profile, PlayerCornerDisplay.DisplayMode.Score);
-                }
-            }
         }
 
         private void StartGameFlow() {
@@ -183,23 +123,23 @@ namespace Minigames.Swinging {
             if (!hasBeenInitialized) return;
             currentState?.OnUpdate();
 
-            if (!isInGameplay && PlayerStateMachines != null) {
-                for (int i = 0; i < PlayerStateMachines.Length; i++) {
-                    PlayerStateMachines[i].Update(Time.deltaTime, false);
-                    playerViews[i].Pull(PlayerStateMachines[i].PlayerContext);
+            if (!isInGameplay && players.PlayerStateMachines != null) {
+                for (int i = 0; i < players.PlayerStateMachines.Length; i++) {
+                    players.PlayerStateMachines[i].Update(Time.deltaTime, false);
+                    players.PlayerViews[i].Pull(players.PlayerStateMachines[i].PlayerContext);
                 }
             }
 
-            if (PlayerStateMachines != null) {
-                for (int i = 0; i < PlayerStateMachines.Length; i++) {
-                    var context = PlayerStateMachines[i].PlayerContext;
-                    trackViews[i].UpdateElapsedTime(PlayerStateMachines[i].ElapsedTime);
+            if (players.PlayerStateMachines != null) {
+                for (int i = 0; i < players.PlayerStateMachines.Length; i++) {
+                    var context = players.PlayerStateMachines[i].PlayerContext;
+                    players.TrackViews[i].UpdateElapsedTime(players.PlayerStateMachines[i].ElapsedTime);
 
                     int activeVineIndex = -1;
                     if (isInGameplay && context.CurrentStateType == PlayerStateType.Swinging) {
                         activeVineIndex = context.CurrentVineIndex;
                     }
-                    trackViews[i].SetSweetSpotHintLevel(activeVineIndex, context.DisplayedHintLevel);
+                    players.TrackViews[i].SetSweetSpotHintLevel(activeVineIndex, context.DisplayedHintLevel);
                 }
             }
 

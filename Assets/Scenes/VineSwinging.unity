@@ -10082,6 +10082,7 @@ GameObject:
   - component: {fileID: 2038017122}
   - component: {fileID: 2038017121}
   - component: {fileID: 2038017123}
+  - component: {fileID: 2038017124}
   m_Layer: 0
   m_Name: MinigameManager
   m_TagString: MinigameManager
@@ -10104,40 +10105,15 @@ MonoBehaviour:
   resultsDisplayDurationInSeconds: 5
   vineCount: 40
   vineAnchorY: 8
-  playerStats: {fileID: 11400000, guid: f40ce12690a6d4c91acb1c250c4504b4, type: 2}
   aiConfig: {fileID: 11400000, guid: 2f4ef5f11108844ceb86315b8fe2581c, type: 2}
   hintSuccessDecrement: 0.25
   hintFailureIncrement: 1
   hintFadeSpeed: 1
   startCountdown: {fileID: 2110988712}
   music: {fileID: 2038017123}
+  players: {fileID: 2038017124}
   gameTimer: {fileID: 2124561518}
   placesDisplay: {fileID: 595825008}
-  playerCornerDisplays:
-  - {fileID: 1270901780}
-  - {fileID: 1159891940}
-  - {fileID: 1596411628}
-  - {fileID: 608223091}
-  playerViews:
-  - {fileID: 1311640586}
-  - {fileID: 29620253}
-  - {fileID: 136553501}
-  - {fileID: 1574849118}
-  trackViews:
-  - {fileID: 1122885771}
-  - {fileID: 292529218}
-  - {fileID: 693494043}
-  - {fileID: 661977492}
-  cameraFollows:
-  - {fileID: 526212528}
-  - {fileID: 1463277175}
-  - {fileID: 1173318914}
-  - {fileID: 1368874965}
-  coinSpawners:
-  - {fileID: 816155590}
-  - {fileID: 1982890331}
-  - {fileID: 1770116925}
-  - {fileID: 778948417}
 --- !u!4 &2038017122
 Transform:
   m_ObjectHideFlags: 0
@@ -10172,6 +10148,44 @@ MonoBehaviour:
       Data3: -363563380
       Data4: -712907215
     Path: event:/Swinging/VineSwingingMusic
+--- !u!114 &2038017124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038017120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afbdfdf47b1c40f3923087d60c2786e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingPlayers
+  playerStats: {fileID: 11400000, guid: f40ce12690a6d4c91acb1c250c4504b4, type: 2}
+  playerCornerDisplays:
+  - {fileID: 1270901780}
+  - {fileID: 1159891940}
+  - {fileID: 1596411628}
+  - {fileID: 608223091}
+  playerViews:
+  - {fileID: 1311640586}
+  - {fileID: 29620253}
+  - {fileID: 136553501}
+  - {fileID: 1574849118}
+  trackViews:
+  - {fileID: 1122885771}
+  - {fileID: 292529218}
+  - {fileID: 693494043}
+  - {fileID: 661977492}
+  cameraFollows:
+  - {fileID: 526212528}
+  - {fileID: 1463277175}
+  - {fileID: 1173318914}
+  - {fileID: 1368874965}
+  coinSpawners:
+  - {fileID: 816155590}
+  - {fileID: 1982890331}
+  - {fileID: 1770116925}
+  - {fileID: 778948417}
 --- !u!1 &2040414323
 GameObject:
   m_ObjectHideFlags: 0
