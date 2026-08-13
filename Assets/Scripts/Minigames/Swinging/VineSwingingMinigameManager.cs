@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using CoreData;
 using Debug;
-using FMOD.Studio;
-using FMODUnity;
 using Game;
 using Input;
 using Minigames.Swinging.Core;
@@ -14,7 +12,6 @@ using Player;
 using Services;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 namespace Minigames.Swinging {
     public class VineSwingingMinigameManager : MonoBehaviour, IMinigameManager {
@@ -43,8 +40,9 @@ namespace Minigames.Swinging {
         public float HintFailureIncrement => hintFailureIncrement;
         public float HintFadeSpeed => hintFadeSpeed;
 
-        [Header("References")] [SerializeField]
-        private MinigameStartCountdown startCountdown;
+        [Header("References")] 
+        [SerializeField] private MinigameStartCountdown startCountdown;
+        [SerializeField] private VineSwingingMusic music; 
 
         [SerializeField] private MinigameTimer gameTimer;
         [SerializeField] private PlacesDisplay placesDisplay;
@@ -53,10 +51,6 @@ namespace Minigames.Swinging {
         [SerializeField] private VineTrackView[] trackViews = new VineTrackView[4];
         [SerializeField] private VineSwingingCameraFollow[] cameraFollows = new VineSwingingCameraFollow[4];
         [SerializeField] private CoinTrailSpawnerView[] coinSpawners = new CoinTrailSpawnerView[4];
-
-        [Header("Audio")] 
-        [SerializeField] private EventReference musicEvent;
-        private EventInstance musicInstance;
 
         public PlayerStateMachine[] PlayerStateMachines { get; private set; }
         public IPlayerService PlayerService { get; private set; }
@@ -91,7 +85,6 @@ namespace Minigames.Swinging {
         private void Awake() {
             PlayerService = ServiceLocatorAccessor.GetService<IPlayerService>();
             powerUpService = ServiceLocatorAccessor.GetService<IPowerUpService>();
-            musicInstance = RuntimeManager.CreateInstance(musicEvent);
             effectiveGameDurationInSeconds = baseGameDurationInSeconds;
             VineSwingingCountdownState = new(this, startCountdown);
             VineSwingingGameplayState = new(this);
@@ -212,12 +205,6 @@ namespace Minigames.Swinging {
 
         }
 
-        public void StartMusic() => musicInstance.start();
-
-        private void OnDisable() {
-            musicInstance.stop(STOP_MODE.IMMEDIATE);
-        }
-
         public void OnGameEnd(PlayerMinigameResult[] results) {
             StartCoroutine(WaitAndEndMinigame(results));
         }
@@ -227,9 +214,6 @@ namespace Minigames.Swinging {
             OnMinigameFinished?.Invoke(results);
         }
 
-        private void OnDestroy() {
-            musicInstance.stop(STOP_MODE.IMMEDIATE);
-            musicInstance.release();
-        }
+        public void StartMusic() => music.Play();
     }
 }
