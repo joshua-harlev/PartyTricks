@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Debug;
 using Game;
+using Services;
 using TMPro;
 using UnityEngine;
 
@@ -22,10 +23,29 @@ namespace Minigames {
         private float RemainingTimeInSeconds { get; set; }
         private float originalTimerDuration;
         private bool halfwayPointEventTriggered;
-        private bool isPaused;
+        private IPauseService pauseService;
+        private bool pausedByGame;
+        private bool pausedByDebugMenu;
+        private bool IsPaused => pausedByGame || pausedByDebugMenu;
         private Coroutine timerCoroutine = null;
         [SerializeField] private Boolean enableTimerBlink = false;
-        [SerializeField] private Color blinkColor = Color.red; 
+        [SerializeField] private Color blinkColor = Color.red;
+
+        private void Awake() {
+            pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
+            if (pauseService != null) {
+                pauseService.OnPause += OnPauseServicePause;
+                pauseService.OnUnpause += OnPauseServiceUnpause;
+            }
+        }
+
+        private void OnPauseServicePause() {
+            pausedByGame = true;
+        }
+
+        private void OnPauseServiceUnpause() {
+            pausedByGame = false;
+        }
 
         public void Initialize(float gameLengthInSeconds, string endOfGameText = "Game!") {
             RemainingTimeInSeconds = Mathf.Ceil(gameLengthInSeconds);
@@ -56,19 +76,26 @@ namespace Minigames {
 
         private IEnumerator Timer() {
             while (RemainingTimeInSeconds > 0) {
-                while(isPaused) yield return null;
                 OnTick(RemainingTimeInSeconds);
                 if (!halfwayPointEventTriggered && RemainingTimeInSeconds <= (originalTimerDuration / 2f)) {
                     OnHalfwayPointReached?.Invoke(RemainingTimeInSeconds);
                     halfwayPointEventTriggered = true;
                 }
                 DebugLogger.Log(LogChannel.Systems, "Game timer ticked: " + RemainingTimeInSeconds  + " seconds remaining.");
-                yield return new WaitForSecondsRealtime(1f / DebugMenu.DebugTimerSpeedUpMultiplier);
+                yield return WaitUnpaused(1f / DebugMenu.DebugTimerSpeedUpMultiplier);
                 RemainingTimeInSeconds--;
             }
             OnTimeUp();
             OnTimerEnd?.Invoke();
             timerCoroutine = null;
+        }
+
+        private IEnumerator WaitUnpaused(float durationInSeconds) {
+            float elapsedTime = 0f;
+            while (elapsedTime < durationInSeconds) {
+                if(!IsPaused) elapsedTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
         }
 
         private void OnTimeUp() {
@@ -104,17 +131,24 @@ namespace Minigames {
             }
         }
 
-        public void Resume() {
-            isPaused = false;
+        public void ResumeFromDebugMenu() {
+            pausedByDebugMenu = false;
         }
 
-        public void Pause() {
-            isPaused = true;
+        public void PauseFromDebugMenu() {
+            pausedByDebugMenu = true;
         }
     
         public void SetVisible(bool visible) {
             if (visible) ShowPanel();
             else HidePanel();
+        }
+
+        private void OnDestroy() {
+            if (pauseService != null) {
+                pauseService.OnPause -= OnPauseServicePause;
+                pauseService.OnUnpause -= OnPauseServiceUnpause;
+            }
         }
     }
 }
