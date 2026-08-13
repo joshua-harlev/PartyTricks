@@ -170,8 +170,8 @@ namespace Game {
                 timerPaused = newTimerPausedState;
                 cachedTimer ??= Object.FindAnyObjectByType<MinigameTimer>();
                 if (cachedTimer == null) return;
-                if (timerPaused) cachedTimer.Pause();
-                else cachedTimer.Resume();
+                if (timerPaused) cachedTimer.PauseFromDebugMenu();
+                else cachedTimer.ResumeFromDebugMenu();
             }
         }
         
