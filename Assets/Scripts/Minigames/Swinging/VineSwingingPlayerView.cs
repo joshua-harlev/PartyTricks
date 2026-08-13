@@ -134,7 +134,7 @@ namespace Minigames.Swinging {
             currentPlayerContext.PendingEvents.Add(PlayerEvent.CollectedCoin);
         }
 
-        public void SweepCollectCoins(Vector3 targetLocalPosition) {
+        private void SweepCollectCoins(Vector3 targetLocalPosition) {
             Vector2 fromWorldPosition = (Vector2)transform.position;
             Vector2 toWorldPosition;
             if (transform.parent != null) {

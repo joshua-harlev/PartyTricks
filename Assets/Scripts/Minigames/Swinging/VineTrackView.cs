@@ -27,7 +27,6 @@ namespace Minigames.Swinging {
                     phaseOffsets[i] = topLeftSwingPhase - radiansPerSecond * countdownDuration;
                 }
                 else {
-                    float idealReleasePhase = 0.55f;
                     var (releaseVelocityX, _) = SwingSimulation.GetShapedReleaseVelocity(
                         SweetSpot.IdealReleasePhase, config.Amplitude, config.Period,
                         config.LaunchForce, config.RopeLength, config.ReleaseCurveExponent);

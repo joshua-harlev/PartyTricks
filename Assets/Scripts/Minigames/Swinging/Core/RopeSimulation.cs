@@ -78,15 +78,7 @@ namespace Minigames.Swinging.Core {
             driveTarget = target;
             hasDriveTarget = true;
         }
-
-        public Vec2 GetTipPosition() {
-            return positions[PointCount - 1];
-        }
-
-        public void ApplyImpulse(Vec2 force, int pointIndex) {
-            positions[pointIndex] += force;
-        }
-
+        
         public void ApplyTautness(float tautness, float curveOffset = 0f) {
             if (!hasDriveTarget || tautness <= 0) return;
             
