@@ -7,11 +7,6 @@ using UnityEngine;
 namespace Minigames.Swinging.States {
     public class VineSwingingGameplayState : IVineSwingingGameState {
         private readonly VineSwingingMinigameManager minigameManager;
-        private const int MaxMagnetHits = 16;
-        private readonly Collider2D[] magnetHits = new Collider2D[MaxMagnetHits];
-        private readonly ContactFilter2D magnetFilter = new ContactFilter2D
-            { useTriggers = true, useLayerMask = false };
-        
         private VineSwingingAIController aiController;
 
         private int[] previousScores;
@@ -67,16 +62,6 @@ namespace Minigames.Swinging.States {
                 bool fell = playerContext.PendingEvents.Contains(PlayerEvent.Fell);
                 playerContext.UpdateSweetSpotHint(madeProgress, fell, deltaTime, minigameManager.HintSuccessDecrement, minigameManager.HintFailureIncrement, minigameManager.HintFadeSpeed);
                 minigameManager.PlayerViews[i].Pull(minigameManager.PlayerStateMachines[i].PlayerContext);
-                if (minigameManager.PlayerHasMagnet[i]) {
-                    Vector2 center = minigameManager.PlayerViews[i].transform.position;
-                    int hitCount = Physics2D.OverlapCircle(center, minigameManager.PlayerMagnetRadii[i], magnetFilter, magnetHits);
-                    for (var hitIndex = 0; hitIndex < hitCount; hitIndex++) {
-                        var collision = magnetHits[hitIndex];
-                        var coin = collision.GetComponent<SwingingCoinView>();
-                        coin?.StartPull(minigameManager.PlayerViews[i].transform,
-                            minigameManager.PlayerMagnetPullSpeed[i]);
-                    }
-                }
                 
                 int score = ResultsCalculator.CalculateScore(playerContext,
                     minigameManager.PlayerStateMachines[i].SwingConfig);
@@ -85,6 +70,7 @@ namespace Minigames.Swinging.States {
                     minigameManager.PlayerCornerDisplays[i].UpdateScore(score);
                 }
             }
+            minigameManager.UpdateMagnets();
         }
 
         private void OnTimerEnd() {

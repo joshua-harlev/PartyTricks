@@ -39,7 +39,7 @@ namespace Minigames.Swinging {
         [SerializeField] private MinigameStartCountdown startCountdown;
         [SerializeField] private VineSwingingMusic music;
         [SerializeField] private VineSwingingPlayers players;
-
+        [SerializeField] private VineSwingingMagnets magnets;
         [SerializeField] private MinigameTimer gameTimer;
         [SerializeField] private PlacesDisplay placesDisplay;
         
@@ -50,10 +50,7 @@ namespace Minigames.Swinging {
         public VineSwingingAIConfigSO AIConfig => aiConfig;
         public PlayerStateMachine[] PlayerStateMachines => players.PlayerStateMachines;
         public VineSwingingPlayerView[] PlayerViews => players.PlayerViews;
-        public bool[] PlayerHasMagnet => players.PlayerHasMagnet;
-        public float[] PlayerMagnetPullSpeed => players.PlayerMagnetPullSpeed;
         public PlayerCornerDisplay[] PlayerCornerDisplays => players.PlayerCornerDisplays;
-        public float[] PlayerMagnetRadii => players.PlayerMagnetRadii;
 
         private IVineSwingingGameState currentState;
         private IPowerUpService powerUpService;
@@ -155,5 +152,6 @@ namespace Minigames.Swinging {
         }
 
         public void StartMusic() => music.Play();
+        public void UpdateMagnets() => magnets.DoTick();
     }
 }

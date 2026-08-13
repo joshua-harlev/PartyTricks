@@ -10113,6 +10113,7 @@ GameObject:
   - component: {fileID: 2038017121}
   - component: {fileID: 2038017123}
   - component: {fileID: 2038017124}
+  - component: {fileID: 2038017125}
   m_Layer: 0
   m_Name: MinigameManager
   m_TagString: MinigameManager
@@ -10142,6 +10143,7 @@ MonoBehaviour:
   startCountdown: {fileID: 2110988712}
   music: {fileID: 2038017123}
   players: {fileID: 2038017124}
+  magnets: {fileID: 2038017125}
   gameTimer: {fileID: 2124561518}
   placesDisplay: {fileID: 595825008}
 --- !u!4 &2038017122
@@ -10216,6 +10218,19 @@ MonoBehaviour:
   - {fileID: 1982890331}
   - {fileID: 1770116925}
   - {fileID: 778948417}
+--- !u!114 &2038017125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038017120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d9bdf40151453c84895044cbca43f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingMagnets
+  players: {fileID: 2038017124}
 --- !u!1 &2040414323
 GameObject:
   m_ObjectHideFlags: 0
