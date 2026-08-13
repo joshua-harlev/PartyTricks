@@ -5669,6 +5669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1136707359}
   - component: {fileID: 1136707358}
+  - component: {fileID: 1136707360}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -5756,6 +5757,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1136707360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136707357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &1142428414
 GameObject:
   m_ObjectHideFlags: 0
@@ -9540,7 +9570,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1883672187
@@ -10081,6 +10111,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2038017122}
   - component: {fileID: 2038017121}
+  - component: {fileID: 2038017123}
+  - component: {fileID: 2038017124}
+  - component: {fileID: 2038017125}
   m_Layer: 0
   m_Name: MinigameManager
   m_TagString: MinigameManager
@@ -10103,14 +10136,63 @@ MonoBehaviour:
   resultsDisplayDurationInSeconds: 5
   vineCount: 40
   vineAnchorY: 8
-  playerStats: {fileID: 11400000, guid: f40ce12690a6d4c91acb1c250c4504b4, type: 2}
   aiConfig: {fileID: 11400000, guid: 2f4ef5f11108844ceb86315b8fe2581c, type: 2}
   hintSuccessDecrement: 0.25
   hintFailureIncrement: 1
   hintFadeSpeed: 1
   startCountdown: {fileID: 2110988712}
+  music: {fileID: 2038017123}
+  players: {fileID: 2038017124}
+  magnets: {fileID: 2038017125}
   gameTimer: {fileID: 2124561518}
   placesDisplay: {fileID: 595825008}
+--- !u!4 &2038017122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038017120}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.51128, y: 4.27655, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2038017123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038017120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f394c7a32a40b4a66e94c7ab912ed9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingMusic
+  musicEvent:
+    Guid:
+      Data1: -396942303
+      Data2: 1089373099
+      Data3: -363563380
+      Data4: -712907215
+    Path: event:/Swinging/VineSwingingMusic
+--- !u!114 &2038017124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038017120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afbdfdf47b1c40f3923087d60c2786e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingPlayers
+  playerStats: {fileID: 11400000, guid: f40ce12690a6d4c91acb1c250c4504b4, type: 2}
   playerCornerDisplays:
   - {fileID: 1270901780}
   - {fileID: 1159891940}
@@ -10136,28 +10218,19 @@ MonoBehaviour:
   - {fileID: 1982890331}
   - {fileID: 1770116925}
   - {fileID: 778948417}
-  musicEvent:
-    Guid:
-      Data1: -396942303
-      Data2: 1089373099
-      Data3: -363563380
-      Data4: -712907215
-    Path: event:/Swinging/VineSwingingMusic
---- !u!4 &2038017122
-Transform:
+--- !u!114 &2038017125
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038017120}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.51128, y: 4.27655, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d9bdf40151453c84895044cbca43f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Swinging::Minigames.Swinging.VineSwingingMagnets
+  players: {fileID: 2038017124}
 --- !u!1 &2040414323
 GameObject:
   m_ObjectHideFlags: 0

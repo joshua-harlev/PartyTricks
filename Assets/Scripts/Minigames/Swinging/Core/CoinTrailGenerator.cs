@@ -8,7 +8,7 @@ namespace Minigames.Swinging.Core {
             float flightStartX = (swingReach + safeMargin) / config.VineSpacing;
             float flightEndX = 1f - flightStartX;
 
-            float idealPhase = 0.55f;
+            float idealPhase = SweetSpot.IdealReleasePhase;
             var (releaseVx, releaseVy) = SwingSimulation.GetShapedReleaseVelocity(idealPhase, config.Amplitude,
                 config.Period, config.LaunchForce, config.RopeLength, config.ReleaseCurveExponent);
             releaseVy *= config.VerticalLaunchScale;

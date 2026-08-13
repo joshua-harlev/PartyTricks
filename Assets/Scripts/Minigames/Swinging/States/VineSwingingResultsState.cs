@@ -30,11 +30,11 @@ namespace Minigames.Swinging.States {
         }
 
         private PlayerMinigameResult[] CalculateResults() {
-            int[] scores = new int[4];
-            for (int i = 0; i < 4; i++) {
+            int[] scores = new int[minigameManager.PlayerCount];
+            for (int i = 0; i < minigameManager.PlayerStateMachines.Length; i++) {
                 var context = minigameManager.PlayerStateMachines[i].PlayerContext;
                 var config = minigameManager.PlayerStateMachines[i].SwingConfig;
-                scores[i] = context.FurthestVineIndex * config.VineScoreValue + context.TotalCoinValue;
+                scores[i] = ResultsCalculator.CalculateScore(context, config);
             }
 
             int[] ranks = ResultsCalculator.CalculateRanks(scores);
@@ -46,8 +46,8 @@ namespace Minigames.Swinging.States {
                 }
             }
 
-            var results = new PlayerMinigameResult[4];
-            for (int i = 0; i < 4; i++) {
+            var results = new PlayerMinigameResult[minigameManager.PlayerCount];
+            for (int i = 0; i < minigameManager.PlayerCount; i++) {
                 results[i] = new PlayerMinigameResult(i, ranks[i], fundsPerRank[ranks[i]]);
             }
             return results;

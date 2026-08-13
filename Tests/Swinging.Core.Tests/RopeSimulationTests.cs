@@ -71,10 +71,10 @@ namespace Swinging.Core.Tests {
             var rope = new RopeSimulation(PointCount, RopeLength);
 
             var target = new Vec2(2f, -RopeLength);
-            rope.SetDriveTarget(target, stiffness: 0.5f);
+            rope.SetDriveTarget(target);
 
             for (int i = 0; i < 30; i++) {
-                rope.SetDriveTarget(target, stiffness: 0.5f);
+                rope.SetDriveTarget(target);
                 rope.Simulate(1f/60f);
                 rope.Constrain();
             }
@@ -83,28 +83,6 @@ namespace Swinging.Core.Tests {
             
             Assert.True(tip.X > 0f, $"Expected tip to move right toward target. Tip X: {tip.X}");
         }
-        
-        [Fact]
-        public void GetTipPositionWorks() {
-            var rope = new RopeSimulation(PointCount, RopeLength);
-            var tip = rope.GetTipPosition();
-            var positions = rope.GetPositions();
-            
-            Assert.Equal(positions[PointCount - 1].X, tip.X);
-            Assert.Equal(positions[PointCount - 1].Y, tip.Y);
-        }
-
-        [Fact]
-        public void ApplyImpulseAffectsNextSimulationStep() {
-            var rope = new RopeSimulation(PointCount, RopeLength);
-            var beforeX = rope.GetPositions()[3].X;
-
-            rope.ApplyImpulse(new Vec2(1f, 0f), 3);
-            rope.Simulate(1f / 60f);
-            
-            var afterX = rope.GetPositions()[3].X;
-            Assert.True(afterX > beforeX, $"Expected X to move right. Before: {beforeX}, After: {afterX}");
-        }
 
         [Fact]
         public void DrivenTipRemainsAtTargetAfterSimulateAndConstrain() {
@@ -112,12 +90,12 @@ namespace Swinging.Core.Tests {
             var target = new Vec2(1.5f, -RopeLength + 0.5f);
 
             for (int i = 0; i < 60; i++) {
-                rope.SetDriveTarget(target, stiffness: 1f);
+                rope.SetDriveTarget(target);
                 rope.Simulate(1f / 60f);
                 rope.Constrain();
             }
-            
-            var tip = rope.GetTipPosition();
+
+            var tip = rope.GetPositions()[PointCount - 1];
             Assert.Equal(target.X, tip.X, precision: 2);
             Assert.Equal(target.Y, tip.Y, precision: 2);
         }
@@ -128,12 +106,12 @@ namespace Swinging.Core.Tests {
             var target = new Vec2(2f, 0f);
 
             for (int i = 0; i < 60; i++) {
-                rope.SetDriveTarget(target, stiffness: 1f);
+                rope.SetDriveTarget(target);
                 rope.Simulate(1f / 60f);
                 rope.Constrain();
             }
             
-            var tip = rope.GetTipPosition();
+            var tip = rope.GetPositions()[PointCount-1];
             Assert.Equal(target.Y, tip.Y, precision: 1);
         }
 
@@ -143,7 +121,7 @@ namespace Swinging.Core.Tests {
             var target = new Vec2(2f, -RopeLength + 0.5f);
             
             for (int i = 0; i < 60; i++) {
-                rope.SetDriveTarget(target, stiffness: 1f);
+                rope.SetDriveTarget(target);
                 rope.Simulate(1f / 60f);
                 rope.Constrain();
             }

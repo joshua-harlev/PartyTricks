@@ -24,7 +24,7 @@ namespace Minigames.Swinging {
         private bool hasMagnet;
         private bool hasGrabbedOnce;
         private const float SnapSpeed = 80f;
-        private RaycastHit2D[] magnetHits;
+        private RaycastHit2D[] coinSweepHits;
 
         public void Initialize(bool showTrail, bool hasMagnet, int coinsPerGap) {
             this.showTrail = showTrail;
@@ -41,7 +41,7 @@ namespace Minigames.Swinging {
             } else magnetOutline.gameObject.SetActive(false);
             
             trailOffsetX = boostTrailParticles.transform.localPosition.x;
-            magnetHits = new RaycastHit2D[coinsPerGap*2];
+            coinSweepHits = new RaycastHit2D[coinsPerGap*2];
         }
         
         public void Pull(PlayerContext playerContext) {
@@ -134,7 +134,7 @@ namespace Minigames.Swinging {
             currentPlayerContext.PendingEvents.Add(PlayerEvent.CollectedCoin);
         }
 
-        public void SweepCollectCoins(Vector3 targetLocalPosition) {
+        private void SweepCollectCoins(Vector3 targetLocalPosition) {
             Vector2 fromWorldPosition = (Vector2)transform.position;
             Vector2 toWorldPosition;
             if (transform.parent != null) {
@@ -150,11 +150,11 @@ namespace Minigames.Swinging {
 
             float sweepRadius = Mathf.Clamp(distance * 0.25f, 0.1f, 1.5f);
             
-            int hitCount = Physics2D.CircleCast(origin: fromWorldPosition, radius: sweepRadius, direction: direction.normalized, contactFilter: ContactFilter2D.noFilter, results: magnetHits, distance: distance);
+            int hitCount = Physics2D.CircleCast(origin: fromWorldPosition, radius: sweepRadius, direction: direction.normalized, contactFilter: ContactFilter2D.noFilter, results: coinSweepHits, distance: distance);
             for (var i = 0; i < hitCount; i++) {
-                var hit = magnetHits[i];
+                var hit = coinSweepHits[i];
                 var coin = hit.collider.GetComponent<SwingingCoinView>();
-                coin?.ForceCollect(this);
+                coin?.Collect(this);
             }
         }
     }

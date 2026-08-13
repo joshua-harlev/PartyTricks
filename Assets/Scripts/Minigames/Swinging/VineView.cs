@@ -15,7 +15,6 @@ namespace Minigames.Swinging {
         private float smoothedCurveOffset;
         private RopeSimulation ropeSimulation;
         private const int RopePointCount = 6;
-        private const float DriveStiffness = 0.5f;
         private const float Tautness = 0.3f;
         private const float CurveAmount = 0.6f;
         // lower value = more lag on the rope.
@@ -47,7 +46,7 @@ namespace Minigames.Swinging {
             float targetCurveOffset = -angularVelocity * CurveAmount;
             smoothedCurveOffset = Mathf.Lerp(smoothedCurveOffset, targetCurveOffset, 1f-Mathf.Exp(-CurveResponse * Time.deltaTime));
             
-            ropeSimulation.SetDriveTarget(new Vec2(offsetX, offsetY), DriveStiffness);
+            ropeSimulation.SetDriveTarget(new Vec2(offsetX, offsetY));
             ropeSimulation.Simulate(Time.deltaTime);
             ropeSimulation.Constrain();
             ropeSimulation.ApplyTautness(Tautness, smoothedCurveOffset);
@@ -58,15 +57,11 @@ namespace Minigames.Swinging {
                 lineRenderer.SetPosition(i, anchorPosition + new Vector3(ropePoints[i].X, ropePoints[i].Y, 0));
             }
 
-            float glowAmount = InSweetSpot(currentPhase) ? sweetSpotHintLevel : 0f;
+            float glowAmount = SweetSpot.IsInGlowWindow(currentPhase) ? sweetSpotHintLevel : 0f;
             Color vineColor = Color.Lerp(Color.white, Color.yellow, glowAmount);
             lineRenderer.startColor = vineColor;
             lineRenderer.endColor = vineColor;
             if(DoDebug && glowAmount > 0f) UnityEngine.Debug.Log($"{Mathf.Sin(currentPhase)} {Mathf.Cos(currentPhase)}");
-        }
-        
-        private bool InSweetSpot(float currentPhase) {
-            return Mathf.Sin(currentPhase) > 0.25f && Mathf.Cos(currentPhase) > 0.3f && Mathf.Sin(currentPhase) < 0.67f;
         }
     }
 }

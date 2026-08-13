@@ -1,4 +1,5 @@
 using Minigames.Swinging.Core;
+using Minigames.Swinging.Core.PlayerStateMachine;
 using Xunit;
 
 namespace Swinging.Core.Tests {
@@ -22,6 +23,24 @@ namespace Swinging.Core.Tests {
         public void TiedPlayersAreGivenTheSameRanks(int[] scores, int[] expected) {
             int[] ranks = ResultsCalculator.CalculateRanks(scores);
             Assert.Equal(expected, ranks); 
+        }
+
+        [Fact]
+        public void ScoreCombinesVineProgressAndCoins() {
+            var context = new PlayerContext { FurthestVineIndex = 3, TotalCoinValue = 7 };
+            var config = TestHelpers.DefaultConfig(vineScoreValue: 10);
+            Assert.Equal(37, ResultsCalculator.CalculateScore(context, config));
+        }
+
+        [Fact]
+        public void NewPlayerHasZeroScore() {
+            Assert.Equal(0, ResultsCalculator.CalculateScore(new PlayerContext(), TestHelpers.DefaultConfig()));
+        }
+
+        [Fact]
+        public void CoinsCountWithoutVineProgress() {
+            var context = new PlayerContext { FurthestVineIndex = 0, TotalCoinValue = 12 };
+            Assert.Equal(12, ResultsCalculator.CalculateScore(context, TestHelpers.DefaultConfig()));
         }
     }
 }

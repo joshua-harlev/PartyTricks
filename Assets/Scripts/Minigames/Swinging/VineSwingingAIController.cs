@@ -1,5 +1,6 @@
+using System;
+using Minigames.Swinging.Core;
 using Minigames.Swinging.Core.PlayerStateMachine;
-using UnityEngine;
 
 namespace Minigames.Swinging {
     public class VineSwingingAIController {
@@ -10,18 +11,18 @@ namespace Minigames.Swinging {
         private float releaseThresholdRange = 0.3f;
         private float minPhaseOffset = 0.2f;
 
-        private readonly System.Random[] randomGenerators;
+        private readonly Random[] randomGenerators;
         private readonly bool[] skipWindow;
         private readonly bool[] wasInWindow;
         private readonly float[] phaseOffsetFromOptimal;
 
-        public VineSwingingAIController(VineSwingingAIConfigSO config) {
-            randomGenerators = new System.Random[4];
-            skipWindow = new bool[4];
-            wasInWindow = new bool[4];
-            phaseOffsetFromOptimal = new float[4];
-            for (int i = 0; i < 4; i++) {
-                randomGenerators[i] = new System.Random();
+        public VineSwingingAIController(VineSwingingAIConfigSO config, int playerCount) {
+            randomGenerators = new Random[playerCount];
+            skipWindow = new bool[playerCount];
+            wasInWindow = new bool[playerCount];
+            phaseOffsetFromOptimal = new float[playerCount];
+            for (int i = 0; i < playerCount; i++) {
+                randomGenerators[i] = new Random();
             }
 
             if(config) InitializeFromConfig(config);
@@ -88,9 +89,7 @@ namespace Minigames.Swinging {
 
         private bool EvaluateWindow(PlayerContext context, float offset = 0f) {
             if (context.CurrentStateType != PlayerStateType.Swinging) return false;
-            float phase = context.SwingPhase + offset;
-            float threshold = context.AIReleaseThreshold;
-            return Mathf.Sin(phase) > threshold && Mathf.Cos(phase) > threshold;
+            return SweetSpot.IsInReleaseWindow(context.SwingPhase + offset, context.AIReleaseThreshold);
         }
     }
 }
