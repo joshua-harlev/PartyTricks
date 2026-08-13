@@ -18,7 +18,7 @@ namespace Minigames.Swinging {
             pullSpeed = speed;
         }
         
-        public void ForceCollect(VineSwingingPlayerView playerView) {
+        public void Collect(VineSwingingPlayerView playerView) {
             if (isCollected) return;
             isCollected = true;
             playerView.CollectCoin(coinValue);
@@ -38,13 +38,9 @@ namespace Minigames.Swinging {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (isCollected) return;
             var playerView = other.GetComponentInParent<VineSwingingPlayerView>();
             if (playerView == null) return;
-            isCollected = true;
-            playerView.CollectCoin(coinValue);
-            pullTrailParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            Destroy(gameObject);
+            Collect(playerView);
         }
     }
 }
