@@ -13,7 +13,7 @@ namespace EditorTools {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void EnsureSessionState() {
             var activeScene = SceneManager.GetActiveScene();
-            if (activeScene.name == "MainMenu") return;
+            if (activeScene.name is "MainMenu" or "ControllerConnectionScreenTest") return;
 
             var gameFlowManager = ServiceLocatorAccessor.GetService<IGameFlowService>() as GameFlowManager;
             if (gameFlowManager == null || gameFlowManager.HasActiveSession) return;
