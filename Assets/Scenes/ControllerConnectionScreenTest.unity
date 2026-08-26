@@ -197,7 +197,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c12f96c55f461e947da40ca5fd33ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Input::Input.ControllerConnection.Player
+  maxGroundAngle: 30
   JumpForce: 10
+  Speed: 5
+  JumpBufferTimeInSeconds: 0.1
 --- !u!50 &108762835
 Rigidbody2D:
   serializedVersion: 5
@@ -214,17 +217,17 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 29329e3e123b34498b7a81204ba2b29a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &108762836
 SpriteRenderer:
   serializedVersion: 2
@@ -331,7 +334,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c12f96c55f461e947da40ca5fd33ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Input::Input.ControllerConnection.Player
+  maxGroundAngle: 30
   JumpForce: 10
+  Speed: 5
+  JumpBufferTimeInSeconds: 0.1
 --- !u!50 &223219896
 Rigidbody2D:
   serializedVersion: 5
@@ -348,17 +354,17 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 29329e3e123b34498b7a81204ba2b29a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &223219897
 SpriteRenderer:
   serializedVersion: 2
@@ -957,7 +963,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c12f96c55f461e947da40ca5fd33ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Input::Input.ControllerConnection.Player
+  maxGroundAngle: 30
   JumpForce: 10
+  Speed: 5
+  JumpBufferTimeInSeconds: 0.1
 --- !u!50 &1406229944
 Rigidbody2D:
   serializedVersion: 5
@@ -974,17 +983,17 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 29329e3e123b34498b7a81204ba2b29a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &1406229945
 SpriteRenderer:
   serializedVersion: 2
@@ -1137,7 +1146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c12f96c55f461e947da40ca5fd33ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Input::Input.ControllerConnection.Player
+  maxGroundAngle: 30
   JumpForce: 10
+  Speed: 5
+  JumpBufferTimeInSeconds: 0.1
 --- !u!50 &1430188842
 Rigidbody2D:
   serializedVersion: 5
@@ -1154,17 +1166,17 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 29329e3e123b34498b7a81204ba2b29a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &1430188843
 SpriteRenderer:
   serializedVersion: 2

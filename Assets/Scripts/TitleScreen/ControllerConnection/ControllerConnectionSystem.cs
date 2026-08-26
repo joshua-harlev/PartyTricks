@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using Player;
+using Services;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Input.ControllerConnection {
-    // basically pseudocode for now; not linked up to OnPlayerJoined or tested
     public class ControllerConnectionSystem : MonoBehaviour {
         private List<Color> randomColorList = new() {
             Color.red,
@@ -17,18 +18,24 @@ namespace Input.ControllerConnection {
         };
         
         private List<PlayerSelector> playerSelectors;
+        private IPlayerService playerService;
         [SerializeField] private GameObject playerSelectorPrefab;
 
         private void Awake() {
+            playerSelectors = new List<PlayerSelector>();
+            playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+            playerService.OnPlayerJoined += OnPlayerJoined;
             ShuffleColors();
         }
 
-        private void OnPlayerJoined() {
+        private void OnPlayerJoined(int slotIndex, PlayerProfile playerProfile) {
             Color pointerColor = GetRandomUnusedColor();
             GameObject playerSelectorGameObject = Instantiate(playerSelectorPrefab);
             PlayerSelector playerSelector = playerSelectorGameObject.GetComponent<PlayerSelector>();
+            var slot = playerService.PlayerSlots[slotIndex];
+            IDirectionalTwoButtonInputHandler inputHandler = slot.PlayerInput.GetComponent<IDirectionalTwoButtonInputHandler>();
             playerSelectors.Add(playerSelector);
-            playerSelector.Initialize(pointerColor);
+            playerSelector.Initialize(pointerColor, inputHandler);
         }
 
         private void ShuffleColors() {
@@ -44,6 +51,10 @@ namespace Input.ControllerConnection {
             randomColorList.RemoveAt(0);
             
             return selectedColor;
+        }
+
+        private void OnDestroy() {
+            playerService.OnPlayerJoined -= OnPlayerJoined;
         }
     }
 }

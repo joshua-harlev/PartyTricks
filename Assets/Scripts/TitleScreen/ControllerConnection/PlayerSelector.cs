@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Input.ControllerConnection {
@@ -14,12 +13,17 @@ namespace Input.ControllerConnection {
         private Player associatedPlayer;
         private IDirectionalTwoButtonInputHandler inputHandler;
         
-        private HashSet<Collider2D> colliders;
-
+        [SerializeField] private float pointerSpeed = 5f;
+        [SerializeField] private Vector2 pointerTipOffset = new Vector2(0f, -0.5773587f);
+        // To find the tip, if using a triangle, use the bottom point of a temp collider, make negative if flip y is true
+        
+        [Tooltip("Height above player to follow at")]
+        [SerializeField] private Vector2 embodiedOffset = new Vector2(0f, 1f);
         [SerializeField] private SpriteRenderer pointerSprite;
 
-        public void Initialize(Color pointerColor) {
+        public void Initialize(Color pointerColor, IDirectionalTwoButtonInputHandler input) {
             pointerSprite.color = pointerColor;
+            inputHandler = input;
         }
 
         private void Awake() {
@@ -32,8 +36,8 @@ namespace Input.ControllerConnection {
             if (currentState == PlayerSelectorState.Pointing) {
                 if (navigateDirection != Vector2.zero) {
                     var position = transform.position;
-                    position.x += navigateDirection.x * Time.deltaTime;
-                    position.y += navigateDirection.y * Time.deltaTime;
+                    position.x += navigateDirection.x * Time.deltaTime * pointerSpeed;
+                    position.y += navigateDirection.y * Time.deltaTime * pointerSpeed;
                     transform.position = position;
                 }
 
@@ -47,9 +51,15 @@ namespace Input.ControllerConnection {
             }
         }
 
+        private void LateUpdate() {
+            if (currentState != PlayerSelectorState.EmbodyingPlayer || associatedPlayer == null) return;
+            transform.position = (Vector2)associatedPlayer.transform.position + embodiedOffset;
+        }
+
         private void DetachPlayer() {
             associatedPlayer.Disassociate();
             associatedPlayer = null;
+            currentState = PlayerSelectorState.Pointing;
         }
 
         private void SelectPlayer() {
@@ -59,24 +69,15 @@ namespace Input.ControllerConnection {
             AttachToPlayer();
         }
 
-        private void OnCollisionEnter2D(Collision2D other) {
-            if (!other.collider.CompareTag("Player")) return;
-            colliders.Add(other.collider);
-        }
-
-        private void OnCollisionExit2D(Collision2D other) {
-            if (!other.collider.CompareTag("Player")) return;
-            if (colliders.Contains(other.collider)) {
-                colliders.Remove(other.collider);
-            }
-        }
-
+        
         private Player GetPlayerBelowPointer() {
-            foreach (Collider2D availableCollider in colliders) {
-                Player player = availableCollider.GetComponent<Player>();
-                if (player == null) continue;
-                if (player.HasAssociatedSelector) continue;
-                else return player;
+            Vector2 pointToCheck = transform.TransformPoint(pointerTipOffset);
+            foreach (var hit in Physics2D.OverlapPointAll(pointToCheck)) {
+                if (hit.TryGetComponent(out Player player)) {
+                    if (!player.HasAssociatedSelector) {
+                        return player;
+                    }
+                }
             }
 
             return null;
@@ -84,6 +85,7 @@ namespace Input.ControllerConnection {
 
         private void AttachToPlayer() {
             associatedPlayer.Associate();
+            currentState = PlayerSelectorState.EmbodyingPlayer;
         }
 
         public void Disable() {
