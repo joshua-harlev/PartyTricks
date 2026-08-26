@@ -24,8 +24,11 @@ namespace Input.ControllerConnection {
         private void Awake() {
             playerSelectors = new List<PlayerSelector>();
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
-            playerService.OnPlayerJoined += OnPlayerJoined;
             ShuffleColors();
+        }
+
+        private void OnEnable() {
+            playerService.OnPlayerJoined += OnPlayerJoined;
         }
 
         private void OnPlayerJoined(int slotIndex, PlayerProfile playerProfile) {
@@ -53,7 +56,7 @@ namespace Input.ControllerConnection {
             return selectedColor;
         }
 
-        private void OnDestroy() {
+        private void OnDisable() {
             playerService.OnPlayerJoined -= OnPlayerJoined;
         }
     }
