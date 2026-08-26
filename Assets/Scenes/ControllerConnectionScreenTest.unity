@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 56652196}
   - component: {fileID: 56652195}
   m_Layer: 0
-  m_Name: Square
+  m_Name: ReadyZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -371,7 +371,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.42272574, g: 0, b: 0.77254903, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -430,7 +430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.7992787, y: 1.350359}
+  m_AnchoredPosition: {x: -4.7992787, y: -2.54}
   m_SizeDelta: {x: 60.389, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &137107568
@@ -751,7 +751,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.7735849, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1691,7 +1691,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.028016502, g: 0.77254903, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1877,7 +1877,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.028365267, g: 0, b: 0.77254903, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1936,8 +1936,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.855802, y: 1.350359}
-  m_SizeDelta: {x: 60.389, y: 50}
+  m_AnchoredPosition: {x: 4.855802, y: -0.82}
+  m_SizeDelta: {x: 33.7224, y: 16.6667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1466733691
 MonoBehaviour:
@@ -1959,7 +1959,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ready Up!
+  m_text: 'Ready Up!
+
+    (0 of 0)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 80f4cbcd36e2543e7860303739b30954, type: 2}
   m_sharedMaterial: {fileID: -758679039294427410, guid: 80f4cbcd36e2543e7860303739b30954, type: 2}
@@ -2367,9 +2369,9 @@ SceneRoots:
   - {fileID: 1368645475}
   - {fileID: 380412150}
   - {fileID: 1085482505}
+  - {fileID: 157360196}
   - {fileID: 2020136470}
   - {fileID: 446597372}
   - {fileID: 1661855056}
-  - {fileID: 729999719}
-  - {fileID: 157360196}
   - {fileID: 56652196}
+  - {fileID: 729999719}
