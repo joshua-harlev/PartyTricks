@@ -23,11 +23,9 @@ namespace Input.ControllerConnection {
         [SerializeField] private SpriteRenderer pointerSprite;
         [SerializeField] private float pointerSelectionRadius = 0.5f;
         
-        private Color baseColor;
 
         public void Initialize(Color pointerColor, IDirectionalTwoButtonInputHandler input) {
             pointerSprite.color = pointerColor;
-            baseColor = pointerColor;
             inputHandler = input;
         }
 
