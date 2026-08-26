@@ -1,3 +1,5 @@
+using CoreData;
+using Services;
 using UnityEngine;
 
 namespace Input.ControllerConnection {
@@ -6,8 +8,11 @@ namespace Input.ControllerConnection {
         private Rigidbody2D playerRigidbody;
         public bool HasAssociatedSelector { get; private set; }
         private Vector2 lastMoveDirection = Vector2.zero;
+
+        [SerializeField] private int PlayerSlotIndex;
+        [SerializeField] private SpriteRenderer SpriteRenderer;
         
-        [SerializeField] private float maxGroundAngle = 30f;
+        [SerializeField] private float MaxGroundAngle = 30f;
         private ContactFilter2D groundFilter;
         
         [SerializeField] private float JumpForce = 10f;
@@ -19,7 +24,9 @@ namespace Input.ControllerConnection {
         private void Awake() {
             playerRigidbody = GetComponent<Rigidbody2D>();
             groundFilter.useNormalAngle = true;
-            groundFilter.SetNormalAngle(90f - maxGroundAngle, 90f + maxGroundAngle);
+            groundFilter.SetNormalAngle(90f - MaxGroundAngle, 90f + MaxGroundAngle);
+            Color playerColor = ServiceLocatorAccessor.GetService<PlayerColorConfig>().GetMainColor(PlayerSlotIndex);
+            SpriteRenderer.color = playerColor;
         }
 
         public void Move(Vector2 moveDirection, bool jumpWasPressed) {

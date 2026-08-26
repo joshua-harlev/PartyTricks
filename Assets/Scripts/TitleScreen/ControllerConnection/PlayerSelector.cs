@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace Input.ControllerConnection {
@@ -20,9 +21,13 @@ namespace Input.ControllerConnection {
         [Tooltip("Height above player to follow at")]
         [SerializeField] private Vector2 embodiedOffset = new Vector2(0f, 1f);
         [SerializeField] private SpriteRenderer pointerSprite;
+        [SerializeField] private float pointerSelectionRadius = 0.5f;
+        
+        private Color baseColor;
 
         public void Initialize(Color pointerColor, IDirectionalTwoButtonInputHandler input) {
             pointerSprite.color = pointerColor;
+            baseColor = pointerColor;
             inputHandler = input;
         }
 
@@ -59,6 +64,7 @@ namespace Input.ControllerConnection {
         private void DetachPlayer() {
             associatedPlayer.Disassociate();
             associatedPlayer = null;
+            UnfadeOpacity();
             currentState = PlayerSelectorState.Pointing;
         }
 
@@ -72,7 +78,7 @@ namespace Input.ControllerConnection {
         
         private Player GetPlayerBelowPointer() {
             Vector2 pointToCheck = transform.TransformPoint(pointerTipOffset);
-            foreach (var hit in Physics2D.OverlapPointAll(pointToCheck)) {
+            foreach (var hit in Physics2D.OverlapCircleAll(pointToCheck, pointerSelectionRadius)) {
                 if (hit.TryGetComponent(out Player player)) {
                     if (!player.HasAssociatedSelector) {
                         return player;
@@ -85,7 +91,16 @@ namespace Input.ControllerConnection {
 
         private void AttachToPlayer() {
             associatedPlayer.Associate();
+            FadeOpacity();
             currentState = PlayerSelectorState.EmbodyingPlayer;
+        }
+
+        private void FadeOpacity() {
+            pointerSprite.DOFade(0.5f, 0.5f);
+        }
+
+        private void UnfadeOpacity() {
+            pointerSprite.DOFade(1f, 0.5f);
         }
 
         public void Disable() {
