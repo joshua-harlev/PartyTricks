@@ -1,13 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Player;
+using Game;
 using Services;
+using TitleScreen;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 namespace Input.ControllerConnection {
-    public class ControllerConnectionSystem : MonoBehaviour {
-        private List<Color> randomColorList = new() {
+    public class ControllerConnectionSystem : MonoBehaviour, ITitleScreenPhase {
+        public event Action OnPhaseComplete;
+        
+        private static readonly Color[] ColorTemplateList =
+        {
             Color.red,
             Color.orange,
             Color.darkBlue,
@@ -16,38 +23,99 @@ namespace Input.ControllerConnection {
             Color.paleVioletRed,
             Color.powderBlue
         };
-        
+
+        private List<Color> randomColorList;
         private List<PlayerSelector> playerSelectors;
         private IPlayerService playerService;
-        [SerializeField] private GameObject playerSelectorPrefab;
+        private IPauseService pauseService;
+        private bool phaseComplete;
+        private bool countdownIsActive;
+        
+        [SerializeField] private GameObject PlayerSelectorPrefab;
+        [SerializeField] private ReadyZone ReadyZone;
+        [SerializeField] private Player[] PlayerBodies;
+        [SerializeField] private CountdownTimer CountdownTimer;
+        [SerializeField] private TMP_Text CountdownLabel;
+        [SerializeField] private int ReadyCountdownLengthInSeconds = 5;
+        private Player[] bodiesBySlot;
 
         private void Awake() {
             playerSelectors = new List<PlayerSelector>();
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
+            pauseService = ServiceLocatorAccessor.GetService<IPauseService>();
             ShuffleColors();
+            bodiesBySlot = new Player[playerService.PlayerSlots.Count];
+            foreach (Player player in PlayerBodies) {
+                bodiesBySlot[player.SlotIndex] = player;
+            }
         }
 
         private void OnEnable() {
-            playerService.OnPlayerJoined += OnPlayerJoined;
+            pauseService.DisablePause();
+            ReleaseAllHumanSeats();
+            playerService.OnInputConnected += SpawnSelectorFor;
+            foreach (var input in playerService.UnassignedInputs.ToArray()) {
+                SpawnSelectorFor(input);
+            }
+
+            CountdownTimer.OnTick += OnCountdownTimerTick;
+            CountdownTimer.OnTimerEnd += OnCountdownTimerEnd;
+            CountdownTimer.OnReset += OnCountdownTimerReset;
+            phaseComplete = false;
+            countdownIsActive = false;
         }
 
-        private void OnPlayerJoined(int slotIndex, PlayerProfile playerProfile) {
+        private void OnCountdownTimerTick(int seconds) {
+            CountdownLabel.text = seconds.ToString();
+        }
+
+        private void OnCountdownTimerEnd() {
+            if (phaseComplete) return;
+            phaseComplete = true;
+            OnPhaseComplete?.Invoke();
+        }
+
+        private void OnCountdownTimerReset() {
+            CountdownLabel.text = "-";
+        }
+
+        private void Update() {
+            if (phaseComplete) return;
+            bool ready = EnoughPlayersAreReady();
+            if (ready == countdownIsActive) return;
+
+            countdownIsActive = ready;
+            if (ready) {
+                CountdownLabel.gameObject.SetActive(true);
+                CountdownTimer.StartTimer(ReadyCountdownLengthInSeconds);
+            }
+            else {
+                CountdownTimer.Reset();
+            }
+        }
+
+        private void ReleaseAllHumanSeats() {
+            for (int i = 0; i < playerService.PlayerSlots.Count; i++) {
+                if (!playerService.PlayerSlots[i].IsAI) playerService.TryReleaseSlot(i);
+            }
+        }
+
+        private void SpawnSelectorFor(PlayerInput input) {
             Color pointerColor = GetRandomUnusedColor();
-            GameObject playerSelectorGameObject = Instantiate(playerSelectorPrefab);
+            GameObject playerSelectorGameObject = Instantiate(PlayerSelectorPrefab);
             PlayerSelector playerSelector = playerSelectorGameObject.GetComponent<PlayerSelector>();
-            var slot = playerService.PlayerSlots[slotIndex];
-            IDirectionalTwoButtonInputHandler inputHandler = slot.PlayerInput.GetComponent<IDirectionalTwoButtonInputHandler>();
             playerSelectors.Add(playerSelector);
-            playerSelector.Initialize(pointerColor, inputHandler);
+            playerSelector.Initialize(pointerColor, input, input.GetComponent<IDirectionalTwoButtonInputHandler>(), playerService);
         }
 
         private void ShuffleColors() {
-            randomColorList = randomColorList.OrderBy(a => Random.value).ToList();
+            randomColorList = ColorTemplateList.OrderBy(_ => Random.value).ToList();
         }
 
         private Color GetRandomUnusedColor() {
             if (randomColorList.Count <= 0) {
                 Debug.LogError("Ran out of random colors for the controller connection system :(");
+                return Color.black;
             }
             
             Color selectedColor = randomColorList[0];
@@ -56,8 +124,35 @@ namespace Input.ControllerConnection {
             return selectedColor;
         }
 
+        private bool EnoughPlayersAreReady() {
+            int numberSeated = 0;
+            for (int i = 0; i < playerService.PlayerSlots.Count; i++) {
+                if (playerService.PlayerSlots[i].IsAI) continue;
+                numberSeated++;
+                Player player = bodiesBySlot[i];
+                if (player == null) return false;
+                if(!ReadyZone.Contains(player.transform.position)) return false;
+            }
+
+            return numberSeated > 0;
+        }
+
         private void OnDisable() {
-            playerService.OnPlayerJoined -= OnPlayerJoined;
+            playerService.OnInputConnected -= SpawnSelectorFor;
+            CountdownTimer.OnTick -= OnCountdownTimerTick;
+            CountdownTimer.OnTimerEnd -= OnCountdownTimerEnd;
+            CountdownTimer.OnReset -= OnCountdownTimerReset;
+            
+            foreach (var selector in playerSelectors) {
+                if (selector == null) continue;
+                selector.Disable();
+                Destroy(selector.gameObject);
+            }
+            playerSelectors.Clear();
+            
+            playerService.DestroyUnassignedInputs();
+            pauseService.EnablePause();
+            ShuffleColors();
         }
     }
 }

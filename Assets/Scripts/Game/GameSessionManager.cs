@@ -9,14 +9,14 @@ using UnityEngine.SceneManagement;
 namespace Game {
     public class GameSessionManager : MonoBehaviour {
         private IPlayerService playerService;
-        private UnityEngine.InputSystem.PlayerInputManager unityInputManager;
+        private PlayerInputManager unityInputManager;
         private bool isQuitting = false;
         [SerializeField] private InputActionAsset PointerActionAsset;
         private InputActionReference pointReference, clickReference, rightClickReference, middleClickReference, scrollWheelReference;
     
         private void Awake() {
             playerService = ServiceLocatorAccessor.GetService<IPlayerService>();
-            unityInputManager = GetComponent<UnityEngine.InputSystem.PlayerInputManager>();
+            unityInputManager = GetComponent<PlayerInputManager>();
 
             if (playerService == null) {
                 DebugLogger.Log(LogChannel.Systems, "No PlayerService found", LogLevel.Error);
@@ -62,7 +62,7 @@ namespace Game {
             UnityEngine.Debug.Log($"[GameSessionManager] Unity PlayerInput detected: {playerInput.playerIndex}");
             bool playerJoined = playerService.TryJoinPlayer(playerInput);
             if (!playerJoined) {
-                UnityEngine.Debug.LogWarning("[GameSessionManager] Failed to join player");
+                UnityEngine.Debug.LogWarning("[GameSessionManager] Player connected but not seated.");
             }
 
             ConfigureUIModuleAsPointerOnly();

@@ -9,6 +9,8 @@ namespace Input.ControllerConnection {
         public bool HasAssociatedSelector { get; private set; }
         private Vector2 lastMoveDirection = Vector2.zero;
 
+        public int SlotIndex => PlayerSlotIndex;
+
         [SerializeField] private int PlayerSlotIndex;
         [SerializeField] private SpriteRenderer SpriteRenderer;
         

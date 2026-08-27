@@ -73,7 +73,7 @@ namespace Input {
 
         private void ClearCurrentInput() {
             if (inputHandler != null) {
-                if (inputHandler is Component component) {
+                if (inputHandler is Component component && playerInput == null) {
                     Destroy(component.gameObject);
                 }
                 inputHandler = null;
@@ -103,6 +103,12 @@ namespace Input {
 
         public T GetAIHandler<T>() where T : AIInputHandlerBase {
             return inputHandler as T;
+        }
+
+        public PlayerInput ReleaseInput() {
+            var released = playerInput;
+            SetUpAsAI();
+            return released;
         }
 
         private void OnSceneUnloaded(Scene scene) {

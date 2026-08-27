@@ -1,5 +1,7 @@
 using DG.Tweening;
+using Services;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Input.ControllerConnection {
     public class PlayerSelector : MonoBehaviour {
@@ -10,9 +12,10 @@ namespace Input.ControllerConnection {
         }
 
         private PlayerSelectorState currentState;
-        private int associatedPlayerIndex = -1;
         private Player associatedPlayer;
         private IDirectionalTwoButtonInputHandler inputHandler;
+        private IPlayerService playerService;
+        private PlayerInput playerInput;
         
         [SerializeField] private float pointerSpeed = 5f;
         [SerializeField] private Vector2 pointerTipOffset = new Vector2(0f, -0.5773587f);
@@ -24,9 +27,11 @@ namespace Input.ControllerConnection {
         [SerializeField] private float pointerSelectionRadius = 0.5f;
         
 
-        public void Initialize(Color pointerColor, IDirectionalTwoButtonInputHandler input) {
+        public void Initialize(Color pointerColor, PlayerInput playerInput, IDirectionalTwoButtonInputHandler input, IPlayerService playerService) {
             pointerSprite.color = pointerColor;
             inputHandler = input;
+            this.playerService = playerService;
+            this.playerInput = playerInput;
         }
 
         private void Awake() {
@@ -60,6 +65,7 @@ namespace Input.ControllerConnection {
         }
 
         private void DetachPlayer() {
+            playerService.TryReleaseSlot(associatedPlayer.SlotIndex);
             associatedPlayer.Disassociate();
             associatedPlayer = null;
             UnfadeOpacity();
@@ -69,6 +75,7 @@ namespace Input.ControllerConnection {
         private void SelectPlayer() {
             Player playerToSelect = GetPlayerBelowPointer();
             if (playerToSelect == null) return;
+            if(!playerService.TryAssignInputToSlot(playerInput, playerToSelect.SlotIndex)) return;
             associatedPlayer = playerToSelect;
             AttachToPlayer();
         }

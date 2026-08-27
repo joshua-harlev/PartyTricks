@@ -25,16 +25,28 @@ namespace Services {
 
       private PlayerSlot[] playerSlots;
       private readonly Dictionary<int, PlayerProfile> playerProfiles = new();
+      private Transform unseatedInputsContainer;
 
       public event Action<int, PlayerProfile> OnPlayerJoined;
       public event Action<int> OnPlayerLeft;
       public event Action<int, int> OnPlayerFundsChanged;
-      
+      public event Action<PlayerInput> OnInputConnected;
+
       public IReadOnlyList<PlayerSlot> PlayerSlots => playerSlots;
+
+      public IEnumerable<PlayerInput> UnassignedInputs
+      {
+         get
+         {
+            return PlayerInput.all.Where(input => playerSlots.All(slot => slot.PlayerInput != input));
+         }
+      }
 
       private void Awake() {
          InitializeSlots();
          SetUpEventListeners();
+         unseatedInputsContainer = new GameObject("UnseatedInputs").transform;
+         unseatedInputsContainer.SetParent(transform);
          GameSettings.OnApplySettings += SyncOneHandedMode;
       }
 
@@ -84,43 +96,56 @@ namespace Services {
       }
       
       public bool TryJoinPlayer(PlayerInput input) {
-         var aiSlot = playerSlots.FirstOrDefault(slot => slot.IsAI);
-         if (aiSlot == null) {
-            DebugLogger.Log(LogChannel.Systems, $"No AI slots available for human player!", LogLevel.Warning);
-            Destroy(input.gameObject);
-            return false;
-         }
-
-         int slotIndex = aiSlot.SlotIndex;
-         aiSlot.SetUpAsHuman(input);
+         input.transform.SetParent(unseatedInputsContainer);
          
          var handler = input.gameObject.GetComponent<PlayerUITwoButtonInputHandler>();
-         if (handler != null) {
-            handler.OneHandedMode = GameSettings.Accessibility.OneHandedMode;
+         if (handler == null) {
+            handler = input.gameObject.AddComponent<PlayerUITwoButtonInputHandler>();
+            handler.Initialize(input);
          }
-
-         if (debugMode) {
-            DebugLogger.Log(LogChannel.Systems, $"Player joined at slot {slotIndex}.");
-         }
+         handler.OneHandedMode = GameSettings.Accessibility.OneHandedMode;
          
-         OnPlayerJoined?.Invoke(slotIndex, aiSlot.Profile);
+         OnInputConnected?.Invoke(input);
          return true;
       }
 
-      public void RemovePlayer(int playerIndex) {
-         if (playerIndex < 0 || playerIndex >= playerSlots.Length) {
-            DebugLogger.Log(LogChannel.Systems, $"Invalid Player Index {playerIndex}", LogLevel.Error);
-            return;
+      public bool TryAssignInputToSlot(PlayerInput input, int slotIndex) {
+         if (input == null) {
+            return false;
+         }
+
+         if (slotIndex < 0 || slotIndex >= playerSlots.Length) {
+            DebugLogger.Log(LogChannel.Systems, $"Slot index was invalid: {slotIndex}", LogLevel.Warning);
+            return false;
          }
          
-         var slot = playerSlots[playerIndex];
-         if (!slot.IsAI) {
-            slot.SetUpAsAI();
-            OnPlayerLeft?.Invoke(playerIndex);
+         var slot = playerSlots[slotIndex];
+         if (!slot.IsAI) return false;
 
-            if (debugMode) {
-               DebugLogger.Log(LogChannel.Systems, $"Player {playerIndex} left, reverted to AI.");
-            }
+         slot.SetUpAsHuman(input);
+         OnPlayerJoined?.Invoke(slotIndex, slot.Profile);
+         return true;
+      }
+
+      public bool TryReleaseSlot(int slotIndex) {
+         if (slotIndex < 0 || slotIndex >= playerSlots.Length) {
+            DebugLogger.Log(LogChannel.Systems, $"Slot index was invalid: {slotIndex}", LogLevel.Warning);
+            return false;
+         }
+         
+         var slot = playerSlots[slotIndex];
+         if (slot.IsAI) return false;
+
+         var released = slot.ReleaseInput();
+         if(released != null) released.transform.SetParent(unseatedInputsContainer);
+         OnPlayerLeft?.Invoke(slotIndex);
+         return true;
+      }
+
+      public void RemovePlayer(int playerIndex) => TryReleaseSlot(playerIndex);
+      public void DestroyUnassignedInputs() {
+         foreach (var input in UnassignedInputs.ToArray()) {
+            Destroy(input.gameObject);
          }
       }
 
@@ -136,11 +161,6 @@ namespace Services {
       public bool PlayerIsHuman(int playerIndex) {
          if (playerIndex < 0 || playerIndex >= playerSlots.Length) return false;
          return !playerSlots[playerIndex].IsAI;
-      }
-
-      public bool SlotIsOccupied(int slotIndex) {
-         if(slotIndex < 0 || slotIndex >= playerSlots.Length) return false;
-         return playerSlots[slotIndex].IsOccupied;
       }
 
       public int GetPlayerCount() {
@@ -166,9 +186,8 @@ namespace Services {
       }
       
       private void SyncOneHandedMode() {
-         foreach (var slot in playerSlots) {
-            if (slot.IsAI || slot.PlayerInput == null) continue;
-            var handler = slot.PlayerInput.gameObject.GetComponent<PlayerUITwoButtonInputHandler>();
+         foreach (var input in PlayerInput.all) {
+            var handler = input.gameObject.GetComponent<PlayerUITwoButtonInputHandler>();
             if (handler != null) {
                handler.OneHandedMode = GameSettings.Accessibility.OneHandedMode;
             }
